@@ -763,6 +763,17 @@
                 </sch:rule>
             </constraint>
         </constraintSpec>
+        <!-- check ids by analysing string and comparing to check digit -->
+        <constraintSpec scheme="schematron" ident="idCheckDigit" mode="add">
+            <desc versionDate="2019-09-09" xml:lang="en">Report if an id does not match the check digit</desc>
+            <desc versionDate="2019-09-09" xml:lang="de">Meldet wenn eine ID nicht zur Prüfziffer passt</desc>
+            <constraint>
+                <sch:rule context="@key">
+<!--                    <sch:let name="source" value="@source"/>-->
+                    <sch:assert test="concat(if(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16) gt 15) then concat(if(floor(xs:integer(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) div 16) gt 15) then xs:integer(floor(xs:integer(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) div 16)) else if(xs:integer(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) gt 15) then ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')[floor(xs:integer(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) div 16) +1] else (), ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')[(xs:integer(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) div 16 - floor(xs:integer(floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) div 16)) * 16 +1]) else if(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 gt 15) then ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')[floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16) +1] else (), ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')[(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16 - floor(sum(for $i at $c in string-to-codepoints(substring($str, 1, 7)) return $i * (2, 4, 6, 8, 9, 5, 3)[$c]) mod 16 div 16)) * 16 +1]) = substring($str, 8, 1)">This id is not following the defined patterns, please check if the id contains typing errors.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hwh-styleguides">
@@ -1716,40 +1727,5 @@
     <specGrp xml:id="hwh-gaiji"/>
 
     <specGrp xml:id="hwh-nameLikeEntities"/>
-
-    <!--<elementSpec ident="footNoteMark" mode="add">
-            <equiv name="footNoteMark" filter="hwh-equiv.xsl" mimeType="text/xsl"/>
-            <desc>Special element for the transcription of a footnote mark (not necessarily to be rendered as such)</desc>
-            <classes>
-                <memberOf key="model.ptrLike" mode="add"/>
-    <!-\-            <memberOf key="att.global" mode="delete"/>-\->
-            </classes>
-            <content>
-                <rng:ref name="macro.paraContent"/>
-            </content>
-            <attList>
-                <attDef ident="target" mode="add" usage="req">
-                    <desc versionDate="2013-11-11" xml:lang="en">specifies the destination of the reference by supplying one or more URI References.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">spezifiziert das Ziel der Referenz in dem eine oder mehrere URI-Referenzen aufgeführt werden.</desc>
-                    <datatype>
-                        <dataRef key="teidata.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-            </elementSpec>-->
-
-
-    <!-- Darf durchaus vorkommen … -->
-    <!--
-        <elementSpec ident="monogr" mode="change" module="core">
-            <constraintSpec scheme="schematron" ident="issueVol">
-                <desc versionDate="2013-11-11" xml:lang="en">checks for the cooccurence of issues without volume.</desc>
-                <desc versionDate="2013-11-11" xml:lang="de"></desc>
-                <constraint>
-                    <sch:report test="(tei:imprint/tei:biblScope[@type='issue'] and not(tei:imprint/tei:biblScope[@type='vol'])) and not(matches(tei:title[@level='j'], 'Weberiana'))">issue ohne volume</sch:report>
-                </constraint>
-            </constraintSpec>
-        </elementSpec>
-        -->
 
 </div>
