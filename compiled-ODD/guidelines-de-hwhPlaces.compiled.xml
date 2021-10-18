@@ -2062,6 +2062,58 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                     <sch:assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</sch:assert>
                 </sch:rule>
             </constraint>
+        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="idCheckDigit" mode="add">
+            <desc versionDate="2019-09-09" xml:lang="en">Report if an id does not match the check digit</desc>
+            <desc versionDate="2019-09-09" xml:lang="de">Meldet wenn eine ID nicht zur Prüfziffer passt</desc>
+            <constraint> 
+                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+                    <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+                    <xsl:function name="hwh-xsl:int2hex">
+                        <xsl:param name="number" as="xs:int"/>
+                        <xsl:variable name="chars" select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
+                        <xsl:variable name="div" select="$number div 16"/>
+                        <xsl:variable name="count" select="floor($div)"/>
+                        <xsl:variable name="remainder" select="($div - $count) * 16"/>
+                        <xsl:value-of select="concat(if($count gt 15) then hwh-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
+                    </xsl:function>
+                    <xsl:function name="hwh-xsl:compute-check-digit">
+                        <xsl:param name="id" as="xs:string"/>
+                        <xsl:variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
+                        <xsl:variable name="str2codepts" select="string-to-codepoints($id)"/>
+                        
+                        <xsl:variable name="str2codepts-1" select="$str2codepts[1] * $weights[1]"/>
+                        <xsl:variable name="str2codepts-2" select="$str2codepts[2] * $weights[2]"/>
+                        <xsl:variable name="str2codepts-3" select="$str2codepts[3] * $weights[3]"/>
+                        <xsl:variable name="str2codepts-4" select="$str2codepts[4] * $weights[4]"/>
+                        <xsl:variable name="str2codepts-5" select="$str2codepts[5] * $weights[5]"/>
+                        <xsl:variable name="str2codepts-6" select="$str2codepts[6] * $weights[6]"/>
+                        <xsl:variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
+                        <xsl:variable name="sum" select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
+                        <xsl:value-of select="hwh-xsl:int2hex(xs:int($sum mod 16))"/>
+                    </xsl:function>
+                    <xsl:function name="hwh-xsl:checkIdByCheckDigit">
+                        <xsl:param name="str" as="xs:string"/>
+                        <xsl:variable name="idStr" select="substring($str, 1, 7)"/>
+                        <xsl:variable name="idCheckDigit" select="substring($str, 8, 1)"/>
+                        <xsl:variable name="computedCheckDigit" select="hwh-xsl:compute-check-digit($idStr)"/>
+                        <xsl:variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
+                        <xsl:value-of select="$check"/>
+                    </xsl:function>
+                    <sch:pattern id="idCheckDigit">
+                        <sch:rule context="@key | @xml:id | @sameAs">
+                            <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
+                        </sch:rule>
+                    </sch:pattern>
+                </sch:schema>
+            </constraint>
+        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="addWithoutPlace" mode="add">
+            <desc versionDate="2021-10-18" xml:lang="en">Report missing of @place if no overtyping (typoscript).</desc>
+            <desc versionDate="2021-10-18" xml:lang="de">Meldet das Fehlen von @place, wenn es sich nicht um eine Überschreibung (Typoskript) handelt.</desc>
+            <constraint>
+                <sch:rule context="tei:subst[./tei:del[not(@rend='overtyped')]]/tei:add">
+                    <sch:assert test="@place">Missing @place, because this is no overtyping here.</sch:assert>
+                </sch:rule>
+            </constraint>
         </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="styleguide-document-node-content" mode="replace">
             <constraint>
                 <sch:rule context="document-node()">

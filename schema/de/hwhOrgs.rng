@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-10-13T20:17:12Z. .
+Schema generated from ODD source 2021-10-18T12:15:02Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -1842,27 +1842,23 @@ Empfohlene Werte sind: 1] deprecationInfo (deprecation information)</a:documenta
       <element name="add">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Ergänzung) enthält Buchstaben, Wörter oder Sätze im Quelltext, die von einem Autor, Schreiber, Kommentator oder Korrektor eingesetzt wurden. [3.5.3. Additions, Deletions, and Omissions]</a:documentation>
          <ref name="macro.paraContent"/>
-         <attribute name="place">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">spezifiert wo das Element angebracht ist.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <choice>
-                     <value>above</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung über der Zeile.</a:documentation>
-                     <value>below</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung unter der Zeile.</a:documentation>
-                     <value>inline</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung in der Zeile.</a:documentation>
-                     <value>margin</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am Rand.</a:documentation>
-                     <value>mixed</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-                  </choice>
-               </oneOrMore>
-            </list>
-         </attribute>
-         <ref name="att.global.attribute.xmlid"/>
-         <ref name="att.written.attribute.hand"/>
+         <optional>
+            <attribute name="place">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">spezifiert wo das Element angebracht ist. Es soll nicht benutzt werden, wenn es sich um Überschreibungen in einem Typoskript handelt.</a:documentation>
+               <choice>
+                  <value>above</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung über der Zeile.</a:documentation>
+                  <value>below</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung unter der Zeile.</a:documentation>
+                  <value>inline</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung in der Zeile.</a:documentation>
+                  <value>margin</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am Rand.</a:documentation>
+                  <value>mixed</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -3744,6 +3740,67 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                 context="*[starts-with(@source, '#')]">
          <sch:let name="source" value="@source"/>
          <sch:assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</sch:assert>
+      </sch:rule>
+   </pattern>
+   <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+               xmlns:mei="http://www.music-encoding.org/ns/mei"
+               xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+               xmlns:s="http://www.ascc.net/xml/schematron"
+               xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+               xmlns:xi="http://www.w3.org/2001/XInclude"
+               xmlns="http://www.tei-c.org/ns/1.0"
+               xmlns:rng="http://relaxng.org/ns/structure/1.0"
+               queryBinding="xslt2">
+      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+      <xsl:function name="hwh-xsl:int2hex">
+         <xsl:param name="number" as="xs:int"/>
+         <xsl:variable name="chars"
+                       select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
+         <xsl:variable name="div" select="$number div 16"/>
+         <xsl:variable name="count" select="floor($div)"/>
+         <xsl:variable name="remainder" select="($div - $count) * 16"/>
+         <xsl:value-of select="concat(if($count gt 15) then hwh-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
+      </xsl:function>
+      <xsl:function name="hwh-xsl:compute-check-digit">
+         <xsl:param name="id" as="xs:string"/>
+         <xsl:variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
+         <xsl:variable name="str2codepts" select="string-to-codepoints($id)"/>
+         <xsl:variable name="str2codepts-1" select="$str2codepts[1] * $weights[1]"/>
+         <xsl:variable name="str2codepts-2" select="$str2codepts[2] * $weights[2]"/>
+         <xsl:variable name="str2codepts-3" select="$str2codepts[3] * $weights[3]"/>
+         <xsl:variable name="str2codepts-4" select="$str2codepts[4] * $weights[4]"/>
+         <xsl:variable name="str2codepts-5" select="$str2codepts[5] * $weights[5]"/>
+         <xsl:variable name="str2codepts-6" select="$str2codepts[6] * $weights[6]"/>
+         <xsl:variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
+         <xsl:variable name="sum"
+                       select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
+         <xsl:value-of select="hwh-xsl:int2hex(xs:int($sum mod 16))"/>
+      </xsl:function>
+      <xsl:function name="hwh-xsl:checkIdByCheckDigit">
+         <xsl:param name="str" as="xs:string"/>
+         <xsl:variable name="idStr" select="substring($str, 1, 7)"/>
+         <xsl:variable name="idCheckDigit" select="substring($str, 8, 1)"/>
+         <xsl:variable name="computedCheckDigit" select="hwh-xsl:compute-check-digit($idStr)"/>
+         <xsl:variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
+         <xsl:value-of select="$check"/>
+      </xsl:function>
+      <sch:pattern id="idCheckDigit">
+         <sch:rule context="@key | @xml:id | @sameAs">
+            <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
+         </sch:rule>
+      </sch:pattern>
+   </sch:schema>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhOrgs-addWithoutPlace-constraint-rule-64">
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="tei:subst[./tei:del[not(@rend='overtyped')]]/tei:add">
+         <sch:assert test="@place">Missing @place, because this is no overtyping here.</sch:assert>
       </sch:rule>
    </pattern>
 </grammar>

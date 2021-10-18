@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2021-10-13T20:17:16Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2021-10-18T12:15:05Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
+   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
    <!-- ********************* -->
    <!-- namespaces, implicit: -->
    <!-- ********************* -->
@@ -397,6 +398,52 @@ attributes @target and @cRef may be supplied on <name/>.</report>
       <rule context="*[starts-with(@source, '#')]">
          <let name="source" value="@source"/>
          <assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</assert>
+      </rule>
+   </pattern>
+   <schema queryBinding="xslt2">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hwh-xsl:int2hex">
+         <param name="number" as="xs:int"/>
+         <variable name="chars"
+                   select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
+         <variable name="div" select="$number div 16"/>
+         <variable name="count" select="floor($div)"/>
+         <variable name="remainder" select="($div - $count) * 16"/>
+         <value-of select="concat(if($count gt 15) then hwh-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
+      </function>
+      <function xmlns="http://www.w3.org/1999/XSL/Transform"
+                name="hwh-xsl:compute-check-digit">
+         <param name="id" as="xs:string"/>
+         <variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
+         <variable name="str2codepts" select="string-to-codepoints($id)"/>
+         <variable name="str2codepts-1" select="$str2codepts[1] * $weights[1]"/>
+         <variable name="str2codepts-2" select="$str2codepts[2] * $weights[2]"/>
+         <variable name="str2codepts-3" select="$str2codepts[3] * $weights[3]"/>
+         <variable name="str2codepts-4" select="$str2codepts[4] * $weights[4]"/>
+         <variable name="str2codepts-5" select="$str2codepts[5] * $weights[5]"/>
+         <variable name="str2codepts-6" select="$str2codepts[6] * $weights[6]"/>
+         <variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
+         <variable name="sum"
+                   select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
+         <value-of select="hwh-xsl:int2hex(xs:int($sum mod 16))"/>
+      </function>
+      <function xmlns="http://www.w3.org/1999/XSL/Transform"
+                name="hwh-xsl:checkIdByCheckDigit">
+         <param name="str" as="xs:string"/>
+         <variable name="idStr" select="substring($str, 1, 7)"/>
+         <variable name="idCheckDigit" select="substring($str, 8, 1)"/>
+         <variable name="computedCheckDigit" select="hwh-xsl:compute-check-digit($idStr)"/>
+         <variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
+         <value-of select="$check"/>
+      </function>
+      <pattern id="idCheckDigit">
+         <rule context="@key | @xml:id | @sameAs">
+            <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
+         </rule>
+      </pattern>
+   </schema>
+   <pattern id="schematron-constraint-hwhOrgs-addWithoutPlace-58">
+      <rule context="tei:subst[./tei:del[not(@rend='overtyped')]]/tei:add">
+         <assert test="@place">Missing @place, because this is no overtyping here.</assert>
       </rule>
    </pattern>
 </schema>
