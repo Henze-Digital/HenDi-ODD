@@ -706,10 +706,10 @@
     </specGrp>
 
     <specGrp xml:id="hwh-classes">
-        <classSpec ident="model.damagePart" type="model" mode="add">
+        <!--<classSpec ident="model.damagePart" type="model" mode="add">
             <desc versionDate="2013-11-11" xml:lang="en">groups elements which can be used within a damage element.</desc>
             <desc versionDate="2013-11-11" xml:lang="de">gruppiert Elemente, die innerhalb eines damage-Elements verwendet werden können.</desc>
-        </classSpec>
+        </classSpec>-->
     </specGrp>
 
     <specGrp xml:id="hwh-common-constraints">
@@ -1143,37 +1143,30 @@
                     </sch:rule>
                 </constraint>
             </constraintSpec>
-            <constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
+            
+            <!--<constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[parent::tei:notesStmt]">
                         <sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst')">Within the notesStmt only 'editorial', 'summary', 'textConst', or 'thematicCom' are allowed for @type on note.</sch:assert>
                     </sch:rule>
                 </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
+            </constraintSpec>-->
+            <!--<constraintSpec scheme="schematron" ident="text-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
                         <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
                     </sch:rule>
                 </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="structured-content-notes" mode="replace">
+            </constraintSpec>-->
+            <!--<constraintSpec scheme="schematron" ident="structured-content-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[parent::tei:notesStmt][tei:p|tei:list|tei:table]">
                         <sch:report test="text()[matches(., '\w')] or *[not(self::tei:p or self::tei:list or self::tei:table)]">There must be no mixed content when a tei:p, tei:list, or tei:table is present.</sch:report>
                     </sch:rule>
                 </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="initial-uppercase-commentaries" mode="replace">
-                <desc versionDate="2020-12-15" xml:lang="en">Report any commentary note that does not start with a capital letter (except for quotes as a first child)</desc>
-                <constraint>
-                    <sch:rule context="tei:note[@type='commentary'][not(*[1]/self::tei:q or *[1]/self::tei:quote)]">
-                        <sch:assert test="matches(replace(normalize-unicode(normalize-space(.), 'NFKD'),  '[\p{M}]', ''), '^[A-Z0-9]')">Commentary notes must start with an upper case letter.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
+            </constraintSpec>-->
             <attList>
-                <attDef ident="type" mode="change">
+                <!--<attDef ident="type" mode="change">
                     <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
                     <desc versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc>
                     <valList type="closed" mode="replace">
@@ -1217,8 +1210,8 @@
                             <desc versionDate="2016-04-23" xml:lang="de">Das Textincipit des Briefs (oder anderer Korrespondenzmaterialien)</desc>
                         </valItem>
                     </valList>
-                </attDef>
-                <attDef ident="resp" mode="change">
+                </attDef>-->
+                <!--<attDef ident="resp" mode="change">
                     <gloss versionDate="2013-11-11" xml:lang="en">responsible party</gloss>
                     <desc versionDate="2013-11-11" xml:lang="en">indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</desc>
                     <gloss versionDate="2013-11-11" xml:lang="de">verantwortliche Institution</gloss>
@@ -1226,8 +1219,8 @@
                     <datatype>
                         <rng:ref name="staffSignatures.list"/>
                     </datatype>
-                </attDef>
-                <!-\-                <attRef name="xmllang" class="att.global"/>-\->
+                </attDef>-->
+                <!--                <attRef name="xmllang" class="att.global"/>-->
                 <attDef ident="target" mode="change">
                     <gloss versionDate="2016-02-08" xml:lang="de">Verweisziele</gloss>
                     <desc versionDate="2016-02-08" xml:lang="de">Nimmt die URIs (in der Form "hwh:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <att>type</att>="thematicCom")</desc>
@@ -1469,7 +1462,7 @@
             </attList>
         </elementSpec>
 
-        <elementSpec ident="notesStmt" module="header" mode="change">
+        <!--<elementSpec ident="notesStmt" module="header" mode="change">
             <content>
                 <alternate minOccurs="1" maxOccurs="unbounded">
                     <elementRef key="note"/>
@@ -1481,9 +1474,9 @@
                     <sch:report test="count(tei:note/@type) ne count(distinct-values(tei:note/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
                 </constraint>
             </constraintSpec>
-        </elementSpec>
+        </elementSpec>-->
 
-        <elementSpec ident="editionStmt" module="header" mode="change">
+        <!--<elementSpec ident="editionStmt" module="header" mode="change">
             <desc versionDate="2017-04-12" xml:lang="en">Provides information about the version and the download date of the file. This information is inserted by the WebApp and not to be supplied manually.</desc>
             <desc versionDate="2017-04-12" xml:lang="de">Enthält Informationen zur Version der Edition (der Datei) sowie zum Downloaddatum. Diese Informationen werden von der WebApp eingefügt und sollten nicht manuell eingegeben werden. </desc>
             <classes mode="change">
@@ -1492,16 +1485,16 @@
             <content>
                 <elementRef key="p" maxOccurs="2"/>
             </content>
-        </elementSpec>
+        </elementSpec>-->
 
-        <elementSpec ident="language" module="header" mode="change">
+        <!--<elementSpec ident="language" module="header" mode="change">
             <classes mode="change">
                 <memberOf key="att.global" mode="delete"/>
             </classes>
             <content>
                 <textNode/>
             </content>
-        </elementSpec>
+        </elementSpec>-->
 
         <elementSpec ident="langUsage" module="header" mode="change">
             <classes mode="change">
