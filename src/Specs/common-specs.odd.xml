@@ -1125,6 +1125,9 @@
             <constraintSpec scheme="schematron" ident="note-in-text" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint)]">
+                        <sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
+                    </sch:rule>
+                    <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint)]">
                         <sch:report test="@type and @resp and @xml:id">It is recommended to provide @type and @resp and @xml:id on note.</sch:report>
                     </sch:rule>
                 </constraint>
@@ -1137,20 +1140,13 @@
                     </sch:rule>
                 </constraint>
             </constraintSpec>-->
-            <!--<constraintSpec scheme="schematron" ident="text-notes" mode="replace">
+            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
                         <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
                     </sch:rule>
                 </constraint>
-            </constraintSpec>-->
-            <!--<constraintSpec scheme="schematron" ident="structured-content-notes" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:note[parent::tei:notesStmt][tei:p|tei:list|tei:table]">
-                        <sch:report test="text()[matches(., '\w')] or *[not(self::tei:p or self::tei:list or self::tei:table)]">There must be no mixed content when a tei:p, tei:list, or tei:table is present.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>-->
+            </constraintSpec>
             <attList>
                 <!--<attDef ident="type" mode="change">
                     <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
@@ -1197,16 +1193,6 @@
                         </valItem>
                     </valList>
                 </attDef>-->
-                <!--<attDef ident="resp" mode="change">
-                    <gloss versionDate="2013-11-11" xml:lang="en">responsible party</gloss>
-                    <desc versionDate="2013-11-11" xml:lang="en">indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</desc>
-                    <gloss versionDate="2013-11-11" xml:lang="de">verantwortliche Institution</gloss>
-                    <desc versionDate="2013-11-11" xml:lang="de">indiziert die verantwortliche Institution, die für die Intervention oder Interpretation verantwortlich ist, wie zum Beispiel ein Editor oder ein Umkodierer.</desc>
-                    <datatype>
-                        <rng:ref name="staffSignatures.list"/>
-                    </datatype>
-                </attDef>-->
-                <!--                <attRef name="xmllang" class="att.global"/>-->
                 <attDef ident="target" mode="change">
                     <gloss versionDate="2016-02-08" xml:lang="de">Verweisziele</gloss>
                     <desc versionDate="2016-02-08" xml:lang="de">Nimmt die URIs (in der Form "hwh:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <att>type</att>="thematicCom")</desc>
@@ -1214,7 +1200,7 @@
                         <rng:ref name="thematicCom.target"/>
                     </datatype>
                 </attDef>
-                <!-- Interne Kommentare in dieser Form ?! -->
+                <!-- Interne Kommentare in dieser Form ?! Comment from WeGA -->
                 <attDef ident="status" mode="add" usage="opt">
                     <desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
                     <desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
@@ -1225,13 +1211,6 @@
                         </valItem>
                     </valList>
                 </attDef>
-                <attDef ident="anchored" mode="delete"/>
-                <attDef ident="targetEnd" mode="delete"/>
-                <attDef ident="cert" mode="delete"/>
-                <attDef ident="subtype" mode="delete"/>
-                <attDef ident="source" mode="delete"/>
-                <attDef ident="xml:base" mode="delete"/>
-                <attDef ident="xml:space" mode="delete"/>
             </attList>
         </elementSpec>
     
