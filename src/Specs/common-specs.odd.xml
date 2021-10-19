@@ -1487,168 +1487,45 @@
                 <attRef class="att.global.responsibility" name="cert"/>
             </attList>
         </elementSpec>
-
         <elementSpec ident="placeName" mode="change" module="namesdates">
-            <desc versionDate="2013-11-11" xml:lang="en">contains an absolute or relative place name.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">enthält einen absoluten oder relativen Ortsnamen.</desc>
-            <classes mode="change">
-                <memberOf key="att.editLike" mode="delete"/>
-                <memberOf key="att.datable" mode="delete"/>
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.naming" mode="delete"/>
-                <memberOf key="att.personal" mode="delete"/>
-                <!--<memberOf key="att.typed" mode="delete"/>-->
-            </classes>
-            <!-- Im Schema sollte zunächst ein @type ermöglicht und dies in den Daten nachgetragen werden  -->
-            <!--<constraintSpec scheme="schematron" ident="placeNameHeuristics">
-                <desc versionDate="2013-11-11" xml:lang="en">warnings for unusual usages.</desc>
-                <desc versionDate="2013-11-11" xml:lang="en">Warnung für ungewöhnliche Anwendungsfälle.</desc>
+            <constraintSpec scheme="schematron" ident="placeName-key-required">
                 <constraint>
-                    <sch:report
-                        test="not(ancestor::tei:correspDesc) and normalize-space(.) = ''"
-                        >Leeres Element placeName gefunden</sch:report>
-                    <sch:report
-                        test="not(ancestor::tei:correspDesc or ancestor::tei:keywords) and not(./*)"
-                        >Kein Kindelement für placeName</sch:report>
+                    <sch:rule context="tei:placeName[not(parent::tei:address)]">
+                        <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert></sch:rule>
                 </constraint>
-            </constraintSpec>-->
+            </constraintSpec>
             <attList>
-                <attRef class="att.global.responsibility" name="cert"/>
-                <attDef ident="type" mode="replace" usage="opt">
-                    <desc versionDate="2013-11-11" xml:lang="en">categorisation of varying localities.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">Kategorisierung der verschiedenen Lokalitäten.</desc>
-                    <datatype>
-                        <dataRef key="hwh.place.type"/>
-                    </datatype>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="theatre">Königl. Theater zu <settlement>Berlin</settlement></placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="building">Arnoldische Buchhandlung in <settlement>Dresden</settlement></placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="hospitality">Gasthof zum goldnen Engel</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="sacral-building">Kirche St. Jacob</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="administrative-building">Hauptzollamt</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="art-building"><settlement>Mannheimer</settlement> Museum Karl Stephanie</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="shop">ObstMarkt</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="street">Kärntner Straße 1080</placeName>
-                        </egXML>
-                    </exemplum>
-                </attDef>
                 <attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
                 </attDef>
-                <attDef ident="subtype" mode="delete"/>
             </attList>
-
-            <exemplum versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <settlement>Berlin</settlement>
-                    </placeName>
-                </egXML>
-            </exemplum>
-            <exemplum versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <region>Holstein</region>
-                    </placeName>
-                </egXML>
-            </exemplum>
-            <exemplum versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <country>Deutschland</country>
-                    </placeName>
-                </egXML>
-            </exemplum>
-            <exemplum versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <geogName>Alpen</geogName>
-                    </placeName>
-                </egXML>
-            </exemplum>
-            <exemplum versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <bloc>Europa</bloc>
-                    </placeName>
-                </egXML>
-            </exemplum>
-            <remarks versionDate="2013-11-11" xml:lang="en">
-                <p>Henze-Digital distinguishes between different types of places that are encoded as elements on the one hand and by attribute values on the other. Larger units such as settlements, regions, countries or blocs are marked with elements, whereas smaller units such as various localities and buildings are marked as attribute values ​​of the type-attribute that belongs to the placeName-element.</p>
-            </remarks>
-            <remarks versionDate="2013-11-11" xml:lang="de">
-                <p>Die Henze-Digital unterscheidet verschiedene Typen von Orten, die zum einen durch (Kind-)Elemente (größere Einheiten wie Siedlungen, Regionen, Länder oder Staaten) und zum anderen durch ein <att>type</att>-Attribut am <gi>placeName</gi> klassifiziert werden (kleinere Einheiten und Gebäude).</p>
-            </remarks>
         </elementSpec>
-
         <elementSpec ident="settlement" mode="change" module="namesdates">
-            <desc versionDate="2013-11-11" xml:lang="en">marks the name of a settlement identified as a single geo-political or administrative unit.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">markiert den Namen einer Stadt, die als einzelne geopolitische oder administrative Einheit identifiziert werden kann.</desc>
-            <classes mode="change">
-                <memberOf key="att.datable" mode="delete"/>
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.naming" mode="delete"/>
-                <memberOf key="att.typed" mode="delete"/>
-            </classes>
+            <constraintSpec scheme="schematron" ident="settlement-key-required">
+                <constraint>
+                    <sch:rule context="tei:settlement[not(parent::tei:placeName)]">
+                        <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert></sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
                 <attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2017-09-14" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2017-09-14" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
                 </attDef>
-                <attRef class="att.global.responsibility" name="cert"/>
             </attList>
         </elementSpec>
-
         <elementSpec ident="region" mode="change" module="namesdates">
-            <desc versionDate="2013-11-11" xml:lang="en">marks the name of an administrative unit at the contemporary period such as a state, province, or county, larger than a settlement, but smaller than a country. NB <emph>not</emph> some geographical feature which shall be marked up with <gi>geogName</gi>.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">markiert den Namen einer Verwaltungseinheit der zeitgenössischen Periode wie etwa ein Staat, eine Provinz, Landkreis, größer als eine Siedlung, aber kleiner als ein Land. NB <emph>nicht</emph> eine geographische Region, die mit <gi>geogName</gi> ausgezeichnet werden soll.</desc>
-            <classes mode="change">
-                <memberOf key="att.datable" mode="delete"/>
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.naming" mode="delete"/>
-                <memberOf key="att.typed" mode="delete"/>
-            </classes>
+            <constraintSpec scheme="schematron" ident="region-key-required">
+                <constraint>
+                    <sch:rule context="tei:region[not(parent::tei:placeName)]">
+                        <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert></sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
-                <attRef class="att.global.responsibility" name="cert"/>
                 <attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
@@ -1657,19 +1534,14 @@
         </elementSpec>
 
         <elementSpec ident="country" mode="change" module="namesdates">
-            <desc versionDate="2013-11-11" xml:lang="en">marks the name of a geo-political unit, such as a nation or country at the contemporary period.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">markiert den Namen einer geopolitischen Einheit der zeitgenössischen Periode, wie etwa eine Nation oder ein souveräner Staat.</desc>
-            <classes mode="change">
-                <memberOf key="att.datable" mode="delete"/>
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.naming" mode="delete"/>
-                <memberOf key="att.typed" mode="delete"/>
-            </classes>
+            <constraintSpec scheme="schematron" ident="country-key-required">
+                <constraint>
+                    <sch:rule context="tei:country[not(parent::tei:placeName)]">
+                        <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert></sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
-                <attRef class="att.global.responsibility" name="cert"/>
                 <attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
@@ -1678,19 +1550,14 @@
         </elementSpec>
 
         <elementSpec ident="bloc" mode="change" module="namesdates">
-            <desc versionDate="2013-11-11" xml:lang="en">marks the name of a geographical or political unit consisting of two or more nation, states or countries.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">markiert den Namen einer geopolitischen Einheit, die aus mehr als zwei Nationen oder Ländern besteht.</desc>
-            <classes mode="change">
-                <memberOf key="att.datable" mode="delete"/>
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.naming" mode="delete"/>
-                <memberOf key="att.typed" mode="delete"/>
-            </classes>
+            <constraintSpec scheme="schematron" ident="bloc-key-required">
+                <constraint>
+                    <sch:rule context="tei:bloc[not(parent::tei:placeName)]">
+                        <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert></sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
-                <attRef class="att.global.responsibility" name="cert"/>
                 <attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
@@ -1699,26 +1566,20 @@
         </elementSpec>
 
         <elementSpec ident="geogName" mode="change" module="namesdates">
-            <desc versionDate="2013-11-11" xml:lang="en">marks a name associated with some geographical feature (e.g. seas, mountains). NB <emph>not</emph> some administrative unit.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">markiert einen Namen, mit dem eine geographische Region assoziiert wird (z.B. Seen, Gebirge, aber keine Verwaltungseinheiten).</desc>
-            <classes mode="change">
-                <memberOf key="att.datable" mode="delete"/>
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.naming" mode="delete"/>
-            </classes>
+            <constraintSpec scheme="schematron" ident="geogName-key-required">
+                <constraint>
+                    <sch:rule context="tei:geogName[not(parent::tei:placeName)]">
+                        <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert></sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
-                <attDef ident="subtype" mode="delete"/>
-                <attDef ident="type" mode="change">
-                    <valList type="closed" mode="replace">
+                <!--<attDef ident="type" mode="change">
+                    <valList type="closed" mode="add">
+                        <!-\- forest, mountain, river is alreadyallowed -\->
                         <valItem ident="forest"/>
-                        <valItem ident="mountain"/>
-                        <valItem ident="river"/>
                     </valList>
-                </attDef>
-                <attRef class="att.global.responsibility" name="cert"/>
+                </attDef>-->
                 <attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
