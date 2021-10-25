@@ -1292,11 +1292,18 @@
             <attList>
                 <!--<attRef name="xml:id" class="att.global"/>
                 <attRef name="hand" class="att.written"/>-->
-                <attDef ident="rend" mode="change" usage="req">
+                <attDef ident="rend" mode="change" usage="rec">
                     <!--<gloss versionDate="2013-11-11" xml:lang="en">rendition</gloss>
                     <desc versionDate="2013-11-11" xml:lang="en">indicates how the element in question was rendered or presented in the source text.</desc>
                     <gloss versionDate="2013-11-11" xml:lang="de">Ausgabe</gloss>
                     <desc versionDate="2013-11-11" xml:lang="de">gibt an, wie das fragliche Element ausgegeben wurde oder im Quelltext präsentiert ist.</desc>-->
+                    <constraintSpec ident="rendAtDel" scheme="schematron">
+                        <constraint>
+                            <sch:rule context="tei:del[not(@rend)]">
+                                <sch:assert test="parent::tei:subst">This is not a substitution, so @rend is required.</sch:assert>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
                     <valList type="closed" mode="change">
                         <valItem ident="overwritten" mode="change">
                             <gloss versionDate="2021-10-19" xml:lang="en">overwritten (by hand)</gloss>
