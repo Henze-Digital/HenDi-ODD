@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-10-19T13:18:42Z. .
+Schema generated from ODD source 2021-10-25T10:19:13Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -97,12 +97,16 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <choice>
          <value>DR</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dennis Ried</a:documentation>
+         <value>AT</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Antje Tumat</a:documentation>
          <value>EM</value>
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">elena Minetti</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Elena Minetti</a:documentation>
          <value>IC</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Irmlind Capelle</a:documentation>
          <value>PS</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Peter Stadler</a:documentation>
+         <value>SS</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sophie Stremel</a:documentation>
       </choice>
    </define>
    <define name="att.ascribed.attributes">
@@ -2664,21 +2668,35 @@ Empfohlene Werte sind: 1] deprecationInfo (deprecation information)</a:documenta
       <element name="del">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Löschung) enthält einen Buchstaben, ein Wort, oder eine Passage die gestrichen wurde, die als gelöscht markiert, oder auf andere Weise als überflüssig oder falsch in der Textkopie von einem Autor, Schreiber, Kommentator oder Korrektor angegeben wird [3.5.3. Additions, Deletions, and Omissions]</a:documentation>
          <ref name="macro.paraContent"/>
-         <attribute name="rend">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Ausgabe) gibt an, wie das fragliche Element ausgegeben wurde oder im Quelltext präsentiert ist.</a:documentation>
-            <choice>
-               <value>strikethrough</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(durchgestrichen) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durchgestrichen.</a:documentation>
-               <value>overwritten</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(überschrieben (händisch)) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung händisch überschrieben.</a:documentation>
-               <value>erased</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(getilgt) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch Rasur oder sonstige Weise getilgt.</a:documentation>
-               <value>overtyped</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(überschrieben (maschinell)) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung maschinell überschrieben.</a:documentation>
-               <value>crossOut</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(ausgeixt) Das gelöschte Wort (bzw. das gelöschte Zeichen) wurde durch Ausixen ('xxx') getilgt.</a:documentation>
-            </choice>
-         </attribute>
+         <optional>
+            <attribute name="rend">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Ausgabe) gibt an, wie das fragliche Element ausgegeben wurde oder im Quelltext präsentiert ist.</a:documentation>
+               <choice>
+                  <value>strikethrough</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(durchgestrichen) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durchgestrichen.</a:documentation>
+                  <value>overwritten</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(überschrieben (händisch)) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung händisch überschrieben.</a:documentation>
+                  <value>erased</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(getilgt) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch Rasur oder sonstige Weise getilgt.</a:documentation>
+                  <value>overtyped</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(überschrieben (maschinell)) Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung maschinell überschrieben.</a:documentation>
+                  <value>crossOut</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(ausgeixt) Das gelöschte Wort (bzw. das gelöschte Zeichen) wurde durch Ausixen ('xxx') getilgt.</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhLetters-del-rend-rendAtDel-constraint-rule-10">
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:del[not(@rend)]">
+               <sch:assert test="parent::tei:subst">This is not a substitution, so @rend is required.</sch:assert>
+            </sch:rule>
+         </pattern>
          <empty/>
       </element>
    </define>
@@ -2713,7 +2731,7 @@ Empfohlene Werte sind: 1] deprecationInfo (deprecation information)</a:documenta
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(referenzierende Zeichenkette) bezeichnet ein oder mehrere Objekt(e) vom Typ Person, Werk, Tagebucheintrag, usw. [13.2.1. Personal Names 3.6.1. Referring Strings]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-rs-rs-typeNkey-constraint-rule-10">
+                  id="hwhLetters-rs-rs-typeNkey-constraint-rule-11">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3071,7 +3089,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-date-dateHeuristics2-constraint-rule-30">
+                  id="hwhLetters-date-dateHeuristics2-constraint-rule-31">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3134,7 +3152,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-date-dateHeuristics5-constraint-assert-26">
+                  id="hwhLetters-date-dateHeuristics5-constraint-assert-27">
             <rule context="tei:date">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -3146,7 +3164,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-date-dateHeuristics6-constraint-rule-34">
+                  id="hwhLetters-date-dateHeuristics6-constraint-rule-35">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3167,7 +3185,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-date-julian-before-1582-constraint-rule-36">
+                  id="hwhLetters-date-julian-before-1582-constraint-rule-37">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3231,7 +3249,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(pointer) wird benutzt um auf ein folgendes <code xmlns="http://www.w3.org/1999/xhtml">&lt;note&gt;</code> zu zeigen und somit den Beginn des zu kommentierenden Bereichs zu markieren. Alternativ kann das Element ein Platzhalter für eine externe URL (präfigiert mit 'http') sein. [3.7. Simple Links and Cross-References 16.1. Links]</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-ptr-ptr-target-constraint-rule-37">
+                  id="hwhLetters-ptr-ptr-target-constraint-rule-38">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3364,7 +3382,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-list-gloss-list-must-have-labels-constraint-rule-38">
+                  id="hwhLetters-list-gloss-list-must-have-labels-constraint-rule-39">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3476,7 +3494,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Anmerkung) enthält eine Notiz oder eine Anmerkung/Annotation. [3.9.1. Notes and Simple Annotation 2.2.6. The Notes Statement 3.12.2.8. Notes and Statement of Language 9.3.5.4. Notes within Entries]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-note-in-text-constraint-rule-39">
+                  id="hwhLetters-note-note-in-text-constraint-rule-40">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3497,7 +3515,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-text-notes-constraint-rule-41">
+                  id="hwhLetters-note-text-notes-constraint-rule-42">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3509,7 +3527,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-thematicCom-target-constraint-rule-42">
+                  id="hwhLetters-note-thematicCom-target-constraint-rule-43">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3521,7 +3539,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-thematicCom-must-be-empty-constraint-rule-43">
+                  id="hwhLetters-note-thematicCom-must-be-empty-constraint-rule-44">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3533,7 +3551,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-notesStmt-notes-constraint-rule-44">
+                  id="hwhLetters-note-notesStmt-notes-constraint-rule-45">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3545,7 +3563,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-structured-content-notes-constraint-rule-45">
+                  id="hwhLetters-note-structured-content-notes-constraint-rule-46">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3557,7 +3575,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-note-initial-uppercase-commentaries-constraint-rule-46">
+                  id="hwhLetters-note-initial-uppercase-commentaries-constraint-rule-47">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3594,7 +3612,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          </optional>
          <optional>
             <attribute name="target">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Verweisziele) Nimmt die URIs (in der Form "hwh:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <code xmlns="http://www.w3.org/1999/xhtml">@type</code>="thematicCom")</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Verweisziele) Nimmt die URIs (in der Form "wega:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <code xmlns="http://www.w3.org/1999/xhtml">@type</code>="thematicCom")</a:documentation>
                <list>
                   <oneOrMore>
                      <ref name="thematicCom.target"/>
@@ -3640,7 +3658,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Abbildung) bestimmt den Ort einer Abbildung, Illustration o.ä. [3.10. Graphics and Other Non-textual Components 11.1. Digital Facsimiles]</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-graphic-graphic-url-check-constraint-rule-47">
+                  id="hwhLetters-graphic-graphic-url-check-constraint-rule-48">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3652,7 +3670,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-graphic-url-or-sameAs-constraint-assert-34">
+                  id="hwhLetters-graphic-url-or-sameAs-constraint-assert-35">
             <rule context="tei:graphic">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -3703,7 +3721,7 @@ Elements]</a:documentation>
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-pb-facs-facs-reference-constraint-rule-48">
+                  id="hwhLetters-pb-facs-facs-reference-constraint-rule-49">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3731,7 +3749,7 @@ Elements]</a:documentation>
 Elements 7.2.5. Speech Contents]</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-lb-rendIfBreakNo-constraint-rule-49">
+                  id="hwhLetters-lb-rendIfBreakNo-constraint-rule-50">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3927,7 +3945,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-author-sameAs-sameAs-reference-constraint-rule-50">
+                  id="hwhLetters-author-sameAs-sameAs-reference-constraint-rule-51">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4279,7 +4297,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-relatedItem-relatedItem-target-within-notesStmt-constraint-rule-51">
+                  id="hwhLetters-relatedItem-relatedItem-target-within-notesStmt-constraint-rule-52">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4395,7 +4413,7 @@ relatedItem element must be empty</sch:report>
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-lg-atleast1oflggapl-constraint-assert-41">
+                  id="hwhLetters-lg-atleast1oflggapl-constraint-assert-42">
             <rule context="tei:lg">
                <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                            xmlns="http://www.tei-c.org/ns/1.0"
@@ -4428,7 +4446,7 @@ relatedItem element must be empty</sch:report>
             <ref name="revisionDesc"/>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-teiHeader-seriesTitle-constraint-rule-52">
+                  id="hwhLetters-teiHeader-seriesTitle-constraint-rule-53">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4895,7 +4913,11 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
          </oneOrMore>
          <attribute name="status">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <text/>
+            <choice>
+               <value>proposed</value>
+               <value>candidate</value>
+               <value>approved</value>
+            </choice>
          </attribute>
          <empty/>
       </element>
@@ -5046,7 +5068,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </zeroOrMore>
          </interleave>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-body-non-empty-body-needs-langUsage-constraint-rule-53">
+                  id="hwhLetters-body-non-empty-body-needs-langUsage-constraint-rule-54">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5353,7 +5375,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization name) contains an organizational name. [13.2.2. Organizational Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-orgName-parent-org-constraint-rule-54">
+                  id="hwhLetters-orgName-parent-org-constraint-rule-55">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5365,7 +5387,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-orgName-parent-org-reg-constraint-rule-55">
+                  id="hwhLetters-orgName-parent-org-reg-constraint-rule-56">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5377,7 +5399,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-orgName-parent-org-reg-constraint-rule-56">
+                  id="hwhLetters-orgName-parent-org-reg-constraint-rule-57">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5389,7 +5411,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-orgName-parent-not-org-constraint-rule-57">
+                  id="hwhLetters-orgName-parent-not-org-constraint-rule-58">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5439,18 +5461,6 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
       <element name="placeName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(place name) enthält einen absoluten oder relativen Ortsnamen. [13.2.3. Place Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-placeName-placeName-key-required-constraint-rule-58">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:placeName[not(parent::tei:address)]">
-               <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert>
-            </sch:rule>
-         </pattern>
          <optional>
             <attribute name="type">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kategorisierung der verschiedenen Lokalitäten.</a:documentation>
@@ -5471,18 +5481,6 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
       <element name="country">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(country) markiert den Namen einer geopolitischen Einheit der zeitgenössischen Periode, wie etwa eine Nation oder ein souveräner Staat. [13.2.3. Place Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-country-country-key-required-constraint-rule-59">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:country[not(parent::tei:placeName)]">
-               <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert>
-            </sch:rule>
-         </pattern>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -5498,18 +5496,6 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
       <element name="region">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(region) markiert den Namen einer Verwaltungseinheit der zeitgenössischen Periode wie etwa ein Staat, eine Provinz, Landkreis, größer als eine Siedlung, aber kleiner als ein Land. NB nicht eine geographische Region, die mit <code xmlns="http://www.w3.org/1999/xhtml">&lt;geogName&gt;</code> ausgezeichnet werden soll. [13.2.3. Place Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-region-region-key-required-constraint-rule-60">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:region[not(parent::tei:placeName)]">
-               <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert>
-            </sch:rule>
-         </pattern>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -5525,18 +5511,6 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
       <element name="settlement">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(settlement) markiert den Namen einer Stadt, die als einzelne geopolitische oder administrative Einheit identifiziert werden kann. [13.2.3. Place Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-settlement-settlement-key-required-constraint-rule-61">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:settlement[not(parent::tei:placeName)]">
-               <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert>
-            </sch:rule>
-         </pattern>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -5552,18 +5526,6 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
       <element name="geogName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(geographical name) markiert einen Namen, mit dem eine geographische Region assoziiert wird (z.B. Seen, Gebirge, aber keine Verwaltungseinheiten). [13.2.3. Place Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-geogName-geogName-key-required-constraint-rule-62">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:geogName[not(parent::tei:placeName)]">
-               <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert>
-            </sch:rule>
-         </pattern>
          <ref name="att.editLike.attributes"/>
          <optional>
             <attribute name="type">
@@ -5677,7 +5639,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <ref name="cell"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-row-number-of-cells-constraint-rule-63">
+                  id="hwhLetters-row-number-of-cells-constraint-rule-59">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5709,7 +5671,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Tabellenzelle) enthält eine Zelle einer Tabelle. [14.1.1. TEI Tables]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-cell-cell-rows-constraint-rule-64">
+                  id="hwhLetters-cell-cell-rows-constraint-rule-60">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5815,7 +5777,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-facsimile-graphicOrSameAs-constraint-assert-51">
+                  id="hwhLetters-facsimile-graphicOrSameAs-constraint-assert-47">
             <rule context="tei:facsimile">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5828,7 +5790,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-facsimile-sourceNwitness-constraint-rule-65">
+                  id="hwhLetters-facsimile-sourceNwitness-constraint-rule-61">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5842,7 +5804,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-facsimile-sourcePattern-constraint-rule-66">
+                  id="hwhLetters-facsimile-sourcePattern-constraint-rule-62">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5872,7 +5834,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(hinzugefügter Text) markiert den Beginn einer längeren Sequenz von Text, die von einem Autor, Schreiber, Kommentator oder Korrektor hinzugefügt wurde. [11.3.1.4. Additions and Deletions]</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-addSpan-spanTo-constraint-assert-54">
+                  id="hwhLetters-addSpan-spanTo-constraint-assert-50">
             <rule context="tei:addSpan">
                <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5882,7 +5844,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-addSpan-spanTo_fr-constraint-assert-55">
+                  id="hwhLetters-addSpan-spanTo_fr-constraint-assert-51">
             <rule context="tei:addSpan">
                <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5902,7 +5864,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-addSpan-hand-hand-reference-constraint-rule-67">
+                  id="hwhLetters-addSpan-hand-hand-reference-constraint-rule-63">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5918,7 +5880,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-addSpan-spanTo-spanTo-7-constraint-rule-68">
+                  id="hwhLetters-addSpan-spanTo-spanTo-7-constraint-rule-64">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6017,7 +5979,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </oneOrMore>
          </interleave>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-subst-substContents1-constraint-assert-58">
+                  id="hwhLetters-subst-substContents1-constraint-assert-54">
             <rule context="tei:subst">
                <assert xmlns:xi="http://www.w3.org/2001/XInclude"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -6219,7 +6181,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-physDesc-empty-physDesc-constraint-assert-59">
+                  id="hwhLetters-physDesc-empty-physDesc-constraint-assert-55">
             <rule context="tei:physDesc">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -6520,7 +6482,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-att.witnessed-att-wit-constraint-rule-69">
+            id="hwhLetters-att.witnessed-att-wit-constraint-rule-65">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6655,7 +6617,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Zeichen oder Glyphe) Repräsentiert eine Glyphe oder ein ausgefallenes (nicht im Unicode-Standard beschriebenes) Zeichen. [5. Characters, Glyphs, and Writing Modes]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-70">
+                  id="hwhLetters-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-66">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6735,19 +6697,6 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       <element name="bloc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bloc) contains the name of a geo-political unit consisting of two or more nation states or countries. []</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhLetters-bloc-bloc-key-required-constraint-rule-71">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:xi="http://www.w3.org/2001/XInclude"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:bloc[not(parent::tei:placeName)]">
-               <sch:assert test="@key">Using <sch:name/> in text requires @key.</sch:assert>
-            </sch:rule>
-         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.naming.attribute.nymRef"/>
          <ref name="att.naming.attribute.role"/>
@@ -6814,7 +6763,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-styleguide-document-node-content-constraint-rule-72">
+            id="hwhLetters-styleguide-document-node-content-constraint-rule-67">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6827,7 +6776,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-whitespaceOnlyContent-constraint-rule-73">
+            id="hwhLetters-whitespaceOnlyContent-constraint-rule-68">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6840,7 +6789,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-elementStartsWithWhitespace-constraint-rule-74">
+            id="hwhLetters-elementStartsWithWhitespace-constraint-rule-69">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6853,7 +6802,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-untrimmedAttributeValues-constraint-rule-75">
+            id="hwhLetters-untrimmedAttributeValues-constraint-rule-70">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6865,7 +6814,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-hwhTargets-constraint-rule-76">
+            id="hwhLetters-hwhTargets-constraint-rule-71">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6877,7 +6826,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-emojiCheck-constraint-rule-77">
+            id="hwhLetters-emojiCheck-constraint-rule-72">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6889,7 +6838,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-sourceMustResolve-constraint-rule-78">
+            id="hwhLetters-sourceMustResolve-constraint-rule-73">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6949,7 +6898,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-addWithoutPlace-constraint-rule-80">
+            id="hwhLetters-addWithoutPlace-constraint-rule-75">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6958,6 +6907,18 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:subst[./tei:del[not(@rend='overtyped')]]/tei:add">
          <sch:assert test="@place">Missing @place, because this is no overtyping here.</sch:assert>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhLetters-placeKeyRequirementInText-constraint-rule-76">
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="tei:placeName[ancestor::tei:text] | tei:settlement[ancestor::tei:text] | tei:region[ancestor::tei:text] | tei:country[ancestor::tei:text] | tei:bloc[ancestor::tei:text] | tei:geogName[ancestor::tei:text]">
+         <sch:report test="@key">Using <sch:name/> in text requires @key.</sch:report>
       </sch:rule>
    </pattern>
 </grammar>

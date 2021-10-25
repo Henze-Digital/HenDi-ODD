@@ -5754,10 +5754,19 @@ entre les Romains.</label>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/DS.html#DSHD">4.2.1. Headings and Trailers</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="core" ident="note"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2017-06-25">note</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-25" xml:lang="de">Anmerkung</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a note or annotation.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält eine Notiz oder eine Anmerkung/Annotation.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples"><memberOf key="att.global"/><memberOf key="model.noteLike"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="att.anchoring"/></classes><content xmlns:teix="http://www.tei-c.org/ns/Examples"><macroRef key="macro.specialPara"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="note-in-text">
+  </listRef></elementSpec><elementSpec rend="change" module="core" ident="note"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2017-06-25">note</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-25" xml:lang="de">Anmerkung</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a note or annotation.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält eine Notiz oder eine Anmerkung/Annotation.</desc><classes><memberOf key="att.global"/><memberOf key="model.noteLike"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="att.anchoring"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.specialPara"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="note-in-text" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint)]">
-                        <sch:assert test="@type and @resp and @xml:id">It is required to provide @type and @resp and @xml:id on note.</sch:assert>
+                        <sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
+                    </sch:rule>
+                    <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint)]">
+                        <sch:report test="@type and @resp and @xml:id">It is recommended to provide @type and @resp and @xml:id on note.</sch:report>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="text-notes" mode="replace">
+                <constraint>
+                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
+                        <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
                     </sch:rule>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="thematicCom-target">
@@ -5778,12 +5787,6 @@ entre les Romains.</label>
                         <sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst')">Within the notesStmt only 'editorial', 'summary', 'textConst', or 'thematicCom' are allowed for @type on note.</sch:assert>
                     </sch:rule>
                 </constraint>
-            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="text-notes">
-                <constraint>
-                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-                        <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
-                    </sch:rule>
-                </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="structured-content-notes">
                 <constraint>
                     <sch:rule context="tei:note[parent::tei:notesStmt][tei:p|tei:list|tei:table]">
@@ -5797,7 +5800,16 @@ entre les Romains.</label>
                         <sch:assert test="matches(replace(normalize-unicode(normalize-space(.), 'NFKD'),  '[\p{M}]', ''), '^[A-Z0-9]')">Commentary notes must start with an upper case letter.</sch:assert>
                     </sch:rule>
                 </constraint>
-            </constraintSpec><attList><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="type" mode="change">
+            </constraintSpec><attList><attDef ident="status" usage="opt">
+                    <desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
+                    <desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
+                    <valList type="closed">
+                        <valItem ident="restricted">
+                            <desc versionDate="2013-11-11" xml:lang="en">only for internal use.</desc>
+                            <desc versionDate="2013-11-11" xml:lang="de">nur für den internen Gebrauch.</desc>
+                        </valItem>
+                    </valList>
+                </attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="type" mode="change">
                     <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
                     <desc versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc>
                     <valList type="closed" mode="replace">
@@ -6197,18 +6209,7 @@ places, in particular where  multiple names are given.</p>
       Verwendung allgemein gebräuchlicher Normdateien für die Namensansetzung empfohlen.</p>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COBICOR">3.12.2.2. Titles, Authors, and Editors</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="core" ident="title"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2007-06-12">title</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-06-12" xml:lang="fr">titre</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">Titel</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a title for any kind of work.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Titel für jede Art von Arbeit.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples"><memberOf key="model.emphLike"/></classes><content xmlns:teix="http://www.tei-c.org/ns/Examples"><macroRef key="macro.paraContent"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="duplicate-title">
-                <desc versionDate="2013-11-11" xml:lang="en">checks for the occurence of identical <gi>title</gi> elements (with the same bibliographic level and language)</desc>
-                <desc versionDate="2013-11-11" xml:lang="de">überprüft auf identische <gi>title</gi> Elemente (gleiche bibliographische Ebene und Sprache)</desc>
-                <constraint>
-                    <sch:rule context="tei:title[following-sibling::tei:title]">
-                        <sch:let name="level" value="@level"/>
-                        <sch:let name="type" value="string(@type)"/> 
-                        <sch:let name="lang" value="string(@xml:lang)"/>
-                        <sch:report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="punctuation-mark">
+  </listRef></elementSpec><elementSpec rend="change" module="core" ident="title"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2007-06-12">title</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-06-12" xml:lang="fr">titre</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">Titel</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a title for any kind of work.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Titel für jede Art von Arbeit.</desc><classes><memberOf key="model.emphLike"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.paraContent"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="punctuation-mark">
                 <desc versionDate="2014-11-24" xml:lang="en">reports when there is a punctuation mark at the end of the title (punctuation will be added automatically during rendering)</desc>
                 <desc versionDate="2014-11-24" xml:lang="de">warnt bei Satzendezeichen am Ende des Titels (denn Interpunktion wird beim Rendern automatisch hinzugefügt)</desc>
                 <constraint>
@@ -6235,7 +6236,7 @@ places, in particular where  multiple names are given.</p>
                             <desc versionDate="2013-11-11" xml:lang="de">markiert einen Untertitel</desc>
                         </valItem>
                     </valList>
-                </attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="level" usage="req"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc><datatype><dataRef key="teidata.enumerated"/></datatype><valList type="closed">
+                </attDef><attDef ident="level" usage="opt"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc><datatype xmlns:teix="http://www.tei-c.org/ns/Examples"><dataRef key="teidata.enumerated"/></datatype><valList xmlns:teix="http://www.tei-c.org/ns/Examples" type="closed">
         <valItem ident="a">
           <gloss versionDate="2007-07-04" xml:lang="en">analytic</gloss>
           <gloss versionDate="2007-12-20" xml:lang="ko">분석적</gloss>
@@ -6366,7 +6367,7 @@ places, in particular where  multiple names are given.</p>
           <desc versionDate="2017-06-04" xml:lang="de">der Titel bezieht sich auf unveröffentliches Material (incl. universitäre
             Qualifikationsarbeiten, soweit sie nicht von einem Verlag veröffentlicht worden sind).</desc>
         </valItem>
-      </valList><remarks versionDate="2009-05-23" xml:lang="en">
+      </valList><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-05-23" xml:lang="en">
         <p>The level of a title is sometimes implied by its context:
         for example, a title appearing directly within an
         <gi>analytic</gi> element is <foreign>ipso facto</foreign> of
@@ -6379,7 +6380,7 @@ places, in particular where  multiple names are given.</p>
 	parent element. 
 	
 	</p>
-      </remarks><remarks xml:lang="fr" versionDate="2007-06-12">
+      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="fr" versionDate="2007-06-12">
         <p>Si le titre apparaît comme fils de l'élément
 <gi>analytic</gi>, l'attribut <att>level</att>,
 s'il est renseigné, doit avoir la valeur <q>a</q>
@@ -6392,7 +6393,7 @@ l'attribut <att>level</att> doit avoir la valeur
 <q>s</q>. Si le titre apparaît dans
 l'élément <gi>msItem</gi>, l'attribut level ne
 doit pas être utilisé.</p>
-      </remarks><remarks xml:lang="ja" versionDate="2008-04-05">
+      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="ja" versionDate="2008-04-05">
         <p> タイトルが要素<gi>analytic</gi>中にある場合，属性
 <att>level</att>があれば，値は必ず<q>a</q>となる．
 タイトルが要素<gi>monogr</gi>中にある場合，属性
@@ -6402,7 +6403,7 @@ doit pas être utilisé.</p>
 合，属性<att>level</att>の値は必ず<q>s</q>となる．タイトルが要
 素<gi>msItem</gi>中にある場合，当該属性値は付与されない．
                                         </p>
-      </remarks><remarks versionDate="2017-06-04" xml:lang="de">
+      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">
         <p>Der Typ eines Titels wird manchmal durch seinen Kontext bestimmt: wenn ein Titel z. B.
           innerhalb des Elements <gi>analytic</gi> verwendet wird, ist es <foreign>ipso facto</foreign>
           demnach Level <q>a</q>; ein Titel innerhalb eines <gi>series</gi>-Elements als Level <q>s</q>.
@@ -6410,7 +6411,7 @@ doit pas être utilisé.</p>
           erschlossen werden kann. Wenn es in derartigen Kontexten dennoch gesetzt wird, sollte der
           Attributwert dem impliziten Wert des Eltern-Elements nicht widersprechen. 
         </p>
-      </remarks></attDef><attRef xmlns:teix="http://www.tei-c.org/ns/Examples" class="att.global" name="xml:lang"/><attRef xmlns:teix="http://www.tei-c.org/ns/Examples" class="att.global" name="xml:id"/></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+      </remarks></attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <title>Information Technology and the Research Process: Proceedings of
                                         a conference held at Cranfield Institute of Technology, UK,
@@ -6899,9 +6900,7 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                         <sch:report test="@type">No @type attribute allowed here.</sch:report>
                     </sch:rule>
                 </constraint>
-            </constraintSpec><attList><attDef ident="key" mode="replace">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+            </constraintSpec><attList><attDef ident="key" mode="replace" usage="req">
                     <datatype>
                         <dataRef key="hwh.orgs.pointer"/>
                     </datatype>
@@ -6921,13 +6920,11 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     <egXML xmlns="http://www.tei-c.org/ns/Examples"> 大約一年前，在<placeName key="PEN">賓州</placeName>的<orgName key="PAS1" type="voluntary">廢止黑奴協會</orgName>，有一場轟動的激辯。</egXML>
   </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDORG">13.2.2. Organizational Names</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="persName"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">personal name</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">Personenname</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a proper noun or proper-noun phrase referring to a person, possibly including one or more of the person's forenames, surnames, honorifics, added names, etc.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw.</desc><classes><memberOf key="model.nameLike.agent"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="persName"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">personal name</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Personenname</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a proper noun or proper-noun phrase referring to a person, possibly including one or more of the person's forenames, surnames, honorifics, added names, etc.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw.</desc><classes><memberOf key="model.nameLike.agent"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="req">
                     <datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                         <dataRef key="hwh.persons.pointer"/>
                     </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+                </attDef><attRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <persName><forename>Edward</forename><forename>George</forename><surname type="linked">Bulwer-Lytton</surname>, <roleName>Baron Lytton of
         <placeName>Knebworth</placeName>
@@ -6952,101 +6949,90 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     </egXML>
   </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPER">13.2.1. Personal Names</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="placeName"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2020-12-20">place name</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">nom de lieu</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">contains an absolute or relative place name.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen absoluten oder relativen Ortsnamen.</desc><classes><memberOf key="att.typed"/><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="type" mode="replace" usage="opt">
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">categorisation of varying localities.</desc>
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">Kategorisierung der verschiedenen Lokalitäten.</desc>
-                    <datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
-                        <dataRef key="hwh.place.type"/>
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="placeName"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2020-12-20">place name</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">nom de lieu</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains an absolute or relative place name.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen absoluten oder relativen Ortsnamen.</desc><classes><memberOf key="att.typed"/><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
+                    <datatype>
+                        <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                </attDef><attDef ident="type" mode="replace" usage="opt">
+                    <desc versionDate="2013-11-11" xml:lang="en">categorisation of varying localities.</desc>
+                    <desc versionDate="2013-11-11" xml:lang="de">Kategorisierung der verschiedenen Lokalitäten.</desc>
+                    <datatype>
+                        <dataRef key="wega.place.type"/>
+                    </datatype>
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="theatre">Königl. Theater zu <settlement>Berlin</settlement></placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="building">Arnoldische Buchhandlung in <settlement>Dresden</settlement></placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="hospitality">Gasthof zum goldnen Engel</placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="sacral-building">Kirche St. Jacob</placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="administrative-building">Hauptzollamt</placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="art-building"><settlement>Mannheimer</settlement> Museum Karl Stephanie</placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="shop">ObstMarkt</placeName>
                         </egXML>
                     </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <exemplum versionDate="2013-11-11" xml:lang="de">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples">
                             <placeName type="street">Kärntner Straße 1080</placeName>
                         </egXML>
                     </exemplum>
-                </attDef><attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
-                    <datatype>
-                        <dataRef key="hwh.places.pointer"/>
-                    </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="subtype" mode="delete"/></attList><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
+                </attDef><attDef ident="subtype" mode="delete"/></attList><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <settlement>Berlin</settlement>
-                    </placeName>
+                    <placeName><settlement>Berlin</settlement></placeName>
                 </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
+            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <region>Holstein</region>
-                    </placeName>
+                    <placeName><region>Holstein</region></placeName>
                 </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
+            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <country>Deutschland</country>
-                    </placeName>
+                    <placeName><country>Deutschland</country></placeName>
                 </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
+            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <geogName>Alpen</geogName>
-                    </placeName>
+                    <placeName><geogName>Alpen</geogName></placeName>
                 </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
+            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <bloc>Europa</bloc>
-                    </placeName>
+                    <placeName><bloc>Europa</bloc></placeName>
                 </egXML>
-            </exemplum><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">
-                <p>Henze-Digital distinguishes between different types of places that are encoded as elements on the one hand and by attribute values on the other. Larger units such as settlements, regions, countries or blocs are marked with elements, whereas smaller units such as various localities and buildings are marked as attribute values ​​of the type-attribute that belongs to the placeName-element.</p>
-            </remarks><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <p>Die Henze-Digital unterscheidet verschiedene Typen von Orten, die zum einen durch (Kind-)Elemente (größere Einheiten wie Siedlungen, Regionen, Länder oder Staaten) und zum anderen durch ein <att>type</att>-Attribut am <gi>placeName</gi> klassifiziert werden (kleinere Einheiten und Gebäude).</p>
+            </exemplum><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="en">
+                <p>WeGA distinguishes between different types of places that are encoded as elements on the one hand and by attribute values on the other.
+                    Larger units such as settlements, regions, countries or blocs are marked with elements, whereas smaller units such
+                    as various localities and buildings are marked as attribute values ​​of the type-attribute that belongs to the placeName-element.</p>
+            </remarks><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
+                <p>Die WeGA unterscheidet verschiedene Typen von Orten, die zum einen durch (Kind-)Elemente (größere Einheiten wie Siedlungen, Regionen, Länder oder Staaten) 
+                    und zum anderen durch ein <att>type</att>-Attribut am <gi>placeName</gi> klassifiziert werden (kleinere Einheiten und Gebäude).</p>
             </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPLAC">13.2.3. Place Names</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="country"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">country</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">pays</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of a geo-political unit, such as a nation or country at the contemporary period.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer geopolitischen Einheit der zeitgenössischen Periode, wie etwa eine Nation oder ein souveräner Staat.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="country"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">country</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">pays</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of a geo-political unit, such as a nation or country at the contemporary period.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer geopolitischen Einheit der zeitgenössischen Periode, wie etwa eine Nation oder ein souveräner Staat.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+                </attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <country key="DK">Denmark</country>
     </egXML>
@@ -7066,13 +7052,11 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     <p> 当該国家相当地域を示すコードは，ISO3166にあるコードを使うことが推 奨される． </p>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPLAC">13.2.3. Place Names</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="region"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">region</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">région</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of an administrative unit at the contemporary period such as a state, province, or county, larger than a settlement, but smaller than a country. NB <emph>not</emph> some geographical feature which shall be marked up with <gi>geogName</gi>.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer Verwaltungseinheit der zeitgenössischen Periode wie etwa ein Staat, eine Provinz, Landkreis, größer als eine Siedlung, aber kleiner als ein Land. NB <emph>nicht</emph> eine geographische Region, die mit <gi>geogName</gi> ausgezeichnet werden soll.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="region"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">region</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">région</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of an administrative unit at the contemporary period such as a state, province, or county, larger than a settlement, but smaller than a country. NB <emph>not</emph> some geographical feature which shall be marked up with <gi>geogName</gi>.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer Verwaltungseinheit der zeitgenössischen Periode wie etwa ein Staat, eine Provinz, Landkreis, größer als eine Siedlung, aber kleiner als ein Land. NB <emph>nicht</emph> eine geographische Region, die mit <gi>geogName</gi> ausgezeichnet werden soll.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="mul">
+                </attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="mul">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <placeName>
         <region type="state" n="IL">Illinois</region>
@@ -7092,13 +7076,11 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     </egXML>
   </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPLAC">13.2.3. Place Names</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="settlement"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">settlement</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">lieu de peuplement</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of a settlement identified as a single geo-political or administrative unit.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer Stadt, die als einzelne geopolitische oder administrative Einheit identifiziert werden kann.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2017-09-14" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2017-09-14" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="settlement"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">settlement</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">lieu de peuplement</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of a settlement identified as a single geo-political or administrative unit.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer Stadt, die als einzelne geopolitische oder administrative Einheit identifiziert werden kann.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
                     <datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+                </attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <placeName>
         <settlement type="town">Glasgow</settlement>
@@ -7121,13 +7103,17 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     </egXML>
   </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPLAC">13.2.3. Place Names</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="geogName"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2005-01-14" xml:lang="en">geographical name</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">지리명</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">地理名稱</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">nom de lieu géographique</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">nombre geográfico</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">nome proprio geografico</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">marks a name associated with some geographical feature (e.g. seas, mountains). NB <emph>not</emph> some administrative unit.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert einen Namen, mit dem eine geographische Region assoziiert wird (z.B. Seen, Gebirge, aber keine Verwaltungseinheiten).</desc><classes><memberOf key="att.editLike"/><memberOf key="att.typed"/><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="geogName"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2005-01-14" xml:lang="en">geographical name</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">지리명</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">地理名稱</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">nom de lieu géographique</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">nombre geográfico</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">nome proprio geografico</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">marks a name associated with some geographical feature (e.g. seas, mountains). NB <emph>not</emph> some administrative unit.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert einen Namen, mit dem eine geographische Region assoziiert wird (z.B. Seen, Gebirge, aber keine Verwaltungseinheiten).</desc><classes><memberOf key="att.editLike"/><memberOf key="att.typed"/><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="subtype" mode="delete"/><attDef ident="type" mode="change" rend="change"><valList type="closed" mode="replace"><valItem ident="forest"/><valItem ident="mountain"/><valItem ident="river"/></valList></attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+                </attDef><attDef ident="subtype" mode="delete"/><attDef ident="type" mode="change">
+                    <valList type="closed" mode="replace">
+                        <valItem ident="forest"/>
+                        <valItem ident="mountain"/>
+                        <valItem ident="river"/>
+                    </valList>
+                </attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <geogName>
         <geogFeat>Mount</geogFeat>
@@ -7186,7 +7172,7 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     </egXML>
   </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPERSbp">13.3.1. Basic Principles</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="org"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-07-04" xml:lang="en">organization</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">조직</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-06" xml:lang="es">organización</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">organisation</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-11-06" xml:lang="it">organizzazione</gloss><desc xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2015-05-22" xml:lang="en">provides information about an identifiable organization or corporate body.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2015-05-22" xml:lang="de">enthält Informationen über eine Organisation oder Körperschaft</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples"/><content xmlns:teix="http://www.tei-c.org/ns/Examples"><choice xmlns="http://relaxng.org/ns/structure/1.0"><rng:element xmlns="http://www.tei-c.org/ns/1.0" name="ref">
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="org"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-07-04" xml:lang="en">organization</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">조직</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-06" xml:lang="es">organización</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">organisation</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-11-06" xml:lang="it">organizzazione</gloss><desc xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2015-05-22" xml:lang="en">provides information about an identifiable organization or corporate body.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2015-05-22" xml:lang="de">enthält Informationen über eine Organisation oder Körperschaft</desc><classes/><content><choice xmlns="http://relaxng.org/ns/structure/1.0"><rng:element xmlns="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" name="ref">
                     <rng:attribute name="type">
                         <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>duplicate</value><value>deletion</value></choice>
                     </rng:attribute>
@@ -7194,15 +7180,22 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                         <dataRef key="wega.personsPlus.pointer"/>
                     </rng:attribute>
                     <rng:empty/>
-                </rng:element><ref name="macro.orgContent"/></choice></content><attList><attDef ident="xml:id" usage="req">
-                <gloss versionDate="2015-05-22" xml:lang="en">identifier</gloss>
-                <desc versionDate="2015-05-22" xml:lang="en">provides a unique identifier for the element bearing the attribute.</desc>
-                <gloss versionDate="2015-05-22" xml:lang="de">Bezeichner</gloss>
-                <desc versionDate="2015-05-22" xml:lang="de">liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</desc>
+                </rng:element><ref name="macro.orgContent"/></choice></content><attList><attDef ident="status" usage="req">
                 <datatype>
-                    <dataRef key="wega.orgs.pointer"/>
+                    <dataRef key="hwh_docStatus.list"/>
                 </datatype>
-            </attDef><attDef ident="status" usage="req" mode="change"/><attDef ident="role" usage="opt">
+            </attDef><attDef ident="source" mode="change" usage="req">
+                <valList type="closed" mode="change">
+                    <valItem ident="HWH" mode="add">
+                        <desc versionDate="2021-10-20" xml:lang="en">persons from the database of
+                            the Henze-Digital project (HWH).</desc>
+                        <desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand
+                            des Projektes Henze-Digital (HWH).</desc>
+                    </valItem>
+                </valList>
+            </attDef><attDef ident="xml:id" usage="req"><gloss versionDate="2015-05-22" xml:lang="en">identifier</gloss><gloss versionDate="2015-05-22" xml:lang="de">Bezeichner</gloss><desc versionDate="2015-05-22" xml:lang="en">provides a unique identifier for the element bearing the attribute.</desc><desc versionDate="2015-05-22" xml:lang="de">liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</desc><datatype>
+                    <dataRef key="hwh.orgs.pointer"/>
+                </datatype></attDef><attDef ident="status" usage="req" mode="change"/><attDef ident="role" usage="opt">
       <desc versionDate="2007-06-14" xml:lang="en">specifies a primary
       role or classification for the organization.</desc>
       <desc versionDate="2007-12-20" xml:lang="ko">조직에 대한 주요 역할 또는 분류를 명시한다.</desc>
@@ -7903,7 +7896,11 @@ element is appropriate for which circumstance.</p>
             </constraint>
         </constraintSpec><macroSpec rend="add" module="derived-module-hwhOrgs" ident="staffSignatures.list" mode="add">
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
-                <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>DR</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Dennis Ried</a:documentation><value>EM</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">elena Minetti</a:documentation><value>IC</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Irmlind Capelle</a:documentation><value>PS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Peter Stadler</a:documentation></choice>
+                <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>DR</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Dennis Ried</a:documentation><value>AT</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Antje Tumat</a:documentation><value>EM</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Elena Minetti</a:documentation><value>IC</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Irmlind Capelle</a:documentation><value>PS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Peter Stadler</a:documentation><value>SS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Sophie Stremel</a:documentation></choice>
+            </content>
+        </macroSpec><macroSpec rend="add" module="derived-module-hwhOrgs" ident="hwh_docStatus.list" mode="add">
+            <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+                <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>proposed</value><value>candidate</value><value>approved</value></choice>
             </content>
         </macroSpec><elementSpec rend="add" module="derived-module-hwhOrgs" ident="characterName" mode="add"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">characterName</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">Name eines Charakters</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">name of a role or character in a work.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">Name einer Rolle oder eines Charakters in einem Werk.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <memberOf key="model.nameLike.agent"/>
@@ -8025,56 +8022,21 @@ element is appropriate for which circumstance.</p>
                     <sch:assert test="@place">Missing @place, because this is no overtyping here.</sch:assert>
                 </sch:rule>
             </constraint>
+        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="placeKeyRequirementInText" mode="add">
+            <desc versionDate="2021-10-25" xml:lang="en">Report missing of @key at place like elements.</desc>
+            <desc versionDate="2021-10-25" xml:lang="de">Meldet das Fehlen von @key, wenn es sich um Ortselemente handelt.</desc>
+            <constraint>
+                <sch:rule context="tei:placeName[ancestor::tei:text] | tei:settlement[ancestor::tei:text] | tei:region[ancestor::tei:text] | tei:country[ancestor::tei:text] | tei:bloc[ancestor::tei:text] | tei:geogName[ancestor::tei:text]">
+                    <sch:report test="@key">Using <sch:name/> in text requires @key.</sch:report>
+                </sch:rule>
+            </constraint>
         </constraintSpec><macroSpec rend="add" module="derived-module-hwhOrgs" ident="hwh.data.temporal.iso" mode="add">
             <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2014-04-22" xml:lang="en">A replacement for the TEI macro data.temporal.iso which allows only date (YYYY-MM-DD) and gYear (YYYY).</desc>
             <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2014-04-22" xml:lang="de">Henze-Digital-Ersatz für das TEI Makro data.temporal.iso mit der Einschränkung auf date (YYYY-MM-DD) und gYear (YYYY).</desc>
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <alternate minOccurs="1" maxOccurs="1"><dataRef name="date"/><dataRef name="gYear"/><dataRef name="gYearMonth"/></alternate>
             </content>
-        </macroSpec><dataSpec rend="add" module="derived-module-hwhOrgs" ident="hwh.place.type" mode="add">
-            <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2020-12-02" xml:lang="en">Geschlossene Liste von Werten für Henze-Digital Ortstypen, genutzt von tei:placeName und mei:geogName</desc>
-            <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2020-12-02" xml:lang="de">Closed list of values for Henze-Digital place types, used by tei:placeName and mei:geogName</desc>
-            <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
-                <valList type="closed">
-                    <valItem ident="theatre">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for performing plays, operas etc. (e.g. (amphi)theatres, operas, ball rooms).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, in denen (musikalische) Stücke jeder Art aufgeführt werden (z.B. Amphitheater, Opern, Festsäle).</desc>
-                    </valItem>
-                    <valItem ident="building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes all sorts of building where no other category is applicable (e.g. bath, bookshop, office).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt alle Lokalitäten, auf die keine andere Kategorie zutrifft (z.B. Bad, Buchhandlung, Büro).</desc>
-                    </valItem>
-                    <valItem ident="hospitality">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for lodging, serving food, drinks, etc. (e.g. hotels, bars, inns).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, in denen man Essen und Trinken zu sich nehmen kann (z.B. Hotels, Wirtshäuser, Kneipen).</desc>
-                    </valItem>
-                    <valItem ident="sacral-building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings serving religious purposes (e.g. churches, abbeys).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, die für religiöse Zwecke genutzt werden (z.B. Kirchen, Kloster).</desc>
-                    </valItem>
-                    <valItem ident="administrative-building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for government administration (e.g. city hall, castle, police station, custom office).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, die als offizielle Administrationsgebäude genutzt werden (z.B. Rathaus, Schloss, Residenz, Polizeistation, Zollamt).</desc>
-                    </valItem>
-                    <valItem ident="art-building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for (art) exhibitions (e.g. museums, galleries).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, in denen (Kunst-) Ausstellungen stattfinden (z.B. Museen, Gallerien).</desc>
-                    </valItem>
-                    <valItem ident="shop">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for selling goods and services to the end-user (e.g. markets, shops).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, die zum Verkauf von Waren, Güter oder Dienstleistungen genutzt werden (z.B. Supermarkt, Laden).</desc>
-                    </valItem>
-                    <valItem ident="street">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes a street or a street name.</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt eine Straße oder den Straßennamen.</desc>
-                    </valItem>
-                    <valItem ident="park">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes a botanical or zoological garden, or any other park area.</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt einen botanischen Garten oder einen Tiergarten, oder andere Grünflächen.</desc>
-                    </valItem>
-                </valList>
-            </content>
-        </dataSpec><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="PH" xml:id="DPH" ident="transcr"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="SA" xml:id="DSA" ident="linking"/></schemaSpec>
+        </macroSpec><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="PH" xml:id="DPH" ident="transcr"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="SA" xml:id="DSA" ident="linking"/></schemaSpec>
 				
 				
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-thematicCommentaries.odd.xml"/>-->

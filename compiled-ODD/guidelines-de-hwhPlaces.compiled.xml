@@ -43,7 +43,79 @@
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-news.odd.xml"/>-->
 				
 				
-				<schemaSpec xmlns:sch="http://purl.oclc.org/dsdl/schematron" ident="hwhPlaces" xml:lang="en" start="place" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaPlaces.compiled.xml" xml:base="../Specs/schemaSpec-places.odd.xml"><classSpec rend="add" module="tei" type="atts" ident="att.datable.w3c" xml:id="DATABLEW3C">
+				<schemaSpec xmlns:sch="http://purl.oclc.org/dsdl/schematron" ident="hwhPlaces" xml:lang="en" start="place" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaPlaces.compiled.xml" xml:base="../Specs/schemaSpec-places.odd.xml"><classSpec rend="add" module="tei" type="atts" ident="att.canonical">
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-09-05" xml:lang="en">provides attributes that can be used to associate a representation such as a name or title
+    with canonical information about the object being named or referenced.</desc>
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-05-25" xml:lang="fr">fournit des attributs qui peuvent être utilisés pour
+    associer une représentation telle qu'un nom ou un titre à l'information canonique concernant
+    l'objet nommé ou auquel il est fait référence.</desc>
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="ja" versionDate="2018-12-31">名前やタイトルのような表現を参照対象についての典拠情報と関連付けるのに利用する属性を提供する．</desc>
+  <attList xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
+    <attDef ident="key" usage="opt">
+      <desc versionDate="2008-09-05" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being
+        named, using a coded value of some kind.</desc>
+      <desc versionDate="2009-05-25" xml:lang="fr"> fournit un moyen, défini de façon externe,
+        d'identifier l'entité (ou les entités) nommé(es), en utilisant une valeur codée
+        d'un certain type.</desc>
+      <desc xml:lang="ja" versionDate="2018-12-31">何らかのコード化された値を用いて，名付けられたエンティティを識別する外部的に定義された手段を提供する．</desc>
+      <datatype><dataRef key="teidata.text"/></datatype>
+      <exemplum xml:lang="en">
+        <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:lang="en" source="#NONE">
+          <author>
+            <name key="name 427308" type="organisation">[New Zealand Parliament, Legislative Council]</name>
+          </author>
+        </egXML>
+      </exemplum>
+      <exemplum xml:lang="en">
+        <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:lang="fr" source="#NONE">
+          <author>
+            <name key="Hugo, Victor (1802-1885)" ref="http://www.idref.fr/026927608">Victor Hugo</name>
+          </author>
+        </egXML>
+      </exemplum>
+      <remarks versionDate="2013-06-20" xml:lang="en">
+        <p>The value may be a unique identifier from a database, or any other externally-defined
+          string identifying the referent. </p>
+        <p>No particular syntax is proposed for the values of the <att>key</att> attribute, since 
+          its form will depend entirely on practice within a given project. For the same reason, this 
+          attribute is not recommended in data interchange, since there is no way of ensuring 
+          that the values used by one project are distinct from those used by another. In such
+          a situation, a preferable approach for magic tokens which follows standard practice 
+          on the Web is to use a <att>ref</att> attribute whose value is a tag URI as defined in 
+          <ref target="#RFC4151">RFC 4151</ref>.</p>
+      </remarks>
+      <remarks versionDate="2009-05-25" xml:lang="fr">
+        <p>La valeur peut être un identifiant unique dans une base de données, ou toute autre chaîne
+          définie de façon externe identifiant le référent. </p>
+      </remarks>
+      <remarks xml:lang="ja" versionDate="2018-12-31"><p>値はデータベースにおけるユニークな識別子や、外部で定義された指示対象を特定するなんらかの文字列であってよい。<att>key</att>属性の値に関してさだまった構文は提案されていない。なぜならば、それぞれのプロジェクトのやりかたに完全に依存するからである。同様の理由によって、データの相互交換においてこの属性は推奨されない。在るプロジェクトで用いられた値が他のプロジェクトの値と異なることを保証できないからである。そのような場面における魔法石的対処は、<ref target="#RFC4151">RFC4151</ref>に定義されるタグURIを値とする<att>ref</att>属性を用いて、標準的なウェブにおける習慣にしたがってmagic tokenを使うことである。</p></remarks>
+    </attDef>
+    <attDef ident="ref" usage="opt">
+      <gloss versionDate="2008-09-05" xml:lang="en">reference</gloss>
+      <gloss versionDate="2009-05-25" xml:lang="fr">référence</gloss>
+      <gloss xml:lang="ja" versionDate="2018-12-31">参照</gloss>
+      <desc versionDate="2008-09-05" xml:lang="en">provides an explicit means of locating a full definition or identity for the entity being named by
+        means of one or more URIs.</desc>
+      <desc versionDate="2009-05-25" xml:lang="fr">fournit un moyen explicite de localiser une
+        définition complète de l'entité nommée au moyen d'un ou plusieurs URIs.</desc>
+      <desc xml:lang="ja" versionDate="2018-12-31">一つ以上のURIを用いて，名付けられたエンティティの完全な定義かIDを参照するための明確な手段を提供する．</desc>
+      <datatype minOccurs="1" maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+        <exemplum xml:lang="en">
+          <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:lang="en" source="#NONE">
+            <name ref="http://viaf.org/viaf/109557338" type="person">Seamus Heaney</name>
+            </egXML>
+        </exemplum>         
+      <remarks versionDate="2014-01-09" xml:lang="en">
+<p>The value must point directly to one or more XML elements or other resources by means of one or more URIs, separated by whitespace. If more than one is supplied the implication is that the name identifies several distinct entities.</p>
+      </remarks>
+      <remarks versionDate="2009-05-25" xml:lang="fr">
+        <p>La valeur doit pointer directement vers un ou plusieurs éléments XML au moyen d'un ou plusieurs URIs, séparés par un espace. Si plus d'un URI est fourni, cela implique que le nom identifie plusieurs entités distinctes.</p>
+      </remarks>
+      <remarks xml:lang="ja" versionDate="2018-12-31"><p>値は1つまたは複数のXML要素あるいは、空白によって区切られた1つまたは複数のURIを指し示すものでなければならない。1つ以上の値が与えられているときは、その名前が複数の異るエンティティに対応することを示唆する。</p></remarks>
+    </attDef>
+  </attList>
+  
+</classSpec><classSpec rend="add" module="tei" type="atts" ident="att.datable.w3c" xml:id="DATABLEW3C">
   <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-22" xml:lang="en">provides attributes for normalization of elements that contain
   datable events  conforming to the W3C
   <title ref="#XSD2">XML Schema Part 2: Datatypes Second Edition</title>.</desc>
@@ -352,7 +424,361 @@
       しかし，より強力な表現力を持つISOのデータ形式が必要にはならないかもしれない．
       W3Cのデータ形式に対するさらに強力な表現力をサポートするソフトウェアも存在する．
     </p>
-  </remarks></classSpec><classSpec rend="add" module="tei" xml:id="TYPED" type="atts" ident="att.typed" predeclare="true">
+  </remarks></classSpec><classSpec rend="add" module="tei" predeclare="true" type="atts" ident="att.global.responsibility">
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2014-12-10" xml:lang="en">provides attributes indicating the agent
+    responsible for some aspect of the text, the markup or 
+    something asserted by the markup, and the degree of certainty 
+    associated with it.</desc>
+  <classes xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
+    
+  </classes>
+  <attList xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
+    <attDef ident="cert" usage="opt">
+      <gloss versionDate="2009-11-02" xml:lang="en">certainty</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">확실성</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">certeza</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">certitude</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">certezza</gloss>
+      <gloss versionDate="2019-09-16" xml:lang="ja">確実性</gloss>
+      <desc versionDate="2009-11-02" xml:lang="en">signifies the degree of certainty associated with the intervention or interpretation.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">간섭 또는 해석과 연관된 확실성의 정도를 나타낸다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">表示該更動或詮釋的相關正確度。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該解釈や調整の確信度を示す．</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">donne le degré de certitude associée à l'intervention
+        ou à l'interprétation.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">significa el grado de certeza asociado con la
+        intervención o la interpretación.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">corrisponde al grado di certezza associato
+        all'intervento o interpretazione</desc>
+      <desc xml:lang="ja" versionDate="2019-09-16">介入や解釈に関する確信度を示す。 </desc>
+      <datatype>
+        <dataRef key="teidata.probCert"/>
+      </datatype>
+    </attDef>
+    <attDef ident="resp" usage="opt">
+      <gloss versionDate="2009-11-02" xml:lang="en">responsible party</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">책임 당사자</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">parte responsable</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">responsable</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">responsabile</gloss>
+      <gloss versionDate="2019-09-16" xml:lang="ja">責任者</gloss>
+      <desc versionDate="2009-11-02" xml:lang="en">indicates the agency responsible for the intervention or interpretation, for example an
+        editor or transcriber.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">편집자 또는 전사자와 같이 또는 해석에 대한 책임이 있는 대리인을 나타낸다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">指出負責該更動或詮釋的代理者，例如編輯或轉錄者。</desc>
+      <desc versionDate="2019-09-16" xml:lang="ja">介入や解釈の責任者を示す．例えば，編集者，翻刻者など。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">indique l'agent responsable de l'intervention ou de
+        l'interprétation, par exemple un éditeur ou un transcripteur.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">indica el agente responsable de la intervención o la
+        interpretación, p.ej. un editor o un transcriptor.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">indica il responsabile dell'intervento o
+        interpretazione, per esempio un curatore o trascrittore</desc>
+      <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+      <remarks versionDate="2014-12-10" xml:lang="en">
+        <p>To reduce the ambiguity of a <att>resp</att> pointing directly to a person or 
+          organization, we 
+          recommend that <att>resp</att> be used to point not to an agent 
+          (<gi>person</gi> or <gi>org</gi>) but to a <gi>respStmt</gi>, 
+          <gi>author</gi>, <gi>editor</gi> or similar 
+          element which clarifies the exact role played by the agent. 
+          Pointing to multiple <gi>respStmt</gi>s allows the encoder to specify 
+          clearly each of the roles played in part of a TEI file (creating, 
+          transcribing, encoding, editing, proofing etc.).</p></remarks>
+      <remarks versionDate="2019-09-16" xml:lang="ja"><p><att>resp</att> が直接個人や組織を指した場合のあいまいさを減らすため，<att>resp</att> は行為者 (<gi>person</gi> or <gi>org</gi>) ではなく <gi>respStmt</gi>, <gi>author</gi>, <gi>editor</gi> などその行為者の正確な役割を明示するエレメントを指して用いることを推奨する．エンコード者は <gi>respStmt</gi> にTEI文書内の役割分担を明確に記述できる（作成・翻刻・エンコード・編集・校正など）。</p></remarks>
+  </attDef>
+  </attList>
+  <exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">Blessed are the 
+      <choice><sic>cheesemakers</sic><corr resp="#editor" cert="high">peacemakers</corr></choice>: for they shall be called the children of God.</egXML>
+  </exemplum>
+  <exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#TAYLOR">
+      
+      <lg>
+        
+      <l>Punkes, Panders, baſe extortionizing 
+        sla<choice><sic>n</sic><corr resp="#JENS1_transcriber">u</corr></choice>es,</l>
+        
+      </lg>
+      
+      
+      <respStmt xml:id="JENS1_transcriber">
+        <resp when="2014">Transcriber</resp>
+        <name>Janelle Jenstad</name>
+      </respStmt>
+    </egXML>
+  </exemplum>
+  
+  
+</classSpec><classSpec rend="change" predeclare="true" module="tei" type="atts" ident="att.global.rendition"><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2014-12-02" xml:lang="en">provides rendering attributes common to all elements in the TEI encoding scheme.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2019-07-21" xml:lang="ja">TEIの符号化スキーマにおけるすべての要素に共通するレンダリング属性を提供する。</desc><classes/><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="rendition" mode="delete"/><attDef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="rend" usage="opt">
+      <gloss versionDate="2007-07-02" xml:lang="en">rendition</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">번역</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">interpretación</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">interprétation</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">resa</gloss>
+      <gloss versionDate="2019-07-21" xml:lang="ja">見た目の表示</gloss>
+      <desc versionDate="2005-10-10" xml:lang="en">indicates how the element in question was rendered or presented in the source text.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">문제의 요소가 원본 텍스트에 제시된 방법을 나타낸다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">指出該元素如何呈現於來源文件中</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該要素が，元資料でどのように表示されていたかを示す．</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">indique comment l'élément en question a été rendu ou
+        présenté dans le texte source</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">indica cómo el elemento en cuestión ha sido dado o
+        proporcionado en el texto fuente.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">indica come l'elemento in questione è stato reso o
+        rappresentato nel testo originario</desc>
+      <datatype maxOccurs="unbounded"><dataRef key="teidata.word"/></datatype>
+      <exemplum xml:lang="en">
+        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+          <head rend="align(center) case(allcaps)"><lb/>To The <lb/>Duchesse <lb/>of <lb/>Newcastle,
+            <lb/>On Her <lb/><hi rend="case(mixed)">New Blazing-World</hi>. </head>
+        </egXML>
+        
+      </exemplum>
+      <exemplum versionDate="2010-02-26" xml:lang="fr">
+        <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#fr-ex-Belloy">
+          <head rend="align(center) case(allcaps)">épître dédicatoire<lb/>à <lb/>Monsieur de Coucy <lb/>
+                  <lb/>.</head>
+        </egXML>
+      </exemplum>
+      <remarks versionDate="2012-10-24" xml:lang="en">
+        <p>These Guidelines make no binding recommendations for the values of the <att>rend</att>
+          attribute; the characteristics of visual presentation vary too much from text to text and
+          the decision to record or ignore individual characteristics varies too much from project
+          to project. Some potentially useful conventions are noted from time to time at appropriate
+          points in the Guidelines. The values of the <att>rend</att> attribute are a set of 
+	sequence-indeterminate individual tokens separated by whitespace.</p>
+      </remarks>
+      <remarks xml:lang="fr" versionDate="2007-06-12">
+        <p>Ces Principes directeurs ne font aucune recommandation contraignante pour les valeurs de
+          l'attribut <att>rend</att>; les caractéristiques de la présentation visuelle changent trop
+          d'un texte à l'autre et la décision d'enregistrer ou d'ignorer des caractéristiques
+          individuelles est trop variable d'un projet à l'autre. Quelques conventions
+          potentiellement utiles sont notées de temps en temps à des points appropriés dans ces
+          Principes directeurs.</p>
+      </remarks>
+      <remarks xml:lang="es" versionDate="2008-04-06">
+        <p>Estas guías de consulta no hacen ninguna recomendación obligatoria para los valores del
+          atributo <att>rend</att>; las características de la presentación visual varían demasiado
+          de texto a texto y la decisión para registrar o para omitir características individuales
+          varía demasiado de proyecto a proyecto. Observar algunas convenciones que puedan resultar
+          útiles en los puntos indicados en las guías de consulta.</p>
+      </remarks>
+      <remarks versionDate="2019-07-21" xml:lang="ja"><p>本ガイドラインでは、当該属性<att>rend</att>の値として推奨するものはない。活字化の特徴は様々であり、それらのどれを採用するかはプロジェクトごとでおそろしく異なるからである。当ガイドラインでは、有用な記述法があれば、その都度示すことになっている。<att>rend</att>属性の値は、空白によって区切られる順序不定の個々のトークンの集合である。</p></remarks>
+    </attDef></attList></classSpec><classSpec rend="add" predeclare="true" xml:id="GBLSRC" module="tei" type="atts" ident="att.global.source">
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2021-08-22" xml:lang="en">provides attributes used by elements to point to an
+    external source.</desc>
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2019-09-18" xml:lang="ja">外部ソースを参照する要素によって用いられる属性を示す。</desc>
+  <attList xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
+    <attDef ident="source" usage="opt">
+      <desc versionDate="2010-05-09" xml:lang="en">specifies the source from which some aspect of
+        this element is drawn.</desc>
+      <desc versionDate="2019-09-18" xml:lang="ja">この要素の何らかの側面を示すソースを指定する。</desc>
+      <datatype maxOccurs="unbounded">
+        <dataRef key="teidata.pointer"/>
+      </datatype>
+      <remarks xml:lang="en" versionDate="2017-06-06">
+        <p>The <att>source</att> attribute points to an external source. When used on elements
+          describing schema components such as <gi>schemaSpec</gi> or <gi>moduleRef</gi> it
+          identifies the source from which declarations for the components of the object being
+          defined may be obtained. </p>
+        <p> On other elements it provides a pointer to the bibliographical source from which a
+          quotation or citation is drawn. </p>
+        <p>In either case, the location may be provided using any form of URI, for example an
+          absolute URI, a relative URI, or private scheme URI that is expanded to an absolute URI as
+          documented in a <gi>prefixDef</gi>.</p>
+        <p>If more than one location is specified, the default assumption is that the required
+          source should be obtained by combining the resources indicated. </p>
+      </remarks>
+    </attDef>
+  </attList>
+  <exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#SOURCE-eg-01">
+      <p> As Willard McCarty (<bibl xml:id="mcc_2012">2012, p.2</bibl>) tells us, <quote source="#mcc_2012">‘Collaboration’ is a problematic and should be a contested
+          term.</quote>
+        
+      </p>
+    </egXML>
+  </exemplum>
+  <exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>
+        
+        <quote source="#chicago_15_ed">Grammatical theories are in flux, and the more we learn, the
+          less we seem to know.</quote>
+        
+      </p>
+      
+      <bibl xml:id="chicago_15_ed"><title level="m">The Chicago Manual of Style</title>,
+          <edition>15th edition</edition>. <pubPlace>Chicago</pubPlace>: <publisher>University of
+          Chicago Press</publisher> (<date>2003</date>), <biblScope unit="page">p.147</biblScope>.
+      </bibl>
+    </egXML>
+  </exemplum>
+  <exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <elementRef key="p" source="tei:2.0.1"/>
+    </egXML>
+    <p>Include in the schema an element named <gi>p</gi> available from the TEI P5 2.0.1
+      release.</p>
+  </exemplum>
+  <exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <schemaSpec ident="myODD" source="mycompiledODD.xml">
+        
+      </schemaSpec>
+    </egXML>
+    <p>Create a schema using components taken from the file <ident>mycompiledODD.xml</ident>.</p>
+  </exemplum>
+  
+</classSpec><classSpec rend="change" module="tei" xml:id="GLOBAL" type="atts" ident="att.global"><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-10-02" xml:lang="en">provides attributes common to all elements in the TEI encoding scheme.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">TEI 부호화 스키마의 모든 요소에 공통 속성을 제공한다.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">提供一組屬性，通用於TEI編碼標準中的所有元素。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-05" xml:lang="ja">TEI符号化スキーム中の全要素に共通する属性を示す． </desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-06-12" xml:lang="fr">fournit un jeu d'attributs communs à tous les éléments
+    dans le système de codage TEI.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">proporciona un conjunto de atributos común a todos los
+    elementos del esquema de codificación TEI.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">stabilisce un insieme di attributi comuni a tutti gli
+    elementi dello schema di codifica TEI</desc><classes><memberOf key="att.global.rendition"/><memberOf key="att.global.responsibility"/><memberOf key="att.global.source"/></classes><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="xml:base" mode="delete"/><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="xml:space" mode="delete"/><attDef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="xml:id" usage="opt">
+      <gloss versionDate="2007-07-02" xml:lang="en">identifier</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">확인소</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">identificador</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">identifiant</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">identificatore</gloss>
+      <gloss xml:lang="ja" versionDate="2019-06-08">識別子</gloss>
+      <desc versionDate="2005-10-10" xml:lang="en">provides a unique identifier for the element bearing the attribute.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">속성을 포함하는 요소에 대한 고유한 확인소를 제공한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">提供一個獨特識別符碼，識別帶有該屬性的元素。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該要素にユニークな識別子を示す．</desc>
+      <desc versionDate="2009-05-25" xml:lang="fr">fournit un identifiant unique pour l'élément qui
+        porte l'attribut</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">proporciona un identificador único para el elemento
+        al cual se asocia el atributo.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">assegna un identificatore unico all'elemento a cui è
+        associato l'attributo</desc>
+      <datatype><dataRef name="ID"/></datatype>
+      <remarks versionDate="2005-10-10" xml:lang="en">
+        <p>The <att>xml:id</att> attribute may be used to specify a canonical reference for an
+          element; see section <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CORS">3.11. Reference Systems</ref>.</p>
+      </remarks>
+      <remarks xml:lang="fr" versionDate="2007-06-12">
+        <p>L'attribut <att>xml:id</att> peut être employé pour indiquer une référence canonique pour
+          un élément ; voir la section<ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CORS">3.11. Reference Systems</ref>.</p>
+      </remarks>
+      <remarks xml:lang="es" versionDate="2008-04-06">
+        <p>El atributo <att>xml:id</att> se puede utilizar para especificar una referencia canónica
+          para un elemento; ver la sección <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CORS">3.11. Reference Systems</ref>.</p>
+      </remarks>
+      <remarks xml:lang="ja" versionDate="2008-04-05">
+        <p> 当該属性<att>xml:id</att>は，属性の指示対象を示している．詳細 は<ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CORS">3.11. Reference Systems</ref>を参照のこと． </p>
+      </remarks>
+    </attDef><attDef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="n" usage="opt">
+      <gloss versionDate="2007-07-02" xml:lang="en">number</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">수</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">número</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">nombre</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">numero</gloss>
+      <gloss xml:lang="ja" versionDate="2019-06-08">数値</gloss>
+      <desc versionDate="2005-10-10" xml:lang="en">gives a number (or other label) for an element, which is not necessarily unique within
+        the document.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">요소의 번호(또는 다른 표지)를 제시하며, 문서 내에서 반드시 고유값일 필요는 없다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">將元素標上一個數字 (或其他標號)，該標號在文件中未必是獨特的。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">要素に数値やラベルを与える．これは当該文書中でユニークである必要 はない．</desc>
+      <desc versionDate="2009-05-25" xml:lang="fr">donne un nombre (ou une autre étiquette) pour un
+        élément, qui n'est pas nécessairement unique dans le document TEI.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">proporciona un número (u otra etiqueta) a un elemento
+        que no es necesariamente único en el documento.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">assegna un numero (o altra etichetta) a un elemento
+        che non è necessariamente unico all'interno del documento</desc>
+      <datatype maxOccurs="1"><dataRef key="teidata.text"/></datatype>
+      <remarks versionDate="2013-12-06" xml:lang="en">
+        <p>The value of this attribute is always understood to be a single token, even if it contains space or other punctuation characters, and need not be composed of numbers only. It is typically used to specify the numbering of chapters, sections,
+          list items, etc.; it may also be used in the specification of a standard reference system
+          for the text.</p>
+      </remarks>
+      <remarks xml:lang="fr" versionDate="2007-06-12">
+        <p>L'attribut <att>n</att> peut être employé pour indiquer la numérotation de chapitres,
+          sections, items de liste, etc. ; il peut également être employé dans les spécifications
+          d'un système standard de référence pour le texte. </p>
+      </remarks>
+      <remarks xml:lang="es" versionDate="2008-04-06">
+        <p>El atributo <att>n</att> se puede utilizar para especificar la enumeración de los
+          capítulos, de las secciones, de los items de una lista, etc.; puede también ser utilizado
+          en la especificación de un sistema de referencia estándar para el texto.</p>
+      </remarks>
+      <remarks xml:lang="ja" versionDate="2019-06-08"><p>この属性の値は，もし空白やその他の区切り符号があったとしても、つねにひとまとまりのトークンとして解釈され、また数字のみで構成される必要はない。この属性は典型的には章や節，リスト等の構成要素の付番に用いられる。テキストの標準的な参照体系の仕様に含めることができる。</p></remarks>
+    </attDef><attDef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="xml:lang" usage="opt">
+      <gloss versionDate="2007-07-02" xml:lang="en">language</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">언어</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">lengua</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">langue</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">lingua</gloss>
+      <gloss xml:lang="ja" versionDate="2019-06-08">言語</gloss>
+      <desc versionDate="2013-01-07" xml:lang="en">indicates the language of the element content using a <soCalled>tag</soCalled> generated
+        according to <ref target="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">BCP 47</ref>.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko"><ref target="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">BCP 47</ref>에 따라 생성된
+        <soCalled>tag</soCalled>를 사용하는 요소 내용의 언어를 나타낸다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">使用<ref target="http://www.ietf.org/rfc/rfc3066.txt">RFC3066</ref>的代碼，指出該元素內容的使用語言</desc>
+      <desc xml:lang="ja" versionDate="2019-06-08"><ref target="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">BCP 47</ref>に従って生成された<soCalled>タグ</soCalled>を用いて要素の内容の言語を示す。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">indique la langue du contenu de l'élément en
+        utilisant les codes du <ref target="http://www.ietf.org/rfc/rfc3066.txt">RFC 3066</ref>
+         </desc>
+      <desc versionDate="2007-05-04" xml:lang="es">indica la lengua del contenido del elemento
+        utilizando los códigos extraídos de <ref target="http://www.ietf.org/rfc/rfc3066.txt">RFC
+          3066</ref>
+         </desc>
+      <desc versionDate="2007-01-21" xml:lang="it">indica la lingua del contenuto dell'elemento
+        utilizzando i codici tratti da <ref target="http://www.ietf.org/rfc/rfc3066.txt">RFC
+        3066</ref>
+         </desc>
+      <datatype><dataRef key="teidata.language"/></datatype>
+      <exemplum xml:lang="en">
+        <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:lang="en">
+          <p> … The consequences of
+	  this rapid depopulation were the loss of the last
+	  <foreign xml:lang="rap">ariki</foreign> or chief
+	  (Routledge 1920:205,210) and their connections to
+	  ancestral territorial organization.</p>
+        </egXML>
+      </exemplum>
+      <remarks versionDate="2019-11-14" xml:lang="en">
+        <p>The <att>xml:lang</att> value will be inherited from the immediately
+          enclosing element, or from its parent, and so on up the document hierarchy.
+          It is generally good practice to specify <att>xml:lang</att> at the highest
+          appropriate level, noticing that a different default may be needed for the
+          <gi>teiHeader</gi> from that needed for the associated resource element or elements,
+          and that a single TEI document may contain texts in many languages.</p>
+        <p>Only attributes with free text values (rare in these guidelines) will be in the scope of <att>xml:lang</att>.</p>
+        <p>The authoritative list of registered language subtags is maintained by IANA and 
+          is available at <ptr target="http://www.iana.org/assignments/language-subtag-registry"/>. 
+          For a good general overview of the construction of language tags, see 
+          <ptr target="http://www.w3.org/International/articles/language-tags/"/>, and for 
+          a practical step-by-step guide, see 
+          <ptr target="https://www.w3.org/International/questions/qa-choosing-language-tags.en.php"/>.</p>
+        <p>The value used must conform with BCP 47. If the value is a
+          private use code (i.e., starts with <val>x-</val> or contains
+          <val>-x-</val>), a <gi>language</gi> element with a matching
+          value for its <att>ident</att> attribute should be supplied in
+          the TEI header to document this value. Such documentation may
+          also optionally be supplied for non-private-use codes, though
+          these must remain consistent with their
+          <choice><abbr>IETF</abbr><expan>Internet Engineering Task
+          Force</expan></choice> definitions.</p>
+      </remarks>
+      <remarks xml:lang="fr" versionDate="2007-06-12">
+        <p> Si aucune valeur n'est indiquée pour <att>xml:lang</att>, la valeur de
+            l'attribut<att>xml:lang</att> de l'élément immédiatement supérieur est héritée ; c'est
+          pour cette raison qu'une valeur devrait toujours être attribuée à l'élément du plus haut
+          niveau hiérarchique (<gi>TEI</gi>).</p>
+<p>La valeur doit être conforme au BCP 47. Si la
+        valeur est un code d'usage privé (c'est-à-dire commence par <code>x-</code> ou contient
+      <code>-x-</code>),  il devrait correspondre à la valeur d'un attribut <att>ident</att> d'un élément <gi>language</gi> fourni dans l'en-tête TEI du document courant.</p>
+      </remarks>
+      <remarks xml:lang="es" versionDate="2008-04-06">
+        <p>Si no se especifica ningún valor para <att>xml:lang</att>, el valor de <att>xml:lang</att> para el elemento inmediatamente englobado, se hereda; por esta razón, un valor
+          se debe especificar siempre en el elemento exterior (<gi>TEI</gi>).</p>
+      </remarks>
+      <remarks xml:lang="ja" versionDate="2019-06-16"><p>xml:lang の値は、直接の親要素、そのまた親要素からというように、文書の上位階層から継承されてくる。できるだけ高い適切な階層に xml:lang を指定するのが一般には望ましいが、teiHeader には関連するリソース要素と異なるデフォルト値が必要となったり、一つのTEI文書が多くの言語のテキストを含みうることには注意されたい。登録された言語タグの正式なリストはIANAが管理しており、<ptr target="http://www.iana.org/assignments/language-subtag-registry"/> から確認できる。言語タグの構造についての良い概説は <ptr target="http://www.w3.org/International/articles/language-tags/"/> を、手順を追った実用的なガイドは <ptr target="https://www.w3.org/International/questions/qa-choosing-language-tags.en.php"/> を参照されたい。利用する値は、BCP 47 に準拠しなければならない。もし値が私用コード（<val>x-</val> から始まったり <val>-x-</val> を含む）ならば、その <att>ident</att> 属性と一致する値を持つ <gi>language</gi> 要素をTEIヘッダ内に追加して内容を説明すべきである。この説明は私用コード以外にも任意で追加できるが、<choice><abbr>IETF</abbr><expan>Internet Engineering Task Force</expan></choice> による定義と整合していなければならない。</p></remarks>
+    </attDef></attList></classSpec><classSpec rend="change" module="tei" xml:id="NAMES" type="atts" ident="att.naming"><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2006-01-05" xml:lang="en">provides attributes common to elements which refer to named persons, places, organizations etc.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">사람, 장소, 조직 등의 이름을 지시하는 요소에 공통적 속성을 제공한다.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">提供屬性，通用於參照到人物、地點、組織等的元素。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-05" xml:lang="ja">名前，人物，場所，組織を示す要素に付与される属性を示す．</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-05-28" xml:lang="fr">fournit des attributs communs aux éléments qui font référence à des personnes, lieux, organismes, etc., nommés.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">identifica los atributos comunes a los elementos que se refieren a personas, lugares, organizaciones, etc. indicados por nombre</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">identifica degli attributi comuni a elementi che si riferiscono a persone, luoghi, organizzazioni, ecc. indicati per nome</desc><classes><memberOf key="att.canonical"/></classes><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="nymRef" mode="delete"/><attDef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="role" usage="opt">
+      <desc versionDate="2009-10-12" xml:lang="en">may be used to specify further information about the entity referenced by
+this name in the form of a set of whitespace-separated values, for example the occupation of a person, or the status of a place.</desc>
+      <datatype maxOccurs="unbounded"><dataRef key="teidata.enumerated"/></datatype>
+    </attDef></attList></classSpec><classSpec rend="add" module="tei" xml:id="TYPED" type="atts" ident="att.typed" predeclare="true">
   <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-10-02" xml:lang="en">provides attributes that can be used to classify or subclassify elements in any way.</desc>
   <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">요소의 분류 또는 하위분류에서 사용될 수 있는 속성을 제공한다.</desc>
   <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">提供可依任何方法將元素分類或次要分類的一般屬性。</desc>
@@ -1128,7 +1554,7 @@ integer value used as a count.</desc>
       d’autres, alors une indication de fuseau horaire sera  toujours incluse, et 
       seule la représentation de dateTime sera employée.
     </p>
-  </remarks></dataSpec><dataSpec rend="add" module="tei" ident="teidata.language"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace">A closed list of values to be used with a <att>ident</att> attribute on e.g. <gi>language</gi>.</desc><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace">
+  </remarks></dataSpec><dataSpec rend="add" module="tei" ident="teidata.language"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace">A closed list of values to be used with a <att>ident</att> attribute on e.g. <gi>language</gi>. The values follow ISO-639-1 (except "noRecord" which is used as wildcard).</desc><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace">
                 <valList type="closed">
                     <valItem ident="en">
                         <desc versionDate="2021-08-10" xml:lang="en">English</desc>
@@ -1142,17 +1568,25 @@ integer value used as a count.</desc>
                         <desc versionDate="2021-08-10" xml:lang="en">French</desc>
                         <desc versionDate="2021-08-10" xml:lang="de">Französisch</desc>
                     </valItem>
+                    <valItem ident="es">
+                        <desc versionDate="2021-08-10" xml:lang="en">Spanish</desc>
+                        <desc versionDate="2021-08-10" xml:lang="de">Spanisch</desc>
+                    </valItem>
                     <valItem ident="it">
                         <desc versionDate="2021-08-10" xml:lang="en">Italian</desc>
                         <desc versionDate="2021-08-10" xml:lang="de">Italienisch</desc>
                     </valItem>
-                    <valItem ident="da">
-                        <desc versionDate="2021-08-10" xml:lang="en">Danish</desc>
-                        <desc versionDate="2021-08-10" xml:lang="de">Dänisch</desc>
-                    </valItem>
                     <valItem ident="la">
                         <desc versionDate="2021-08-10" xml:lang="en">Latin</desc>
                         <desc versionDate="2021-08-10" xml:lang="de">Latein</desc>
+                    </valItem>
+                    <valItem ident="el">
+                        <desc versionDate="2021-08-10" xml:lang="en">Greek (modern)</desc>
+                        <desc versionDate="2021-08-10" xml:lang="de">Griechisch (modern)</desc>
+                    </valItem>
+                    <valItem ident="noRecord">
+                        <desc versionDate="2021-10-18" xml:lang="en">Not recorded</desc>
+                        <desc versionDate="2021-10-18" xml:lang="de">Nicht erfasst</desc>
                     </valItem>
                 </valList>
             </content><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-06-29" xml:lang="en">
@@ -1651,108 +2085,118 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     <memberOf key="model.nameLike"/>
   </classes>
   
-</classSpec><elementSpec rend="change" module="namesdates" ident="placeName"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2020-12-20">place name</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">nom de lieu</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">contains an absolute or relative place name.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen absoluten oder relativen Ortsnamen.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><rng:text xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples"/></content><constraintSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="count-modern-names">
+</classSpec><elementSpec rend="change" module="namesdates" ident="placeName"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2020-12-20">place name</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">nom de lieu</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains an absolute or relative place name.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen absoluten oder relativen Ortsnamen.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><rng:text xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples"/></content><constraintSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="count-modern-names">
             <constraint>
                 <sch:rule context="tei:placeName[@type='modern']">
                     <sch:let name="lang" value="string(@xml:lang)"/> 
                     <sch:report test="following-sibling::tei:placeName[@type='modern'][string(@xml:lang)=$lang]">Only one modern name per xml:lang allowed.</sch:report>
                 </sch:rule>
             </constraint>
-        </constraintSpec><attList><attDef ident="type" mode="replace" usage="opt">
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">categorisation of varying localities.</desc>
-                    <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">Kategorisierung der verschiedenen Lokalitäten.</desc>
-                    <datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
-                        <dataRef key="hwh.place.type"/>
-                    </datatype>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="theatre">Königl. Theater zu <settlement>Berlin</settlement></placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="building">Arnoldische Buchhandlung in <settlement>Dresden</settlement></placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="hospitality">Gasthof zum goldnen Engel</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="sacral-building">Kirche St. Jacob</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="administrative-building">Hauptzollamt</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="art-building"><settlement>Mannheimer</settlement> Museum Karl Stephanie</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="shop">ObstMarkt</placeName>
-                        </egXML>
-                    </exemplum>
-                    <exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <placeName type="street">Kärntner Straße 1080</placeName>
-                        </egXML>
-                    </exemplum>
-                </attDef><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+        </constraintSpec><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                </attDef><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="subtype" mode="delete"/><attRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <settlement>Berlin</settlement>
-                    </placeName>
-                </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <region>Holstein</region>
-                    </placeName>
-                </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <country>Deutschland</country>
-                    </placeName>
-                </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <geogName>Alpen</geogName>
-                    </placeName>
-                </egXML>
-            </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                    <placeName>
-                        <bloc>Europa</bloc>
-                    </placeName>
-                </egXML>
-            </exemplum><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="en">
-                <p>Henze-Digital distinguishes between different types of places that are encoded as elements on the one hand and by attribute values on the other. Larger units such as settlements, regions, countries or blocs are marked with elements, whereas smaller units such as various localities and buildings are marked as attribute values ​​of the type-attribute that belongs to the placeName-element.</p>
-            </remarks><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-11-11" xml:lang="de">
-                <p>Die Henze-Digital unterscheidet verschiedene Typen von Orten, die zum einen durch (Kind-)Elemente (größere Einheiten wie Siedlungen, Regionen, Länder oder Staaten) und zum anderen durch ein <att>type</att>-Attribut am <gi>placeName</gi> klassifiziert werden (kleinere Einheiten und Gebäude).</p>
-            </remarks><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
+                </attDef><attDef ident="type" usage="req">
+                <desc versionDate="2014-01-08" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
+                <desc versionDate="2014-01-08" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
+                <valList type="closed">
+                    <valItem ident="reg">
+                        <gloss versionDate="2013-11-11" xml:lang="en">regular</gloss>
+                        <gloss versionDate="2013-11-11" xml:lang="de">regulär</gloss>
+                        <desc versionDate="2016-03-07" xml:lang="en">the canonical name of the WeGA, i.e. the historic version known by Weber.</desc>
+                        <desc versionDate="2016-03-07" xml:lang="de">die Ansetzungsform der WeGA basierend auf der historischen Bezeichnung Webers.</desc>
+                    </valItem>
+                    <valItem ident="alt">
+                        <gloss versionDate="2014-01-08" xml:lang="en">alternative</gloss>
+                        <gloss versionDate="2014-01-08" xml:lang="de">Alternative</gloss>
+                    </valItem>
+                    <valItem ident="modern">
+                        <desc versionDate="2016-03-07" xml:lang="en">the current, official version of the name.</desc>
+                        <desc versionDate="2016-03-07" xml:lang="de">die atuelle, verwaltungssprachliche Namensform.</desc>
+                    </valItem>
+                </valList>
+            </attDef></attList><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <settlement>Rochester</settlement>
+        <region>New York</region>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <settlement>Bordeaux</settlement>
+        <region>Gironde</region>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <geogName>Le Massif Armoricain</geogName>
+        <region>Bretagne</region>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <measure>2,5 milles</measure>
+        <offset>à l'ouest de la </offset>
+        <settlement>Pointe du Raz</settlement>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <settlement>曼徹斯特</settlement>
+        <region>紐約</region>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <geogName>天池</geogName>
+        <region>新疆</region>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <settlement>烏魯木齊</settlement>
+        <offset>北邊</offset>
+        <measure>十哩</measure>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <geogName>Arrochar Alps</geogName>
+        <region>Argylshire</region>
+      </placeName>
+    </egXML>
+  </exemplum><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <placeName>
+        <measure>10 miles</measure>
+        <offset>Northeast of</offset>
+        <settlement>Attica</settlement>
+      </placeName>
+    </egXML>
+  </exemplum><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPLAC">13.2.3. Place Names</ref>
-  </listRef></elementSpec><elementSpec rend="add" module="namesdates" ident="country"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">country</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">pays</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">marks the name of a geo-political unit, such as a nation or country at the contemporary period.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert den Namen einer geopolitischen Einheit der zeitgenössischen Periode, wie etwa eine Nation oder ein souveräner Staat.</desc><classes><memberOf key="model.placeNamePart"/></classes><content><macroRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+  </listRef></elementSpec><elementSpec rend="add" module="namesdates" ident="country"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2008-12-09">country</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">pays</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2006-01-22" xml:lang="en">contains the name of a geo-political unit, such as a nation, country, colony, or
+    commonwealth, larger than or administratively superior to a region and smaller than a bloc.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">하나의 블록보다 큰 국가, 지역, 식민지, 또는 공화국, 또는 하나의 블록보다 작은 지역의 상급
+    행정기관과 같은, 지리-정치 단위명을 포함한다.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">包含一個地理政治區域名稱，例如民族、國家、殖民地、或聯邦區域，範圍大於一般地區或行政地位較高，但小於國家聯盟性的地理政治區。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-06" xml:lang="es">contiene el nombre de una unidad geopolítica, como una
+    nación, país, colonia, etc. más grande o administrativamente superior que una región y más
+    pequeño que un bloque.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-05" xml:lang="ja">1つの国家に相当する地政学的な単位名を示す．国家，植民地，共同体・連
+    邦を含む．これは，行政単位上の地域よりも大きい単位で，連合より小さな 単位である．</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-12-09" xml:lang="fr">contient le nom d'une unité géo-politique, comme une
+    nation, un pays, une colonie ou une communauté, plus grande ou administrativement supérieure à
+    une région et plus petite qu'un bloc.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">contiene il nome di un'unità geopolitica, come una
+    nazione, un paese, una colonia, o un'unione di stati, che sia più ampia o amministrativamente
+    superiore rispetto a una regione ma di dimensioni inferiori rispetto a un blocco</desc><classes><memberOf key="att.global"/><memberOf key="model.placeNamePart"/><memberOf key="att.naming"/><memberOf key="att.typed"/><memberOf key="att.datable"/></classes><content><macroRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.places.pointer"/>
                     </datatype>
-                </attDef><attRef class="att.global.responsibility" name="cert"/></attList><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+                </attDef></attList><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <country key="DK">Denmark</country>
     </egXML>
@@ -2114,6 +2558,14 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                     <sch:assert test="@place">Missing @place, because this is no overtyping here.</sch:assert>
                 </sch:rule>
             </constraint>
+        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="placeKeyRequirementInText" mode="add">
+            <desc versionDate="2021-10-25" xml:lang="en">Report missing of @key at place like elements.</desc>
+            <desc versionDate="2021-10-25" xml:lang="de">Meldet das Fehlen von @key, wenn es sich um Ortselemente handelt.</desc>
+            <constraint>
+                <sch:rule context="tei:placeName[ancestor::tei:text] | tei:settlement[ancestor::tei:text] | tei:region[ancestor::tei:text] | tei:country[ancestor::tei:text] | tei:bloc[ancestor::tei:text] | tei:geogName[ancestor::tei:text]">
+                    <sch:report test="@key">Using <sch:name/> in text requires @key.</sch:report>
+                </sch:rule>
+            </constraint>
         </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="styleguide-document-node-content" mode="replace">
             <constraint>
                 <sch:rule context="document-node()">
@@ -2127,50 +2579,7 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <alternate minOccurs="1" maxOccurs="1"><dataRef name="date"/><dataRef name="gYear"/><dataRef name="gYearMonth"/></alternate>
             </content>
-        </macroSpec><dataSpec rend="add" module="derived-module-hwhPlaces" ident="hwh.place.type" mode="add">
-            <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2020-12-02" xml:lang="en">Geschlossene Liste von Werten für Henze-Digital Ortstypen, genutzt von tei:placeName und mei:geogName</desc>
-            <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2020-12-02" xml:lang="de">Closed list of values for Henze-Digital place types, used by tei:placeName and mei:geogName</desc>
-            <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
-                <valList type="closed">
-                    <valItem ident="theatre">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for performing plays, operas etc. (e.g. (amphi)theatres, operas, ball rooms).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, in denen (musikalische) Stücke jeder Art aufgeführt werden (z.B. Amphitheater, Opern, Festsäle).</desc>
-                    </valItem>
-                    <valItem ident="building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes all sorts of building where no other category is applicable (e.g. bath, bookshop, office).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt alle Lokalitäten, auf die keine andere Kategorie zutrifft (z.B. Bad, Buchhandlung, Büro).</desc>
-                    </valItem>
-                    <valItem ident="hospitality">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for lodging, serving food, drinks, etc. (e.g. hotels, bars, inns).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, in denen man Essen und Trinken zu sich nehmen kann (z.B. Hotels, Wirtshäuser, Kneipen).</desc>
-                    </valItem>
-                    <valItem ident="sacral-building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings serving religious purposes (e.g. churches, abbeys).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, die für religiöse Zwecke genutzt werden (z.B. Kirchen, Kloster).</desc>
-                    </valItem>
-                    <valItem ident="administrative-building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for government administration (e.g. city hall, castle, police station, custom office).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, die als offizielle Administrationsgebäude genutzt werden (z.B. Rathaus, Schloss, Residenz, Polizeistation, Zollamt).</desc>
-                    </valItem>
-                    <valItem ident="art-building">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for (art) exhibitions (e.g. museums, galleries).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, in denen (Kunst-) Ausstellungen stattfinden (z.B. Museen, Gallerien).</desc>
-                    </valItem>
-                    <valItem ident="shop">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes buildings designed for selling goods and services to the end-user (e.g. markets, shops).</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt Lokalitäten, die zum Verkauf von Waren, Güter oder Dienstleistungen genutzt werden (z.B. Supermarkt, Laden).</desc>
-                    </valItem>
-                    <valItem ident="street">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes a street or a street name.</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt eine Straße oder den Straßennamen.</desc>
-                    </valItem>
-                    <valItem ident="park">
-                        <desc versionDate="2013-11-11" xml:lang="en">characterizes a botanical or zoological garden, or any other park area.</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">beschreibt einen botanischen Garten oder einen Tiergarten, oder andere Grünflächen.</desc>
-                    </valItem>
-                </valList>
-            </content>
-        </dataSpec><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="ND" xml:id="DND" ident="namesdates"/></schemaSpec>
+        </macroSpec><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="ND" xml:id="DND" ident="namesdates"/></schemaSpec>
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-thematicCommentaries.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-var.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-hwh_all.odd.xml"/>-->
