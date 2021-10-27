@@ -1546,8 +1546,15 @@
 
     <specGrp xml:id="hwh-namesdates">
         <elementSpec ident="persName" mode="change" module="namesdates">
+            <constraintSpec ident="persNameKeyRequirement" scheme="schematron">
+                <constraint>
+                    <sch:rule context="tei:persName">
+                        <sch:assert test="@key" role="warning">A <sch:name/> should be used to identify this <sch:name path="parent::node()"/></sch:assert>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
-                <attDef ident="key" mode="replace" usage="req">
+                <attDef ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.persons.pointer"/>
                     </datatype>
