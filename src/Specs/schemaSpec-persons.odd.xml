@@ -39,8 +39,243 @@
     <macroRef key="macro.birthDeathContent"/>
     
     <elementSpec ident="person" mode="change" module="namesdates">
-        
-        <constraintSpec scheme="schematron" ident="enforceWhitespace" mode="delete"/>
+        <desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source.</desc>
+        <desc versionDate="2021-10-28" xml:lang="de">liefert Informationen über ein identifizierbares Individuum, beispielsweise ein Teilnehmer einer Sprachinteraktion, oder eine Person, auf die in einer historischen Quelle verwiesen wird.</desc>
+        <content>
+            <rng:choice>
+                <!--  Dubletten  -->
+                <rng:element name="ref">
+                    <rng:attribute name="type">
+                        <rng:choice>
+                            <rng:value>duplicate</rng:value>
+                            <rng:value>deletion</rng:value>
+                        </rng:choice>
+                    </rng:attribute>
+                    <rng:attribute name="target">
+                        <dataRef key="hwh.personsPlus.pointer"/>
+                    </rng:attribute>
+                    <rng:empty/>
+                </rng:element>
+                <!-- ordentlicher Eintrag -->
+                <rng:group>
+                    <rng:zeroOrMore>
+                        <rng:ref name="idno"/>
+                    </rng:zeroOrMore>
+                    <rng:element name="persName">
+                        <rng:ref name="macro.persNameContent"/>
+                            <rng:optional>
+                            <rng:element name="note">
+                                <rng:ref name="macro.specialPara"/>
+                                <rng:attribute name="type">
+                                    <rng:value>comment</rng:value>
+                                </rng:attribute>
+                            </rng:element>
+                        </rng:optional>
+                        <rng:optional>
+                            <rng:element name="note">
+                                <rng:ref name="macro.specialPara"/>
+                                <rng:attribute name="type">
+                                    <rng:value>addInfo</rng:value>
+                                </rng:attribute>
+                            </rng:element>
+                        </rng:optional>
+                        <rng:attribute name="type">
+                                <rng:value>reg</rng:value>
+                        </rng:attribute>
+                        <rng:optional>
+                            <rng:attribute name="xml:lang">
+                                <dataRef key="teidata.language"/>
+                            </rng:attribute>
+                        </rng:optional>
+                    </rng:element>
+                    <rng:optional>
+                        <!-- relict of creating datasets -->
+                        <rng:element name="persName">
+                            <rng:ref name="macro.persNameContent"/>
+                            <rng:attribute name="type">
+                                <rng:value>import</rng:value>
+                            </rng:attribute>
+                            <rng:optional>
+                                <rng:attribute name="xml:lang">
+                                    <dataRef key="teidata.language"/>
+                                </rng:attribute>
+                            </rng:optional>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="persName">
+                            <rng:ref name="macro.persNameContent"/>
+                            <rng:attribute name="type">
+                                <rng:value>full</rng:value>
+                            </rng:attribute>
+                            <rng:optional>
+                                <rng:attribute name="xml:lang">
+                                    <dataRef key="teidata.language"/>
+                                </rng:attribute>
+                            </rng:optional>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:element name="persName">
+                            <rng:ref name="macro.persNameContent"/>
+                            <rng:attribute name="type">
+                                <rng:value>real</rng:value>
+                            </rng:attribute>
+                            <rng:optional>
+                                <rng:attribute name="xml:lang">
+                                    <dataRef key="teidata.language"/>
+                                </rng:attribute>
+                            </rng:optional>
+                        </rng:element>
+                    </rng:optional>
+                    <rng:zeroOrMore>
+                        <rng:element name="persName">
+                            <rng:ref name="macro.persNameContent"/>
+                            <rng:attribute name="type">
+                                <rng:choice>
+                                    <rng:value>alt</rng:value>
+                                    <rng:value>pseud</rng:value>
+                                </rng:choice>
+                            </rng:attribute>
+                            <rng:optional>
+                                <rng:attribute name="xml:lang">
+                                    <dataRef key="teidata.language"/>
+                                </rng:attribute>
+                            </rng:optional>
+                            <rng:optional>
+                                <rng:attribute name="from">
+                                    <rng:choice>
+                                        <rng:data type="date"/>
+                                        <rng:data type="gYear"/>
+                                    </rng:choice>
+                                </rng:attribute>
+                            </rng:optional>
+                            <rng:optional>
+                                <rng:attribute name="to">
+                                    <rng:choice>
+                                        <rng:data type="date"/>
+                                        <rng:data type="gYear"/>
+                                    </rng:choice>
+                                </rng:attribute>
+                            </rng:optional>
+                            <rng:optional>
+                                <rng:attribute name="subtype">
+                                    <rng:choice>
+                                        <rng:value>birth</rng:value>
+                                        <rng:value>married</rng:value>
+                                        <rng:value>role</rng:value>
+                                    </rng:choice>
+                                </rng:attribute>
+                            </rng:optional>
+                        </rng:element>
+                    </rng:zeroOrMore>
+                    <rng:interleave>
+                        <rng:optional>
+                            <rng:ref name="birth"/>
+                        </rng:optional>
+                        <rng:optional>
+                            <rng:ref name="death"/>
+                        </rng:optional>
+                        <rng:ref name="sex"/>
+                        <rng:zeroOrMore>
+                            <rng:ref name="occupation"/>
+                        </rng:zeroOrMore>
+                        <rng:zeroOrMore>
+                            <rng:ref name="residence"/>
+                        </rng:zeroOrMore>
+                        <rng:zeroOrMore>
+                            <rng:ref name="affiliation"/>
+                        </rng:zeroOrMore>
+                        <rng:zeroOrMore>
+                            <rng:element name="note">
+                                <rng:ref name="macro.specialPara"/>
+                                <rng:attribute name="type">
+                                    <rng:choice>
+                                        <rng:value>bioSummary</rng:value>
+                                        <rng:value>internal</rng:value>
+                                    </rng:choice>
+                                </rng:attribute>
+                            </rng:element>
+                        </rng:zeroOrMore>
+                        <rng:zeroOrMore>
+                            <rng:ref name="event"/>
+                        </rng:zeroOrMore>
+                        <rng:optional>
+                            <rng:element name="figure">
+                                <rng:ref name="head"/>
+                                <rng:ref name="graphic"/>
+                                <rng:attribute name="n">
+                                    <rng:value>reg</rng:value>
+                                </rng:attribute>
+                            </rng:element>
+                            <rng:zeroOrMore>
+                                <rng:element name="figure">
+                                    <rng:ref name="head"/>
+                                    <rng:ref name="graphic"/>
+                                </rng:element>
+                            </rng:zeroOrMore>
+                        </rng:optional>
+                    </rng:interleave>
+                </rng:group>
+                <!--<rng:oneOrMore>
+                    <rng:ref name="model.personPart"/>
+                    </rng:oneOrMore>-->
+                <!--<rng:group>
+                    <rng:ref name="model.personHead"/>
+                    <rng:ref name="model.personPart"/>
+                    </rng:group>-->
+            </rng:choice>
+        </content>
+        <constraintSpec scheme="schematron" ident="personHeuristics1">
+            <desc versionDate="2014-04-16" xml:lang="en">Check for birth dates that are <emph>after</emph> death dates (for dates AD).</desc>
+            <desc versionDate="2014-04-16" xml:lang="de">Test auf Geburtsdaten, die <emph>nach</emph> dem Todesdatum liegen (für Daten nach Christi Geburt).</desc>
+            <constraint>
+                <!--<sch:report test="count(./tei:persName[@subtype='birth']) > 1"
+                    >Mehrere Geburtsnamen gefunden</sch:report>-->
+                <!-- für Lebensdaten nach Christi Geburt -->
+                <sch:report
+                    test="./tei:birth/tei:date/(@when, @notBefore, @notAfter) > ./tei:death/tei:date/(@when, @notBefore, @notAfter) and not(./tei:death/tei:date/(@when, @notBefore, @notAfter)[starts-with(., '-')])"
+                    >Geburtsdatum nach Todesdatum</sch:report>
+                <!--<sch:report
+                    test="./tei:death/tei:date/@notBefore > ./tei:death/tei:date/@notAfter"
+                    >Datumsangabe notBefore nach notAfter</sch:report>-->
+                <!--<sch:report
+                    test=".//(tei:persName, tei:workName, tei:surname, tei:forename, tei:hi, tei:rs, tei:event, tei:note)[normalize-space(.) = '']"
+                    >Leeres Element gefunden</sch:report>-->
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="personHeuristics2">
+            <desc versionDate="2014-04-16" xml:lang="en">Check for birth dates that are <emph>after</emph> death dates (for dates BC).</desc>
+            <desc versionDate="2014-04-16" xml:lang="de">Test auf Geburtsdaten, die <emph>nach</emph> dem Todesdatum liegen (für Daten vor Christi Geburt).</desc>
+            <constraint>
+                <!--<sch:report test="count(./tei:persName[@subtype='birth']) > 1"
+                    >Mehrere Geburtsnamen gefunden</sch:report>-->
+                <!-- für Lebensdaten vor Christi Geburt -->
+                <sch:report
+                    test="./tei:death/tei:date/(@when, @notBefore, @notAfter) > ./tei:birth/tei:date/(@when, @notBefore, @notAfter) and ./tei:death/tei:date/(@when, @notBefore, @notAfter)[starts-with(., '-')]"
+                    >Geburtsdatum nach Todesdatum</sch:report>
+                <!--<sch:report
+                    test="./tei:death/tei:date/@notBefore > ./tei:death/tei:date/@notAfter"
+                    >Datumsangabe notBefore nach notAfter</sch:report>-->
+                <!--<sch:report
+                    test=".//(tei:persName, tei:workName, tei:surname, tei:forename, tei:hi, tei:rs, tei:event, tei:note)[normalize-space(.) = '']"
+                    >Leeres Element gefunden</sch:report>-->
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="enforceWhitespace">
+            <constraint>
+                <sch:rule context="tei:persName[@type][./*]">
+                    <sch:assert test="every $x in ./*[following-sibling::*] satisfies $x[following-sibling::node()[1] instance of text()]">Child elements of persName should be separated with whitespace.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="bioSummary-mixed-content">
+            <constraint>
+                <sch:rule context="tei:note[@type='bioSummary'][tei:list]">
+                    <sch:report test="text()[matches(., '\S')]">When utilizing tei:list as structural unit you should wrap other text in tei:p.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
         <attList>
             <attDef ident="status" usage="req" mode="add">
                 <datatype>
