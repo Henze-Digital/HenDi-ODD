@@ -755,7 +755,7 @@
             <desc versionDate="2014-03-05" xml:lang="en">warnings for whitespace at the beginning of an element.</desc>
             <desc versionDate="2014-03-05" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
             <constraint>
-                <sch:rule context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
+                <sch:rule context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement[not(tei:address)] | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/></sch:report>
                 </sch:rule>
             </constraint>
@@ -1678,7 +1678,7 @@
             </constraintSpec>
             <constraintSpec ident="orgNameKeyRequirement" scheme="schematron">
                 <constraint>
-                    <sch:rule context="tei:orgName">
+                    <sch:rule context="tei:orgName[not(parent::tei:org)]">
                         <sch:assert test="@key" role="warning">A <sch:name/> should be used for identification.</sch:assert>
                     </sch:rule>
                 </constraint>
