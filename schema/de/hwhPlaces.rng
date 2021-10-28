@@ -5,10 +5,10 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-10-25T10:20:55Z. .
+Schema generated from ODD source 2021-10-28T15:00:34Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
- This is the customization for encoding letters at Henze-Digital 
+ This is the customization for encoding places at Henze-Digital 
 --><!--This work is licensed under a  Creative Commons Attribution 3.0 Unported License (CC BY 3.0) .-->
    <sch:ns xmlns:sch="http://purl.oclc.org/dsdl/schematron"
            prefix="tei"
@@ -993,7 +993,11 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                      <value>deletion</value>
                   </choice>
                </attribute>
-               <attribute name="target"/>
+               <attribute name="target">
+                  <data type="string">
+                     <param name="pattern">A13[0-9A-F]{5}</param>
+                  </data>
+               </attribute>
                <empty/>
             </element>
             <group>
@@ -1018,8 +1022,19 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                            test="(tei:placeName[1][@type='reg'] and count(./tei:placeName[@type='reg']) = 1) or tei:ref">tei:place muss (genau) ein placeName@type="reg" enthalten</sch:assert>
             </rule>
          </pattern>
+         <attribute name="status">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>proposed</value>
+               <value>candidate</value>
+               <value>approved</value>
+            </choice>
+         </attribute>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Bezeichner) liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</a:documentation>
+            <data type="string">
+               <param name="pattern">A13[0-9A-F]{5}</param>
+            </data>
          </attribute>
          <empty/>
       </element>
@@ -1094,7 +1109,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
+                context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement[not(tei:address)] | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
          <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/>
          </sch:report>
       </sch:rule>
@@ -1191,7 +1206,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </xsl:function>
       <sch:pattern id="idCheckDigit">
          <sch:rule context="@key | @xml:id | @sameAs">
-            <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
+            <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
@@ -1203,20 +1218,21 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:subst[./tei:del[not(@rend='overtyped')]]/tei:add">
-         <sch:assert test="@place">Missing @place, because this is no overtyping here.</sch:assert>
+                context="tei:add[not(parent::tei:subst)]">
+         <sch:assert test="@place">Missing @place, because this is no substitution here.</sch:assert>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-placeKeyRequirementInText-constraint-rule-21">
+            id="hwhPlaces-lbInsideAddress-constraint-rule-21">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:placeName[ancestor::tei:text] | tei:settlement[ancestor::tei:text] | tei:region[ancestor::tei:text] | tei:country[ancestor::tei:text] | tei:bloc[ancestor::tei:text] | tei:geogName[ancestor::tei:text]">
-         <sch:report test="@key">Using <sch:name/> in text requires @key.</sch:report>
+                context="tei:lb">
+         <sch:report test="parent::tei:address" role="info">Does <sch:name/> mark a new line inside the address? If yes, please use &lt;addrLine&gt; instead of <sch:name/>
+         </sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"

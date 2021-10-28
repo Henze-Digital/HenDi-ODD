@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2021-10-25T10:20:58Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2021-10-28T15:00:38Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -88,7 +88,7 @@
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hwhPlaces-elementStartsWithWhitespace-13">
-      <rule context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
+      <rule context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement[not(tei:address)] | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
          <report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <name/>
          </report>
       </rule>
@@ -151,18 +151,19 @@
       </function>
       <pattern id="idCheckDigit">
          <rule context="@key | @xml:id | @sameAs">
-            <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
+            <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
    </schema>
    <pattern id="schematron-constraint-hwhPlaces-addWithoutPlace-19">
-      <rule context="tei:subst[./tei:del[not(@rend='overtyped')]]/tei:add">
-         <assert test="@place">Missing @place, because this is no overtyping here.</assert>
+      <rule context="tei:add[not(parent::tei:subst)]">
+         <assert test="@place">Missing @place, because this is no substitution here.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-placeKeyRequirementInText-20">
-      <rule context="tei:placeName[ancestor::tei:text] | tei:settlement[ancestor::tei:text] | tei:region[ancestor::tei:text] | tei:country[ancestor::tei:text] | tei:bloc[ancestor::tei:text] | tei:geogName[ancestor::tei:text]">
-         <report test="@key">Using <name/> in text requires @key.</report>
+   <pattern id="schematron-constraint-hwhPlaces-lbInsideAddress-20">
+      <rule context="tei:lb">
+         <report test="parent::tei:address" role="info">Does <name/> mark a new line inside the address? If yes, please use &lt;addrLine&gt; instead of <name/>
+         </report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-21">
