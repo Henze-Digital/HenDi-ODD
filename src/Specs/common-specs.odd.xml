@@ -1654,7 +1654,34 @@
         </elementSpec>
     </specGrp>
 
-    <specGrp xml:id="hwh-textstructure"/>
+    <specGrp xml:id="hwh-textstructure">
+        <elementSpec ident="dateline" mode="change" module="textstructure">
+            <constraintSpec scheme="schematron" ident="hwhPositioning" mode="add">
+                <desc versionDate="2021-11-16" xml:lang="en">Warnings for attributes with senseless combinations of values.</desc>
+                <desc versionDate="2021-11-16" xml:lang="de">Warnung vor Attributen mit sinnlosen Wert-Kombinationen.</desc>
+                <constraint>
+                    <sch:rule context="tei:dateline/@rend[not(contains(.,' '))]">
+                        <sch:assert test=". = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
+                    </sch:rule>
+                    <sch:rule context="tei:dateline/@rend">
+                        <sch:assert test="tokenize(.)[1] = ('top','middle','bottom')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
+                        <sch:assert test="tokenize(.)[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec>
+            <attList>
+                <attDef ident="rend" mode="change" usage="opt">
+                    <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
+                    <desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
+                    <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
+                    <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
+                    <datatype minOccurs="1" maxOccurs="2">
+                        <dataRef key="hwhdata.positioning"/>
+                    </datatype>
+                </attDef>
+            </attList>
+        </elementSpec>
+    </specGrp>
 
     <specGrp xml:id="hwh-textcrit">
         <elementSpec ident="handShift" mode="change" module="textcrit">
