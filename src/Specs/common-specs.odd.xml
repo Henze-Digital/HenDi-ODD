@@ -243,7 +243,7 @@
                 </rng:data>
             </content>
         </macroSpec>
-
+        
     </specGrp>
 
     <specGrp xml:id="hwh-lists">
@@ -640,7 +640,7 @@
                 </valList>
             </content>
         </dataSpec>
-        <dataSpec ident="hwhdata.positioning" mode="add">
+        <dataSpec ident="hwhdata.position" mode="add">
             <desc>A closed list of values to be used with a <att>rend</att> attribute on e.g. <gi>dateline</gi>.</desc>
             <content>
                 <valList type="closed">
@@ -671,7 +671,6 @@
                 </valList>
             </content>
         </dataSpec>
-
         <dataSpec ident="hwh.biblio.types" mode="add">
             <desc>A closed list of values to be used with a <att>type</att> attribute on e.g. <gi>biblStruct</gi>.</desc>
             <content>
@@ -723,7 +722,6 @@
                 </valList>
             </content>
         </dataSpec>
-
         <dataSpec ident="teidata.language" mode="change">
             <desc>A closed list of values to be used with a <att>ident</att> attribute on e.g. <gi>language</gi>. The values follow ISO-639-1 (except "noRecord" which is used as wildcard).</desc>
             <content>
@@ -915,6 +913,19 @@
                 </sch:rule>
             </constraint>
         </constraintSpec>
+        <constraintSpec scheme="schematron" ident="renditionWithPosition">
+            <desc versionDate="2021-11-16" xml:lang="en">Warnings for attributes with senseless combinations of values.</desc>
+            <desc versionDate="2021-11-16" xml:lang="de">Warnung vor Attributen mit sinnlosen Wert-Kombinationen.</desc>
+            <constraint>
+                <sch:rule context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
+                    <sch:assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:addrLine[@rend] | tei:dateline[@rend]">
+                    <sch:assert test="tokenize(@rend, ' ')[1] = ('top','middle','bottom')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
+                    <sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hwh-styleguides">
@@ -948,37 +959,19 @@
             </attList>
         </elementSpec>
         
-        <!--<elementSpec ident="addrLine" mode="change" module="core">
-            <gloss versionDate="2013-11-11" xml:lang="en">address line</gloss>
-            <desc versionDate="2013-11-11" xml:lang="en">contains one line of a postal address.</desc>
-            <gloss versionDate="2013-11-11" xml:lang="de">Adresszeile</gloss>
-            <desc versionDate="2013-11-11" xml:lang="de">enthält eine postalische Adresse.</desc>
-            <classes mode="change">
-                <memberOf key="att.global" mode="delete"/>
-            </classes>
+        <elementSpec ident="addrLine" mode="change" module="core">
             <attList>
-                <attDef ident="n" mode="add" usage="opt">
-                    <gloss versionDate="2013-11-11" xml:lang="en">number</gloss>
-                    <desc versionDate="2013-11-11" xml:lang="en">gives a number (or other label) for an element, which is not necessarily unique within the document.</desc>
-                    <gloss versionDate="2018-03-29" xml:lang="de">Nummer</gloss>
-                    <desc versionDate="2013-11-11" xml:lang="de">gibt dem Element eine Nummer (oder eine andere Bezeichnung), die nicht unbedingt eindeutig im Dokument ist.</desc>
-                    <valList type="closed">
-                        <valItem ident="telephone">
-                            <desc versionDate="2013-11-11" xml:lang="en">telephone number of the relevant correspondent in the address line.</desc>
-                            <desc versionDate="2013-11-11" xml:lang="de">Telefonnummer des entsprechenden Korrespondenten in der Adresszeile.</desc>
-                        </valItem>
-                        <valItem ident="email">
-                            <desc versionDate="2013-11-11" xml:lang="en">email of the relevant correspondent in the address line.</desc>
-                            <desc versionDate="2013-11-11" xml:lang="de">Email-Adresse des entsprechenden Korrespondenten in der Adresszeile.</desc>
-                        </valItem>
-                        <valItem ident="fax">
-                            <desc versionDate="2013-11-11" xml:lang="en">fax number of the relevant correspondent in the address line.</desc>
-                            <desc versionDate="2013-11-11" xml:lang="de">Fax-Nummer des entsprechenden Korrespondenten in der Adresszeile</desc>
-                        </valItem>
-                    </valList>
+                <attDef ident="rend" mode="add" usage="rec">
+                    <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
+                    <desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
+                    <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
+                    <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
+                    <datatype minOccurs="1" maxOccurs="2">
+                        <dataRef key="hwhdata.position"/>
+                    </datatype>
                 </attDef>
             </attList>
-        </elementSpec>-->
+        </elementSpec>
 
         <elementSpec ident="rs" mode="change" module="core">
             <constraintSpec scheme="schematron" ident="rs-typeNkey" mode="replace">
@@ -1665,19 +1658,6 @@
 
     <specGrp xml:id="hwh-textstructure">
         <elementSpec ident="dateline" mode="change" module="textstructure">
-            <constraintSpec scheme="schematron" ident="hwhPositioning" mode="add">
-                <desc versionDate="2021-11-16" xml:lang="en">Warnings for attributes with senseless combinations of values.</desc>
-                <desc versionDate="2021-11-16" xml:lang="de">Warnung vor Attributen mit sinnlosen Wert-Kombinationen.</desc>
-                <constraint>
-                    <sch:rule context="tei:dateline/@rend[not(contains(.,' '))]">
-                        <sch:assert test=". = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
-                    </sch:rule>
-                    <sch:rule context="tei:dateline/@rend">
-                        <sch:assert test="tokenize(.)[1] = ('top','middle','bottom')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
-                        <sch:assert test="tokenize(.)[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
             <attList>
                 <attDef ident="rend" mode="change" usage="opt">
                     <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
@@ -1685,7 +1665,7 @@
                     <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
                     <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
                     <datatype minOccurs="1" maxOccurs="2">
-                        <dataRef key="hwhdata.positioning"/>
+                        <dataRef key="hwhdata.position"/>
                     </datatype>
                 </attDef>
             </attList>
