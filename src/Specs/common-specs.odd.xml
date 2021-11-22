@@ -1375,35 +1375,6 @@
         </elementSpec>
     
         <elementSpec ident="p" mode="change" module="core">
-            <!--<constraintSpec ident="abstractModel-structure-p" scheme="schematron" mode="change">
-                <constraint>
-                    <report xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" 
-                        test="(ancestor::tei:p or ancestor::tei:ab) 
-                        and not(parent::tei:exemplum
-                        |parent::tei:item
-                        |parent::tei:note
-                        |parent::tei:q
-                        |parent::tei:quote
-                        |parent::tei:remarks
-                        |parent::tei:said
-                        |parent::tei:sp
-                        |parent::tei:stage
-                        |parent::tei:cell
-                        |parent::tei:figure
-                        |parent::tei:footNote)">
-                        Abstract model violation: Paragraphs may not contain other paragraphs or ab elements.
-                    </report>
-                </constraint>
-            </constraintSpec>-->
-            <!--<constraintSpec ident="abstractModel-structure-l" scheme="schematron" mode="change">
-                <constraint>
-                    <report xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" 
-                        test="(ancestor::tei:l or ancestor::tei:lg) 
-                        and not(parent::tei:figure or parent::tei:note or ancestor::tei:floatingText or parent::tei:footNote)">
-                        Abstract model violation: Lines may not contain higher-level structural elements such as div, p, or ab, unless p is a child of figure or note, or is a descendant of floatingText.
-                    </report>
-                </constraint>
-            </constraintSpec>-->
             <attList>
                 <attDef ident="rend" mode="change" usage="opt">
                     <valList type="closed" mode="change">
@@ -1418,6 +1389,26 @@
                     </valList>
                 </attDef>
                 <attRef class="att.global" name="xml:id"/>
+            </attList>
+        </elementSpec>
+        <elementSpec ident="measure" mode="change" module="core">
+            <attList mode="change">
+                <attDef ident="unit" mode="add" usage="req">
+                    <valList type="closed" mode="add">
+                        <valItem ident="folio" mode="add">
+                            <gloss versionDate="2021-11-22" xml:lang="en">folio</gloss>
+                            <desc versionDate="2021-11-22" xml:lang="en">The number of folio.</desc>
+                            <gloss versionDate="2021-11-22" xml:lang="de">Folii</gloss>
+                            <desc versionDate="2021-11-22" xml:lang="de">Die Anzahl der Folii/Blätter.</desc>
+                        </valItem>
+                        <valItem ident="pages" mode="add">
+                            <gloss versionDate="2021-11-22" xml:lang="en">pages</gloss>
+                            <desc versionDate="2021-11-22" xml:lang="en">The number of written pages or pages that contain textual content.</desc>
+                            <gloss versionDate="2021-11-22" xml:lang="de">Seiten</gloss>
+                            <desc versionDate="2021-11-22" xml:lang="de">Die Anzahl der beschriebenen Seiten.</desc>
+                        </valItem>
+                    </valList>
+                </attDef>
             </attList>
         </elementSpec>
     </specGrp>
@@ -1849,7 +1840,53 @@
         </elementSpec>
     </specGrp>
 
-    <specGrp xml:id="hwh-msdescription"/>
+    <specGrp xml:id="hwh-msdescription">
+        <elementSpec ident="physDesc" mode="change" module="msdescription">
+            <gloss versionDate="2021-11-22" xml:lang="en">physical description</gloss>
+            <desc versionDate="2021-11-22" xml:lang="en">contains a full physical description of a source or source part, optionally subdivided using more specialized elements from the model.physDescPart class.</desc>
+            <gloss versionDate="2021-11-22" xml:lang="de">materielle Beschreibung</gloss>
+            <desc versionDate="2021-11-22" xml:lang="de">enthält eine komplette materielle Beschreibung einer Quelle oder Teile einer Quelle, gegebenenfalls unterteilt mit mehr spezifischen Elementen aus der model.physDescPart Klasse.</desc>
+            <constraintSpec scheme="schematron" ident="empty-physDesc">
+                <constraint>
+                    <sch:assert test="*"><sch:name/> must contain at least one p or objectDesc or accMat element</sch:assert>
+                </constraint>
+            </constraintSpec>
+            <content mode="replace">
+                <sequence>
+                    <classRef key="model.pLike" minOccurs="0"
+                        maxOccurs="unbounded"/>
+                    <classRef key="model.physDescPart"
+                        expand="sequenceOptional"/>
+                    <elementRef key="accMat" minOccurs="0"
+                        maxOccurs="unbounded"/>
+                </sequence>
+            </content>
+        </elementSpec>
+        <elementSpec ident="objectType" mode="change" module="msdescription">
+            <content mode="change">
+                <valList type="closed" mode="add">
+                    <valItem ident="Ts" mode="add">
+                        <gloss versionDate="2021-11-22" xml:lang="en">typoscript</gloss>
+                        <desc versionDate="2021-11-22" xml:lang="en"/>
+                        <gloss versionDate="2021-11-22" xml:lang="de">Typoscript</gloss>
+                        <desc versionDate="2021-11-22" xml:lang="de"/>
+                    </valItem>
+                    <valItem ident="eU" mode="add">
+                        <gloss versionDate="2021-11-22" xml:lang="en">selfsigned</gloss>
+                        <desc versionDate="2021-11-22" xml:lang="en"/>
+                        <gloss versionDate="2021-11-22" xml:lang="de">eigenhändige Unterschrift</gloss>
+                        <desc versionDate="2021-11-22" xml:lang="de"/>
+                    </valItem>
+                        <valItem ident="hssEintr" mode="add">
+                        <gloss versionDate="2021-11-22" xml:lang="en">handwirtten annotations</gloss>
+                        <desc versionDate="2021-11-22" xml:lang="en">Handwritten annotations by a person named in correspAction.</desc>
+                        <gloss versionDate="2021-11-22" xml:lang="de">handschrifliche Eintragungen</gloss>
+                        <desc versionDate="2021-11-22" xml:lang="de">Handschriftliche Eintragungen durch eine in der correspAction aufgeführte Person.</desc>
+                    </valItem>
+                </valList>                
+            </content>
+        </elementSpec>
+    </specGrp>
 
     <specGrp xml:id="hwh-figures"/>
 
