@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-11-22T07:47:45Z. .
+Schema generated from ODD source 2021-11-22T12:51:56Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -2331,6 +2331,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       <choice>
          <ref name="div"/>
       </choice>
+   </define>
+   <define name="model.divGenLike">
+      <notAllowed/>
    </define>
    <define name="model.encodingDescPart">
       <choice>
@@ -5161,13 +5164,51 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Textbereich) enthält einen Subdivision des front, body oder back Bereichs eines Textes. [4.1. Divisions of the Body]</a:documentation>
          <group>
             <zeroOrMore>
+               <ref name="model.pLike"/>
+            </zeroOrMore>
+            <zeroOrMore>
                <choice>
                   <ref name="model.divTop"/>
+                  <ref name="model.divBottom"/>
                   <ref name="model.global"/>
                </choice>
             </zeroOrMore>
             <optional>
                <group>
+                  <choice>
+                     <oneOrMore>
+                        <group>
+                           <choice>
+                              <ref name="model.divLike"/>
+                              <ref name="model.divGenLike"/>
+                           </choice>
+                           <zeroOrMore>
+                              <ref name="model.global"/>
+                           </zeroOrMore>
+                        </group>
+                     </oneOrMore>
+                     <group>
+                        <oneOrMore>
+                           <group>
+                              <ref name="model.common"/>
+                              <zeroOrMore>
+                                 <ref name="model.global"/>
+                              </zeroOrMore>
+                           </group>
+                        </oneOrMore>
+                        <zeroOrMore>
+                           <group>
+                              <choice>
+                                 <ref name="model.divLike"/>
+                                 <ref name="model.divGenLike"/>
+                              </choice>
+                              <zeroOrMore>
+                                 <ref name="model.global"/>
+                              </zeroOrMore>
+                           </group>
+                        </zeroOrMore>
+                     </group>
+                  </choice>
                   <zeroOrMore>
                      <group>
                         <ref name="model.divBottom"/>
