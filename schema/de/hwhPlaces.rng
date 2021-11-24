@@ -5,11 +5,11 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-10-28T15:00:34Z. .
+Schema generated from ODD source 2021-11-24T08:28:57Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding places at Henze-Digital 
---><!--This work is licensed under a  Creative Commons Attribution 3.0 Unported License (CC BY 3.0) .-->
+--><!--This work is licensed under a  Creative Commons Attribution 4.0 International License (CC BY 4.0) .-->
    <sch:ns xmlns:sch="http://purl.oclc.org/dsdl/schematron"
            prefix="tei"
            uri="http://www.tei-c.org/ns/1.0"/>
@@ -364,32 +364,22 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <define name="model.nameLike.agent">
-      <choice>
-         <ref name="characterName"/>
-      </choice>
+      <notAllowed/>
    </define>
    <define name="model.nameLike.agent_alternation">
-      <choice>
-         <ref name="characterName"/>
-      </choice>
+      <notAllowed/>
    </define>
    <define name="model.nameLike.agent_sequence">
-      <ref name="characterName"/>
+      <empty/>
    </define>
    <define name="model.nameLike.agent_sequenceOptional">
-      <optional>
-         <ref name="characterName"/>
-      </optional>
+      <empty/>
    </define>
    <define name="model.nameLike.agent_sequenceOptionalRepeatable">
-      <zeroOrMore>
-         <ref name="characterName"/>
-      </zeroOrMore>
+      <empty/>
    </define>
    <define name="model.nameLike.agent_sequenceRepeatable">
-      <oneOrMore>
-         <ref name="characterName"/>
-      </oneOrMore>
+      <notAllowed/>
    </define>
    <define name="model.segLike">
       <notAllowed/>
@@ -570,9 +560,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <notAllowed/>
    </define>
    <define name="model.noteLike">
-      <choice>
-         <ref name="footNote"/>
-      </choice>
+      <notAllowed/>
    </define>
    <define name="model.global.edit">
       <notAllowed/>
@@ -690,7 +678,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <ref name="model.placeStateLike"/>
          <ref name="idno"/>
          <ref name="model.persNamePart"/>
-         <ref name="workName"/>
       </choice>
    </define>
    <define name="model.nameLike_alternation">
@@ -700,7 +687,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <ref name="model.placeStateLike_alternation"/>
          <ref name="idno"/>
          <ref name="model.persNamePart_alternation"/>
-         <ref name="workName"/>
       </choice>
    </define>
    <define name="model.nameLike_sequence">
@@ -709,7 +695,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <ref name="model.placeStateLike_sequence"/>
       <ref name="idno"/>
       <ref name="model.persNamePart_sequence"/>
-      <ref name="workName"/>
    </define>
    <define name="model.nameLike_sequenceOptional">
       <optional>
@@ -726,9 +711,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </optional>
       <optional>
          <ref name="model.persNamePart_sequenceOptional"/>
-      </optional>
-      <optional>
-         <ref name="workName"/>
       </optional>
    </define>
    <define name="model.nameLike_sequenceOptionalRepeatable">
@@ -747,9 +729,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <zeroOrMore>
          <ref name="model.persNamePart_sequenceOptionalRepeatable"/>
       </zeroOrMore>
-      <zeroOrMore>
-         <ref name="workName"/>
-      </zeroOrMore>
    </define>
    <define name="model.nameLike_sequenceRepeatable">
       <oneOrMore>
@@ -766,9 +745,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </oneOrMore>
       <oneOrMore>
          <ref name="model.persNamePart_sequenceRepeatable"/>
-      </oneOrMore>
-      <oneOrMore>
-         <ref name="workName"/>
       </oneOrMore>
    </define>
    <define name="model.global">
@@ -1030,43 +1006,21 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                <value>approved</value>
             </choice>
          </attribute>
+         <attribute name="source">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>HWH</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Orte aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
+               <value>WeGA</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Orte aus dem Datenbestand der Weber-Gesamtausgabe (WeGA).</a:documentation>
+            </choice>
+         </attribute>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Bezeichner) liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</a:documentation>
             <data type="string">
                <param name="pattern">A13[0-9A-F]{5}</param>
             </data>
          </attribute>
-         <empty/>
-      </element>
-   </define>
-   <define name="characterName">
-      <element name="characterName">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Name eines Charakters) Name einer Rolle oder eines Charakters in einem Werk.</a:documentation>
-         <ref name="macro.phraseSeq"/>
-         <ref name="att.global.responsibility.attribute.cert"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="workName">
-      <element name="workName">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Name des Werkes (z.B. Komposition)</a:documentation>
-         <ref name="macro.phraseSeq"/>
-         <optional>
-            <attribute name="key">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</a:documentation>
-               <data type="string">
-                  <param name="pattern">A02[0-9A-F]{5}</param>
-               </data>
-            </attribute>
-         </optional>
-         <ref name="att.global.responsibility.attribute.cert"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="footNote">
-      <element name="footNote">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Spezielles Element für die Transkription einer Fußnote (die nicht unbedingt als solche dargestellt werden)</a:documentation>
-         <ref name="att.global.attribute.xmlid"/>
          <empty/>
       </element>
    </define>
@@ -1109,7 +1063,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:surname | tei:forename | tei:persName[not(@type)] | tei:author | tei:occupation | tei:settlement[not(tei:address)] | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)]">
+                context="tei:surname | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
          <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/>
          </sch:report>
       </sch:rule>
@@ -1223,7 +1177,19 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-lbInsideAddress-constraint-rule-21">
+            id="hwhPlaces-nameTypeRequirement-constraint-rule-21">
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="tei:name[not(ancestor::tei:teiHeader)]">
+         <sch:assert test="@type">@type is required at <sch:name/>.</sch:assert>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhPlaces-lbInsideAddress-constraint-rule-22">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1236,7 +1202,98 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-styleguide-document-node-content-constraint-rule-22">
+            id="hwhPlaces-renditionWithPosition-constraint-rule-23">
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
+         <sch:assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
+      </sch:rule>
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="tei:addrLine[@rend] | tei:dateline[@rend]">
+         <sch:assert test="tokenize(@rend, ' ')[1] = ('top','middle','bottom','inline')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
+         <sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
+      </sch:rule>
+   </pattern>
+   <sch:pattern xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                id="node-typeNkey"
+                abstract="true">
+      <sch:rule context="$node[@type='person'][@key]">
+         <sch:assert test="matches(@key, '^A00[0-9A-F]{5}$')">A type value of 'person' must have only one key, starting with 'A00'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='persons'][@key]">
+         <sch:assert test="matches(@key, '^(A00[0-9A-F]{5}\s)*A00[0-9A-F]{5}$')">A type value of 'persons' must have at least one key, each starting with 'A00'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='work'][@key]">
+         <sch:assert test="matches(@key, '^A02\d{5}$')">A type value of 'work' must have only one key, starting with 'A02'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='works'][@key]">
+         <sch:assert test="matches(@key, '^(A02\d{5}\s)*A02\d{5}$')">A type value of 'works' must have at least one key, each starting with 'A02'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='writing'][@key]">
+         <sch:assert test="matches(@key, '^A03\d{5}$')">A type value of 'writing' must have only one key, starting with 'A03'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='writings'][@key]">
+         <sch:assert test="matches(@key, '^(A03\d{5}\s)*A03\d{5}$')">A type value of 'writings' must have at least one key, each starting with 'A03'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='letter'][@key]">
+         <sch:assert test="matches(@key, '^A04\d{5}$')">A type value of 'letter' must have only one key, starting with 'A04'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='letters'][@key]">
+         <sch:assert test="matches(@key, '^(A04\d{5}\s)*A04\d{5}$')">A type value of 'letters' must have at least one key, each starting with 'A04'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='news'][@key]">
+         <sch:assert test="matches(@key, '^(A05\d{5}\s)*A05\d{5}$')">A type value of 'news' must have at least one key, starting with 'A05'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='diaryDay'][@key]">
+         <sch:assert test="matches(@key, '^A06\d{5}$')">A type value of 'diaryDay' must have only one key, starting with 'A06'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='diaryDays'][@key]">
+         <sch:assert test="matches(@key, '^(A06\d{5}\s)*A06\d{5}$')">A type value of 'diaryDays' must have at least one key, each starting with 'A06'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='org'][@key]">
+         <sch:assert test="matches(@key, '^A08\d{5}$')">A type value of 'org' must have only one key, starting with 'A08'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='orgs'][@key]">
+         <sch:assert test="matches(@key, '^(A08\d{5}\s)*A08\d{5}$')">A type value of 'orgs' must have at least one key, each starting with 'A08'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='document'][@key]">
+         <sch:assert test="matches(@key, '^A10\d{5}$')">A type value of 'document' must have only one key, starting with 'A10'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='documents'][@key]">
+         <sch:assert test="matches(@key, '^(A10\d{5}\s)*A10\d{5}$')">A type value of 'documents' must have at least one key, each starting with 'A10'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='biblio'][@key]">
+         <sch:assert test="matches(@key, '^(A11\d{5}\s)*A11\d{5}$')">A type value of 'biblio' must have at least one key, each starting with 'A11'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='addenda'][@key]">
+         <sch:assert test="matches(@key, '^A12\d{5}$')">A type value of 'addenda' must have only one key, starting with 'A12'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='place'][@key]">
+         <sch:assert test="matches(@key, '^A13\d{5}$')">A type value of 'place' must have only one key, starting with 'A13'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='places'][@key]">
+         <sch:assert test="matches(@key, '^(A13\d{5}\s)*A13\d{5}$')">A type value of 'places' must have at least one key, each starting with 'A13'</sch:assert>
+      </sch:rule>
+      <sch:rule context="$node[@type='mixed'][@key]">
+         <sch:assert test="count(distinct-values(for $i in tokenize(@key, '\s+') return substring($i, 1, 3))) gt 1">A type value of 'mixed' must have keys referring to different document types</sch:assert>
+      </sch:rule>
+   </sch:pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhPlaces-styleguide-document-node-content-constraint-rule-45">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
