@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemaSpec ident="hwhLetters" xml:lang="en" start="TEI" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaLetters.compiled.xml"
-    xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-    
+<schemaSpec ident="hwhLetters" xml:lang="en" start="TEI" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaLetters.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+
     <desc>This is the customization for encoding letters at Henze-Digital</desc>
-    
+
     <moduleRef key="core"/>
     <elementRef key="foreign" source="tei:4.3.0"/>
     <elementRef key="measure" source="tei:4.3.0"/>
-    
+
     <moduleRef key="tei"/>
     <moduleRef key="header"/>
     <elementRef key="extent" source="tei:4.3.0"/>
-    
+
     <moduleRef key="textstructure"/>
-    
+
     <moduleRef key="namesdates"/>
     <elementRef key="bloc" source="tei:4.3.0"/>
     <elementRef key="district" source="tei:4.3.0"/>
     <!-- location, residence, offset -->
-    
+
     <moduleRef key="figures"/>
     <moduleRef key="transcr"/>
     <elementRef key="fw" source="tei:4.3.0"/>
-    
+
     <moduleRef key="msdescription" source="tei:4.3.0" except="additions bindingDesc decoDesc sealDesc"/>
-    
+
     <moduleRef key="linking"/>
     <moduleRef key="textcrit"/>
     <moduleRef key="gaiji"/>
-    
-        
-    
+
+
+
     <!-- ODD-specific elements like <elementSpec> and <classSpec>;
              or references to <specGrp>s defined above using <specGrpRef>. -->
-    
+
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-styleguides"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
@@ -55,89 +54,77 @@
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-macros"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-biblStruct"/>
-    
+
     <elementSpec ident="TEI" mode="change" module="core">
         <attList>
-        <attDef ident="status" usage="req" mode="add">
-            <datatype>
-                <dataRef key="hwh_docStatus.list"/>
-            </datatype>
-        </attDef>
-        <attDef ident="source" mode="add" usage="req">
-            <valList type="closed" mode="change">
-                <valItem ident="HWH" mode="add">
-                    <desc versionDate="2021-10-20" xml:lang="en">persons from the database of
-                        the Henze-Digital project (HWH).</desc>
-                    <desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand
-                        des Projektes Henze-Digital (HWH).</desc>
-                </valItem>
-            </valList>
-        </attDef>
+            <attDef ident="status" usage="req" mode="add">
+                <datatype>
+                    <dataRef key="hwh_docStatus.list"/>
+                </datatype>
+            </attDef>
+            <attDef ident="source" mode="add" usage="req">
+                <valList type="closed" mode="change">
+                    <valItem ident="HWH" mode="add">
+                        <desc versionDate="2021-10-20" xml:lang="en">persons from the database of the Henze-Digital project (HWH).</desc>
+                        <desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
+                    </valItem>
+                </valList>
+            </attDef>
         </attList>
     </elementSpec>
-    
+
     <elementSpec ident="teiHeader" module="header" mode="change">
         <constraintSpec scheme="isoschematron" ident="seriesTitle" mode="change">
             <constraint>
                 <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
-                    <sch:assert test=".=('Henze-Digital, Briefedition')">The series title must be 
-                        "Henze-Digital, Briefedition".</sch:assert>
+                    <sch:assert test=".=('Henze-Digital, Briefedition')">The series title must be "Henze-Digital, Briefedition".</sch:assert>
                 </sch:rule>
             </constraint>
         </constraintSpec>
     </elementSpec>
-    
+
     <elementSpec ident="div" mode="change" module="textstructure">
         <content>
             <sequence>
                 <sequence minOccurs="0" maxOccurs="unbounded">
-<!--                    <elementRef key="p"/>-->
+                    <!--                    <elementRef key="p"/>-->
                     <classRef key="model.pLike"/>
                 </sequence>
-                <alternate minOccurs="0"
-                    maxOccurs="unbounded">
+                <alternate minOccurs="0" maxOccurs="unbounded">
                     <classRef key="model.divTop"/>
                     <classRef key="model.divBottom"/>
                     <classRef key="model.global"/>
                 </alternate>
                 <sequence minOccurs="0">
                     <alternate>
-                        <sequence minOccurs="1"
-                            maxOccurs="unbounded">
+                        <sequence minOccurs="1" maxOccurs="unbounded">
                             <alternate>
                                 <classRef key="model.divLike"/>
                                 <classRef key="model.divGenLike"/>
                             </alternate>
-                            <classRef key="model.global"
-                                minOccurs="0" maxOccurs="unbounded"/>
+                            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
                         </sequence>
                         <sequence>
-                            <sequence minOccurs="1"
-                                maxOccurs="unbounded">
+                            <sequence minOccurs="1" maxOccurs="unbounded">
                                 <classRef key="model.common"/>
-                                <classRef key="model.global"
-                                    minOccurs="0" maxOccurs="unbounded"/>
+                                <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
                             </sequence>
-                            <sequence minOccurs="0"
-                                maxOccurs="unbounded">
+                            <sequence minOccurs="0" maxOccurs="unbounded">
                                 <alternate>
                                     <classRef key="model.divLike"/>
                                     <classRef key="model.divGenLike"/>
                                 </alternate>
-                                <classRef key="model.global"
-                                    minOccurs="0" maxOccurs="unbounded"/>
+                                <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
                             </sequence>
                         </sequence>
                     </alternate>
-                    <sequence minOccurs="0"
-                        maxOccurs="unbounded">
+                    <sequence minOccurs="0" maxOccurs="unbounded">
                         <classRef key="model.divBottom"/>
-                        <classRef key="model.global"
-                            minOccurs="0" maxOccurs="unbounded"/>
+                        <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
                     </sequence>
                     <sequence minOccurs="0" maxOccurs="unbounded">
                         <elementRef key="p"/>
-<!--                        <classRef key="model.pLike"/>-->
+                        <!--                        <classRef key="model.pLike"/>-->
                     </sequence>
                 </sequence>
             </sequence>
@@ -147,7 +134,10 @@
                 <desc versionDate="2021-10-19" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
                 <desc versionDate="2021-10-19" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
                 <datatype>
-                    <rng:value>writingSession</rng:value>
+                    <rng:choice>
+                        <rng:value>writingSession</rng:value>
+                        <rng:value>poem</rng:value>
+                    </rng:choice>
                 </datatype>
             </attDef>
             <attDef ident="n" mode="change" usage="opt">
@@ -164,9 +154,9 @@
             <p>For Henze-Digital the content model was changed. It was necessary to allow text blocs after the closer.</p>
         </remarks>
     </elementSpec>
-    
+
     <elementSpec ident="text" mode="change" module="textstructure">
-       <!-- <desc versionDate="2013-11-11" xml:lang="en">contains a single text of any kind, whether unitary or composite, for example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus sample.</desc>
+        <!-- <desc versionDate="2013-11-11" xml:lang="en">contains a single text of any kind, whether unitary or composite, for example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus sample.</desc>
         <desc versionDate="2013-11-11" xml:lang="de">enthält einen einzelnen Text jeglicher Art, ob einheitlich oder zusammengesetzt, beispielsweise ein Gedicht, ein Drama, eine Sammlung von Aufätzen, ein Roman, ein Wörterbuch, oder eine Sammlung.</desc> -->
         <attList>
             <attDef ident="type" mode="replace" usage="req">
@@ -252,7 +242,7 @@
             <p>Diese Klassifizierung richtet sich nach den Registern, die als Datenbasis für das Projekt Henze-Digital bereits vorlagen.</p>
         </remarks>
     </elementSpec>
-    
+
     <elementSpec ident="lb" module="core" mode="change">
         <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
         <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
@@ -275,7 +265,7 @@
             </attDef>
         </attList>
     </elementSpec>
-    
+
     <elementSpec ident="foreign" module="core" mode="change">
         <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
         <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
@@ -306,7 +296,7 @@
 
     <elementSpec ident="postscript" mode="change" module="textstructure">
         <desc versionDate="2013-11-11" xml:lang="en">contains a postscript, e.g. to a letter.</desc>
-        <desc versionDate="2013-11-11" xml:lang="de"></desc>
+        <desc versionDate="2013-11-11" xml:lang="de"/>
         <classes mode="change">
             <memberOf key="att.written" mode="delete"/>
             <memberOf key="att.global.rendition" mode="add"/>
