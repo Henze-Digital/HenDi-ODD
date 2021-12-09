@@ -50,7 +50,7 @@
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-thematicCommentaries.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-var.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-hwh_all.odd.xml"/>-->
-								<schemaSpec xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:sch="http://purl.oclc.org/dsdl/schematron" ident="hwhWorks" xml:lang="en" start="work" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaWorks.compiled.xml" xml:base="../Specs/schemaSpec-works.odd.xml"><macroSpec rend="add" ident="data.ACCIDENTAL.GESTURAL" module="MEI" type="dt">
+								<schemaSpec xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:sch="http://purl.oclc.org/dsdl/schematron" ident="hwhWorks" xml:lang="en" start="work" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaWorks.compiled.xml" ns="http://www.music-encoding.org/ns/mei" xml:base="../Specs/schemaSpec-works.odd.xml"><macroSpec rend="add" ident="data.ACCIDENTAL.GESTURAL" module="MEI" type="dt">
     <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">Gestural/performed accidental values.</desc>
     <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
       <valList type="closed">
@@ -2407,10 +2407,18 @@
                         <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>duplicate</value><value>deletion</value></choice>
                     </rng:attribute>
                     <rng:attribute name="target">
-                        <choice xmlns="http://relaxng.org/ns/structure/1.0"><ref name="wega.works.pointer"/></choice>
+                        <choice xmlns="http://relaxng.org/ns/structure/1.0"><ref name="hwh.works.pointer"/></choice>
                     </rng:attribute>
                     <rng:empty/>
-                </rng:element></choice></content><attList><attDef ident="status" usage="req">
+                </rng:element></choice></content><constraintSpec scheme="schematron" ident="lyrAndLibrPresent">
+            <desc versionDate="2021-12-09" xml:lang="en">Indicates the simultaneous use of lyricist and librettist.</desc>
+            <desc versionDate="2021-12-09" xml:lang="de">Weist auf die gleichzeitige Verwendung von lyricist und librettist hin.</desc>
+            <constraint>
+                <sch:rule context="mei:work">
+                    <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><attList><attDef ident="status" usage="req">
                 <datatype>
                     <dataRef key="hwh_docStatus.list"/>
                 </datatype>
@@ -3563,30 +3571,14 @@
       <p>This element is modelled on an element in the Text Encoding Initiative (TEI) and Encoded
         Archival Description (EAD) standards.</p>
     </remarks></elementSpec><elementSpec rend="add" ident="annot" module="MEI.shared" ns="http://www.music-encoding.org/ns/mei"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">(annotation) – Provides a statement explaining the text or indicating the basis for an
-      assertion.</desc><classes><memberOf key="model.annotLike"/><memberOf key="att.typed"/></classes><content><alternate minOccurs="1" maxOccurs="1"><alternate minOccurs="1" maxOccurs="unbounded"><classRef key="model.paracontentPart"/><textNode/></alternate><elementRef key="p" maxOccurs="unbounded"/></alternate></content><constraintSpec scheme="schematron" ident="annot-in-works">
-            <constraint>
-                <sch:report test="@type and not(parent::mei:notesStmt/parent::mei:manifestation)">No @type attribute needed here. This is only intended for notes statements within manifestations.</sch:report>
-            </constraint>
-        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" ident="Check_annot_data" scheme="isoschematron">
+      assertion.</desc><classes><memberOf key="model.annotLike"/><memberOf key="att.typed"/></classes><content><alternate minOccurs="1" maxOccurs="1"><alternate minOccurs="1" maxOccurs="unbounded"><classRef key="model.paracontentPart"/><textNode/></alternate><elementRef key="p" maxOccurs="unbounded"/></alternate></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" ident="Check_annot_data" scheme="isoschematron">
       <constraint>
         <sch:rule context="mei:annot[@data]">
           <sch:assert test="ancestor::mei:notesStmt">The @data attribute may only occur on an
             annotation within the notesStmt element.</sch:assert>
         </sch:rule>
       </constraint>
-    </constraintSpec><attList><attDef ident="class" mode="delete"/><attDef ident="type" mode="change" usage="opt">
-                <valList mode="replace" type="closed">
-                    
-                    <valItem ident="Kurzbeschreibung"/>
-                    <valItem ident="Anzeigen"/>
-                    <valItem ident="Anmerkungen"/>
-                    <valItem ident="no-ordinary-record"/>
-                    <valItem ident="Verweise"/>
-                    <valItem ident="Literatur"/>
-                    <valItem ident="Faksimile"/>
-                    <valItem ident="werkfremderInhalt"/>
-                </valList>
-            </attDef><attRef name="xml:id" class="att.id"/></attList><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    </constraintSpec><attList><attDef ident="class" mode="delete"/><attDef ident="type" mode="change" rend="change" usage="req"><valList mode="change" type="closed"><valItem ident="Kurzbeschreibung"/><valItem ident="Anmerkungen"/><valItem ident="no-ordinary-record"/><valItem ident="Verweise"/><valItem ident="pageSchott" mode="add"/></valList></attDef></attList><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
       <p>The <gi scheme="MEI">annot</gi> element can be used for both general comments and for
         annotations of the musical text. It provides a way to group participating *events* and/or
         *control events*, for example, the notes that form a descending bass line, and provide a
@@ -4387,7 +4379,160 @@
     </classes>
   </classSpec><classSpec rend="add" ident="att.staffGrp.anl" module="MEI.analytical" type="atts">
     <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">Analytical domain attributes.</desc>
-  </classSpec><desc>This is the customization for encoding works at Henze-Digital</desc><dataSpec rend="add" module="derived-module-hwhWorks" ident="hwh.persons.pointer">
+  </classSpec><desc>This is the customization for encoding works at Henze-Digital</desc><elementSpec rend="add" ident="perfDuration" module="MEI.header"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">(performance duration) – Used to express the duration of performance of printed or
+      manuscript music or the playing time for a sound recording, videorecording, etc.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      
+      <memberOf key="att.lang"/>
+      
+      <memberOf key="model.physDescPart"/>
+      <memberOf key="model.titlePagePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <ref xmlns="http://relaxng.org/ns/structure/1.0" name="macro.struc-unstrucContent"/>
+    </content><attList><attDef ident="isodur" usage="opt">
+        <desc>Holds a W3C duration value, e.g., "PT2H34M45.67S".</desc>
+        <datatype>
+          <rng:data type="duration"/>
+        </datatype>
+      </attDef></attList><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <p/>
+    </remarks></elementSpec><elementSpec rend="add" ident="contents" module="MEI.header"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">List of the material contained within a resource.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.pointing"/>
+      <memberOf key="model.titlePagePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="model.headLike"/></zeroOrMore>
+      <choice xmlns="http://relaxng.org/ns/structure/1.0"><optional><ref name="model.pLike"/></optional><oneOrMore><optional><ref name="label"/></optional><ref name="contentItem"/></oneOrMore></choice>
+    </content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" ident="checkContentsLabels" scheme="isoschematron">
+      <constraint>
+        <sch:rule context="mei:contents[mei:label]">
+          <sch:assert role="warning" test="count(mei:label) = count(mei:contentItem)">When labels
+            are used, usually each content item has one.</sch:assert>
+        </sch:rule>
+      </constraint>
+    </constraintSpec><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:space="preserve">
+<contents>
+  <p>A suitable tone ; Left hand colouring ; Rhythm and accent ; Tempo ; 
+    Flexibility ; Ornaments</p>
+</contents>
+            </egXML>
+    </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:space="preserve">
+<contents>
+  <head>Contents</head>
+  <label>1.</label><contentItem>Sonata in D major, op. V, no. 1 /
+     Corelli</contentItem>
+  <label>2.</label><contentItem>Sonata in G minor / Purcell (with Robert Donington,
+     gamba)</contentItem>
+  <label>3.</label><contentItem>Forlane from Concert royal no. 3 /
+     Couperin</contentItem>
+</contents>
+            </egXML>
+    </exemplum><exemplum xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+<contents target="http://www.contentProvider.org/toc/toc01.html"/>
+            </egXML>
+    </exemplum><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <p>Use this element to provide an enumeration of the contents of a bibliographic entity, like
+        that often found in a table of contents. When a detailed bibliographic description of
+        included material is desired, use the <gi scheme="MEI">componentList</gi> element
+        instead.</p>
+    </remarks></elementSpec><elementSpec rend="add" ident="contentItem" module="MEI.header"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">Contains a single entry within a content description element.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.lang"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.textPhraseLike"/><ref name="model.editLike"/><ref name="model.transcriptionLike"/></choice></zeroOrMore>
+    </content></elementSpec><elementSpec rend="add" ident="composer" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">The name of the creator of the intellectual content of a musical work.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.evidence"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="model.respLikePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.textPhraseLike.limited"/></choice></zeroOrMore>
+    </content></elementSpec><elementSpec rend="add" ident="arranger" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">A person or organization who transcribes a musical composition, usually for a different
+      medium from that of the original; in an arrangement the musical substance remains essentially
+      unchanged.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.evidence"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="model.respLikePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.textPhraseLike.limited"/></choice></zeroOrMore>
+    </content></elementSpec><elementSpec rend="add" ident="editor" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">The name of the individual(s), institution(s) or organization(s) acting in an editorial
+      capacity.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.evidence"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="model.respLikePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.textPhraseLike.limited"/></choice></zeroOrMore>
+    </content><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <p>This element is modelled on an element in the Text Encoding Initiative (TEI) standard.</p>
+    </remarks></elementSpec><elementSpec rend="add" ident="librettist" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">Person or organization who is a writer of the text of an opera, oratorio, etc.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.evidence"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="model.respLikePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.textPhraseLike.limited"/></choice></zeroOrMore>
+    </content></elementSpec><elementSpec rend="add" ident="lyricist" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">Person or organization who is a writer of the text of a song.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      <memberOf key="att.evidence"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="model.respLikePart"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.textPhraseLike.limited"/></choice></zeroOrMore>
+    </content></elementSpec><elementSpec rend="add" ident="biblList" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">List of bibliographic references.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="model.listLike"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="model.headLike"/></zeroOrMore>
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><group><optional><ref name="label"/></optional><ref name="model.biblLike"/></group><ref name="biblList"/></choice></zeroOrMore>
+    </content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" ident="checkBiblLabels" scheme="isoschematron">
+      <constraint>
+        <sch:rule context="mei:biblList[mei:label]">
+          <sch:assert role="warning" test="count(mei:label) = count(mei:bibl)">When labels are used,
+            usually each bibliographic item has one.</sch:assert>
+        </sch:rule>
+      </constraint>
+    </constraintSpec><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <p>This element is modelled on an element in the Text Encoding Initiative (TEI) standard.</p>
+    </remarks></elementSpec><elementSpec rend="add" ident="bibl" module="MEI.shared"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">(bibliographic reference) – Provides a loosely-structured bibliographic citation in which
+      the sub-components may or may not be explicitly marked.</desc><classes xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <memberOf key="att.common"/>
+      <memberOf key="att.bibl"/>
+      
+      <memberOf key="att.lang"/>
+      <memberOf key="att.pointing"/>
+      <memberOf key="model.biblLike"/>
+    </classes><content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0"/><ref name="model.biblPart"/><ref name="model.imprintPart"/><ref name="model.textPhraseLike"/></choice></zeroOrMore>
+    </content><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <p> <gi scheme="MEI">bibl</gi> may contain a mix of text and more specific elements such as
+        <gi scheme="MEI">title</gi>, <gi scheme="MEI">edition</gi>, <gi scheme="MEI">persName</gi>,
+        and <gi scheme="MEI">corpName</gi>. This element may also function as a hypertext reference
+        to an external electronic resource. Do not confuse this element with <gi scheme="MEI">ref</gi>, which does not provide special bibliographic sub-elements.</p>
+    </remarks><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <p>This element is modelled on elements in the Text Encoding Initiative (TEI) and Encoded
+        Archival Description (EAD) standards.</p>
+    </remarks></elementSpec><dataSpec rend="add" module="derived-module-hwhWorks" ident="hwh.persons.pointer">
             <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Personen-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for person IDs within Henze-Digital</desc>
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
@@ -4571,7 +4716,7 @@
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                        <sch:rule context="@key | @xml:id | @sameAs | @auth">
+                        <sch:rule context="@key | @xml:id | @sameAs | @codedval">
                             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>
@@ -4684,22 +4829,7 @@
             <sch:ns prefix="mei" uri="http://www.music-encoding.org/ns/mei"/>
             
         </constraint>
-    </constraintSpec><elementSpec rend="add" ident="composer" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc>Person(s) or organization(s) who is/are the creator(s) of the intellectual content of a musical work.</desc><content>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="persName"/></zeroOrMore>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="corpName"/></zeroOrMore>
-        </content></elementSpec><elementSpec rend="add" ident="arranger" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc>A person or organization who transcribes a musical composition, usually for a different medium from that of the original; in an arrangement the musical substance remains essentially unchanged.</desc><content>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="persName"/></zeroOrMore>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="corpName"/></zeroOrMore>
-        </content></elementSpec><elementSpec rend="add" ident="editor" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc>The name of the individual(s), institution(s) or organization(s) acting in an editorial capacity.</desc><content>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="persName"/></zeroOrMore>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="corpName"/></zeroOrMore>
-        </content></elementSpec><elementSpec rend="add" ident="lyricist" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc>Person or organization who is a writer of the text of a non dramatical work.</desc><content>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="persName"/></zeroOrMore>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="corpName"/></zeroOrMore>
-        </content></elementSpec><elementSpec rend="add" ident="librettist" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc>Person or organization who is a writer of the text of an opera, oratorio, etc.</desc><content>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="persName"/></zeroOrMore>
-            <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="corpName"/></zeroOrMore>
-        </content></elementSpec><elementSpec rend="add" ident="titlePart" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc versionDate="2021-12-08" xml:lang="de">Markiert einen Abschnitt eines Titels.</desc><desc versionDate="2021-12-08" xml:lang="en">marks a part of a title.</desc><content>
+    </constraintSpec><elementSpec rend="add" ident="titlePart" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei"><desc versionDate="2021-12-08" xml:lang="de">Markiert einen Abschnitt eines Titels.</desc><desc versionDate="2021-12-08" xml:lang="en">marks a part of a title.</desc><content>
             <rng:text/>
         </content><attList><attDef ident="type" mode="add" usage="req">
                 <valList type="closed">
