@@ -5,6 +5,8 @@
     <moduleRef key="MEI"/>
     <moduleRef key="MEI.edittrans"/>
     <moduleRef key="MEI.frbr"/>
+    <elementRef key="expressionList" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    
     <moduleRef key="MEI.header"/>
     <elementRef key="perfDuration" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="contents" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
@@ -20,8 +22,16 @@
     <elementRef key="lyricist" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="biblList" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="bibl" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="castList" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+<!--    <elementRef key="castGrp" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>-->
+    <elementRef key="castItem" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="roleDesc" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="role" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="desc" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     
     <moduleRef key="MEI.text"/>
+    <elementRef key="list" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    
     <moduleRef key="MEI.analytical"/>
     
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
@@ -148,21 +158,27 @@
                     <rng:oneOrMore>
                         <rng:ref name="title"/>
                     </rng:oneOrMore>
-                    <rng:ref name="composer"/>
+                    <rng:zeroOrMore>
+                        <rng:ref name="model.respLikePart" />
+                    </rng:zeroOrMore>
+                    <!--<rng:ref name="composer"/>
                     <rng:optional>
-                        <rng:ref name="arranger" ns="http://www.music-encoding.org/ns/mei"/>
+                        <rng:ref name="arranger"/>
                     </rng:optional>
                     <rng:optional>
-                        <rng:ref name="editor" ns="http://www.music-encoding.org/ns/mei"/>
+                        <rng:ref name="editor"/>
                     </rng:optional>
                     <rng:optional>
-                        <rng:ref name="librettist" ns="http://www.music-encoding.org/ns/mei"/>
+                        <rng:ref name="librettist"/>
                     </rng:optional>
                     <rng:optional>
-                        <rng:ref name="lyricist" ns="http://www.music-encoding.org/ns/mei"/>
-                    </rng:optional>
+                        <rng:ref name="lyricist"/>
+                    </rng:optional>-->
                     <rng:optional>
                         <rng:ref name="creation"/>
+                    </rng:optional>
+                    <rng:optional>
+                        <rng:ref name="eventList"/>
                     </rng:optional>
                     <rng:optional>
                         <rng:ref name="history"/>
@@ -218,7 +234,7 @@
             <desc versionDate="2021-12-09" xml:lang="en">Indicates the simultaneous use of lyricist and librettist.</desc>
             <desc versionDate="2021-12-09" xml:lang="de">Weist auf die gleichzeitige Verwendung von lyricist und librettist hin.</desc>
             <constraint>
-                <sch:rule context="mei:work">
+                <sch:rule context="mei:work | mei:expression">
                     <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
                 </sch:rule>
             </constraint>
@@ -240,11 +256,7 @@
         </attList>
     </elementSpec>
     
-    <!--<elementSpec ident="expression" module="MEI.frbr" mode="change" ns="http://www.music-encoding.org/ns/mei">
-        <classes>
-            <memberOf key="att.authorized.attributes" mode="delete"/>
-            <memberOf key="att.bibl.attributes" mode="delete"/>
-        </classes>
+    <elementSpec ident="expression" module="MEI.frbr" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <content>
             <rng:zeroOrMore>
                 <rng:ref name="model.headLike" />
@@ -252,9 +264,10 @@
             <rng:zeroOrMore>
                 <rng:ref name="model.identifierLike" />
             </rng:zeroOrMore>
-            <rng:oneOrMore>
-                <rng:ref name="title" />
-            </rng:oneOrMore>
+            <rng:ref name="title" />
+            <rng:optional>
+                <rng:ref name="desc" />
+            </rng:optional>
             <rng:zeroOrMore>
                 <rng:ref name="arranger" />
             </rng:zeroOrMore>
@@ -266,6 +279,9 @@
             </rng:zeroOrMore>
             <rng:optional>
                 <rng:ref name="creation" />
+            </rng:optional>
+            <rng:optional>
+                <rng:ref name="eventList"/>
             </rng:optional>
             <rng:optional>
                 <rng:ref name="history" />
@@ -295,7 +311,7 @@
                 <rng:ref name="relationList" />
             </rng:optional>
         </content>
-    </elementSpec>-->
+    </elementSpec>
     
     <!--<elementSpec ident="composer" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
         <desc>Person(s) or organization(s) who is/are the creator(s) of the intellectual content of a musical work.</desc>
@@ -845,4 +861,22 @@
             <attRef name="cert" class="att.evidence"/>
         </attList>
     </elementSpec>-->
+
+    <elementSpec ident="list" module="MEI.text" mode="change">
+        <desc><!--A formatting element that contains a series of items separated from one another and arranged in a linear, often vertical, sequence. Or -->A wrapper for persNames or corpNames</desc>
+        <content>
+            <!--<rng:zeroOrMore>
+                <rng:optional>
+                    <rng:ref name="label" />
+                </rng:optional>
+                <rng:ref name="li" />
+            </rng:zeroOrMore>-->
+            <rng:zeroOrMore>
+                <rng:ref name="persName"/>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="corpName"/>
+            </rng:zeroOrMore>
+        </content>
+    </elementSpec>
 </schemaSpec>
