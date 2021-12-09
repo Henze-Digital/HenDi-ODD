@@ -6,6 +6,10 @@
     <moduleRef key="MEI.edittrans"/>
     <moduleRef key="MEI.frbr"/>
     <moduleRef key="MEI.header"/>
+    <elementRef key="perfDuration" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="contents" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="contentItem" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    
     <moduleRef key="MEI.namesdates"/>
     <moduleRef key="MEI.ptrref"/>
     <moduleRef key="MEI.shared"/>
@@ -14,7 +18,8 @@
     <elementRef key="editor" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="librettist" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="lyricist" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
-    
+    <elementRef key="biblList" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+    <elementRef key="bibl" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
     
     <moduleRef key="MEI.text"/>
     <moduleRef key="MEI.analytical"/>
@@ -24,7 +29,6 @@
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-atts"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-constraints"/>
-<!--    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-mei-includeRemovals"/>-->
     
     <constraintSpec ident="set_ns" scheme="isoschematron" mode="add">
         <constraint>
@@ -144,7 +148,7 @@
                     <rng:oneOrMore>
                         <rng:ref name="title"/>
                     </rng:oneOrMore>
-                    <rng:ref name="composer" ns="http://www.music-encoding.org/ns/mei"/>
+                    <rng:ref name="composer"/>
                     <rng:optional>
                         <rng:ref name="arranger" ns="http://www.music-encoding.org/ns/mei"/>
                     </rng:optional>
@@ -210,6 +214,15 @@
                 </rng:element>
             </rng:choice>
         </content>
+        <constraintSpec scheme="schematron" ident="lyrAndLibrPresent">
+            <desc versionDate="2021-12-09" xml:lang="en">Indicates the simultaneous use of lyricist and librettist.</desc>
+            <desc versionDate="2021-12-09" xml:lang="de">Weist auf die gleichzeitige Verwendung von lyricist und librettist hin.</desc>
+            <constraint>
+                <sch:rule context="mei:work">
+                    <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
         <attList>
             <attDef ident="status" usage="req" mode="add">
                 <datatype>
@@ -227,7 +240,7 @@
         </attList>
     </elementSpec>
     
-    <elementSpec ident="expression" module="MEI.frbr" mode="change" ns="http://www.music-encoding.org/ns/mei">
+    <!--<elementSpec ident="expression" module="MEI.frbr" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <classes>
             <memberOf key="att.authorized.attributes" mode="delete"/>
             <memberOf key="att.bibl.attributes" mode="delete"/>
@@ -282,9 +295,9 @@
                 <rng:ref name="relationList" />
             </rng:optional>
         </content>
-    </elementSpec>
+    </elementSpec>-->
     
-    <elementSpec ident="composer" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
+    <!--<elementSpec ident="composer" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
         <desc>Person(s) or organization(s) who is/are the creator(s) of the intellectual content of a musical work.</desc>
         <content>
             <rng:zeroOrMore>
@@ -294,8 +307,8 @@
                 <rng:ref name="corpName"/>
             </rng:zeroOrMore>
         </content>
-    </elementSpec>
-    <elementSpec ident="arranger" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
+    </elementSpec>-->
+    <!--<elementSpec ident="arranger" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
         <desc>A person or organization who transcribes a musical composition, usually for a different medium from that of the original; in an arrangement the musical substance remains essentially unchanged.</desc>
         <content>
             <rng:zeroOrMore>
@@ -305,8 +318,8 @@
                 <rng:ref name="corpName"/>
             </rng:zeroOrMore>
         </content>
-    </elementSpec>
-    <elementSpec ident="editor" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
+    </elementSpec>-->
+    <!--<elementSpec ident="editor" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
         <desc>The name of the individual(s), institution(s) or organization(s) acting in an editorial capacity.</desc>
         <content>
             <rng:zeroOrMore>
@@ -316,8 +329,8 @@
                 <rng:ref name="corpName"/>
             </rng:zeroOrMore>
         </content>
-    </elementSpec>
-    <elementSpec ident="lyricist" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
+    </elementSpec>-->
+    <!--<elementSpec ident="lyricist" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
         <desc>Person or organization who is a writer of the text of a non dramatical work.</desc>
         <content>
             <rng:zeroOrMore>
@@ -327,8 +340,8 @@
                 <rng:ref name="corpName"/>
             </rng:zeroOrMore>
         </content>
-    </elementSpec>
-    <elementSpec ident="librettist" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
+    </elementSpec>-->
+    <!--<elementSpec ident="librettist" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
         <desc>Person or organization who is a writer of the text of an opera, oratorio, etc.</desc>
         <content>
             <rng:zeroOrMore>
@@ -338,7 +351,7 @@
                 <rng:ref name="corpName"/>
             </rng:zeroOrMore>
         </content>
-    </elementSpec>
+    </elementSpec>-->
     
     <!--<elementSpec ident="persName" module="MEI.namesdates" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <gloss versionDate="2013-11-11" xml:lang="en">personal name</gloss>
@@ -762,12 +775,8 @@
             </attDef>
         </attList>
     </elementSpec>-->
-    <!--<elementSpec ident="annot" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
-        <classes mode="replace">
-            <memberOf key="model.annotLike"/>
-            <memberOf key="att.typed"/>
-        </classes>
-        <content>
+    <elementSpec ident="annot" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
+        <!--<content>
             <alternate>
                 <alternate maxOccurs="unbounded">
                     <classRef key="model.paracontentPart"/>
@@ -775,30 +784,25 @@
                 </alternate>
                 <elementRef key="p" maxOccurs="unbounded"/>
             </alternate>
-        </content>
-        <constraintSpec scheme="schematron" ident="annot-in-works">
-            <constraint>
-                <sch:report test="@type and not(parent::mei:notesStmt/parent::mei:manifestation)">No @type attribute needed here. This is only intended for notes statements within manifestations.</sch:report>
-            </constraint>
-        </constraintSpec>
+        </content>-->
+        <constraintSpec scheme="schematron" ident="annot-in-works" mode="delete"/>
         <attList>
-            <attRef name="xml:id" class="att.id"/>
-            <attDef ident="class" mode="delete"/>
-            <attDef ident="type" mode="change" usage="opt">
-                <valList mode="replace" type="closed">
-                    <!-\- aktuelle Attributwerte bei sources -\->
-                    <valItem ident="Kurzbeschreibung"/>
-                    <valItem ident="Anzeigen"/>
-                    <valItem ident="Anmerkungen"/>
+            <attDef ident="type" mode="change" usage="req">
+                <valList mode="change" type="closed">
+                    <!-- aktuelle Attributwerte bei sources -->
+                    <!--<valItem ident="Kurzbeschreibung"/>-->
+                    <valItem ident="Anzeigen" mode="delete"/>
+                    <!--<valItem ident="Anmerkungen"/>
                     <valItem ident="no-ordinary-record"/>
-                    <valItem ident="Verweise"/>
-                    <valItem ident="Literatur"/>
-                    <valItem ident="Faksimile"/>
-                    <valItem ident="werkfremderInhalt"/>
+                    <valItem ident="Verweise"/>-->
+                    <valItem ident="Literatur" mode="delete"/>
+                    <valItem ident="Faksimile" mode="delete"/>
+                    <valItem ident="werkfremderInhalt" mode="delete"/>
+                    <valItem ident="pageSchott" mode="add"/>
                 </valList>
             </attDef>
         </attList>
-    </elementSpec>-->
+    </elementSpec>
     <!--<elementSpec ident="settlement" module="MEI.namesdates" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <classes mode="change">
             <memberOf key="model.nameLike.agent" mode="add"/>
