@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.music-encoding.org/ns/mei"><!--
-Schema generated from ODD source 2021-12-09T09:52:06Z. .
+Schema generated from ODD source 2021-12-09T11:43:02Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding works at Henze-Digital 
@@ -741,7 +741,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </choice>
    </define>
    <define name="expression">
-      <element name="expression">
+      <element name="expression" ns="http://www.music-encoding.org/ns/mei">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Intellectual or artistic realization of a work.</a:documentation>
          <zeroOrMore>
             <ref name="model.headLike"/>
@@ -749,17 +749,24 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <zeroOrMore>
             <ref name="model.identifierLike"/>
          </zeroOrMore>
-         <oneOrMore>
-            <ref name="model.titleLike"/>
-         </oneOrMore>
+         <ref name="title"/>
+         <optional>
+            <ref name="desc"/>
+         </optional>
          <zeroOrMore>
-            <ref name="model.respLikePart"/>
+            <ref name="arranger"/>
+         </zeroOrMore>
+         <zeroOrMore>
+            <ref name="editor"/>
          </zeroOrMore>
          <zeroOrMore>
             <ref name="model.workIdent"/>
          </zeroOrMore>
          <optional>
             <ref name="creation"/>
+         </optional>
+         <optional>
+            <ref name="eventList"/>
          </optional>
          <optional>
             <ref name="history"/>
@@ -773,9 +780,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <optional>
             <ref name="perfDuration"/>
          </optional>
-         <zeroOrMore>
-            <ref name="extent"/>
-         </zeroOrMore>
          <optional>
             <ref name="contents"/>
          </optional>
@@ -784,9 +788,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          </zeroOrMore>
          <optional>
             <ref name="notesStmt"/>
-         </optional>
-         <optional>
-            <ref name="classification"/>
          </optional>
          <optional>
             <ref name="componentList"/>
@@ -984,6 +985,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <ref name="model.nameLike.geogName"/>
          <ref name="model.addressLike"/>
          <ref name="model.dateLike"/>
+         <ref name="desc"/>
       </choice>
    </define>
    <define name="model.physDescPart">
@@ -1416,6 +1418,9 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <ref name="model.headLike"/>
          </zeroOrMore>
          <optional>
+            <ref name="castList"/>
+         </optional>
+         <optional>
             <ref name="perfResList"/>
          </optional>
          <zeroOrMore>
@@ -1718,21 +1723,14 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                <oneOrMore>
                   <ref name="title"/>
                </oneOrMore>
-               <ref name="composer"/>
-               <optional>
-                  <ref name="arranger"/>
-               </optional>
-               <optional>
-                  <ref name="editor"/>
-               </optional>
-               <optional>
-                  <ref name="librettist"/>
-               </optional>
-               <optional>
-                  <ref name="lyricist"/>
-               </optional>
+               <zeroOrMore>
+                  <ref name="model.respLikePart"/>
+               </zeroOrMore>
                <optional>
                   <ref name="creation"/>
+               </optional>
+               <optional>
+                  <ref name="eventList"/>
                </optional>
                <optional>
                   <ref name="history"/>
@@ -1757,6 +1755,9 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                </optional>
                <optional>
                   <ref name="classification"/>
+               </optional>
+               <optional>
+                  <ref name="expressionList"/>
                </optional>
                <optional>
                   <ref name="componentList"/>
@@ -1784,7 +1785,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="mei:work">
+                      context="mei:work | mei:expression">
                <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
             </sch:rule>
          </pattern>
@@ -4177,12 +4178,14 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             <zeroOrMore>
                <choice>
                   <ref name="model.eventPart"/>
+                  <ref name="castList"/>
                   <ref name="eventList"/>
                </choice>
             </zeroOrMore>
             <zeroOrMore>
                <choice>
                   <ref name="model.pLike"/>
+                  <ref name="list"/>
                </choice>
             </zeroOrMore>
          </choice>
@@ -4283,6 +4286,9 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <zeroOrMore>
             <ref name="model.headLike"/>
          </zeroOrMore>
+         <optional>
+            <ref name="role"/>
+         </optional>
          <optional>
             <empty/>
          </optional>
@@ -4926,17 +4932,23 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
       <choice>
          <ref name="eventList"/>
          <ref name="biblList"/>
+         <ref name="castList"/>
+         <ref name="list"/>
       </choice>
    </define>
    <define name="model.listLike_alternation">
       <choice>
          <ref name="eventList"/>
          <ref name="biblList"/>
+         <ref name="castList"/>
+         <ref name="list"/>
       </choice>
    </define>
    <define name="model.listLike_sequence">
       <ref name="eventList"/>
       <ref name="biblList"/>
+      <ref name="castList"/>
+      <ref name="list"/>
    </define>
    <define name="model.listLike_sequenceOptional">
       <optional>
@@ -4944,6 +4956,12 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
       </optional>
       <optional>
          <ref name="biblList"/>
+      </optional>
+      <optional>
+         <ref name="castList"/>
+      </optional>
+      <optional>
+         <ref name="list"/>
       </optional>
    </define>
    <define name="model.listLike_sequenceOptionalRepeatable">
@@ -4953,6 +4971,12 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
       <zeroOrMore>
          <ref name="biblList"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="castList"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="list"/>
+      </zeroOrMore>
    </define>
    <define name="model.listLike_sequenceRepeatable">
       <oneOrMore>
@@ -4960,6 +4984,12 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
       </oneOrMore>
       <oneOrMore>
          <ref name="biblList"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="castList"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="list"/>
       </oneOrMore>
    </define>
    <define name="model.qLike">
@@ -5124,6 +5154,19 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
    </define>
    <define name="att.staffGrp.anl.attributes">
       <empty/>
+   </define>
+   <define name="expressionList">
+      <element name="expressionList">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gathers bibliographic expression entities.</a:documentation>
+         <zeroOrMore>
+            <ref name="model.headLike"/>
+         </zeroOrMore>
+         <zeroOrMore>
+            <ref name="model.expressionLike"/>
+         </zeroOrMore>
+         <ref name="att.common.attributes"/>
+         <empty/>
+      </element>
    </define>
    <define name="perfDuration">
       <element name="perfDuration">
@@ -5319,6 +5362,145 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
          <empty/>
       </element>
    </define>
+   <define name="castList">
+      <element name="castList">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Contains a single cast list or dramatis personae.</a:documentation>
+         <zeroOrMore>
+            <ref name="model.headLike"/>
+         </zeroOrMore>
+         <oneOrMore>
+            <choice>
+               <ref name="castItem"/>
+            </choice>
+         </oneOrMore>
+         <ref name="att.common.attributes"/>
+         <ref name="att.bibl.attributes"/>
+         <ref name="att.lang.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="castItem">
+      <element name="castItem">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Contains a single entry within a cast list, describing either a single role or a list of non-speaking roles.</a:documentation>
+         <oneOrMore>
+            <choice>
+               <text/>
+               <ref name="role"/>
+               <ref name="roleDesc"/>
+               <ref name="perfRes"/>
+            </choice>
+         </oneOrMore>
+         <ref name="att.common.attributes"/>
+         <ref name="att.bibl.attributes"/>
+         <ref name="att.lang.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="roleDesc">
+      <element name="roleDesc">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(role description) – Describes a character's role in a drama.</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.textPhraseLike.limited"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.common.attributes"/>
+         <ref name="att.lang.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="role">
+      <element name="role">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Name of a dramatic role, as given in a cast list.</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.textPhraseLike.limited"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.common.attributes"/>
+         <ref name="att.lang.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="desc">
+      <element name="desc">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(description) – Container for text that briefly describes the feature to which it is attached, including its intended usage, purpose, or application as appropriate.</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.textPhraseLike.limited"/>
+               <ref name="model.editLike"/>
+               <ref name="model.transcriptionLike"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.common.attributes"/>
+         <ref name="att.lang.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="list">
+      <element name="list">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">A wrapper for persNames or corpNames</a:documentation>
+         <zeroOrMore>
+            <ref name="persName"/>
+         </zeroOrMore>
+         <zeroOrMore>
+            <ref name="corpName"/>
+         </zeroOrMore>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhWorks-list-list_type_constraint-constraint-rule-37">
+            <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="mei:list[contains(@type,'gloss')]">
+               <sch:assert test="count(mei:label) = count(mei:li)">In a list of type "gloss" all items
+            must be immediately preceded by a label.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <ref name="att.basic.attributes"/>
+         <ref name="att.labelled.attributes"/>
+         <ref name="att.lang.attributes"/>
+         <ref name="att.nNumberLike.attributes"/>
+         <ref name="att.xy.attributes"/>
+         <optional>
+            <attribute name="form">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Used to indicate the format of a list. In a "simple" list, <code xmlns="http://www.w3.org/1999/xhtml">&lt;li&gt;</code> elements are not numbered or bulleted. In a "marked" list, the sequence of the list items is not critical, and a bullet, box, dash, or other character is displayed at the start of each <code xmlns="http://www.w3.org/1999/xhtml">&lt;item&gt;</code>. In an "ordered" list, the sequence of the items is important, and each <code xmlns="http://www.w3.org/1999/xhtml">&lt;li&gt;</code> is lettered or numbered. Style sheet functions should be used to specify the mark or numeration system for each <code xmlns="http://www.w3.org/1999/xhtml">&lt;li&gt;</code>.</a:documentation>
+               <choice>
+                  <value>simple</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Items are not numbered or bulleted.</a:documentation>
+                  <value>marked</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bullet, box, dash, or other character is displayed before each item.</a:documentation>
+                  <value>ordered</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Each item is numbered or lettered.</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Captures the nature of the content of a list.
+Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllogism</a:documentation>
+               <choice>
+                  <value>gloss</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Each list item glosses some term or concept, which is given by a label element preceding the list item.</a:documentation>
+                  <value>index</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Each list item is an entry in an index such as the alphabetical topical index at the back of a print volume.</a:documentation>
+                  <value>instructions</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Each list item is a step in a sequence of instructions, as in a recipe.</a:documentation>
+                  <value>litany</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Each list item is one of a sequence of petitions, supplications or invocations, typically in a religious ritual.</a:documentation>
+                  <value>syllogism</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Each list item is part of an argument consisting of two or more propositions and a final conclusion derived from them.</a:documentation>
+                  <data type="NMTOKENS"/>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
    <define name="titlePart">
       <element name="titlePart" ns="http://www.music-encoding.org/ns/mei">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Markiert einen Abschnitt eines Titels.</a:documentation>
@@ -5343,7 +5525,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-styleguide-document-node-content-constraint-rule-37">
+            id="hwhWorks-styleguide-document-node-content-constraint-rule-38">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5356,7 +5538,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-whitespaceOnlyContent-constraint-rule-38">
+            id="hwhWorks-whitespaceOnlyContent-constraint-rule-39">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5369,7 +5551,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-elementStartsWithWhitespace-constraint-rule-39">
+            id="hwhWorks-elementStartsWithWhitespace-constraint-rule-40">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5382,7 +5564,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-untrimmedAttributeValues-constraint-rule-40">
+            id="hwhWorks-untrimmedAttributeValues-constraint-rule-41">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5394,7 +5576,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-hwhTargets-constraint-rule-41">
+            id="hwhWorks-hwhTargets-constraint-rule-42">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5406,7 +5588,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-emojiCheck-constraint-rule-42">
+            id="hwhWorks-emojiCheck-constraint-rule-43">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5418,7 +5600,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-sourceMustResolve-constraint-rule-43">
+            id="hwhWorks-sourceMustResolve-constraint-rule-44">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5478,7 +5660,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-addWithoutPlace-constraint-rule-45">
+            id="hwhWorks-addWithoutPlace-constraint-rule-46">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5490,7 +5672,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-nameTypeRequirement-constraint-rule-46">
+            id="hwhWorks-nameTypeRequirement-constraint-rule-47">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5502,7 +5684,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-lbInsideAddress-constraint-rule-47">
+            id="hwhWorks-lbInsideAddress-constraint-rule-48">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5515,7 +5697,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorks-renditionWithPosition-constraint-rule-48">
+            id="hwhWorks-renditionWithPosition-constraint-rule-49">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
