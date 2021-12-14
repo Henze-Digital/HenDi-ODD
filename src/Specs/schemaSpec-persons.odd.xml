@@ -226,42 +226,6 @@
                     </rng:group>-->
             </rng:choice>
         </content>
-        <constraintSpec scheme="schematron" ident="personHeuristics1">
-            <desc versionDate="2014-04-16" xml:lang="en">Check for birth dates that are <emph>after</emph> death dates (for dates AD).</desc>
-            <desc versionDate="2014-04-16" xml:lang="de">Test auf Geburtsdaten, die <emph>nach</emph> dem Todesdatum liegen (für Daten nach Christi Geburt).</desc>
-            <constraint>
-                <!--<sch:report test="count(./tei:persName[@subtype='birth']) > 1"
-                    >Mehrere Geburtsnamen gefunden</sch:report>-->
-                <!-- für Lebensdaten nach Christi Geburt -->
-                <sch:report
-                    test="./tei:birth/tei:date/(@when, @notBefore, @notAfter) > ./tei:death/tei:date/(@when, @notBefore, @notAfter) and not(./tei:death/tei:date/(@when, @notBefore, @notAfter)[starts-with(., '-')])"
-                    >Geburtsdatum nach Todesdatum</sch:report>
-                <!--<sch:report
-                    test="./tei:death/tei:date/@notBefore > ./tei:death/tei:date/@notAfter"
-                    >Datumsangabe notBefore nach notAfter</sch:report>-->
-                <!--<sch:report
-                    test=".//(tei:persName, tei:workName, tei:surname, tei:forename, tei:hi, tei:rs, tei:event, tei:note)[normalize-space(.) = '']"
-                    >Leeres Element gefunden</sch:report>-->
-            </constraint>
-        </constraintSpec>
-        <constraintSpec scheme="schematron" ident="personHeuristics2">
-            <desc versionDate="2014-04-16" xml:lang="en">Check for birth dates that are <emph>after</emph> death dates (for dates BC).</desc>
-            <desc versionDate="2014-04-16" xml:lang="de">Test auf Geburtsdaten, die <emph>nach</emph> dem Todesdatum liegen (für Daten vor Christi Geburt).</desc>
-            <constraint>
-                <!--<sch:report test="count(./tei:persName[@subtype='birth']) > 1"
-                    >Mehrere Geburtsnamen gefunden</sch:report>-->
-                <!-- für Lebensdaten vor Christi Geburt -->
-                <sch:report
-                    test="./tei:death/tei:date/(@when, @notBefore, @notAfter) > ./tei:birth/tei:date/(@when, @notBefore, @notAfter) and ./tei:death/tei:date/(@when, @notBefore, @notAfter)[starts-with(., '-')]"
-                    >Geburtsdatum nach Todesdatum</sch:report>
-                <!--<sch:report
-                    test="./tei:death/tei:date/@notBefore > ./tei:death/tei:date/@notAfter"
-                    >Datumsangabe notBefore nach notAfter</sch:report>-->
-                <!--<sch:report
-                    test=".//(tei:persName, tei:workName, tei:surname, tei:forename, tei:hi, tei:rs, tei:event, tei:note)[normalize-space(.) = '']"
-                    >Leeres Element gefunden</sch:report>-->
-            </constraint>
-        </constraintSpec>
         <constraintSpec scheme="schematron" ident="enforceWhitespace">
             <constraint>
                 <sch:rule context="tei:persName[@type][./*]">
