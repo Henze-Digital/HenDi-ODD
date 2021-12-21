@@ -39,7 +39,7 @@
 		<back>
 			<div>
 				<head>All the different schemaSpecs of Henze-Digital (HWH)</head>
-				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-biblio.odd.xml"/>-->
+				
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-diaries.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-documents.odd.xml"/>-->
 				
@@ -2547,7 +2547,7 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                        <sch:rule context="@key | @xml:id | @sameAs">
+                        <sch:rule context="@key | @xml:id | @sameAs | @codedval">
                             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>
@@ -2593,41 +2593,41 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
         </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="typeNkey">
             <constraint>
                 <sch:pattern id="node-typeNkey" abstract="true">
-                    <sch:rule context="$node[@type='person'][@key]">
+                    <sch:rule context="$node[@type='person'][@key]|$node[@type='character'][@key]|$node[@type='actingRole'][@key]|$node[@type='myth'][@key]">
                         <sch:assert test="matches(@key, '^A00[0-9A-F]{5}$')">A type value of 'person' must have only one key, starting with 'A00'</sch:assert>
                     </sch:rule>
-                    <sch:rule context="$node[@type='persons'][@key]">
+                    <sch:rule context="$node[@type='persons'][@key]|$node[@type='characters'][@key]|$node[@type='actingRoles'][@key]|$node[@type='myths'][@key]">
                         <sch:assert test="matches(@key, '^(A00[0-9A-F]{5}\s)*A00[0-9A-F]{5}$')">A type value of 'persons' must have at least one key, each starting with 'A00'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='work'][@key]">
-                        <sch:assert test="matches(@key, '^A02\d{5}$')">A type value of 'work' must have only one key, starting with 'A02'</sch:assert>
+                        <sch:assert test="matches(@key, '^A02[0-9A-F]{5}$')">A type value of 'work' must have only one key, starting with 'A02'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='works'][@key]">
-                        <sch:assert test="matches(@key, '^(A02\d{5}\s)*A02\d{5}$')">A type value of 'works' must have at least one key, each starting with 'A02'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A02[0-9A-F]{5}\s)*A02\d{5}$')">A type value of 'works' must have at least one key, each starting with 'A02'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='writing'][@key]">
-                        <sch:assert test="matches(@key, '^A03\d{5}$')">A type value of 'writing' must have only one key, starting with 'A03'</sch:assert>
+                        <sch:assert test="matches(@key, '^A03[0-9A-F]{5}$')">A type value of 'writing' must have only one key, starting with 'A03'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='writings'][@key]">
-                        <sch:assert test="matches(@key, '^(A03\d{5}\s)*A03\d{5}$')">A type value of 'writings' must have at least one key, each starting with 'A03'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A03[0-9A-F]{5}\s)*A03[0-9A-F]{5}$')">A type value of 'writings' must have at least one key, each starting with 'A03'</sch:assert>
                     </sch:rule>
-                    <sch:rule context="$node[@type='letter'][@key]">
-                        <sch:assert test="matches(@key, '^A04\d{5}$')">A type value of 'letter' must have only one key, starting with 'A04'</sch:assert>
+                    <sch:rule context="$node[@type='postal'][@key]">
+                        <sch:assert test="matches(@key, '^A04[0-9A-F]{5}$')">A type value of 'letter' must have only one key, starting with 'A04'</sch:assert>
                     </sch:rule>
-                    <sch:rule context="$node[@type='letters'][@key]">
-                        <sch:assert test="matches(@key, '^(A04\d{5}\s)*A04\d{5}$')">A type value of 'letters' must have at least one key, each starting with 'A04'</sch:assert>
+                    <sch:rule context="$node[@type='postals'][@key]">
+                        <sch:assert test="matches(@key, '^(A04[0-9A-F]{5}\s)*A04[0-9A-F]{5}$')">A type value of 'letters' must have at least one key, each starting with 'A04'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='news'][@key]">
-                        <sch:assert test="matches(@key, '^(A05\d{5}\s)*A05\d{5}$')">A type value of 'news' must have at least one key, starting with 'A05'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A05[0-9A-F]{5}\s)*A05[0-9A-F]{5}$')">A type value of 'news' must have at least one key, starting with 'A05'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='diaryDay'][@key]">
-                        <sch:assert test="matches(@key, '^A06\d{5}$')">A type value of 'diaryDay' must have only one key, starting with 'A06'</sch:assert>
+                        <sch:assert test="matches(@key, '^A06[0-9A-F]{5}$')">A type value of 'diaryDay' must have only one key, starting with 'A06'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='diaryDays'][@key]">
-                        <sch:assert test="matches(@key, '^(A06\d{5}\s)*A06\d{5}$')">A type value of 'diaryDays' must have at least one key, each starting with 'A06'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A06[0-9A-F]{5}\s)*A06[0-9A-F]{5}$')">A type value of 'diaryDays' must have at least one key, each starting with 'A06'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='org'][@key]">
-                        <sch:assert test="matches(@key, '^A08\d{5}$')">A type value of 'org' must have only one key, starting with 'A08'</sch:assert>
+                        <sch:assert test="matches(@key, '^A08[0-9A-F]{5}$')">A type value of 'org' must have only one key, starting with 'A08'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='orgs'][@key]">
                         <sch:assert test="matches(@key, '^(A08\d{5}\s)*A08\d{5}$')">A type value of 'orgs' must have at least one key, each starting with 'A08'</sch:assert>
@@ -2636,19 +2636,19 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                         <sch:assert test="matches(@key, '^A10\d{5}$')">A type value of 'document' must have only one key, starting with 'A10'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='documents'][@key]">
-                        <sch:assert test="matches(@key, '^(A10\d{5}\s)*A10\d{5}$')">A type value of 'documents' must have at least one key, each starting with 'A10'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A10[0-9A-F]{5}\s)*A10[0-9A-F]{5}$')">A type value of 'documents' must have at least one key, each starting with 'A10'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='biblio'][@key]">
-                        <sch:assert test="matches(@key, '^(A11\d{5}\s)*A11\d{5}$')">A type value of 'biblio' must have at least one key, each starting with 'A11'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A11[0-9A-F]{5}\s)*A11[0-9A-F]{5}$')">A type value of 'biblio' must have at least one key, each starting with 'A11'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='addenda'][@key]">
-                        <sch:assert test="matches(@key, '^A12\d{5}$')">A type value of 'addenda' must have only one key, starting with 'A12'</sch:assert>
+                        <sch:assert test="matches(@key, '^A12[0-9A-F]{5}$')">A type value of 'addenda' must have only one key, starting with 'A12'</sch:assert>
                     </sch:rule>
-                    <sch:rule context="$node[@type='place'][@key]">
-                        <sch:assert test="matches(@key, '^A13\d{5}$')">A type value of 'place' must have only one key, starting with 'A13'</sch:assert>
+                    <sch:rule context="$node[@type='place'][@key] | $node[@type='venue'][@key]">
+                        <sch:assert test="matches(@key, '^A13[0-9A-F]{5}$')">A type value of 'place' must have only one key, starting with 'A13'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='places'][@key]">
-                        <sch:assert test="matches(@key, '^(A13\d{5}\s)*A13\d{5}$')">A type value of 'places' must have at least one key, each starting with 'A13'</sch:assert>
+                        <sch:assert test="matches(@key, '^(A13[0-9A-F]{5}\s)*A13[0-9A-F]{5}$')">A type value of 'places' must have at least one key, each starting with 'A13'</sch:assert>
                     </sch:rule>
                     <sch:rule context="$node[@type='mixed'][@key]">
                         <sch:assert test="count(distinct-values(for $i in tokenize(@key, '\s+') return substring($i, 1, 3))) gt 1">A type value of 'mixed' must have keys referring to different document types</sch:assert>
@@ -2672,7 +2672,7 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-thematicCommentaries.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-var.odd.xml"/>-->
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-hwh_all.odd.xml"/>-->
-				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-works.odd.xml"/>-->
+								
 				<!--				<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-writings.odd.xml"/>-->
 			</div>
 		</back>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2021-11-24T19:22:00Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2021-12-21T13:10:54Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -150,7 +150,7 @@
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id | @sameAs">
+         <rule context="@key | @xml:id | @sameAs | @codedval">
             <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
@@ -181,41 +181,41 @@
       </rule>
    </pattern>
    <pattern id="node-typeNkey" abstract="true">
-      <rule context="$node[@type='person'][@key]">
+      <rule context="$node[@type='person'][@key]|$node[@type='character'][@key]|$node[@type='actingRole'][@key]|$node[@type='myth'][@key]">
          <assert test="matches(@key, '^A00[0-9A-F]{5}$')">A type value of 'person' must have only one key, starting with 'A00'</assert>
       </rule>
-      <rule context="$node[@type='persons'][@key]">
+      <rule context="$node[@type='persons'][@key]|$node[@type='characters'][@key]|$node[@type='actingRoles'][@key]|$node[@type='myths'][@key]">
          <assert test="matches(@key, '^(A00[0-9A-F]{5}\s)*A00[0-9A-F]{5}$')">A type value of 'persons' must have at least one key, each starting with 'A00'</assert>
       </rule>
       <rule context="$node[@type='work'][@key]">
-         <assert test="matches(@key, '^A02\d{5}$')">A type value of 'work' must have only one key, starting with 'A02'</assert>
+         <assert test="matches(@key, '^A02[0-9A-F]{5}$')">A type value of 'work' must have only one key, starting with 'A02'</assert>
       </rule>
       <rule context="$node[@type='works'][@key]">
-         <assert test="matches(@key, '^(A02\d{5}\s)*A02\d{5}$')">A type value of 'works' must have at least one key, each starting with 'A02'</assert>
+         <assert test="matches(@key, '^(A02[0-9A-F]{5}\s)*A02\d{5}$')">A type value of 'works' must have at least one key, each starting with 'A02'</assert>
       </rule>
       <rule context="$node[@type='writing'][@key]">
-         <assert test="matches(@key, '^A03\d{5}$')">A type value of 'writing' must have only one key, starting with 'A03'</assert>
+         <assert test="matches(@key, '^A03[0-9A-F]{5}$')">A type value of 'writing' must have only one key, starting with 'A03'</assert>
       </rule>
       <rule context="$node[@type='writings'][@key]">
-         <assert test="matches(@key, '^(A03\d{5}\s)*A03\d{5}$')">A type value of 'writings' must have at least one key, each starting with 'A03'</assert>
+         <assert test="matches(@key, '^(A03[0-9A-F]{5}\s)*A03[0-9A-F]{5}$')">A type value of 'writings' must have at least one key, each starting with 'A03'</assert>
       </rule>
-      <rule context="$node[@type='letter'][@key]">
-         <assert test="matches(@key, '^A04\d{5}$')">A type value of 'letter' must have only one key, starting with 'A04'</assert>
+      <rule context="$node[@type='postal'][@key]">
+         <assert test="matches(@key, '^A04[0-9A-F]{5}$')">A type value of 'letter' must have only one key, starting with 'A04'</assert>
       </rule>
-      <rule context="$node[@type='letters'][@key]">
-         <assert test="matches(@key, '^(A04\d{5}\s)*A04\d{5}$')">A type value of 'letters' must have at least one key, each starting with 'A04'</assert>
+      <rule context="$node[@type='postals'][@key]">
+         <assert test="matches(@key, '^(A04[0-9A-F]{5}\s)*A04[0-9A-F]{5}$')">A type value of 'letters' must have at least one key, each starting with 'A04'</assert>
       </rule>
       <rule context="$node[@type='news'][@key]">
-         <assert test="matches(@key, '^(A05\d{5}\s)*A05\d{5}$')">A type value of 'news' must have at least one key, starting with 'A05'</assert>
+         <assert test="matches(@key, '^(A05[0-9A-F]{5}\s)*A05[0-9A-F]{5}$')">A type value of 'news' must have at least one key, starting with 'A05'</assert>
       </rule>
       <rule context="$node[@type='diaryDay'][@key]">
-         <assert test="matches(@key, '^A06\d{5}$')">A type value of 'diaryDay' must have only one key, starting with 'A06'</assert>
+         <assert test="matches(@key, '^A06[0-9A-F]{5}$')">A type value of 'diaryDay' must have only one key, starting with 'A06'</assert>
       </rule>
       <rule context="$node[@type='diaryDays'][@key]">
-         <assert test="matches(@key, '^(A06\d{5}\s)*A06\d{5}$')">A type value of 'diaryDays' must have at least one key, each starting with 'A06'</assert>
+         <assert test="matches(@key, '^(A06[0-9A-F]{5}\s)*A06[0-9A-F]{5}$')">A type value of 'diaryDays' must have at least one key, each starting with 'A06'</assert>
       </rule>
       <rule context="$node[@type='org'][@key]">
-         <assert test="matches(@key, '^A08\d{5}$')">A type value of 'org' must have only one key, starting with 'A08'</assert>
+         <assert test="matches(@key, '^A08[0-9A-F]{5}$')">A type value of 'org' must have only one key, starting with 'A08'</assert>
       </rule>
       <rule context="$node[@type='orgs'][@key]">
          <assert test="matches(@key, '^(A08\d{5}\s)*A08\d{5}$')">A type value of 'orgs' must have at least one key, each starting with 'A08'</assert>
@@ -224,19 +224,19 @@
          <assert test="matches(@key, '^A10\d{5}$')">A type value of 'document' must have only one key, starting with 'A10'</assert>
       </rule>
       <rule context="$node[@type='documents'][@key]">
-         <assert test="matches(@key, '^(A10\d{5}\s)*A10\d{5}$')">A type value of 'documents' must have at least one key, each starting with 'A10'</assert>
+         <assert test="matches(@key, '^(A10[0-9A-F]{5}\s)*A10[0-9A-F]{5}$')">A type value of 'documents' must have at least one key, each starting with 'A10'</assert>
       </rule>
       <rule context="$node[@type='biblio'][@key]">
-         <assert test="matches(@key, '^(A11\d{5}\s)*A11\d{5}$')">A type value of 'biblio' must have at least one key, each starting with 'A11'</assert>
+         <assert test="matches(@key, '^(A11[0-9A-F]{5}\s)*A11[0-9A-F]{5}$')">A type value of 'biblio' must have at least one key, each starting with 'A11'</assert>
       </rule>
       <rule context="$node[@type='addenda'][@key]">
-         <assert test="matches(@key, '^A12\d{5}$')">A type value of 'addenda' must have only one key, starting with 'A12'</assert>
+         <assert test="matches(@key, '^A12[0-9A-F]{5}$')">A type value of 'addenda' must have only one key, starting with 'A12'</assert>
       </rule>
-      <rule context="$node[@type='place'][@key]">
-         <assert test="matches(@key, '^A13\d{5}$')">A type value of 'place' must have only one key, starting with 'A13'</assert>
+      <rule context="$node[@type='place'][@key] | $node[@type='venue'][@key]">
+         <assert test="matches(@key, '^A13[0-9A-F]{5}$')">A type value of 'place' must have only one key, starting with 'A13'</assert>
       </rule>
       <rule context="$node[@type='places'][@key]">
-         <assert test="matches(@key, '^(A13\d{5}\s)*A13\d{5}$')">A type value of 'places' must have at least one key, each starting with 'A13'</assert>
+         <assert test="matches(@key, '^(A13[0-9A-F]{5}\s)*A13[0-9A-F]{5}$')">A type value of 'places' must have at least one key, each starting with 'A13'</assert>
       </rule>
       <rule context="$node[@type='mixed'][@key]">
          <assert test="count(distinct-values(for $i in tokenize(@key, '\s+') return substring($i, 1, 3))) gt 1">A type value of 'mixed' must have keys referring to different document types</assert>
