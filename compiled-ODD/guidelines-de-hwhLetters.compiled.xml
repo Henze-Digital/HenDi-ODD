@@ -7998,6 +7998,17 @@ places, in particular where  multiple names are given.</p>
                 <constraint>
                     <sch:report test=".[@type]/ancestor::tei:teiHeader">Do not use the <sch:emph>type</sch:emph> attribute here!</sch:report>
                 </constraint>
+            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="duplicate-title">
+                <desc versionDate="2013-11-11" xml:lang="en">checks for the occurence of identical <gi>title</gi> elements (with the same bibliographic level and language)</desc>
+                <desc versionDate="2013-11-11" xml:lang="de">überprüft auf identische <gi>title</gi> Elemente (gleiche bibliographische Ebene und Sprache)</desc>
+                <constraint>
+                    <sch:rule context="tei:title[following-sibling::tei:title]">
+                        <sch:let name="level" value="@level"/>
+                        <sch:let name="type" value="string(@type)"/> 
+                        <sch:let name="lang" value="string(@xml:lang)"/>
+                        <sch:report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</sch:report>
+                    </sch:rule>
+                </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="punctuation-mark">
                 <desc versionDate="2014-11-24" xml:lang="en">reports when there is a punctuation mark at the end of the title (punctuation will be added automatically during rendering)</desc>
                 <desc versionDate="2014-11-24" xml:lang="de">warnt bei Satzendezeichen am Ende des Titels (denn Interpunktion wird beim Rendern automatisch hinzugefügt)</desc>
@@ -8029,7 +8040,7 @@ places, in particular where  multiple names are given.</p>
                             <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitung</desc>
                         </valItem>
                     </valList>
-                </attDef><attDef ident="level" usage="opt"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc><datatype xmlns:teix="http://www.tei-c.org/ns/Examples"><dataRef key="teidata.enumerated"/></datatype><valList xmlns:teix="http://www.tei-c.org/ns/Examples" type="closed">
+                </attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="level" usage="req"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc><datatype><dataRef key="teidata.enumerated"/></datatype><valList type="closed">
         <valItem ident="a">
           <gloss versionDate="2007-07-04" xml:lang="en">analytic</gloss>
           <gloss versionDate="2007-12-20" xml:lang="ko">분석적</gloss>
@@ -8160,7 +8171,7 @@ places, in particular where  multiple names are given.</p>
           <desc versionDate="2017-06-04" xml:lang="de">der Titel bezieht sich auf unveröffentliches Material (incl. universitäre
             Qualifikationsarbeiten, soweit sie nicht von einem Verlag veröffentlicht worden sind).</desc>
         </valItem>
-      </valList><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-05-23" xml:lang="en">
+      </valList><remarks versionDate="2009-05-23" xml:lang="en">
         <p>The level of a title is sometimes implied by its context:
         for example, a title appearing directly within an
         <gi>analytic</gi> element is <foreign>ipso facto</foreign> of
@@ -8173,7 +8184,7 @@ places, in particular where  multiple names are given.</p>
 	parent element. 
 	
 	</p>
-      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="fr" versionDate="2007-06-12">
+      </remarks><remarks xml:lang="fr" versionDate="2007-06-12">
         <p>Si le titre apparaît comme fils de l'élément
 <gi>analytic</gi>, l'attribut <att>level</att>,
 s'il est renseigné, doit avoir la valeur <q>a</q>
@@ -8186,7 +8197,7 @@ l'attribut <att>level</att> doit avoir la valeur
 <q>s</q>. Si le titre apparaît dans
 l'élément <gi>msItem</gi>, l'attribut level ne
 doit pas être utilisé.</p>
-      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="ja" versionDate="2008-04-05">
+      </remarks><remarks xml:lang="ja" versionDate="2008-04-05">
         <p> タイトルが要素<gi>analytic</gi>中にある場合，属性
 <att>level</att>があれば，値は必ず<q>a</q>となる．
 タイトルが要素<gi>monogr</gi>中にある場合，属性
@@ -8196,7 +8207,7 @@ doit pas être utilisé.</p>
 合，属性<att>level</att>の値は必ず<q>s</q>となる．タイトルが要
 素<gi>msItem</gi>中にある場合，当該属性値は付与されない．
                                         </p>
-      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">
+      </remarks><remarks versionDate="2017-06-04" xml:lang="de">
         <p>Der Typ eines Titels wird manchmal durch seinen Kontext bestimmt: wenn ein Titel z. B.
           innerhalb des Elements <gi>analytic</gi> verwendet wird, ist es <foreign>ipso facto</foreign>
           demnach Level <q>a</q>; ein Titel innerhalb eines <gi>series</gi>-Elements als Level <q>s</q>.
@@ -10409,11 +10420,7 @@ should be supplied for the <att>scheme</att> attribute.</p>
         </egXML>
     </exemplum><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
         <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD44CD">2.4.6. Correspondence Description</ref>
-    </listRef></elementSpec><elementSpec rend="change" module="header" ident="revisionDesc"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">revision description</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Beschreibung der Revision</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">summarizes the revision history for a file.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">fasst die Revisionsgeschichte einer Datei zusammen.</desc><classes/><content><oneOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="change"/></oneOrMore></content><attList><attDef ident="status" usage="req">
-                    <datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
-                        <dataRef key="hwh_docStatus.list"/>
-                    </datatype>
-                </attDef><attDef ident="status" usage="req" mode="change"/></attList><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    </listRef></elementSpec><elementSpec rend="change" module="header" ident="revisionDesc"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">revision description</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Beschreibung der Revision</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">summarizes the revision history for a file.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">fasst die Revisionsgeschichte einer Datei zusammen.</desc><classes/><content><oneOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="change"/></oneOrMore></content><attList><attDef ident="status" usage="req" mode="change"/></attList><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <revisionDesc status="embargoed">
         <change when="1991-11-11" who="#LB"> deleted chapter 10 </change>
