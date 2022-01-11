@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-11T15:58:02Z. .
+Schema generated from ODD source 2022-01-11T16:55:58Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -364,6 +364,17 @@ Beispielwerte sind etwa: 1] all; 2] most; 3] range</a:documentation>
          <sch:report test="matches((following-sibling::text() | following-sibling::element())[1], '^\s') or matches((preceding-sibling::text() | preceding-sibling::element())[last()], '\s$')">There must not be any whitespace before or after the <sch:name/> element when the @break attribute is applied.</sch:report>
       </sch:rule>
    </pattern>
+   <define name="att.cReferencing.attributes">
+      <ref name="att.cReferencing.attribute.cRef"/>
+   </define>
+   <define name="att.cReferencing.attribute.cRef">
+      <optional>
+         <attribute name="cRef">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(canonical reference) specifies the destination of the pointer by supplying a canonical reference expressed using the scheme defined in a <code xmlns="http://www.w3.org/1999/xhtml">&lt;refsDecl&gt;</code> element in the TEI header</a:documentation>
+            <data type="string"/>
+         </attribute>
+      </optional>
+   </define>
    <define name="att.datable.w3c.attributes">
       <ref name="att.datable.w3c.attribute.when"/>
       <ref name="att.datable.w3c.attribute.notBefore"/>
@@ -1160,17 +1171,20 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       <choice>
          <ref name="title"/>
          <ref name="foreign"/>
+         <ref name="term"/>
       </choice>
    </define>
    <define name="model.emphLike_alternation">
       <choice>
          <ref name="title"/>
          <ref name="foreign"/>
+         <ref name="term"/>
       </choice>
    </define>
    <define name="model.emphLike_sequence">
       <ref name="title"/>
       <ref name="foreign"/>
+      <ref name="term"/>
    </define>
    <define name="model.emphLike_sequenceOptional">
       <optional>
@@ -1178,6 +1192,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       </optional>
       <optional>
          <ref name="foreign"/>
+      </optional>
+      <optional>
+         <ref name="term"/>
       </optional>
    </define>
    <define name="model.emphLike_sequenceOptionalRepeatable">
@@ -1187,6 +1204,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       <zeroOrMore>
          <ref name="foreign"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="term"/>
+      </zeroOrMore>
    </define>
    <define name="model.emphLike_sequenceRepeatable">
       <oneOrMore>
@@ -1194,6 +1214,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       </oneOrMore>
       <oneOrMore>
          <ref name="foreign"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="term"/>
       </oneOrMore>
    </define>
    <define name="model.highlighted">
@@ -1234,29 +1257,29 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       <choice>
          <ref name="num"/>
          <ref name="dim"/>
-         <ref name="height"/>
          <ref name="depth"/>
-         <ref name="width"/>
          <ref name="measure"/>
+         <ref name="height"/>
+         <ref name="width"/>
       </choice>
    </define>
    <define name="model.measureLike_alternation">
       <choice>
          <ref name="num"/>
          <ref name="dim"/>
-         <ref name="height"/>
          <ref name="depth"/>
-         <ref name="width"/>
          <ref name="measure"/>
+         <ref name="height"/>
+         <ref name="width"/>
       </choice>
    </define>
    <define name="model.measureLike_sequence">
       <ref name="num"/>
       <ref name="dim"/>
-      <ref name="height"/>
       <ref name="depth"/>
-      <ref name="width"/>
       <ref name="measure"/>
+      <ref name="height"/>
+      <ref name="width"/>
    </define>
    <define name="model.measureLike_sequenceOptional">
       <optional>
@@ -1266,16 +1289,16 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
          <ref name="dim"/>
       </optional>
       <optional>
-         <ref name="height"/>
-      </optional>
-      <optional>
          <ref name="depth"/>
       </optional>
       <optional>
-         <ref name="width"/>
+         <ref name="measure"/>
       </optional>
       <optional>
-         <ref name="measure"/>
+         <ref name="height"/>
+      </optional>
+      <optional>
+         <ref name="width"/>
       </optional>
    </define>
    <define name="model.measureLike_sequenceOptionalRepeatable">
@@ -1286,16 +1309,16 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
          <ref name="dim"/>
       </zeroOrMore>
       <zeroOrMore>
-         <ref name="height"/>
-      </zeroOrMore>
-      <zeroOrMore>
          <ref name="depth"/>
       </zeroOrMore>
       <zeroOrMore>
-         <ref name="width"/>
+         <ref name="measure"/>
       </zeroOrMore>
       <zeroOrMore>
-         <ref name="measure"/>
+         <ref name="height"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="width"/>
       </zeroOrMore>
    </define>
    <define name="model.measureLike_sequenceRepeatable">
@@ -1306,16 +1329,16 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
          <ref name="dim"/>
       </oneOrMore>
       <oneOrMore>
-         <ref name="height"/>
-      </oneOrMore>
-      <oneOrMore>
          <ref name="depth"/>
       </oneOrMore>
       <oneOrMore>
-         <ref name="width"/>
+         <ref name="measure"/>
       </oneOrMore>
       <oneOrMore>
-         <ref name="measure"/>
+         <ref name="height"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="width"/>
       </oneOrMore>
    </define>
    <define name="model.egLike">
@@ -4924,34 +4947,6 @@ relatedItem element must be empty</sch:report>
          <empty/>
       </element>
    </define>
-   <define name="textClass">
-      <element name="textClass">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Textklassifikation) gruppiert Informationen über Art oder Thematik eines Textes unter Bezug auf ein Standard-Klassifikationsschema, einen Thesaurus o. ä.  [2.4.3. The Text Classification]</a:documentation>
-         <zeroOrMore>
-            <choice>
-               <ref name="keywords"/>
-            </choice>
-         </zeroOrMore>
-         <ref name="att.global.attributes"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="keywords">
-      <element name="keywords">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Schlagwörter) enthält eine Zusammenstellung von Schlagwörtern oder Phrasen zur Art oder Thematik des Textes. [2.4.3. The Text Classification]</a:documentation>
-         <choice>
-            <ref name="list"/>
-         </choice>
-         <ref name="att.global.attributes"/>
-         <optional>
-            <attribute name="scheme">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gibt das kontrollierte Vokabular an, in dem die benutzten Schlagwörter definiert sind. Dabei kann das <code xmlns="http://www.w3.org/1999/xhtml">@scheme</code>-Attribut auf ein <code xmlns="http://www.w3.org/1999/xhtml">&lt;taxonomy&gt;</code>-Element oder eine andere Ressource verweisen.</a:documentation>
-               <data type="anyURI"/>
-            </attribute>
-         </optional>
-         <empty/>
-      </element>
-   </define>
    <define name="correspDesc">
       <element name="correspDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(correspondence
@@ -6383,10 +6378,11 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
    </define>
    <define name="dimensions">
       <element name="dimensions">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(dimensions) contains a dimensional specification. []</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(dimensions) Gibt die (physicalischen) Abmessungen eines Objektes an. []</a:documentation>
          <zeroOrMore>
             <choice>
-               <ref name="dim"/>
+               <ref name="height"/>
+               <ref name="width"/>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6433,25 +6429,9 @@ Beispielwerte sind etwa: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniatu
          <empty/>
       </element>
    </define>
-   <define name="height">
-      <element name="height">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(height) contains a measurement measured along the axis at a right angle to the bottom of the object. []</a:documentation>
-         <ref name="att.global.attributes"/>
-         <ref name="att.dimensions.attributes"/>
-         <empty/>
-      </element>
-   </define>
    <define name="depth">
       <element name="depth">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(depth) contains a measurement from the front to the back of an object, perpendicular to the measurement given by the <code xmlns="http://www.w3.org/1999/xhtml">&lt;width&gt;</code> element. []</a:documentation>
-         <ref name="att.global.attributes"/>
-         <ref name="att.dimensions.attributes"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="width">
-      <element name="width">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(width) contains a measurement of an object along the axis parallel to its bottom, e.g. perpendicular to the spine of a book or codex. []</a:documentation>
          <ref name="att.global.attributes"/>
          <ref name="att.dimensions.attributes"/>
          <empty/>
@@ -7976,11 +7956,55 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <empty/>
       </element>
    </define>
+   <define name="term">
+      <element name="term">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Fachbegriff) enthält ein einzelnes Wort, Mehrworttermini oder symbolische Bezeichnungen, die als Fachbegriffe verstanden werden []</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.pointing.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <ref name="att.canonical.attributes"/>
+         <ref name="att.cReferencing.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="extent">
       <element name="extent">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(extent) beschreibt die ungefähre Größe des elektronischen Textes, die er auf einem Datenträger einnimmt; kann auch für andere digitale oder nicht digitale Objekte verwendet werden; die Angabe erfolgt in entsprechenden Maßeinheiten. [   ]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="textClass">
+      <element name="textClass">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Textklassifikation) gruppiert Informationen über Art oder Thematik eines Textes unter Bezug auf ein Standard-Klassifikationsschema, einen Thesaurus o. ä.  []</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <ref name="keywords"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="keywords">
+      <element name="keywords">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Schlagwörter) enthält eine Zusammenstellung von Schlagwörtern oder Phrasen zur Art oder Thematik des Textes. []</a:documentation>
+         <choice>
+            <oneOrMore>
+               <ref name="term"/>
+            </oneOrMore>
+            <ref name="list"/>
+         </choice>
+         <ref name="att.global.attributes"/>
+         <optional>
+            <attribute name="scheme">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gibt das kontrollierte Vokabular an, in dem die benutzten Schlagwörter definiert sind. Dabei kann das <code xmlns="http://www.w3.org/1999/xhtml">@scheme</code>-Attribut auf ein <code xmlns="http://www.w3.org/1999/xhtml">&lt;taxonomy&gt;</code>-Element oder eine andere Ressource verweisen.</a:documentation>
+               <data type="anyURI"/>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -8033,6 +8057,22 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
                </data>
             </attribute>
          </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="height">
+      <element name="height">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(height) contains a measurement measured along the axis at a right angle to the bottom of the object. []</a:documentation>
+         <ref name="att.global.attributes"/>
+         <ref name="att.dimensions.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="width">
+      <element name="width">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(width) contains a measurement of an object along the axis parallel to its bottom, e.g. perpendicular to the spine of a book or codex. []</a:documentation>
+         <ref name="att.global.attributes"/>
+         <ref name="att.dimensions.attributes"/>
          <empty/>
       </element>
    </define>
@@ -8222,7 +8262,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
          <xsl:value-of select="$check"/>
       </xsl:function>
       <sch:pattern id="idCheckDigit">
-         <sch:rule context="@key | @xml:id | @sameAs | @codedval">
+         <sch:rule context="@key | @xml:id[not(parent::tei:layout)] | @sameAs | @codedval">
             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
          </sch:rule>
       </sch:pattern>
