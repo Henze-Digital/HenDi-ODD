@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-11T17:02:23Z. .
+Schema generated from ODD source 2022-01-12T09:03:21Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -7041,14 +7041,17 @@ Beispielwerte sind etwa: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie
             </group>
          </choice>
          <ref name="att.global.attributes"/>
-         <optional>
-            <attribute name="form">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(form) a short project-specific name identifying the physical form of the carrier, for example as a codex, roll, fragment, partial leaf, cutting etc.</a:documentation>
-               <data type="token">
-                  <param name="pattern">[^\p{C}\p{Z}]+</param>
-               </data>
-            </attribute>
-         </optional>
+         <attribute name="form">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(form) a short project-specific name identifying the physical form of the carrier, for example as a codex, roll, fragment, partial leaf, cutting etc.</a:documentation>
+            <choice>
+               <value>letter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Brief) </a:documentation>
+               <value>telegram</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Telegramm) </a:documentation>
+               <value>postcard</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Postkarte) </a:documentation>
+            </choice>
+         </attribute>
          <empty/>
       </element>
    </define>
@@ -7976,6 +7979,18 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       <element name="term">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Fachbegriff) enthält ein einzelnes Wort, Mehrworttermini oder symbolische Bezeichnungen, die als Fachbegriffe verstanden werden []</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhLetters-term-controleContentOfTermElements-constraint-rule-50">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:textClass/tei:keywords/tei:term">
+               <sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typoscript')"
+                           role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
+               <sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typoscript','Typoskript')"
+                           role="warn">The values 'manuscript' and 'typoscript' should only occur in the first term.</sch:report>
+            </sch:rule>
+         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.declaring.attributes"/>
          <ref name="att.pointing.attributes"/>
@@ -8116,7 +8131,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-att.hwh.rend-underline-n-constraint-rule-84">
+            id="hwhLetters-att.hwh.rend-underline-n-constraint-rule-85">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8133,7 +8148,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-styleguide-document-node-content-constraint-rule-50">
+            id="hwhLetters-styleguide-document-node-content-constraint-rule-51">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8146,7 +8161,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-whitespaceOnlyContent-constraint-rule-51">
+            id="hwhLetters-whitespaceOnlyContent-constraint-rule-52">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8159,7 +8174,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-elementStartsWithWhitespace-constraint-rule-52">
+            id="hwhLetters-elementStartsWithWhitespace-constraint-rule-53">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8172,7 +8187,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-untrimmedAttributeValues-constraint-rule-53">
+            id="hwhLetters-untrimmedAttributeValues-constraint-rule-54">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8184,7 +8199,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-hwhTargets-constraint-rule-54">
+            id="hwhLetters-hwhTargets-constraint-rule-55">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8196,7 +8211,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-emojiCheck-constraint-rule-55">
+            id="hwhLetters-emojiCheck-constraint-rule-56">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8208,7 +8223,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-sourceMustResolve-constraint-rule-56">
+            id="hwhLetters-sourceMustResolve-constraint-rule-57">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8268,7 +8283,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-addWithoutPlace-constraint-rule-58">
+            id="hwhLetters-addWithoutPlace-constraint-rule-59">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8280,7 +8295,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-nameTypeRequirement-constraint-rule-59">
+            id="hwhLetters-nameTypeRequirement-constraint-rule-60">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8292,7 +8307,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-lbInsideAddress-constraint-rule-60">
+            id="hwhLetters-lbInsideAddress-constraint-rule-61">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8305,7 +8320,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-renditionWithPosition-constraint-rule-61">
+            id="hwhLetters-renditionWithPosition-constraint-rule-62">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8396,7 +8411,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhLetters-importName-constraint-rule-83">
+            id="hwhLetters-importName-constraint-rule-84">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
