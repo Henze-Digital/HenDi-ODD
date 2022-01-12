@@ -349,5 +349,18 @@
         </attList>
     </elementSpec>
     
+    <elementSpec ident="term" module="core" mode="change">
+        <constraintSpec scheme="schematron" ident="controleContentOfTermElements">
+            <desc xml:lang="de">Kontrolliert das Vokabular, welches als Inhalte für term Elemente in textClass verwendet wird.</desc>
+            <desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
+            <constraint>
+                <sch:rule context="tei:textClass/tei:keywords/tei:term">
+                    <sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typoscript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
+                    <sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typoscript','Typoskript')"
+                        role="warn">The values 'manuscript' and 'typoscript' should only occur in the first term.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+    </elementSpec>
     
 </schemaSpec>
