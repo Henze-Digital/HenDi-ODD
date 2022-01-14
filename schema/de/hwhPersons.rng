@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-05T11:16:46Z. .
+Schema generated from ODD source 2022-01-14T09:04:15Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -3692,7 +3692,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)]">
+                context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <sch:report test="normalize-space(.) = ''">
             <sch:name/> has whitespace only content</sch:report>
       </sch:rule>
@@ -3801,7 +3801,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <xsl:value-of select="$check"/>
       </xsl:function>
       <sch:pattern id="idCheckDigit">
-         <sch:rule context="@key | @xml:id | @sameAs | @codedval">
+         <sch:rule context="@key | @xml:id[not(parent::tei:layout)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target">
             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
          </sch:rule>
       </sch:pattern>

@@ -6183,6 +6183,17 @@ places, in particular where  multiple names are given.</p>
                 <constraint>
                     <sch:report test=".[@type]/ancestor::tei:teiHeader">Do not use the <sch:emph>type</sch:emph> attribute here!</sch:report>
                 </constraint>
+            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="duplicate-title">
+                <desc versionDate="2013-11-11" xml:lang="en">checks for the occurence of identical <gi>title</gi> elements (with the same bibliographic level and language)</desc>
+                <desc versionDate="2013-11-11" xml:lang="de">überprüft auf identische <gi>title</gi> Elemente (gleiche bibliographische Ebene und Sprache)</desc>
+                <constraint>
+                    <sch:rule context="tei:title[following-sibling::tei:title]">
+                        <sch:let name="level" value="@level"/>
+                        <sch:let name="type" value="string(@type)"/> 
+                        <sch:let name="lang" value="string(@xml:lang)"/>
+                        <sch:report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</sch:report>
+                    </sch:rule>
+                </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="punctuation-mark">
                 <desc versionDate="2014-11-24" xml:lang="en">reports when there is a punctuation mark at the end of the title (punctuation will be added automatically during rendering)</desc>
                 <desc versionDate="2014-11-24" xml:lang="de">warnt bei Satzendezeichen am Ende des Titels (denn Interpunktion wird beim Rendern automatisch hinzugefügt)</desc>
@@ -6214,7 +6225,7 @@ places, in particular where  multiple names are given.</p>
                             <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitung</desc>
                         </valItem>
                     </valList>
-                </attDef><attDef ident="level" usage="opt"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc><datatype xmlns:teix="http://www.tei-c.org/ns/Examples"><dataRef key="teidata.enumerated"/></datatype><valList xmlns:teix="http://www.tei-c.org/ns/Examples" type="closed">
+                </attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="level" usage="req"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc><datatype><dataRef key="teidata.enumerated"/></datatype><valList type="closed">
         <valItem ident="a">
           <gloss versionDate="2007-07-04" xml:lang="en">analytic</gloss>
           <gloss versionDate="2007-12-20" xml:lang="ko">분석적</gloss>
@@ -6345,7 +6356,7 @@ places, in particular where  multiple names are given.</p>
           <desc versionDate="2017-06-04" xml:lang="de">der Titel bezieht sich auf unveröffentliches Material (incl. universitäre
             Qualifikationsarbeiten, soweit sie nicht von einem Verlag veröffentlicht worden sind).</desc>
         </valItem>
-      </valList><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-05-23" xml:lang="en">
+      </valList><remarks versionDate="2009-05-23" xml:lang="en">
         <p>The level of a title is sometimes implied by its context:
         for example, a title appearing directly within an
         <gi>analytic</gi> element is <foreign>ipso facto</foreign> of
@@ -6358,7 +6369,7 @@ places, in particular where  multiple names are given.</p>
 	parent element. 
 	
 	</p>
-      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="fr" versionDate="2007-06-12">
+      </remarks><remarks xml:lang="fr" versionDate="2007-06-12">
         <p>Si le titre apparaît comme fils de l'élément
 <gi>analytic</gi>, l'attribut <att>level</att>,
 s'il est renseigné, doit avoir la valeur <q>a</q>
@@ -6371,7 +6382,7 @@ l'attribut <att>level</att> doit avoir la valeur
 <q>s</q>. Si le titre apparaît dans
 l'élément <gi>msItem</gi>, l'attribut level ne
 doit pas être utilisé.</p>
-      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="ja" versionDate="2008-04-05">
+      </remarks><remarks xml:lang="ja" versionDate="2008-04-05">
         <p> タイトルが要素<gi>analytic</gi>中にある場合，属性
 <att>level</att>があれば，値は必ず<q>a</q>となる．
 タイトルが要素<gi>monogr</gi>中にある場合，属性
@@ -6381,7 +6392,7 @@ doit pas être utilisé.</p>
 合，属性<att>level</att>の値は必ず<q>s</q>となる．タイトルが要
 素<gi>msItem</gi>中にある場合，当該属性値は付与されない．
                                         </p>
-      </remarks><remarks xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">
+      </remarks><remarks versionDate="2017-06-04" xml:lang="de">
         <p>Der Typ eines Titels wird manchmal durch seinen Kontext bestimmt: wenn ein Titel z. B.
           innerhalb des Elements <gi>analytic</gi> verwendet wird, ist es <foreign>ipso facto</foreign>
           demnach Level <q>a</q>; ein Titel innerhalb eines <gi>series</gi>-Elements als Level <q>s</q>.
@@ -6562,21 +6573,11 @@ epistemology, methodology and history of
     structurée dans laquelle les sous-composants peuvent ou non être explicitement balisés.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">contiene una cita bibliográfica estructurada libremente,
     los componentes de la cual pueden nohaber sido etiquetados explícitamente.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">contiene una citazione bibliografica strutturata
     liberamente i cui componeneti potrebbero o meno essere codificati esplicitamente.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-13" xml:lang="de">enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit
-    ausgezeichnet sein können.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples">
-    <memberOf key="att.global"/>
-    <memberOf key="model.biblLike"/>
-    <memberOf key="model.biblPart"/>
-    
-    <memberOf key="att.typed"/>
-    
-    
-    
-    
-  </classes><content xmlns:teix="http://www.tei-c.org/ns/Examples">
-    
-      <alternate minOccurs="0" maxOccurs="unbounded"><textNode/><classRef key="model.gLike"/><classRef key="model.highlighted"/><classRef key="model.pPart.data"/><classRef key="model.pPart.edit"/><classRef key="model.segLike"/><classRef key="model.ptrLike"/><classRef key="model.biblPart"/><classRef key="model.global"/></alternate>
-    
-  </content><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    ausgezeichnet sein können.</desc><classes><memberOf key="att.global"/><memberOf key="model.biblLike"/><memberOf key="model.biblPart"/><memberOf key="att.typed"/></classes><content><alternate minOccurs="0" maxOccurs="unbounded"><textNode xmlns:teix="http://www.tei-c.org/ns/Examples"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.gLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.highlighted"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.pPart.data"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.pPart.edit"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.segLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.ptrLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.biblPart"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.global"/></alternate></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
+                    <datatype>
+                        <dataRef key="hwh.biblio.pointer"/>
+                    </datatype>
+                </attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <bibl>Blain, Clements and Grundy: Feminist Companion to Literature in English (Yale,
       1990)</bibl>
@@ -8080,7 +8081,7 @@ my <num type="ordinal" value="21">twenty-first</num> birthday</p>
             <desc versionDate="2014-03-05" xml:lang="en">Warnings for elements with whitespace only.</desc>
             <desc versionDate="2014-03-05" xml:lang="de">Warnung vor leeren (bzw. whitespace-only) Elementen.</desc>
             <constraint>
-                <sch:rule context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)]">
+                <sch:rule context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
                     <sch:report test="normalize-space(.) = ''"><sch:name/> has whitespace only content</sch:report>
                 </sch:rule>
             </constraint>
@@ -8165,7 +8166,7 @@ my <num type="ordinal" value="21">twenty-first</num> birthday</p>
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                        <sch:rule context="@key | @xml:id | @sameAs | @codedval">
+                        <sch:rule context="@key | @xml:id[not(parent::tei:layout)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target"> 
                             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-01-05T11:16:49Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-01-14T09:04:17Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -286,7 +286,7 @@
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hwhPersons-whitespaceOnlyContent-48">
-      <rule context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)]">
+      <rule context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <report test="normalize-space(.) = ''">
             <name/> has whitespace only content</report>
       </rule>
@@ -354,7 +354,7 @@
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id | @sameAs | @codedval">
+         <rule context="@key | @xml:id[not(parent::tei:layout)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target">
             <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
