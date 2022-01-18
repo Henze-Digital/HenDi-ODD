@@ -15,7 +15,13 @@
     <target name="mei" depends="worksMEI"/>
     <target name="all" depends="tei, mei"/>
     
-    <target name="init">
+    <target name="dir.check">
+        <condition property="dir.exists">
+            <available file="${compiledODD.dir}" type="dir"/>
+        </condition>
+    </target>
+    
+    <target name="init" depends="dir.check" unless="dir.exists">
         <mkdir dir="${compiledODD.dir}"/>
     </target>
     
