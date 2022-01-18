@@ -9,10 +9,11 @@
         <isset property="lang"/>
     </condition>
     
-    <target name="develop" depends="news"/>
-    <target name="tei" depends="letters,orgs,persons,places,biblio,reviews,news"/>
-    <target name="mei" depends="works"/>
-    <target name="all" depends="tei,mei,hwh_all"/>
+    <target name="develop" depends="worksTEI"/>
+    <target name="works" depends="worksMEI, worksTEI"/>
+    <target name="tei" depends="letters, orgs, persons, places, biblio, reviews, news, documents, thematicCommentaries, worksTEI"/>
+    <target name="mei" depends="worksMEI"/>
+    <target name="all" depends="tei, mei"/>
     
     <target name="init">
         <mkdir dir="${compiledODD.dir}"/>
@@ -35,14 +36,14 @@
         </antcall>
     </target>
     
-    <target name="diaries" depends="init">
+    <!--<target name="diaries" depends="init">
         <antcall target="process">
             <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
             <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhDiaries.rng"/>
             <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhDiaries.isosch"/>
             <param name="selectedSchema" value="hwhDiaries"/>
         </antcall>
-    </target>
+    </target>-->
     
     <target name="documents" depends="init">
         <antcall target="process">
@@ -71,6 +72,15 @@
         </antcall>
     </target>
     
+    <target name="orgs" depends="init">
+        <antcall target="process">
+            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
+            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhOrgs.rng"/>
+            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhOrgs.isosch"/>
+            <param name="selectedSchema" value="hwhOrgs"/>
+        </antcall>
+    </target>
+    
     <target name="persons" depends="init">
         <antcall target="process">
             <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
@@ -89,49 +99,12 @@
         </antcall>
     </target>
     
-    <target name="var" depends="init">
-        <antcall target="process">
-            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
-            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhVar.rng"/>
-            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhVar.isosch"/>
-            <param name="selectedSchema" value="hwhVar"/>
-        </antcall>
-    </target>
-    
-    <target name="hwh_all" depends="init">
-        <antcall target="process">
-            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
-            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwh_all.rng"/>
-            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwh_all.isosch"/>
-            <param name="selectedSchema" value="hwh_all"/>
-        </antcall>
-    </target>
-    
-    <target name="works" depends="init">
-        <antcall target="process">
-            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
-            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhWorks.rng"/>
-            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhWorks.isosch"/>
-            <param name="selectedSchema" value="hwhWorks"/>
-            <param name="source" value="${mei.source}"/>
-        </antcall>
-    </target>
-    
     <target name="reviews" depends="init">
         <antcall target="process">
             <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
             <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhReviews.rng"/>
             <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhReviews.isosch"/>
             <param name="selectedSchema" value="hwhReviews"/>
-        </antcall>
-    </target>
-   
-    <target name="orgs" depends="init">
-        <antcall target="process">
-            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
-            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhOrgs.rng"/>
-            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhOrgs.isosch"/>
-            <param name="selectedSchema" value="hwhOrgs"/>
         </antcall>
     </target>
     
@@ -144,6 +117,36 @@
         </antcall>
     </target>
     
+    <!--<target name="var" depends="init">
+        <antcall target="process">
+            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
+            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhVar.rng"/>
+            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhVar.isosch"/>
+            <param name="selectedSchema" value="hwhVar"/>
+        </antcall>
+    </target>-->
+    
+    <target name="worksMEI" depends="init">
+        <antcall target="process">
+            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
+            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhWorksMEI.rng"/>
+            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhWorksMEI.isosch"/>
+            <param name="selectedSchema" value="hwhWorksMEI"/>
+            <param name="source" value="${mei.source}"/>
+        </antcall>
+    </target>
+    
+    <target name="worksTEI" depends="init">
+        <antcall target="process">
+            <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
+            <param name="outputFileRNG" value="${basedir}/schema/${lang}/hwhWorksTEI.rng"/>
+            <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhWorksTEI.isosch"/>
+            <param name="selectedSchema" value="hwhWorksTEI"/>
+            <param name="source" value="${mei.source}"/>
+        </antcall>
+    </target>
+    
+    <!-- processing schema -->
     <target name="process">
         <basename property="inputFile.basename" file="${inputFile}" suffix=".xml"/>
         <!-- TEI is considered default source -->
