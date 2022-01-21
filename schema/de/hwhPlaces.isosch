@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-01-18T07:21:42Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-01-21T13:17:12Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -70,45 +70,61 @@
          <assert test="matches(., '^\-?\d+(\.\d+)? \-?\d+(\.\d+)?$')">There must be two coordinates, separated with a whitespace only (no comma!)</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-place-placeName_reg-10">
+   <pattern id="schematron-constraint-hwhPlaces-place-listorg-place-status-10">
+      <rule context="tei:place[not(parent::tei:listPlace)]">
+         <assert test="@status">@status is missing.</assert>
+      </rule>
+      <rule context="tei:place[parent::tei:listPlace]">
+         <report test="@status">@status is only for use at the root element.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hwhPlaces-place-listorg-place-source-11">
+      <rule context="tei:place[not(parent::tei:listPlace)]">
+         <assert test="@source">@source is missing.</assert>
+      </rule>
+      <rule context="tei:place[parent::tei:listPlace]">
+         <report test="@source">@source is only for use at the root element.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hwhPlaces-place-placeName_reg-12">
       <rule context="tei:place">
          <assert test="(tei:placeName[1][@type='reg'] and count(./tei:placeName[@type='reg']) = 1) or tei:ref">tei:place muss (genau) ein placeName@type="reg" enthalten</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-11">
+   <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-13">
       <rule context="document-node()">
          <report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</report>
          <report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-whitespaceOnlyContent-12">
+   <pattern id="schematron-constraint-hwhPlaces-whitespaceOnlyContent-14">
       <rule context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <report test="normalize-space(.) = ''">
             <name/> has whitespace only content</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-elementStartsWithWhitespace-13">
+   <pattern id="schematron-constraint-hwhPlaces-elementStartsWithWhitespace-15">
       <rule context="tei:surname | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
          <report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <name/>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-untrimmedAttributeValues-14">
+   <pattern id="schematron-constraint-hwhPlaces-untrimmedAttributeValues-16">
       <rule context="*">
          <report test="some $i in @* satisfies string-length(normalize-unicode(normalize-space(replace($i, ' | | | ', ' ')))) ne string-length($i)">There is some whitespace here at the beginning or end of some attribute value.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-hwhTargets-15">
+   <pattern id="schematron-constraint-hwhPlaces-hwhTargets-17">
       <rule context="*[starts-with(@target, 'hwh:')]">
          <assert test="matches(@target, '^hwh:A\d{2}[0-9A-F]{5}(#.+)?(\s+hwh:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hwh:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-emojiCheck-16">
+   <pattern id="schematron-constraint-hwhPlaces-emojiCheck-18">
       <rule context="*[some $i in text() satisfies normalize-space($i) ne '']">
          <report test="matches(.,                         '[⌚-⌛]|[⏩-⏬]|[⏰]|[⏳]|[◽-◾]|[☔-☕]|[♈-♓]|[♿]|[⚓]|[⚡]|[⚪-⚫]|[⚽-⚾]|[⛄-⛅]|[⛎]|[⛔]|[⛪]|[⛲-⛳]|[⛵]|[⛺]|[⛽]|[✅]|[✊-✋]|[✨]|[❌]|[❎]|[❓-❕]|[❗]|[➕-➗]|[➰]|[➿]|[⬛-⬜]|[⭐]|[⭕]|[🀄]|[🃏]|[🆎]|[🆑-🆚]|[🇦-🇿]|[🈁]|[🈚]|[🈯]|[🈲-🈶]|[🈸-🈺]|[🉐-🉑]|[🌀-🌠]|[🌭-🌯]|[🌰-🌵]|[🌷-🍼]|[🍾-🍿]|[🎀-🎓]|[🎠-🏄]|[🏅]|[🏆-🏊]|[🏏-🏓]|[🏠-🏰]|[🏴]|[🏸-🏿]|[🐀-🐾]|[👀]|[👂-📷]|[📸]|[📹-📼]|[📿]|[🔀-🔽]|[🕋-🕎]|[🕐-🕧]|[🕺]|[🖕-🖖]|[🖤]|[🗻-🗿]|[😀]|[😁-😐]|[😑]|[😒-😔]|[😕]|[😖]|[😗]|[😘]|[😙]|[😚]|[😛]|[😜-😞]|[😟]|[😠-😥]|[😦-😧]|[😨-😫]|[😬]|[😭]|[😮-😯]|[😰-😳]|[😴]|[😵-🙀]|[🙁-🙂]|[🙃-🙄]|[🙅-🙏]|[🚀-🛅]|[🛌]|[🛐]|[🛑-🛒]|[🛕]|[🛫-🛬]|[🛴-🛶]|[🛷-🛸]|[🛹]|[🛺]|[🟠-🟫]|[🤍-🤏]|[🤐-🤘]|[🤙-🤞]|[🤟]|[🤠-🤧]|[🤨-🤯]|[🤰]|[🤱-🤲]|[🤳-🤺]|[🤼-🤾]|[🤿]|[🥀-🥅]|[🥇-🥋]|[🥌]|[🥍-🥏]|[🥐-🥞]|[🥟-🥫]|[🥬-🥰]|[🥱]|[🥳-🥶]|[🥺]|[🥻]|[🥼-🥿]|[🦀-🦄]|[🦅-🦑]|[🦒-🦗]|[🦘-🦢]|[🦥-🦪]|[🦮-🦯]|[🦰-🦹]|[🦺-🦿]|[🧀]|[🧁-🧂]|[🧃-🧊]|[🧍-🧏]|[🧐-🧦]|[🧧-🧿]|[🩰-🩳]|[🩸-🩺]|[🪀-🪂]|[🪐-🪕]')">Text contains characters with Emoji presentation as default.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-sourceMustResolve-17">
+   <pattern id="schematron-constraint-hwhPlaces-sourceMustResolve-19">
       <rule context="*[starts-with(@source, '#')]">
          <let name="source" value="@source"/>
          <assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</assert>
@@ -155,23 +171,23 @@
          </rule>
       </pattern>
    </schema>
-   <pattern id="schematron-constraint-hwhPlaces-addWithoutPlace-19">
+   <pattern id="schematron-constraint-hwhPlaces-addWithoutPlace-21">
       <rule context="tei:add[not(parent::tei:subst)]">
          <assert test="@place">Missing @place, because this is no substitution here.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-nameTypeRequirement-20">
+   <pattern id="schematron-constraint-hwhPlaces-nameTypeRequirement-22">
       <rule context="tei:name[not(ancestor::tei:teiHeader)]">
          <assert test="@type">@type is required at <name/>.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-lbInsideAddress-21">
+   <pattern id="schematron-constraint-hwhPlaces-lbInsideAddress-23">
       <rule context="tei:lb">
          <report test="parent::tei:address" role="info">Does <name/> mark a new line inside the address? If yes, please use &lt;addrLine&gt; instead of <name/>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-renditionWithPosition-22">
+   <pattern id="schematron-constraint-hwhPlaces-renditionWithPosition-24">
       <rule context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
          <assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</assert>
       </rule>
@@ -242,12 +258,12 @@
          <assert test="count(distinct-values(for $i in tokenize(@key, '\s+') return substring($i, 1, 3))) gt 1">A type value of 'mixed' must have keys referring to different document types</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-importName-24">
+   <pattern id="schematron-constraint-hwhPlaces-importName-26">
       <rule context="tei:persName | tei:orgName | tei:placeName">
          <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-25">
+   <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-27">
       <rule context="document-node()">
          <report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</report>
          <report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</report>

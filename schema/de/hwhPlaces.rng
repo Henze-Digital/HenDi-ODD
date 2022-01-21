@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-18T07:21:40Z. .
+Schema generated from ODD source 2022-01-21T13:17:10Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding places at Henze-Digital 
@@ -977,19 +977,52 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                <empty/>
             </element>
             <group>
+               <zeroOrMore>
+                  <ref name="idno"/>
+               </zeroOrMore>
                <oneOrMore>
                   <ref name="placeName"/>
                </oneOrMore>
                <optional>
                   <ref name="location"/>
                </optional>
-               <zeroOrMore>
-                  <ref name="idno"/>
-               </zeroOrMore>
+               <optional>
+                  <ref name="listPlace"/>
+               </optional>
             </group>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-place-placeName_reg-constraint-assert-7">
+                  id="hwhPlaces-place-listorg-place-status-constraint-rule-12">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:place[not(parent::tei:listPlace)]">
+               <sch:assert test="@status">@status is missing.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:place[parent::tei:listPlace]">
+               <sch:report test="@status">@status is only for use at the root element.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhPlaces-place-listorg-place-source-constraint-rule-14">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:place[not(parent::tei:listPlace)]">
+               <sch:assert test="@source">@source is missing.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:place[parent::tei:listPlace]">
+               <sch:report test="@source">@source is only for use at the root element.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhPlaces-place-placeName_reg-constraint-assert-9">
             <rule context="tei:place">
                <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -998,23 +1031,27 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
                            test="(tei:placeName[1][@type='reg'] and count(./tei:placeName[@type='reg']) = 1) or tei:ref">tei:place muss (genau) ein placeName@type="reg" enthalten</sch:assert>
             </rule>
          </pattern>
-         <attribute name="status">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>proposed</value>
-               <value>candidate</value>
-               <value>approved</value>
-            </choice>
-         </attribute>
-         <attribute name="source">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>HWH</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Orte aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
-               <value>WeGA</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Orte aus dem Datenbestand der Weber-Gesamtausgabe (WeGA).</a:documentation>
-            </choice>
-         </attribute>
+         <optional>
+            <attribute name="status">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>proposed</value>
+                  <value>candidate</value>
+                  <value>approved</value>
+               </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="source">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>HWH</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Orte aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
+                  <value>WeGA</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Orte aus dem Datenbestand der Weber-Gesamtausgabe (WeGA).</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Bezeichner) liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</a:documentation>
             <data type="string">
@@ -1024,13 +1061,24 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <empty/>
       </element>
    </define>
+   <define name="listPlace">
+      <element name="listPlace">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of places) contains a list of places, optionally followed by a list of relationships (other than containment) defined amongst them. [ ]</a:documentation>
+         <oneOrMore>
+            <ref name="place"/>
+         </oneOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <start>
       <choice>
          <ref name="place"/>
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-styleguide-document-node-content-constraint-rule-12">
+            id="hwhPlaces-styleguide-document-node-content-constraint-rule-16">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1043,7 +1091,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-whitespaceOnlyContent-constraint-rule-13">
+            id="hwhPlaces-whitespaceOnlyContent-constraint-rule-17">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1056,7 +1104,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-elementStartsWithWhitespace-constraint-rule-14">
+            id="hwhPlaces-elementStartsWithWhitespace-constraint-rule-18">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1069,7 +1117,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-untrimmedAttributeValues-constraint-rule-15">
+            id="hwhPlaces-untrimmedAttributeValues-constraint-rule-19">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1081,7 +1129,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-hwhTargets-constraint-rule-16">
+            id="hwhPlaces-hwhTargets-constraint-rule-20">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1093,7 +1141,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-emojiCheck-constraint-rule-17">
+            id="hwhPlaces-emojiCheck-constraint-rule-21">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1105,7 +1153,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-sourceMustResolve-constraint-rule-18">
+            id="hwhPlaces-sourceMustResolve-constraint-rule-22">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1165,7 +1213,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-addWithoutPlace-constraint-rule-20">
+            id="hwhPlaces-addWithoutPlace-constraint-rule-24">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1177,7 +1225,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-nameTypeRequirement-constraint-rule-21">
+            id="hwhPlaces-nameTypeRequirement-constraint-rule-25">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1189,7 +1237,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-lbInsideAddress-constraint-rule-22">
+            id="hwhPlaces-lbInsideAddress-constraint-rule-26">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1202,7 +1250,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-renditionWithPosition-constraint-rule-23">
+            id="hwhPlaces-renditionWithPosition-constraint-rule-27">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1293,7 +1341,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-importName-constraint-rule-45">
+            id="hwhPlaces-importName-constraint-rule-49">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -1305,7 +1353,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-styleguide-document-node-content-constraint-rule-46">
+            id="hwhPlaces-styleguide-document-node-content-constraint-rule-50">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"

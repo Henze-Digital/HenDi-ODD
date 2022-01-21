@@ -6,6 +6,7 @@
     <moduleRef key="tei"/>
     <moduleRef key="header"/>
     <moduleRef key="namesdates"/>
+    <elementRef key="listPlace" source="tei:4.3.0"/>
     
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-styleguides"/>
@@ -51,32 +52,48 @@
                     <rng:empty/>
                 </rng:element>
                 <rng:group>
+                    <rng:zeroOrMore>
+                        <rng:ref name="idno"/>
+                    </rng:zeroOrMore>
                     <rng:oneOrMore>
                         <rng:ref name="placeName"/>
                     </rng:oneOrMore>
                     <rng:optional>
                         <rng:ref name="location"/>
                     </rng:optional>
-                    <rng:zeroOrMore>
-                        <rng:ref name="idno"/>
-                    </rng:zeroOrMore>
+                    <rng:optional>
+                        <rng:ref name="listPlace"/>
+                    </rng:optional>
                 </rng:group>
             </rng:choice>
         </content>
-        <!--<constraintSpec scheme="schematron" ident="placeName_reg">
-            <desc versionDate="2013-11-11" xml:lang="en"></desc>
-            <desc  versionDate="2013-11-11" xml:lang="de"></desc>
+        <constraintSpec scheme="schematron" ident="listorg-place-status">
             <constraint>
-                <sch:assert test="(tei:placeName[1][@type='reg'] and count(./tei:placeName[@type='reg']) = 1) or tei:ref">tei:place muss (genau) ein placeName@type="reg" enthalten</sch:assert>
+                <sch:rule context="tei:place[not(parent::tei:listPlace)]">
+                    <sch:assert test="@status">@status is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:place[parent::tei:listPlace]">
+                    <sch:report test="@status">@status is only for use at the root element.</sch:report>
+                </sch:rule>
             </constraint>
-        </constraintSpec>-->
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="listorg-place-source">
+            <constraint>
+                <sch:rule context="tei:place[not(parent::tei:listPlace)]">
+                    <sch:assert test="@source">@source is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:place[parent::tei:listPlace]">
+                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
         <attList>
-            <attDef ident="status" usage="req" mode="add">
+            <attDef ident="status" usage="rec" mode="add">
                 <datatype>
                     <dataRef key="hwh_docStatus.list"/>
                 </datatype>
             </attDef>
-            <attDef ident="source" mode="add" usage="req">
+            <attDef ident="source" mode="add" usage="rec">
                 <valList type="closed">
                     <valItem ident="HWH" mode="add">
                         <desc versionDate="2021-10-20" xml:lang="en">places from the database of
@@ -96,8 +113,13 @@
                 <datatype>
                     <dataRef key="hwh.places.pointer"/>
                 </datatype>
-            </attDef>            
+            </attDef>
         </attList>
     </elementSpec>
     
+    <elementSpec ident="listPlace" module="namesdates" mode="change">
+        <content>
+            <elementRef key="place" minOccurs="1" maxOccurs="unbounded"/>
+        </content>
+    </elementSpec>
 </schemaSpec>

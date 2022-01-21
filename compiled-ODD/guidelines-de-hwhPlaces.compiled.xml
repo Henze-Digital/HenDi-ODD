@@ -161,7 +161,8 @@
             <p/>
         </div>
         <div xml:id="DT-orgs">
-            <head>Institutionen</head>
+            <head>Organisationen/Institutionen</head>
+            <p>Die Datensatzstruktur ist </p>
         </div>
         <div xml:id="DT-biblio">
             <head>Literatur</head>
@@ -2809,17 +2810,35 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
                         <dataRef key="hwh.places.pointer"/>
                     </rng:attribute>
                     <rng:empty/>
-                </rng:element><group><oneOrMore><ref name="placeName"/></oneOrMore><optional><ref name="location"/></optional><zeroOrMore><ref name="idno"/></zeroOrMore></group></choice></content><constraintSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="placeName_reg">
+                </rng:element><group><zeroOrMore><ref name="idno"/></zeroOrMore><oneOrMore><ref name="placeName"/></oneOrMore><optional><ref name="location"/></optional><optional><ref name="listPlace"/></optional></group></choice></content><constraintSpec scheme="schematron" ident="listorg-place-status">
+            <constraint>
+                <sch:rule context="tei:place[not(parent::tei:listPlace)]">
+                    <sch:assert test="@status">@status is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:place[parent::tei:listPlace]">
+                    <sch:report test="@status">@status is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><constraintSpec scheme="schematron" ident="listorg-place-source">
+            <constraint>
+                <sch:rule context="tei:place[not(parent::tei:listPlace)]">
+                    <sch:assert test="@source">@source is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:place[parent::tei:listPlace]">
+                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><constraintSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="placeName_reg">
             <desc versionDate="2013-11-11" xml:lang="en"/>
             <desc versionDate="2013-11-11" xml:lang="de"/>
             <constraint>
                 <sch:assert test="(tei:placeName[1][@type='reg'] and count(./tei:placeName[@type='reg']) = 1) or tei:ref">tei:place muss (genau) ein placeName@type="reg" enthalten</sch:assert>
             </constraint>
-        </constraintSpec><attList><attDef ident="status" usage="req">
+        </constraintSpec><attList><attDef ident="status" usage="rec">
                 <datatype>
                     <dataRef key="hwh_docStatus.list"/>
                 </datatype>
-            </attDef><attDef ident="source" usage="req">
+            </attDef><attDef ident="source" usage="rec">
                 <valList type="closed">
                     <valItem ident="HWH" mode="add">
                         <desc versionDate="2021-10-20" xml:lang="en">places from the database of
@@ -2851,7 +2870,26 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
     </egXML>
   </exemplum><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDGEOG">13.3.4. Places</ref>
-  </listRef></elementSpec><desc>This is the customization for encoding places at Henze-Digital</desc><dataSpec rend="add" module="derived-module-hwhPlaces" ident="hwh.persons.pointer">
+  </listRef></elementSpec><desc>This is the customization for encoding places at Henze-Digital</desc><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" ident="listPlace"><gloss versionDate="2007-07-04" xml:lang="en">list of places</gloss><gloss versionDate="2007-12-20" xml:lang="ko">장소 목록</gloss><gloss versionDate="2008-04-06" xml:lang="es">lista de lugares</gloss><gloss versionDate="2008-12-09" xml:lang="fr">liste de lieux</gloss><gloss versionDate="2007-11-06" xml:lang="it">elenco dei luoghi</gloss><desc versionDate="2007-06-14" xml:lang="en">contains a list of places, optionally followed by a list of relationships (other than
+        containment) defined amongst them.</desc><desc versionDate="2007-12-20" xml:lang="ko">장소 목록을 포함하며, 그 뒤에 수의적으로 그들 사이에 정의된 (포함 외의) 관련성 목록을
+        제시한다.</desc><desc versionDate="2008-04-06" xml:lang="es">contiene una lista de lugares, seguida opcionalmente
+        por una lista de interelaciones (a excepción de la inclusión) definidas entre ellos.</desc><desc versionDate="2008-04-05" xml:lang="ja">場所のリストを示す．選択的に，場所間の(包含関係ではなく)関連性を 示すリストが続く．</desc><desc versionDate="2008-12-09" xml:lang="fr">contient une liste de lieux, qui peut être suivie d'une
+        liste de relations définies entre les lieux (autres que la relation d'inclusion).</desc><desc versionDate="2007-11-06" xml:lang="it">contiene una lista di luoghi, eventualmente seguita da
+        una lista di relazioni tra questi (ad eccezione di quella contenete-contenuto)</desc><classes><memberOf key="att.global"/><memberOf key="att.typed"/></classes><content><elementRef key="place" minOccurs="1" maxOccurs="unbounded"/></content><attList/><exemplum xml:lang="mul">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listPlace type="offshoreIslands">
+        <place>
+          <placeName>La roche qui pleure</placeName>
+        </place>
+        <place>
+          <placeName>Ile aux cerfs</placeName>
+        </place>
+      </listPlace>
+    </egXML>
+  </exemplum><listRef>
+    <ptr target="#HD3"/>
+    <ptr target="#NDGEOG"/>
+  </listRef></elementSpec><dataSpec rend="add" module="derived-module-hwhPlaces" ident="hwh.persons.pointer">
             <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Personen-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for person IDs within Henze-Digital</desc>
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
