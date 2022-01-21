@@ -14,6 +14,8 @@
     <moduleRef key="tei"/>
     <moduleRef key="header"/>
     <moduleRef key="namesdates"/>
+    <elementRef key="listOrg" source="tei:4.3.0"/>
+    
     <moduleRef key="transcr"/>
     <moduleRef key="linking"/>
     
@@ -52,12 +54,15 @@
             <rng:zeroOrMore>
                 <rng:ref name="settlement"/>
             </rng:zeroOrMore>
-            <!--<rng:zeroOrMore>
-                <rng:ref name="region"/>
-            </rng:zeroOrMore>-->
             <rng:zeroOrMore>
                 <rng:ref name="country"/>
             </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="state"/>
+            </rng:zeroOrMore>
+            <rng:optional>
+                <rng:ref name="listOrg"/>
+            </rng:optional>
             <rng:zeroOrMore>
                 <rng:ref name="event"/>
             </rng:zeroOrMore>
@@ -73,9 +78,6 @@
     <elementSpec ident="org" mode="change" module="namesdates">
         <desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable organization or corporate body.</desc>
         <desc versionDate="2021-10-28" xml:lang="de">enthält Informationen über eine Organisation oder Körperschaft</desc>
-        <!--<classes mode="change">
-            <memberOf key="att.docStatus" mode="add"/>
-        </classes>-->
         <content>
             <rng:choice>
                 <!--  Dubletten  -->
@@ -95,13 +97,33 @@
                 <rng:ref name="macro.orgContent"/>
             </rng:choice>
         </content>
+        <constraintSpec scheme="schematron" ident="listorg-org-status">
+            <constraint>
+                <sch:rule context="tei:org[not(parent::tei:listOrg)]">
+                    <sch:assert test="@status">@status is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:org[parent::tei:listOrg]">
+                    <sch:report test="@status">@status is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="listorg-org-source">
+            <constraint>
+                <sch:rule context="tei:org[not(parent::tei:listOrg)]">
+                    <sch:assert test="@source">@source is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:org[parent::tei:listOrg]">
+                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
         <attList>
-            <attDef ident="status" usage="req" mode="add">
+            <attDef ident="status" usage="rec" mode="add">
                 <datatype>
                     <dataRef key="hwh_docStatus.list"/>
                 </datatype>
             </attDef>
-            <attDef ident="source" mode="add" usage="req">
+            <attDef ident="source" mode="add" usage="rec">
                 <valList type="closed">
                     <valItem ident="HWH" mode="add">
                         <desc versionDate="2021-10-20" xml:lang="en">organizations from the database of
@@ -119,4 +141,26 @@
         </attList>
     </elementSpec>
     
+    <elementSpec ident="state" module="namesdates" mode="change">
+        <content>
+            <rng:oneOrMore>
+                <rng:ref name="desc"/>
+            </rng:oneOrMore>
+        </content>
+        <constraintSpec scheme="schematron" ident="org-states" mode="delete"/>
+        <attList>
+          <attDef ident="type" mode="add">
+              <desc versionDate="2022-01-21" xml:lang="en">classifys the type of specification.</desc>
+              <desc versionDate="2022-01-21" xml:lang="de">Gibt die Art der Spezifikation an.</desc>
+              <valList type="closed" mode="add">
+                  <valItem ident="orgType">
+                      <gloss versionDate="2013-11-11" xml:lang="en">organisation type</gloss>
+                      <desc versionDate="2013-11-11" xml:lang="en">The kind an organization or institution is of.</desc>
+                      <gloss versionDate="2013-11-11" xml:lang="de">Organisationstyp</gloss>
+                      <desc versionDate="2013-11-11" xml:lang="de">Die Art der Organisation bzw. Institution.</desc>
+                  </valItem>
+              </valList>
+          </attDef>
+        </attList>
+    </elementSpec>
 </schemaSpec>

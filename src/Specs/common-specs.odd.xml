@@ -1793,21 +1793,21 @@
         <elementSpec ident="orgName" mode="change" module="namesdates">
             <constraintSpec scheme="schematron" ident="parent-org" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org]">
+                    <sch:rule context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
                         <sch:report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</sch:report>
                     </sch:rule>
                 </constraint>
             </constraintSpec>
             <constraintSpec scheme="schematron" ident="parent-org-reg" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName)]">
+                    <sch:rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
                         <sch:assert test="@type='reg'">There must exactly be one name with @type='reg'.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec>
             <constraintSpec scheme="schematron" ident="parent-org-reg" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and preceding::tei:orgName]">
+                    <sch:rule context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
                         <sch:report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</sch:report>
                     </sch:rule>
                 </constraint>

@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-18T07:21:28Z. .
+Schema generated from ODD source 2022-01-21T12:10:50Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding orgs at Henze-Digital 
@@ -129,6 +129,12 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <zeroOrMore>
          <ref name="country"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="state"/>
+      </zeroOrMore>
+      <optional>
+         <ref name="listOrg"/>
+      </optional>
       <zeroOrMore>
          <ref name="event"/>
       </zeroOrMore>
@@ -1252,6 +1258,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
    <define name="model.listLike">
       <choice>
          <ref name="list"/>
+         <ref name="listOrg"/>
       </choice>
    </define>
    <define name="model.noteLike">
@@ -3143,7 +3150,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:orgName[parent::tei:org]">
+                      context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
                <sch:report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</sch:report>
             </sch:rule>
          </pattern>
@@ -3156,7 +3163,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:orgName[parent::tei:org and not(preceding::tei:orgName)]">
+                      context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
                <sch:assert test="@type='reg'">There must exactly be one name with @type='reg'.</sch:assert>
             </sch:rule>
          </pattern>
@@ -3169,7 +3176,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:orgName[parent::tei:org and preceding::tei:orgName]">
+                      context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
                <sch:report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</sch:report>
             </sch:rule>
          </pattern>
@@ -3387,21 +3394,59 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
             </element>
             <ref name="macro.orgContent"/>
          </choice>
-         <attribute name="status">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>proposed</value>
-               <value>candidate</value>
-               <value>approved</value>
-            </choice>
-         </attribute>
-         <attribute name="source">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>HWH</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Organisationen aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
-            </choice>
-         </attribute>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhOrgs-org-listorg-org-status-constraint-rule-39">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:org[not(parent::tei:listOrg)]">
+               <sch:assert test="@status">The status attribute is missing.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:org[parent::tei:listOrg]">
+               <sch:report test="@status">The status attribute is only for use at the root element.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhOrgs-org-listorg-org-source-constraint-rule-41">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:org[not(parent::tei:listOrg)]">
+               <sch:assert test="@source">The source attribute is missing.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:org[parent::tei:listOrg]">
+               <sch:report test="@source">The source attribute is only for use at the root element.</sch:report>
+            </sch:rule>
+         </pattern>
+         <optional>
+            <attribute name="status">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>proposed</value>
+                  <value>candidate</value>
+                  <value>approved</value>
+               </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="source">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>HWH</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Organisationen aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Bezeichner) liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</a:documentation>
             <data type="string">
@@ -3426,20 +3471,20 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
    <define name="state">
       <element name="state">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(state) enthält Informationen über Merkmale einer Organisation oder Körperschaft, meistens mit zeitlicher Dauer oder Beschränkung. [13.3.1. Basic Principles 13.3.2.1. Personal Characteristics]</a:documentation>
-         <ref name="label"/>
-         <ref name="desc"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhOrgs-state-org-states-constraint-assert-20">
-            <rule context="tei:state">
-               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           xmlns:xi="http://www.w3.org/2001/XInclude"
-                           xmlns="http://www.tei-c.org/ns/1.0"
-                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                           test="tei:label=('Ort', 'Art der Institution')">label for state should be 'Ort' or 'Art der Institution'.</sch:assert>
-            </rule>
-         </pattern>
+         <oneOrMore>
+            <ref name="desc"/>
+         </oneOrMore>
          <ref name="att.datable.attributes"/>
          <ref name="att.dimensions.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gibt die Art der Spezifikation an.</a:documentation>
+               <choice>
+                  <value>orgType</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Organisationstyp) Die Art der Organisation bzw. Institution.</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -3482,7 +3527,7 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
             </oneOrMore>
          </interleave>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhOrgs-subst-substContents1-constraint-assert-21">
+                  id="hwhOrgs-subst-substContents1-constraint-assert-22">
             <rule context="tei:subst">
                <assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -3594,7 +3639,7 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(beliebiges Segment) steht für eine beliebige Segmentierung des Textes unterhalb des ‘chunk’ Levels. [16.3. Blocks, Segments, and Anchors 6.2. Components of the Verse Line 7.2.5. Speech Contents]</a:documentation>
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhOrgs-seg-activeOrPassivePerformance-constraint-report-37">
+                  id="hwhOrgs-seg-activeOrPassivePerformance-constraint-report-39">
             <rule context="tei:seg">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -3607,7 +3652,7 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhOrgs-seg-AddresseeOrSenderCorrespondence-constraint-report-38">
+                  id="hwhOrgs-seg-AddresseeOrSenderCorrespondence-constraint-report-40">
             <rule context="tei:seg">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -3733,6 +3778,38 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
          <empty/>
       </element>
    </define>
+   <define name="listOrg">
+      <element name="listOrg">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of organizations) contains a list of elements, each of which provides information about an identifiable organization. []</a:documentation>
+         <group>
+            <zeroOrMore>
+               <ref name="model.headLike"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="desc"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <empty/>
+            </zeroOrMore>
+            <oneOrMore>
+               <group>
+                  <oneOrMore>
+                     <choice>
+                        <ref name="org"/>
+                        <ref name="listOrg"/>
+                     </choice>
+                  </oneOrMore>
+                  <zeroOrMore>
+                     <empty/>
+                  </zeroOrMore>
+               </group>
+            </oneOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="att.hwh.rend.attributes">
       <ref name="att.hwh.rend.attribute.rend"/>
       <ref name="att.hwh.rend.attribute.n"/>
@@ -3773,7 +3850,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-att.hwh.rend-underline-n-constraint-rule-73">
+            id="hwhOrgs-att.hwh.rend-underline-n-constraint-rule-77">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3791,7 +3868,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-styleguide-document-node-content-constraint-rule-39">
+            id="hwhOrgs-styleguide-document-node-content-constraint-rule-43">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3805,7 +3882,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-whitespaceOnlyContent-constraint-rule-40">
+            id="hwhOrgs-whitespaceOnlyContent-constraint-rule-44">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3819,7 +3896,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-elementStartsWithWhitespace-constraint-rule-41">
+            id="hwhOrgs-elementStartsWithWhitespace-constraint-rule-45">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3833,7 +3910,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-untrimmedAttributeValues-constraint-rule-42">
+            id="hwhOrgs-untrimmedAttributeValues-constraint-rule-46">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3846,7 +3923,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-hwhTargets-constraint-rule-43">
+            id="hwhOrgs-hwhTargets-constraint-rule-47">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3859,7 +3936,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-emojiCheck-constraint-rule-44">
+            id="hwhOrgs-emojiCheck-constraint-rule-48">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3872,7 +3949,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-sourceMustResolve-constraint-rule-45">
+            id="hwhOrgs-sourceMustResolve-constraint-rule-49">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3934,7 +4011,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-addWithoutPlace-constraint-rule-47">
+            id="hwhOrgs-addWithoutPlace-constraint-rule-51">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3947,7 +4024,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-nameTypeRequirement-constraint-rule-48">
+            id="hwhOrgs-nameTypeRequirement-constraint-rule-52">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3960,7 +4037,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-lbInsideAddress-constraint-rule-49">
+            id="hwhOrgs-lbInsideAddress-constraint-rule-53">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3974,7 +4051,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-renditionWithPosition-constraint-rule-50">
+            id="hwhOrgs-renditionWithPosition-constraint-rule-54">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4068,7 +4145,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhOrgs-importName-constraint-rule-72">
+            id="hwhOrgs-importName-constraint-rule-76">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
