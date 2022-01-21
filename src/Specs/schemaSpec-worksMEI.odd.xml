@@ -240,13 +240,33 @@
                 </sch:rule>
             </constraint>
         </constraintSpec>
+        <constraintSpec scheme="schematron" ident="componentList-work-status">
+            <constraint>
+                <sch:rule context="mei:work[not(parent::mei:componentList)]">
+                    <sch:assert test="@status">@status is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="mei:work[parent::mei:componentList]">
+                    <sch:report test="@status">@status is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="componentList-work-source">
+            <constraint>
+                <sch:rule context="mei:work[not(parent::mei:componentList)]">
+                    <sch:assert test="@source">@source is missing.</sch:assert>
+                </sch:rule>
+                <sch:rule context="mei:work[parent::mei:componentList]">
+                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
         <attList>
-            <attDef ident="status" usage="req" mode="add">
+            <attDef ident="status" usage="rec" mode="add">
                 <datatype>
                     <dataRef key="hwh_docStatus.list"/>
                 </datatype>
             </attDef>
-            <attDef ident="source" mode="add" usage="req">
+            <attDef ident="source" usage="rec" mode="add">
                 <valList type="closed" mode="change">
                     <valItem ident="HWH" mode="add">
                         <desc versionDate="2021-10-20" xml:lang="en">works from the database of the Henze-Digital project (HWH).</desc>

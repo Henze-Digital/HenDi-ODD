@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.music-encoding.org/ns/mei"><!--
-Schema generated from ODD source 2022-01-18T07:22:23Z. .
+Schema generated from ODD source 2022-01-21T12:16:29Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding works at Henze-Digital 
@@ -1796,26 +1796,64 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
             </sch:rule>
          </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhWorksMEI-work-componentList-work-status-constraint-rule-15">
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="mei:work[not(parent::mei:componentList)]">
+               <sch:assert test="@status">@status is missing.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="mei:work[parent::mei:componentList]">
+               <sch:report test="@status">@status is only for use at the root element.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhWorksMEI-work-componentList-work-source-constraint-rule-17">
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="mei:work[not(parent::mei:componentList)]">
+               <sch:assert test="@source">@source is missing.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="mei:work[parent::mei:componentList]">
+               <sch:report test="@source">@source is only for use at the root element.</sch:report>
+            </sch:rule>
+         </pattern>
          <ref name="att.common.attributes"/>
          <ref name="att.authorized.attributes"/>
          <ref name="att.bibl.attributes"/>
          <ref name="att.pointing.attributes"/>
          <ref name="att.targetEval.attributes"/>
-         <attribute name="status">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>proposed</value>
-               <value>candidate</value>
-               <value>approved</value>
-            </choice>
-         </attribute>
-         <attribute name="source">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>HWH</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
-            </choice>
-         </attribute>
+         <optional>
+            <attribute name="status">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>proposed</value>
+                  <value>candidate</value>
+                  <value>approved</value>
+               </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="source">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>HWH</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -2352,7 +2390,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-att.cleffing.log-clef_shape_requires_clef_line-constraint-rule-15">
+            id="hwhWorksMEI-att.cleffing.log-clef_shape_requires_clef_line-constraint-rule-19">
       <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4016,7 +4054,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </oneOrMore>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-annot-Check_annot_data-constraint-rule-17">
+                  id="hwhWorksMEI-annot-Check_annot_data-constraint-rule-21">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4060,7 +4098,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          </optional>
          <ref name="date"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-creation-check_creationDateHasText-constraint-assert-17">
+                  id="hwhWorksMEI-creation-check_creationDateHasText-constraint-assert-19">
             <rule context="mei:creation">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4086,7 +4124,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-date-dateHeuristics1-constraint-report-3">
+                  id="hwhWorksMEI-date-dateHeuristics1-constraint-report-5">
             <rule context="mei:date">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4096,7 +4134,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-date-dateHeuristics3-constraint-report-4">
+                  id="hwhWorksMEI-date-dateHeuristics3-constraint-report-6">
             <rule context="mei:date">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4106,7 +4144,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-date-dateHeuristics4-constraint-report-5">
+                  id="hwhWorksMEI-date-dateHeuristics4-constraint-report-7">
             <rule context="mei:date">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4116,7 +4154,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-date-dateHeuristics5-constraint-assert-18">
+                  id="hwhWorksMEI-date-dateHeuristics5-constraint-assert-20">
             <rule context="mei:date">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4136,7 +4174,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Information about the physical size of an entity; usually includes numerical data.</a:documentation>
          <ref name="macro.struc-unstrucContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-dimensions-check_dimensions-constraint-rule-18">
+                  id="hwhWorksMEI-dimensions-check_dimensions-constraint-rule-22">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4425,7 +4463,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Describes a relationship or linkage amongst entities.</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-relation-FRBR_relation-constraint-rule-20">
+                  id="hwhWorksMEI-relation-FRBR_relation-constraint-rule-24">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4593,7 +4631,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-section-Check_sectionexpansion-constraint-rule-21">
+                  id="hwhWorksMEI-section-Check_sectionexpansion-constraint-rule-25">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4627,7 +4665,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_staffDefn-constraint-rule-22">
+                  id="hwhWorksMEI-staffDef-Check_staffDefn-constraint-rule-26">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4644,7 +4682,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_ancestor_staff-constraint-rule-23">
+                  id="hwhWorksMEI-staffDef-Check_ancestor_staff-constraint-rule-27">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4657,7 +4695,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_ancestor_staff_lines-constraint-rule-24">
+                  id="hwhWorksMEI-staffDef-Check_ancestor_staff_lines-constraint-rule-28">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4671,7 +4709,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_clef_position_staffDef-constraint-rule-25">
+                  id="hwhWorksMEI-staffDef-Check_clef_position_staffDef-constraint-rule-29">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4683,7 +4721,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_clef_position_staffDef_nolines-constraint-rule-26">
+                  id="hwhWorksMEI-staffDef-Check_clef_position_staffDef_nolines-constraint-rule-30">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4698,7 +4736,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_tab_strings_lines-constraint-rule-27">
+                  id="hwhWorksMEI-staffDef-Check_tab_strings_lines-constraint-rule-31">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4712,7 +4750,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffDef-Check_tab_strings_nolines-constraint-rule-28">
+                  id="hwhWorksMEI-staffDef-Check_tab_strings_nolines-constraint-rule-32">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4796,7 +4834,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-staffGrp-Check_staffGrp_unique_staff_n_values-constraint-rule-33">
+                  id="hwhWorksMEI-staffGrp-Check_staffGrp_unique_staff_n_values-constraint-rule-37">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4826,7 +4864,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-term-Check_term_dataTarget-constraint-rule-34">
+                  id="hwhWorksMEI-term-Check_term_dataTarget-constraint-rule-38">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5207,7 +5245,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
             </oneOrMore>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-contents-checkContentsLabels-constraint-rule-35">
+                  id="hwhWorksMEI-contents-checkContentsLabels-constraint-rule-39">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5352,7 +5390,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-biblList-checkBiblLabels-constraint-rule-36">
+                  id="hwhWorksMEI-biblList-checkBiblLabels-constraint-rule-40">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5474,7 +5512,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
             <ref name="corpName"/>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-list-list_type_constraint-constraint-rule-37">
+                  id="hwhWorksMEI-list-list_type_constraint-constraint-rule-41">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5549,7 +5587,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-styleguide-document-node-content-constraint-rule-38">
+            id="hwhWorksMEI-styleguide-document-node-content-constraint-rule-42">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5562,7 +5600,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-whitespaceOnlyContent-constraint-rule-39">
+            id="hwhWorksMEI-whitespaceOnlyContent-constraint-rule-43">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5575,7 +5613,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-elementStartsWithWhitespace-constraint-rule-40">
+            id="hwhWorksMEI-elementStartsWithWhitespace-constraint-rule-44">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5588,7 +5626,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-untrimmedAttributeValues-constraint-rule-41">
+            id="hwhWorksMEI-untrimmedAttributeValues-constraint-rule-45">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5600,7 +5638,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-hwhTargets-constraint-rule-42">
+            id="hwhWorksMEI-hwhTargets-constraint-rule-46">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5612,7 +5650,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-emojiCheck-constraint-rule-43">
+            id="hwhWorksMEI-emojiCheck-constraint-rule-47">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5624,7 +5662,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-sourceMustResolve-constraint-rule-44">
+            id="hwhWorksMEI-sourceMustResolve-constraint-rule-48">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5684,7 +5722,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-addWithoutPlace-constraint-rule-46">
+            id="hwhWorksMEI-addWithoutPlace-constraint-rule-50">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5696,7 +5734,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-nameTypeRequirement-constraint-rule-47">
+            id="hwhWorksMEI-nameTypeRequirement-constraint-rule-51">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5708,7 +5746,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-lbInsideAddress-constraint-rule-48">
+            id="hwhWorksMEI-lbInsideAddress-constraint-rule-52">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5721,7 +5759,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-renditionWithPosition-constraint-rule-49">
+            id="hwhWorksMEI-renditionWithPosition-constraint-rule-53">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5812,7 +5850,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksMEI-importName-constraint-rule-71">
+            id="hwhWorksMEI-importName-constraint-rule-75">
       <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
