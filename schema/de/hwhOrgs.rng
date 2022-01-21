@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-21T12:10:50Z. .
+Schema generated from ODD source 2022-01-21T13:41:56Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding orgs at Henze-Digital 
@@ -22,15 +22,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             <ref name="model.inter"/>
             <ref name="model.global"/>
             <ref name="model.lLike"/>
-         </choice>
-      </zeroOrMore>
-   </define>
-   <define name="macro.limitedContent">
-      <zeroOrMore>
-         <choice>
-            <text/>
-            <ref name="model.limitedPhrase"/>
-            <ref name="model.inter"/>
          </choice>
       </zeroOrMore>
    </define>
@@ -403,6 +394,17 @@ Beispielwerte sind etwa: 1] all; 2] most; 3] range</a:documentation>
          <sch:report test="matches((following-sibling::text() | following-sibling::element())[1], '^\s') or matches((preceding-sibling::text() | preceding-sibling::element())[last()], '\s$')">There must not be any whitespace before or after the <sch:name/> element when the @break attribute is applied.</sch:report>
       </sch:rule>
    </pattern>
+   <define name="att.cReferencing.attributes">
+      <ref name="att.cReferencing.attribute.cRef"/>
+   </define>
+   <define name="att.cReferencing.attribute.cRef">
+      <optional>
+         <attribute name="cRef">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(canonical reference) specifies the destination of the pointer by supplying a canonical reference expressed using the scheme defined in a <code xmlns="http://www.w3.org/1999/xhtml">&lt;refsDecl&gt;</code> element in the TEI header</a:documentation>
+            <data type="string"/>
+         </attribute>
+      </optional>
+   </define>
    <define name="att.datable.w3c.attributes">
       <ref name="att.datable.w3c.attribute.when"/>
       <ref name="att.datable.w3c.attribute.notBefore"/>
@@ -984,29 +986,41 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
    <define name="model.emphLike">
       <choice>
          <ref name="title"/>
+         <ref name="term"/>
       </choice>
    </define>
    <define name="model.emphLike_alternation">
       <choice>
          <ref name="title"/>
+         <ref name="term"/>
       </choice>
    </define>
    <define name="model.emphLike_sequence">
       <ref name="title"/>
+      <ref name="term"/>
    </define>
    <define name="model.emphLike_sequenceOptional">
       <optional>
          <ref name="title"/>
+      </optional>
+      <optional>
+         <ref name="term"/>
       </optional>
    </define>
    <define name="model.emphLike_sequenceOptionalRepeatable">
       <zeroOrMore>
          <ref name="title"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="term"/>
+      </zeroOrMore>
    </define>
    <define name="model.emphLike_sequenceRepeatable">
       <oneOrMore>
          <ref name="title"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="term"/>
       </oneOrMore>
    </define>
    <define name="model.highlighted">
@@ -1620,17 +1634,6 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
          <ref name="model.pPart.data"/>
       </choice>
    </define>
-   <define name="model.limitedPhrase">
-      <choice>
-         <ref name="model.hiLike"/>
-         <ref name="model.emphLike"/>
-         <ref name="model.pPart.msdesc"/>
-         <ref name="model.pPart.editorial"/>
-         <ref name="model.ptrLike"/>
-         <ref name="model.phrase.xml"/>
-         <ref name="model.pPart.data"/>
-      </choice>
-   </define>
    <define name="att.locatable.attributes">
       <ref name="att.locatable.attribute.where"/>
    </define>
@@ -1805,7 +1808,9 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
    <define name="desc">
       <element name="desc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Beschreibung) enthält eine kurze Beschreibung des Objekts, das von seinem übergeordneten Element annotiert wird, üblicherweise einem Dokumentationselement oder einer Einheit. [22.4.1. Description of Components]</a:documentation>
-         <ref name="macro.limitedContent"/>
+         <oneOrMore>
+            <ref name="term"/>
+         </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hwhOrgs-desc-deprecationInfo-only-in-deprecated-constraint-rule-8">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3401,14 +3406,14 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:org[not(parent::tei:listOrg)]">
-               <sch:assert test="@status">The status attribute is missing.</sch:assert>
+               <sch:assert test="@status">@status is missing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:org[parent::tei:listOrg]">
-               <sch:report test="@status">The status attribute is only for use at the root element.</sch:report>
+               <sch:report test="@status">@status is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -3418,14 +3423,14 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:org[not(parent::tei:listOrg)]">
-               <sch:assert test="@source">The source attribute is missing.</sch:assert>
+               <sch:assert test="@source">@source is missing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:org[parent::tei:listOrg]">
-               <sch:report test="@source">The source attribute is only for use at the root element.</sch:report>
+               <sch:report test="@source">@source is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
          <optional>
@@ -3471,20 +3476,16 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
    <define name="state">
       <element name="state">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(state) enthält Informationen über Merkmale einer Organisation oder Körperschaft, meistens mit zeitlicher Dauer oder Beschränkung. [13.3.1. Basic Principles 13.3.2.1. Personal Characteristics]</a:documentation>
-         <oneOrMore>
-            <ref name="desc"/>
-         </oneOrMore>
+         <ref name="desc"/>
          <ref name="att.datable.attributes"/>
          <ref name="att.dimensions.attributes"/>
-         <optional>
-            <attribute name="type">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gibt die Art der Spezifikation an.</a:documentation>
-               <choice>
-                  <value>orgType</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Organisationstyp) Die Art der Organisation bzw. Institution.</a:documentation>
-               </choice>
-            </attribute>
-         </optional>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gibt die Art der Spezifikation an.</a:documentation>
+            <choice>
+               <value>orgType</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Organisationstyp) Die Art der Organisation bzw. Institution.</a:documentation>
+            </choice>
+         </attribute>
          <empty/>
       </element>
    </define>
@@ -3775,6 +3776,18 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
                </choice>
             </attribute>
          </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="term">
+      <element name="term">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Fachbegriff) enthält ein einzelnes Wort, Mehrworttermini oder symbolische Bezeichnungen, die als Fachbegriffe verstanden werden []</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.pointing.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <ref name="att.canonical.attributes"/>
+         <ref name="att.cReferencing.attributes"/>
          <empty/>
       </element>
    </define>

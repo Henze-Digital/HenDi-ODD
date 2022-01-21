@@ -10,6 +10,7 @@
     
     <moduleRef key="core"/>
     <elementRef key="num" source="tei:4.3.0"/>
+    <elementRef key="term" source="tei:4.3.0"/>
     
     <moduleRef key="tei"/>
     <moduleRef key="header"/>
@@ -143,24 +144,28 @@
     
     <elementSpec ident="state" module="namesdates" mode="change">
         <content>
-            <rng:oneOrMore>
-                <rng:ref name="desc"/>
-            </rng:oneOrMore>
+            <rng:ref name="desc"/>
         </content>
         <constraintSpec scheme="schematron" ident="org-states" mode="delete"/>
         <attList>
-          <attDef ident="type" mode="add">
+          <attDef ident="type" usage="req" mode="add">
               <desc versionDate="2022-01-21" xml:lang="en">classifys the type of specification.</desc>
               <desc versionDate="2022-01-21" xml:lang="de">Gibt die Art der Spezifikation an.</desc>
               <valList type="closed" mode="add">
                   <valItem ident="orgType">
-                      <gloss versionDate="2013-11-11" xml:lang="en">organisation type</gloss>
-                      <desc versionDate="2013-11-11" xml:lang="en">The kind an organization or institution is of.</desc>
-                      <gloss versionDate="2013-11-11" xml:lang="de">Organisationstyp</gloss>
-                      <desc versionDate="2013-11-11" xml:lang="de">Die Art der Organisation bzw. Institution.</desc>
+                      <gloss versionDate="2022-01-21" xml:lang="en">organisation type</gloss>
+                      <desc versionDate="2022-01-21" xml:lang="en">The kind an organization or institution is of.</desc>
+                      <gloss versionDate="2022-01-21" xml:lang="de">Organisationstyp</gloss>
+                      <desc versionDate="2022-01-21" xml:lang="de">Die Art der Organisation bzw. Institution.</desc>
                   </valItem>
               </valList>
           </attDef>
         </attList>
+    </elementSpec>
+    
+    <elementSpec ident="desc" module="core" mode="change">
+        <content>
+            <elementRef key="term" minOccurs="1" maxOccurs="unbounded"/>
+        </content>
     </elementSpec>
 </schemaSpec>
