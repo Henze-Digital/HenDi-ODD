@@ -171,4 +171,73 @@
         </attList>
     </elementSpec>-->
     
+    <elementSpec ident="title" mode="replace" module="core">
+        <desc versionDate="2022-01-24" xml:lang="en">contains a title for any kind of work</desc>
+        <desc versionDate="2022-01-24" xml:lang="de">enthält einen Titel für jegliche Art von Werk</desc>
+        <content>
+            <rng:ref name="macro.paraContent"/>
+        </content>
+        <constraintSpec scheme="schematron" ident="duplicate-title">
+            <desc versionDate="2022-01-24" xml:lang="en">checks for the occurence of identical <gi>title</gi> elements (with the same bibliographic level and language)</desc>
+            <desc versionDate="2022-01-24" xml:lang="de">überprüft auf identische <gi>title</gi> Elemente (gleiche bibliographische Ebene und Sprache)</desc>
+            <constraint>
+                <sch:rule context="tei:title[following-sibling::tei:title]">
+                    <sch:let name="level" value="@level"/>
+                    <sch:let name="type" value="string(@type)"/> <!-- use string values so comparing non-existing attributes will return true -->
+                    <sch:let name="lang" value="string(@xml:lang)"/>
+                    <sch:report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="punctuation-mark">
+            <desc versionDate="2014-11-24" xml:lang="en">reports when there is a punctuation mark at the end of the title (punctuation will be added automatically during rendering)</desc>
+            <desc versionDate="2014-11-24" xml:lang="de">warnt bei Satzendezeichen am Ende des Titels (denn Interpunktion wird beim Rendern automatisch hinzugefügt)</desc>
+            <constraint>
+                <sch:report test="matches(normalize-space(self::tei:title), '[\.,;]$') and not(matches(normalize-space(self::tei:title), '((\p{Lu})|(\setc)|(\sal)|([\s\.]a)|(\sBl)|(\sAufl))\.$'))">Found a non-valid punctuation mark at the end of <sch:name/> </sch:report>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="report-leading-zeros">
+            <desc versionDate="2020-09-14" xml:lang="en">report leading zeros in dates</desc>
+            <desc versionDate="2020-09-14" xml:lang="de">warnt bei führenden Nullen in Datumsangaben</desc>
+            <constraint>
+                <sch:report test="matches(., '\s0\d+\.')">please do not prefix numbers with a zero</sch:report>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="report-quotation-marks">
+            <desc versionDate="2020-09-14" xml:lang="en">report literal quotation marks which should be replaced by tags</desc>
+            <desc versionDate="2020-09-14" xml:lang="de">weist auf Anführungszeichen hin die durch Tags ersetzt werden sollten</desc>
+            <constraint>
+                <sch:report test="matches(., '&quot;“„')">please replace literal quotation marks with q-tags</sch:report>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="biblstruct-title-lang">
+            <desc versionDate="2022-01-24" xml:lang="en">checks for the occurence of <att>xml:lang</att> at <gi>title</gi> within a <gi>biblStruct</gi> section.</desc>
+            <desc versionDate="2022-01-24" xml:lang="de">überprüft das Vorkommen von <att>xml:lang</att> in <gi>title</gi> Elementen in einer <gi>biblStruct</gi> Sektion.</desc>
+            <constraint>
+                <sch:rule context="tei:title[not(ancestor::tei:biblStruct)]">
+                    <sch:report test="@xml:lang" role="error">The attribute xml:lang is not for use here!</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:biblStruct//tei:title[1]">
+                    <sch:report test="@xml:lang" role="warn">The attribute xml:lang is for indicate the language of a translation here. It is not for use to definde the language of the origianl title.</sch:report>
+                </sch:rule>
+                <!--<sch:rule context="tei:biblStruct//tei:title[1]">
+                    <sch:report test="@xml:lang" role="warn">The attribute xml:lang is for indicate the language of a translation here. It is not for use to definde the language of the origianl title.</sch:report>
+                </sch:rule>-->
+            </constraint>
+        </constraintSpec>
+        <attList>
+            <attDef ident="xml:lang" mode="add" usage="opt">
+                <desc versionDate="2022-01-24" xml:lang="en">indicates the language in which the title was translated.</desc>
+                <desc versionDate="2022-01-24" xml:lang="de">zeigt die Sprache an, in die der Titel übersetzt wurde.</desc>
+                <datatype>
+                    <dataRef key="teidata.language"/>
+                </datatype>
+            </attDef>
+            <attDef ident="level" mode="add" usage="req">
+                <desc versionDate="2013-11-11" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc>
+                <desc versionDate="2013-11-11" xml:lang="de">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</desc>
+            </attDef>
+        </attList>
+    </elementSpec>
+    
 </schemaSpec>
