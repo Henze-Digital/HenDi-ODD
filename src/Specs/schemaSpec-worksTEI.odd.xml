@@ -237,6 +237,30 @@
         <content>
             <rng:ref name="macro.paraContent"/>
         </content>
+        <constraintSpec scheme="schematron" ident="title-level-req">
+            <desc versionDate="2022-01-24" xml:lang="en">checks for the occurence of <att>level</att> at <gi>title</gi> elements (on <gi>fileDesc</gi> level)</desc>
+            <desc versionDate="2022-01-24" xml:lang="de">prüft das Vorkommen von <att>level</att> Attributen in <gi>title</gi> Elementen (auf der Ebene der <gi>fileDesc</gi></desc>
+            <constraint>
+                <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[1]">
+                    <sch:assert test="@level = 's'">The first title in titleStmt should be a series statement.</sch:assert>
+                </sch:rule>
+                <sch:rule context="tei:fileDesc//tei:title[position() > 1]">
+                    <sch:report test="@level = 's'">Only the first title in titleStmt should be a series statement.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <!--<constraintSpec scheme="schematron" ident="duplicate-title">
+            <desc versionDate="2022-01-24" xml:lang="en">checks for the occurence of identical <gi>title</gi> elements (with the same bibliographic level and language)</desc>
+            <desc versionDate="2022-01-24" xml:lang="de">überprüft auf identische <gi>title</gi> Elemente (gleiche bibliographische Ebene und Sprache)</desc>
+            <constraint>
+                <sch:rule context="tei:title[following-sibling::tei:title]">
+                    <sch:let name="level" value="@level"/>
+                    <sch:let name="type" value="string(@type)"/> <!-\- use string values so comparing non-existing attributes will return true -\->
+                    <sch:let name="lang" value="string(@xml:lang)"/>
+                    <sch:report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>-->
         <constraintSpec scheme="schematron" ident="duplicate-title">
             <desc versionDate="2022-01-24" xml:lang="en">checks for the occurence of identical <gi>title</gi> elements (with the same bibliographic level and language)</desc>
             <desc versionDate="2022-01-24" xml:lang="de">überprüft auf identische <gi>title</gi> Elemente (gleiche bibliographische Ebene und Sprache)</desc>
