@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-24T08:17:12Z. .
+Schema generated from ODD source 2022-01-24T08:50:31Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -1481,6 +1481,7 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
          <ref name="list"/>
          <ref name="table"/>
          <ref name="listWit"/>
+         <ref name="listEvent"/>
       </choice>
    </define>
    <define name="model.listLike_alternation">
@@ -1488,12 +1489,14 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
          <ref name="list"/>
          <ref name="table"/>
          <ref name="listWit"/>
+         <ref name="listEvent"/>
       </choice>
    </define>
    <define name="model.listLike_sequence">
       <ref name="list"/>
       <ref name="table"/>
       <ref name="listWit"/>
+      <ref name="listEvent"/>
    </define>
    <define name="model.listLike_sequenceOptional">
       <optional>
@@ -1504,6 +1507,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       </optional>
       <optional>
          <ref name="listWit"/>
+      </optional>
+      <optional>
+         <ref name="listEvent"/>
       </optional>
    </define>
    <define name="model.listLike_sequenceOptionalRepeatable">
@@ -1516,6 +1522,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       <zeroOrMore>
          <ref name="listWit"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listEvent"/>
+      </zeroOrMore>
    </define>
    <define name="model.listLike_sequenceRepeatable">
       <oneOrMore>
@@ -1526,6 +1535,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       </oneOrMore>
       <oneOrMore>
          <ref name="listWit"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listEvent"/>
       </oneOrMore>
    </define>
    <define name="model.noteLike">
@@ -3658,7 +3670,18 @@ Elements]</a:documentation>
          </optional>
          <attribute name="level">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</a:documentation>
-            <text/>
+            <choice>
+               <value>a</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Artikel) der Titel bezieht sich auf einen analytischen Artikel, z. B. einen Artikel, ein Gedicht oder ein anderes Werk, das als Teil eines größeren Artikels veröffentlicht wurde.</a:documentation>
+               <value>m</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Monographie) der Titel bezieht sich auf eine Monografie wie ein Buch oder einen anderen Gegenstand, der als eigenständige Veröffentlichung gilt, einschließlich einzelner Bände von mehrbändigen Werken.</a:documentation>
+               <value>j</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Periodikum) der Titel bezieht sich auf jede fortlaufende oder periodische Veröffentlichung wie eine Zeitschrift, ein Magazin oder eine Zeitung.</a:documentation>
+               <value>s</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Serie) der Titel bezieht sich auf eine Reihe von ansonsten getrennten Veröffentlichungen, z. B. eine Sammlung.</a:documentation>
+               <value>u</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(unveröffentlicht) der Titel gilt für unveröffentlichtes Material (einschließlich Dissertationen und Diplomarbeiten, sofern sie nicht von einem kommerziellen Verlag veröffentlicht wurden).</a:documentation>
+            </choice>
          </attribute>
          <empty/>
       </element>
@@ -5989,6 +6012,66 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </attribute>
          </optional>
          <ref name="att.global.attribute.xmlid"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="listEvent">
+      <element name="listEvent">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of events) contains a list of descriptions, each of which provides information about an identifiable event. []</a:documentation>
+         <group>
+            <zeroOrMore>
+               <ref name="model.headLike"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="desc"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <empty/>
+            </zeroOrMore>
+            <oneOrMore>
+               <empty/>
+            </oneOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="event">
+      <element name="event">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(event) contains data relating to any kind of significant event associated with a person, place, or organization. []</a:documentation>
+         <group>
+            <zeroOrMore>
+               <ref name="idno"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="model.headLike"/>
+            </zeroOrMore>
+            <choice>
+               <oneOrMore>
+                  <ref name="model.pLike"/>
+               </oneOrMore>
+               <oneOrMore>
+                  <ref name="model.labelLike"/>
+               </oneOrMore>
+            </choice>
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.noteLike"/>
+                  <ref name="model.biblLike"/>
+                  <ref name="idno"/>
+                  <ref name="ptr"/>
+               </choice>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="event"/>
+            </zeroOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <ref name="att.datable.attributes"/>
+         <ref name="att.editLike.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <ref name="att.naming.attributes"/>
          <empty/>
       </element>
    </define>
