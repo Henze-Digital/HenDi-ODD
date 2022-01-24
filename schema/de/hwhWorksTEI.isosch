@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-01-24T06:58:43Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-01-24T08:17:14Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -256,12 +256,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <assert test="id(substring(@sameAs,2)) or starts-with(@sameAs, 'wega:')">There must be an element with the xml:id = "<value-of select="substring(@sameAs,2)"/>" which is the target of this @sameAs.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhWorksTEI-title-report-type-outside-text-43">
-      <rule context="tei:title">
-         <report test=".[@type]/ancestor::tei:teiHeader">Do not use the <emph>type</emph> attribute here!</report>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-hwhWorksTEI-title-duplicate-title-44">
+   <pattern id="schematron-constraint-hwhWorksTEI-title-duplicate-title-43">
       <rule context="tei:title[following-sibling::tei:title]">
          <let name="level" value="@level"/>
          <let name="type" value="string(@type)"/>
@@ -269,20 +264,28 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhWorksTEI-title-punctuation-mark-45">
+   <pattern id="schematron-constraint-hwhWorksTEI-title-punctuation-mark-44">
       <rule context="tei:title">
          <report test="matches(normalize-space(self::tei:title), '[\.,;]$') and not(matches(normalize-space(self::tei:title), '((\p{Lu})|(\setc)|(\sal)|([\s\.]a)|(\sBl)|(\sAufl))\.$'))">Found a non-valid punctuation mark at the end of <name/>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhWorksTEI-title-report-leading-zeros-46">
+   <pattern id="schematron-constraint-hwhWorksTEI-title-report-leading-zeros-45">
       <rule context="tei:title">
          <report test="matches(., '\s0\d+\.')">please do not prefix numbers with a zero</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhWorksTEI-title-report-quotation-marks-47">
+   <pattern id="schematron-constraint-hwhWorksTEI-title-report-quotation-marks-46">
       <rule context="tei:title">
          <report test="matches(., '&#34;“„')">please replace literal quotation marks with q-tags</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hwhWorksTEI-title-biblstruct-title-lang-47">
+      <rule context="tei:title[not(ancestor::tei:biblStruct)]">
+         <report test="@xml:lang" role="error">The attribute xml:lang is not for use here!</report>
+      </rule>
+      <rule context="tei:biblStruct//tei:title[1]">
+         <report test="@xml:lang" role="warn">The attribute xml:lang is for indicate the language of a translation here. It is not for use to definde the language of the origianl title.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hwhWorksTEI-imprint-duplicate-biblScope-type-48">
@@ -330,7 +333,7 @@ relatedItem element must be empty</report>
       </report>
       </rule>
    </pattern>
-   <pattern id="isoschematron-constraint-hwhWorksTEI-teiHeader-seriesTitle-55">
+   <pattern id="schematron-constraint-hwhWorksTEI-teiHeader-seriesTitle-55">
       <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
          <assert test=".='Henze-Digital, literarische Werke, Digitale Edition'">The series title must be 
                         "Henze-Digital, literarische Werke, Digitale Edition".</assert>
