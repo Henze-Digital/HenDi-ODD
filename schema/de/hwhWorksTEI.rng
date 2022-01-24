@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-24T09:39:48Z. .
+Schema generated from ODD source 2022-01-24T10:41:44Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -667,6 +667,22 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
       <ref name="att.global.attribute.xmlid"/>
       <ref name="att.global.attribute.n"/>
       <ref name="att.global.attribute.xmllang"/>
+   </define>
+   <define name="att.global.attribute.xmlbase">
+      <optional>
+         <attribute name="xml:base">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <text/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.attribute.xmlspace">
+      <optional>
+         <attribute name="xml:space">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <text/>
+         </attribute>
+      </optional>
    </define>
    <define name="att.global.attribute.xmlid">
       <optional>
@@ -3598,7 +3614,22 @@ Elements]</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">enthält einen Titel für jegliche Art von Werk</a:documentation>
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-title-duplicate-title-constraint-rule-31">
+                  id="hwhWorksTEI-title-title-level-req-constraint-rule-31">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:fileDesc/tei:titleStmt/tei:title[1]">
+               <sch:assert test="@level = 's'">The first title in titleStmt should be a series statement.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:fileDesc//tei:title[position() &gt; 1]">
+               <sch:report test="@level = 's'">Only the first title in titleStmt should be a series statement.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhWorksTEI-title-duplicate-title-constraint-rule-33">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3610,7 +3641,7 @@ Elements]</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-title-punctuation-mark-constraint-report-30">
+                  id="hwhWorksTEI-title-punctuation-mark-constraint-report-31">
             <rule context="tei:title">
                <sch:report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                            test="matches(normalize-space(self::tei:title), '[\.,;]$') and not(matches(normalize-space(self::tei:title), '((\p{Lu})|(\setc)|(\sal)|([\s\.]a)|(\sBl)|(\sAufl))\.$'))">Found a non-valid punctuation mark at the end of <sch:name/>
@@ -3618,20 +3649,20 @@ Elements]</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-title-report-leading-zeros-constraint-report-31">
+                  id="hwhWorksTEI-title-report-leading-zeros-constraint-report-32">
             <rule context="tei:title">
                <sch:report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                            test="matches(., '\s0\d+\.')">please do not prefix numbers with a zero</sch:report>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-title-report-quotation-marks-constraint-report-32">
+                  id="hwhWorksTEI-title-report-quotation-marks-constraint-report-33">
             <rule context="tei:title">
                <sch:report xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="matches(., '&#34;“„')">please replace literal quotation marks with q-tags</sch:report>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-title-biblstruct-title-lang-constraint-rule-32">
+                  id="hwhWorksTEI-title-biblstruct-title-lang-constraint-rule-34">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3668,21 +3699,23 @@ Elements]</a:documentation>
                </choice>
             </attribute>
          </optional>
-         <attribute name="level">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</a:documentation>
-            <choice>
-               <value>a</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Artikel) der Titel bezieht sich auf einen analytischen Artikel, z. B. einen Artikel, ein Gedicht oder ein anderes Werk, das als Teil eines größeren Artikels veröffentlicht wurde.</a:documentation>
-               <value>m</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Monographie) der Titel bezieht sich auf eine Monografie wie ein Buch oder einen anderen Gegenstand, der als eigenständige Veröffentlichung gilt, einschließlich einzelner Bände von mehrbändigen Werken.</a:documentation>
-               <value>j</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Periodikum) der Titel bezieht sich auf jede fortlaufende oder periodische Veröffentlichung wie eine Zeitschrift, ein Magazin oder eine Zeitung.</a:documentation>
-               <value>s</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Serie) der Titel bezieht sich auf eine Reihe von ansonsten getrennten Veröffentlichungen, z. B. eine Sammlung.</a:documentation>
-               <value>u</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(unveröffentlicht) der Titel gilt für unveröffentlichtes Material (einschließlich Dissertationen und Diplomarbeiten, sofern sie nicht von einem kommerziellen Verlag veröffentlicht wurden).</a:documentation>
-            </choice>
-         </attribute>
+         <optional>
+            <attribute name="level">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">zeigt die bibliographische Ebene für einen Titel ein, also ob es einen Artikel, Buch, Zeitschrift, Serie, oder unveröffentlichtes Material identifiziert.</a:documentation>
+               <choice>
+                  <value>a</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Artikel) der Titel bezieht sich auf einen analytischen Artikel, z. B. einen Artikel, ein Gedicht oder ein anderes Werk, das als Teil eines größeren Artikels veröffentlicht wurde.</a:documentation>
+                  <value>m</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Monographie) der Titel bezieht sich auf eine Monografie wie ein Buch oder einen anderen Gegenstand, der als eigenständige Veröffentlichung gilt, einschließlich einzelner Bände von mehrbändigen Werken.</a:documentation>
+                  <value>j</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Periodikum) der Titel bezieht sich auf jede fortlaufende oder periodische Veröffentlichung wie eine Zeitschrift, ein Magazin oder eine Zeitung.</a:documentation>
+                  <value>s</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Serie) der Titel bezieht sich auf eine Reihe von ansonsten getrennten Veröffentlichungen, z. B. eine Sammlung.</a:documentation>
+                  <value>u</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(unveröffentlicht) der Titel gilt für unveröffentlichtes Material (einschließlich Dissertationen und Diplomarbeiten, sofern sie nicht von einem kommerziellen Verlag veröffentlicht wurden).</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -3712,7 +3745,7 @@ Elements]</a:documentation>
             </optional>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-imprint-duplicate-biblScope-type-constraint-report-35">
+                  id="hwhWorksTEI-imprint-duplicate-biblScope-type-constraint-report-36">
             <rule context="tei:imprint">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -3782,7 +3815,7 @@ Elements]</a:documentation>
    </define>
    <define name="bibl">
       <element name="bibl">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bibliografische Angabe) enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit ausgezeichnet sein können. [3.12.1. Methods of Encoding Bibliographic References and Lists of References 2.2.7. The Source Description 15.3.2. Declarable Elements]</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bibliografische Angabebibliografische Angabe) enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit ausgezeichnet sein können.enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit ausgezeichnet sein können. [3.12.1. Methods of Encoding Bibliographic References and Lists of References 2.2.7. The Source Description 15.3.2. Declarable Elements3.12.1. Methods of Encoding Bibliographic References and Lists of References 2.2.7. The Source Description 15.3.2. Declarable Elements]</a:documentation>
          <zeroOrMore>
             <choice>
                <text/>
@@ -3796,8 +3829,39 @@ Elements]</a:documentation>
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
-         <ref name="att.global.attributes"/>
+         <group>
+            <zeroOrMore>
+               <ref name="title"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="biblScope"/>
+            </zeroOrMore>
+         </group>
+         <ref name="att.global.attribute.xmlbase"/>
+         <ref name="att.global.attribute.xmlspace"/>
+         <ref name="att.global.attribute.n"/>
+         <ref name="att.global.attribute.xmllang"/>
+         <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.rendition.attribute.rend"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.facs.attribute.facs"/>
+         <ref name="att.global.change.attribute.change"/>
+         <ref name="att.global.responsibility.attribute.cert"/>
+         <ref name="att.global.responsibility.attribute.resp"/>
+         <ref name="att.global.source.attribute.source"/>
          <ref name="att.typed.attributes"/>
+         <optional>
+            <attribute name="xml:id">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            </attribute>
+         </optional>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -3879,7 +3943,7 @@ Elements]</a:documentation>
             </choice>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-relatedItem-relatedItem-type-within-notesStmt-constraint-report-36">
+                  id="hwhWorksTEI-relatedItem-relatedItem-type-within-notesStmt-constraint-report-37">
             <rule context="tei:relatedItem">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -3891,7 +3955,7 @@ Elements]</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-relatedItem-relatedItem-target-within-notesStmt-constraint-rule-34">
+                  id="hwhWorksTEI-relatedItem-relatedItem-target-within-notesStmt-constraint-rule-36">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -3904,7 +3968,7 @@ Elements]</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-relatedItem-targetorcontent1-constraint-report-37">
+                  id="hwhWorksTEI-relatedItem-targetorcontent1-constraint-report-38">
             <rule context="tei:relatedItem">
                <sch:report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                            xmlns="http://www.tei-c.org/ns/1.0"
@@ -3958,7 +4022,7 @@ relatedItem element must be empty</sch:report>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-l-abstractModel-structure-l-constraint-report-38">
+                  id="hwhWorksTEI-l-abstractModel-structure-l-constraint-report-39">
             <rule context="tei:l">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4007,7 +4071,7 @@ relatedItem element must be empty</sch:report>
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-lg-atleast1oflggapl-constraint-assert-21">
+                  id="hwhWorksTEI-lg-atleast1oflggapl-constraint-assert-22">
             <rule context="tei:lg">
                <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                            xmlns="http://www.tei-c.org/ns/1.0"
@@ -4017,7 +4081,7 @@ relatedItem element must be empty</sch:report>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-lg-abstractModel-structure-l-constraint-report-39">
+                  id="hwhWorksTEI-lg-abstractModel-structure-l-constraint-report-40">
             <rule context="tei:lg">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4040,7 +4104,7 @@ relatedItem element must be empty</sch:report>
             <ref name="revisionDesc"/>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-teiHeader-seriesTitle-constraint-rule-35">
+                  id="hwhWorksTEI-teiHeader-seriesTitle-constraint-rule-37">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4218,7 +4282,7 @@ relatedItem element must be empty</sch:report>
             </choice>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-notesStmt-count-notes-constraint-report-40">
+                  id="hwhWorksTEI-notesStmt-count-notes-constraint-report-41">
             <rule context="tei:notesStmt">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -4338,7 +4402,7 @@ relatedItem element must be empty</sch:report>
             <ref name="language"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-langUsage-no-language-for-revealed-correspondence-constraint-report-41">
+                  id="hwhWorksTEI-langUsage-no-language-for-revealed-correspondence-constraint-report-42">
             <rule context="tei:langUsage">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -4357,7 +4421,7 @@ relatedItem element must be empty</sch:report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Sprache) beschreibt eine einzelne Sprache oder eine Subsprache, die innerhalb eines Textes verwendet wird. [2.4.2. Language Usage]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-language-no-language-for-revealed-correspondence-constraint-report-42">
+                  id="hwhWorksTEI-language-no-language-for-revealed-correspondence-constraint-report-43">
             <rule context="tei:language">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -4540,7 +4604,7 @@ relatedItem element must be empty</sch:report>
             <ref name="div"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-body-non-empty-body-needs-langUsage-constraint-rule-36">
+                  id="hwhWorksTEI-body-non-empty-body-needs-langUsage-constraint-rule-38">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4634,7 +4698,7 @@ relatedItem element must be empty</sch:report>
             </optional>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-div-abstractModel-structure-l-constraint-report-43">
+                  id="hwhWorksTEI-div-abstractModel-structure-l-constraint-report-44">
             <rule context="tei:div">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4644,7 +4708,7 @@ relatedItem element must be empty</sch:report>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-div-abstractModel-structure-p-constraint-report-44">
+                  id="hwhWorksTEI-div-abstractModel-structure-p-constraint-report-45">
             <rule context="tei:div">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4832,7 +4896,7 @@ relatedItem element must be empty</sch:report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization name) contains an organizational name. [13.2.2. Organizational Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-orgName-orgNameKeyRequirement-constraint-rule-37">
+                  id="hwhWorksTEI-orgName-orgNameKeyRequirement-constraint-rule-39">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4844,7 +4908,7 @@ relatedItem element must be empty</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-orgName-parent-org-constraint-rule-38">
+                  id="hwhWorksTEI-orgName-parent-org-constraint-rule-40">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4856,7 +4920,7 @@ relatedItem element must be empty</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-orgName-parent-org-reg-constraint-rule-39">
+                  id="hwhWorksTEI-orgName-parent-org-reg-constraint-rule-41">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4868,7 +4932,7 @@ relatedItem element must be empty</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-orgName-parent-org-reg-constraint-rule-40">
+                  id="hwhWorksTEI-orgName-parent-org-reg-constraint-rule-42">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4880,7 +4944,7 @@ relatedItem element must be empty</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-orgName-parent-not-org-constraint-rule-41">
+                  id="hwhWorksTEI-orgName-parent-not-org-constraint-rule-43">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -4920,7 +4984,7 @@ relatedItem element must be empty</sch:report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Personenname) enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw. [13.2.1. Personal Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-persName-persNameKeyRequirement-constraint-rule-42">
+                  id="hwhWorksTEI-persName-persNameKeyRequirement-constraint-rule-44">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5100,7 +5164,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <ref name="row"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-table-collapsible-head-constraint-report-48">
+                  id="hwhWorksTEI-table-collapsible-head-constraint-report-49">
             <rule context="tei:table">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5134,7 +5198,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <ref name="cell"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-row-number-of-cells-constraint-rule-43">
+                  id="hwhWorksTEI-row-number-of-cells-constraint-rule-45">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5166,7 +5230,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Tabellenzelle) enthält eine Zelle einer Tabelle. [14.1.1. TEI Tables]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-cell-cell-rows-constraint-rule-44">
+                  id="hwhWorksTEI-cell-cell-rows-constraint-rule-46">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5272,7 +5336,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-facsimile-graphicOrSameAs-constraint-assert-28">
+                  id="hwhWorksTEI-facsimile-graphicOrSameAs-constraint-assert-29">
             <rule context="tei:facsimile">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5285,7 +5349,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-facsimile-sourceNwitness-constraint-rule-45">
+                  id="hwhWorksTEI-facsimile-sourceNwitness-constraint-rule-47">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5299,7 +5363,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-facsimile-sourcePattern-constraint-rule-46">
+                  id="hwhWorksTEI-facsimile-sourcePattern-constraint-rule-48">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5329,7 +5393,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(hinzugefügter Text) markiert den Beginn einer längeren Sequenz von Text, die von einem Autor, Schreiber, Kommentator oder Korrektor hinzugefügt wurde. [11.3.1.4. Additions and Deletions]</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-addSpan-spanTo-constraint-assert-31">
+                  id="hwhWorksTEI-addSpan-spanTo-constraint-assert-32">
             <rule context="tei:addSpan">
                <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5339,7 +5403,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-addSpan-spanTo_fr-constraint-assert-32">
+                  id="hwhWorksTEI-addSpan-spanTo_fr-constraint-assert-33">
             <rule context="tei:addSpan">
                <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5359,7 +5423,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-addSpan-hand-hand-reference-constraint-rule-47">
+                  id="hwhWorksTEI-addSpan-hand-hand-reference-constraint-rule-49">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5375,7 +5439,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-addSpan-spanTo-spanTo-7-constraint-rule-48">
+                  id="hwhWorksTEI-addSpan-spanTo-spanTo-7-constraint-rule-50">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5438,7 +5502,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </oneOrMore>
          </interleave>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-subst-substContents1-constraint-assert-35">
+                  id="hwhWorksTEI-subst-substContents1-constraint-assert-36">
             <rule context="tei:subst">
                <assert xmlns:xi="http://www.w3.org/2001/XInclude"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5528,7 +5592,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-msIdentifier-msId_minimal-constraint-report-50">
+                  id="hwhWorksTEI-msIdentifier-msId_minimal-constraint-report-51">
             <rule context="tei:msIdentifier">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                        xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5585,7 +5649,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-physDesc-empty-physDesc-constraint-assert-36">
+                  id="hwhWorksTEI-physDesc-empty-physDesc-constraint-assert-37">
             <rule context="tei:physDesc">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5598,7 +5662,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-physDesc-empty-physDesc-constraint-assert-37">
+                  id="hwhWorksTEI-physDesc-empty-physDesc-constraint-assert-38">
             <rule context="tei:physDesc">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5732,7 +5796,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(beliebiges Segment) steht für eine beliebige Segmentierung des Textes unterhalb des ‘chunk’ Levels. [16.3. Blocks, Segments, and Anchors 6.2. Components of the Verse Line 7.2.5. Speech Contents]</a:documentation>
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-seg-activeOrPassivePerformance-constraint-report-51">
+                  id="hwhWorksTEI-seg-activeOrPassivePerformance-constraint-report-52">
             <rule context="tei:seg">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5745,7 +5809,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-seg-AddresseeOrSenderCorrespondence-constraint-report-52">
+                  id="hwhWorksTEI-seg-AddresseeOrSenderCorrespondence-constraint-report-53">
             <rule context="tei:seg">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5854,7 +5918,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-att.witnessed-att-wit-constraint-rule-49">
+            id="hwhWorksTEI-att.witnessed-att-wit-constraint-rule-51">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -5942,7 +6006,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </oneOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-listWit-only-one-witness-constraint-report-53">
+                  id="hwhWorksTEI-listWit-only-one-witness-constraint-report-54">
             <rule context="tei:listWit">
                <sch:report xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -5987,7 +6051,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Zeichen oder Glyphe) Repräsentiert eine Glyphe oder ein ausgefallenes (nicht im Unicode-Standard beschriebenes) Zeichen. [5. Characters, Glyphs, and Writing Modes]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksTEI-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-50">
+                  id="hwhWorksTEI-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-52">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6109,7 +6173,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-att.hwh.rend-underline-n-constraint-rule-86">
+            id="hwhWorksTEI-att.hwh.rend-underline-n-constraint-rule-88">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6126,7 +6190,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-whitespaceOnlyContent-constraint-rule-51">
+            id="hwhWorksTEI-whitespaceOnlyContent-constraint-rule-53">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6139,7 +6203,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-elementStartsWithWhitespace-constraint-rule-52">
+            id="hwhWorksTEI-elementStartsWithWhitespace-constraint-rule-54">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6152,7 +6216,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-untrimmedAttributeValues-constraint-rule-53">
+            id="hwhWorksTEI-untrimmedAttributeValues-constraint-rule-55">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6164,7 +6228,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-hwhTargets-constraint-rule-54">
+            id="hwhWorksTEI-hwhTargets-constraint-rule-56">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6176,7 +6240,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-emojiCheck-constraint-rule-55">
+            id="hwhWorksTEI-emojiCheck-constraint-rule-57">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6188,7 +6252,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-sourceMustResolve-constraint-rule-56">
+            id="hwhWorksTEI-sourceMustResolve-constraint-rule-58">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6248,7 +6312,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-addWithoutPlace-constraint-rule-58">
+            id="hwhWorksTEI-addWithoutPlace-constraint-rule-60">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6260,7 +6324,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-nameTypeRequirement-constraint-rule-59">
+            id="hwhWorksTEI-nameTypeRequirement-constraint-rule-61">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6272,7 +6336,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-lbInsideAddress-constraint-rule-60">
+            id="hwhWorksTEI-lbInsideAddress-constraint-rule-62">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6285,7 +6349,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-renditionWithPosition-constraint-rule-61">
+            id="hwhWorksTEI-renditionWithPosition-constraint-rule-63">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6376,7 +6440,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-importName-constraint-rule-83">
+            id="hwhWorksTEI-importName-constraint-rule-85">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6388,7 +6452,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-styleguide-document-node-content-constraint-rule-84">
+            id="hwhWorksTEI-styleguide-document-node-content-constraint-rule-86">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6401,7 +6465,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhWorksTEI-styleguide-document-node-content-constraint-rule-85">
+            id="hwhWorksTEI-styleguide-document-node-content-constraint-rule-87">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
