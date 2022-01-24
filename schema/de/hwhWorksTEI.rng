@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-24T08:54:47Z. .
+Schema generated from ODD source 2022-01-24T09:17:48Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -6024,20 +6024,9 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
    <define name="listEvent">
       <element name="listEvent">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(list of events) contains a list of descriptions, each of which provides information about an identifiable event. []</a:documentation>
-         <group>
-            <zeroOrMore>
-               <ref name="model.headLike"/>
-            </zeroOrMore>
-            <zeroOrMore>
-               <ref name="desc"/>
-            </zeroOrMore>
-            <zeroOrMore>
-               <empty/>
-            </zeroOrMore>
-            <oneOrMore>
-               <empty/>
-            </oneOrMore>
-         </group>
+         <oneOrMore>
+            <ref name="event"/>
+         </oneOrMore>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attributes"/>
          <empty/>
@@ -6048,36 +6037,33 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(event) contains data relating to any kind of significant event associated with a person, place, or organization. []</a:documentation>
          <group>
             <zeroOrMore>
-               <ref name="idno"/>
+               <choice>
+                  <ref name="desc"/>
+                  <ref name="date"/>
+                  <ref name="settlement"/>
+               </choice>
             </zeroOrMore>
-            <zeroOrMore>
-               <ref name="model.headLike"/>
-            </zeroOrMore>
-            <choice>
-               <oneOrMore>
-                  <ref name="model.pLike"/>
-               </oneOrMore>
-               <oneOrMore>
-                  <ref name="model.labelLike"/>
-               </oneOrMore>
-            </choice>
             <zeroOrMore>
                <choice>
                   <ref name="model.noteLike"/>
                   <ref name="model.biblLike"/>
-                  <ref name="idno"/>
-                  <ref name="ptr"/>
                </choice>
-            </zeroOrMore>
-            <zeroOrMore>
-               <ref name="event"/>
             </zeroOrMore>
          </group>
          <ref name="att.global.attributes"/>
          <ref name="att.datable.attributes"/>
          <ref name="att.editLike.attributes"/>
-         <ref name="att.typed.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
          <ref name="att.naming.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+               <choice>
+                  <value>ua</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Uraufführung) Verzeichnet Informationen zur Uraufführung.</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
