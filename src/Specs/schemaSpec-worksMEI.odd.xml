@@ -105,7 +105,7 @@
             </attDef>
         </attList>
     </classSpec>-->
-    <!--<elementSpec ident="mei" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
+    <elementSpec ident="mei" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <desc versionDate="2013-11-11" xml:lang="en">contains a single MEI-conformant document, consisting of an MEI header and a musical text, either in isolation or as part of an meiCorpus element. </desc>
         <desc versionDate="2013-11-11" xml:lang="de">enthält ein einzelenes MEI-konformes Dokument, dass aus einem MEI header und muskialischem Text, entweder alleinstehend oder als Teil eines meiCorpus Elements, besteht.</desc>
         <content>
@@ -114,7 +114,7 @@
                     <rng:ref name="meiHead"/>
                     <rng:ref name="music"/>
                 </rng:group>
-                <!-\-  Dubletten  -\->
+                <!--  Dubletten  -->
                 <rng:element name="ref">
                     <rng:attribute name="type">
                         <rng:choice>
@@ -133,16 +133,25 @@
         </content>
         <attList>
             <attDef ident="xml:id" mode="replace" usage="req">
-                <gloss versionDate="2013-11-11" xml:lang="en">identifier</gloss>
-                <desc versionDate="2013-11-11" xml:lang="en">supplies any form of identifier used to identify some object, such as a bibliographic item, a person, a title, an organization, etc. in a standardized way.</desc>
-                <gloss versionDate="2013-11-11" xml:lang="de">Bezeichner</gloss>
-                <desc versionDate="2013-11-11" xml:lang="de">lieferte jegliche Form eines Bezeichners in einer standardisierten Form, der benutzt werden kann um Objekte zu identifiziert, wie etwa ein bibliographisches Element, eine Organisation, usw.</desc>
                 <datatype>
-                    <rng:ref name="wega.works.pointer"/>
+                    <rng:ref name="hwh.works.pointer"/>
                 </datatype>
             </attDef>
+            <attDef ident="status" usage="req" mode="add">
+                <datatype>
+                    <dataRef key="hwh_docStatus.list"/>
+                </datatype>
+            </attDef>
+            <attDef ident="source" usage="req" mode="add">
+                <valList type="closed" mode="add">
+                    <valItem ident="HWH" mode="add">
+                        <desc versionDate="2021-10-20" xml:lang="en">works from the database of the Henze-Digital project (HWH).</desc>
+                        <desc versionDate="2021-10-20" xml:lang="de">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
+                    </valItem>
+                </valList>
+            </attDef>
         </attList>
-    </elementSpec>-->
+    </elementSpec>
     <!--<elementSpec ident="meiHead" module="MEI.header" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <content>
             <rng:zeroOrMore>
@@ -241,22 +250,22 @@
                 </sch:rule>
             </constraint>
         </constraintSpec>
-        <constraintSpec scheme="schematron" ident="componentList-work-status">
+        <constraintSpec scheme="schematron" ident="mei-work-status">
             <constraint>
-                <sch:rule context="mei:work[not(parent::mei:componentList)]">
+                <sch:rule context="mei:mei|mei:work[not(parent::mei:componentList) and not(parent::mei:workList)]">
                     <sch:assert test="@status">@status is missing.</sch:assert>
                 </sch:rule>
-                <sch:rule context="mei:work[parent::mei:componentList]">
+                <sch:rule context="mei:work[parent::mei:componentList or parent::mei:workList]">
                     <sch:report test="@status">@status is only for use at the root element.</sch:report>
                 </sch:rule>
             </constraint>
         </constraintSpec>
-        <constraintSpec scheme="schematron" ident="componentList-work-source">
+        <constraintSpec scheme="schematron" ident="mei-work-source">
             <constraint>
-                <sch:rule context="mei:work[not(parent::mei:componentList)]">
+                <sch:rule context="mei:mei|mei:work[not(parent::mei:componentList) and not(parent::mei:workList)]">
                     <sch:assert test="@source">@source is missing.</sch:assert>
                 </sch:rule>
-                <sch:rule context="mei:work[parent::mei:componentList]">
+                <sch:rule context="mei:work[parent::mei:componentList or parent::mei:workList]">
                     <sch:report test="@source">@source is only for use at the root element.</sch:report>
                 </sch:rule>
             </constraint>
