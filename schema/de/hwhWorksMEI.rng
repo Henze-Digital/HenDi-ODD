@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.music-encoding.org/ns/mei"><!--
-Schema generated from ODD source 2022-01-24T08:17:05Z. .
+Schema generated from ODD source 2022-01-25T07:41:00Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding works at Henze-Digital 
@@ -442,6 +442,36 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <data type="string">
          <param name="pattern">[A-Z]{1,3}-[A-ZČŠŚŻŁÄÖÜ][A-Za-zäöüÄÖÜ]*</param>
       </data>
+   </define>
+   <define name="marcRelator.list">
+      <choice>
+         <value>arr</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Arranger) A person, family, or organization contributing to a musical work by rewriting the composition for a medium of performance different from that for which the work was originally intended, or modifying the work for the same medium of performance, etc., such that the musical substance of the original composition remains essentially unchanged. For extensive modification that effectively results in the creation of a new musical work, see composer.</a:documentation>
+         <value>aut</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Author) Use for a person or organization chiefly responsible for the intellectual or artistic content of a work, usually printed text. This term may also be used when more than one person or body bears such responsibility.</a:documentation>
+         <value>cmp</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Composer) Use for a person or organization who creates a musical work, usually a piece of music in manuscript or printed form.</a:documentation>
+         <value>dte</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Dedicatee) Use for a person or organization to whom a book, manuscript, etc., is dedicated (not the recipient of a gift).</a:documentation>
+         <value>egr</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Engraver) A person or organization who cuts letters, figures, etc. on a surface, such as a wooden or metal plate used for printing.</a:documentation>
+         <value>lbt</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Librettist) Use for a person or organization who is a writer of the text of an opera, oratorio, etc.</a:documentation>
+         <value>edt</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Editor) Use for a person or organization who prepares for publication a work not primarily his/her own, such as by elucidating text, adding introductory or other critical matter, or technically directing an editorial staff.</a:documentation>
+         <value>editorial_assistant</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Editorial Assistant) Use for a person who assisted in editing the text/score.</a:documentation>
+         <value>lyr</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Lyricist) Use for a person or organization who is a writer of the text of a song.</a:documentation>
+         <value>mcp</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Music copyist) A person who transcribes or copies musical notation.</a:documentation>
+         <value>scr</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Scribe) A person who is an amanuensis and for a writer of manuscripts proper.</a:documentation>
+         <value>trl</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Translator) Use for a person or organization who renders a text from one language into another, or from an older form of a language into the modern form.</a:documentation>
+         <value>chr</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Choreographer) A person responsible for creating or contributing to a work of movement.</a:documentation>
+      </choice>
    </define>
    <define name="hwh.data.temporal.iso">
       <choice>
@@ -1797,36 +1827,36 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-work-componentList-work-status-constraint-rule-15">
+                  id="hwhWorksMEI-work-mei-work-status-constraint-rule-15">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="mei:work[not(parent::mei:componentList)]">
+                      context="mei:mei|mei:work[not(parent::mei:componentList) and not(parent::mei:workList)]">
                <sch:assert test="@status">@status is missing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="mei:work[parent::mei:componentList]">
+                      context="mei:work[parent::mei:componentList or parent::mei:workList]">
                <sch:report test="@status">@status is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhWorksMEI-work-componentList-work-source-constraint-rule-17">
+                  id="hwhWorksMEI-work-mei-work-source-constraint-rule-17">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="mei:work[not(parent::mei:componentList)]">
+                      context="mei:mei|mei:work[not(parent::mei:componentList) and not(parent::mei:workList)]">
                <sch:assert test="@source">@source is missing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="mei:work[parent::mei:componentList]">
+                      context="mei:work[parent::mei:componentList or parent::mei:workList]">
                <sch:report test="@source">@source is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
@@ -2191,6 +2221,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <attribute name="role">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Die Rolle oder Beziehung der Person mit dem Text/der Partitur. Werte werden von der <a xmlns="http://www.w3.org/1999/xhtml"
                      href="http://www.loc.gov/marc/relators/relaterm.html">MARC Code List for Relators</a> genommen.</a:documentation>
+               <ref name="marcRelator.list"/>
             </attribute>
          </optional>
          <optional>
@@ -4379,6 +4410,62 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <empty/>
       </element>
    </define>
+   <define name="mei">
+      <element name="mei" ns="http://www.music-encoding.org/ns/mei">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">enthält ein einzelenes MEI-konformes Dokument, dass aus einem MEI header und muskialischem Text, entweder alleinstehend oder als Teil eines meiCorpus Elements, besteht.</a:documentation>
+         <choice>
+            <group>
+               <ref name="meiHead"/>
+               <ref name="music"/>
+            </group>
+            <element name="ref">
+               <attribute name="type">
+                  <choice>
+                     <value>duplicate</value>
+                     <value>deletion</value>
+                  </choice>
+               </attribute>
+               <attribute name="target">
+                  <empty/>
+               </attribute>
+               <empty/>
+            </element>
+         </choice>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hwhWorksMEI-mei-Check_staff-constraint-rule-23">
+            <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="mei:*[@staff]">
+               <sch:assert test="every $i in tokenize(normalize-space(@staff), '\s+') satisfies $i=//mei:staffDef/@n">The values in @staff must correspond to @n attribute of a staffDef
+            element.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <ref name="att.meiVersion.attributes"/>
+         <attribute name="xml:id">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <ref name="hwh.works.pointer"/>
+         </attribute>
+         <attribute name="status">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>proposed</value>
+               <value>candidate</value>
+               <value>approved</value>
+            </choice>
+         </attribute>
+         <attribute name="source">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>HWH</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
    <define name="music">
       <element name="music">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Contains a single musical text of any kind, whether unitary or composite, for example, an etude, opera, song cycle, symphony, or anthology of piano solos.</a:documentation>
@@ -5584,6 +5671,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
    <start>
       <choice>
          <ref name="work"/>
+         <ref name="mei"/>
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
