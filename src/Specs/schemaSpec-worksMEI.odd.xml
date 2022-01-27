@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-<schemaSpec ident="hwhWorksMEI" xml:lang="en" start="work mei" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaWorks.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" ns="http://www.music-encoding.org/ns/mei" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:rng="http://relaxng.org/ns/structure/1.0"
-    xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+<schemaSpec ident="hwhWorksMEI" xml:lang="en" start="mei" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaWorks.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" ns="http://www.music-encoding.org/ns/mei" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+    
     <desc>This is the customization for encoding works at Henze-Digital</desc>
+    
     <moduleRef key="MEI"/>
     <moduleRef key="MEI.edittrans"/>
     <moduleRef key="MEI.frbr"/>
@@ -113,6 +114,7 @@
             </attDef>
         </attList>
     </elementSpec>
+    
     <!--<elementSpec ident="meiHead" module="MEI.header" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <content>
             <rng:zeroOrMore>
@@ -123,6 +125,7 @@
             <rng:ref name="revisionDesc"/>                            
         </content>
     </elementSpec>-->
+    
     <elementSpec ident="work" module="MEI.header" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <content>
             <rng:choice>
@@ -399,7 +402,7 @@
         </attList>
     </elementSpec>
     
-    <elementSpec ident="titlePart" module="MEI.shared" mode="add" ns="http://www.music-encoding.org/ns/mei">
+    <elementSpec ident="titlePart" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <desc versionDate="2021-12-08" xml:lang="de">Markiert einen Abschnitt eines Titels.</desc>
         <desc versionDate="2021-12-08" xml:lang="en">marks a part of a title.</desc>
         <content>
@@ -506,7 +509,7 @@
         </content>
     </elementSpec>
     
-    <elementSpec ident="mdiv" module="MEI.shared" mode="change"  ns="http://www.music-encoding.org/ns/mei">
+    <elementSpec ident="mdiv" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <gloss versionDate="2022-01-26" xml:lang="en">musical division</gloss>
         <desc versionDate="2022-01-26" xml:lang="en">Contains a subdivision of the body of a musical text.</desc>
         <gloss versionDate="2022-01-26" xml:lang="de">musikalischer Abschnitt</gloss>
@@ -568,7 +571,7 @@
         </attList>
     </elementSpec>
     
-    <elementSpec ident="language" module="MEI.header" mode="change">
+    <elementSpec ident="language" module="MEI.header" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <content>
              <valList type="closed" mode="add">
                  <valItem ident="aa">
@@ -1607,4 +1610,64 @@
             </attDef>
         </attList>
     </elementSpec>
+    
+    
+    <elementSpec ident="event" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
+        <desc versionDate="2022-01-27" xml:lang="en">Contains information concerning an event.</desc>
+        <desc versionDate="2022-01-27" xml:lang="de">Enthält Informationen ein Ereignis betreffend.</desc>
+        <classes>
+            <memberOf key="att.common"/>
+            <memberOf key="att.bibl"/>
+            <memberOf key="att.calendared" mode="delete"/>
+            <memberOf key="att.datable"/>
+            <memberOf key="att.edit" mode="delete"/>
+            <memberOf key="att.facsimile" mode="delete"/>
+            <memberOf key="att.lang"/>
+        </classes>
+        <content>
+            <rng:zeroOrMore>
+                <rng:ref name="date"/>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="geogName"/>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="settlement"/>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="persName"/>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="model.pLike"/>
+            </rng:zeroOrMore>
+            <rng:zeroOrMore>
+                <rng:ref name="biblList"/>
+            </rng:zeroOrMore>
+        </content>
+        <attList>
+            <attDef ident="type" mode="change">
+                <valList type="closed" mode="add">
+                    <valItem ident="ua">
+                        <gloss versionDate="2022-01-27" xml:lang="en">world's premiere</gloss>
+                        <desc versionDate="2022-01-27" xml:lang="en">contains information about the world's premiere.</desc>
+                        <gloss versionDate="2022-01-27" xml:lang="de">Uraufführung</gloss>
+                        <desc versionDate="2022-01-27" xml:lang="de">Enthält Informationen zur Uraufführung.</desc>
+                    </valItem>
+                    <valItem ident="ea">
+                        <gloss versionDate="2022-01-27" xml:lang="en">premiere</gloss>
+                        <desc versionDate="2022-01-27" xml:lang="en">contains information about the premiere on a certain place.</desc>
+                        <gloss versionDate="2022-01-27" xml:lang="de">Erstaufführung</gloss>
+                        <desc versionDate="2022-01-27" xml:lang="de">Enthält Informationen zur Erstaufführung an einem bestimmten Ort.</desc>
+                    </valItem>
+                    <valItem ident="pa">
+                        <gloss versionDate="2022-01-27" xml:lang="en">private performance</gloss>
+                        <desc versionDate="2022-01-27" xml:lang="en">contains information about a private performance.</desc>
+                        <gloss versionDate="2022-01-27" xml:lang="de">Privataufführung</gloss>
+                        <desc versionDate="2022-01-27" xml:lang="de">Enthält Informationen über eine Privataufführung.</desc>
+                    </valItem>
+                </valList>
+            </attDef>
+        </attList>
+    </elementSpec>
+    
 </schemaSpec>
