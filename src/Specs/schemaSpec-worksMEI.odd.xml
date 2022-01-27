@@ -133,19 +133,6 @@
                     <rng:zeroOrMore>
                         <rng:ref name="model.respLikePart" />
                     </rng:zeroOrMore>
-                    <!--<rng:ref name="composer"/>
-                    <rng:optional>
-                        <rng:ref name="arranger"/>
-                    </rng:optional>
-                    <rng:optional>
-                        <rng:ref name="editor"/>
-                    </rng:optional>
-                    <rng:optional>
-                        <rng:ref name="librettist"/>
-                    </rng:optional>
-                    <rng:optional>
-                        <rng:ref name="lyricist"/>
-                    </rng:optional>-->
                     <rng:optional>
                         <rng:ref name="creation"/>
                     </rng:optional>
@@ -207,7 +194,7 @@
             <desc versionDate="2021-12-09" xml:lang="de">Weist auf die gleichzeitige Verwendung von lyricist und librettist hin.</desc>
             <constraint>
                 <sch:rule context="mei:work | mei:expression">
-                    <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
+                    <sch:report test="mei:lyricist and mei:librettist" role="info">This work has a lyricist AND a librettist.</sch:report>
                 </sch:rule>
             </constraint>
         </constraintSpec>
@@ -306,6 +293,14 @@
     </elementSpec>
     
     <elementSpec ident="persName" module="MEI.namesdates" mode="change" ns="http://www.music-encoding.org/ns/mei">
+        <constraintSpec scheme="schematron" ident="persname-role-values-respstmt">
+        <constraint>
+            <sch:rule context="mei:persName[ancestor::mei:titleStmt]">
+                <sch:let name="legalValues" value="'(arr)|(aut)|(cmp)|(edt)|(editorial_assistant)|(dte)|(lbt)|(lyr)|(trc)|(trl)'"/>
+                <sch:assert test="matches(@role, $legalValues)">On this level only following roles are allowed: <sch:value-of select="$legalValues"/>.</sch:assert>
+            </sch:rule>
+        </constraint>
+        </constraintSpec>
         <attList>
             <attDef ident="label" mode="add" usage="opt">
                 <desc versionDate="2022-01-25" xml:lang="en"></desc>
@@ -375,28 +370,30 @@
         <desc versionDate="2021-12-08" xml:lang="de">Markiert einen Titel.</desc>
         <desc versionDate="2021-12-08" xml:lang="en">marks a title.</desc>
         <content>
-            <rng:oneOrMore>
-                <rng:ref name="titlePart"/>
-            </rng:oneOrMore>
+            <rng:zeroOrMore>
+                <rng:choice>
+                    <rng:mixed>
+                        <rng:zeroOrMore>
+                            <rng:ref name="q"/>
+                        </rng:zeroOrMore>
+                    </rng:mixed>
+                    <rng:ref name="titlePart" />
+                </rng:choice>
+            </rng:zeroOrMore>
         </content>
-        <constraintSpec scheme="schematron" ident="work-subtitles-map-xmllang" mode="delete">
-            <!--<constraint>
-                <sch:rule context="mei:title[@type='sub'][parent::mei:titleStmt]">
-                    <sch:assert test="string(@xml:lang) = preceding-sibling::mei:title/string(@xml:lang)">Make sure that this subtitle has a proper xml:lang attribute matching a preceding title's xml:lang</sch:assert>
+<!--        <constraintSpec scheme="schematron" ident="work-subtitles-map-xmllang" mode="delete"/>-->
+        
+        <constraintSpec scheme="schematron" ident="work-titles-work">
+            <constraint>
+                <sch:rule context="mei:title[parent::mei:work]">
+                    <sch:report test="@type">The attribute type is not recommended for titles on work level.</sch:report>
                 </sch:rule>
-            </constraint>-->
+            </constraint>
         </constraintSpec>
         <attList>
-            <attDef ident="type" mode="change" usage="req">
+            <attDef ident="type" mode="change" usage="rec">
                 <valList mode="change" type="closed">
-                    <valItem ident="sub" mode="delete"/>
                     <valItem ident="div" mode="delete"/>
-                    <valItem ident="reg" mode="add">
-                        <gloss versionDate="2021-12-08" xml:lang="de">normiert</gloss>
-                        <gloss versionDate="2021-12-08" xml:lang="en">regularized</gloss>
-                        <desc versionDate="2021-12-08" xml:lang="de">Markiert einen Normierten Titel.</desc>
-                        <desc versionDate="2021-12-08" xml:lang="en">marks a regularized title.</desc>
-                    </valItem>
                 </valList>
             </attDef>
         </attList>

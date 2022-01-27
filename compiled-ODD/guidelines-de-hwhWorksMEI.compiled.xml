@@ -3951,7 +3951,7 @@
             <desc versionDate="2021-12-09" xml:lang="de">Weist auf die gleichzeitige Verwendung von lyricist und librettist hin.</desc>
             <constraint>
                 <sch:rule context="mei:work | mei:expression">
-                    <sch:report test="mei:lyricist and mei:librettist" role="warn">Are you sure that this work has a lyricist AND a librettist?</sch:report>
+                    <sch:report test="mei:lyricist and mei:librettist" role="info">This work has a lyricist AND a librettist.</sch:report>
                 </sch:rule>
             </constraint>
         </constraintSpec><constraintSpec scheme="schematron" ident="mei-work-status">
@@ -4072,7 +4072,14 @@
     </remarks><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
       <p>This element is modelled on an element in the Encoded Archival Description (EAD)
         standard.</p>
-    </remarks></elementSpec><elementSpec rend="add" ident="persName" module="MEI.namesdates" ns="http://www.music-encoding.org/ns/mei"><gloss rend="replace" versionDate="2013-11-11" xml:lang="en">personal name</gloss><gloss rend="replace" versionDate="2013-11-11" xml:lang="de">Personenname</gloss><desc rend="replace" versionDate="2013-11-11" xml:lang="en">contains a proper noun or proper-noun phrase referring to a person, possibly including one or more of the person's forenames, surnames, honorifics, added names, etc.</desc><desc rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw.</desc><classes><memberOf key="att.canonical"/><memberOf key="model.nameLike.agent"/></classes><content><zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude"/><ref name="model.textPhraseLike"/><ref name="model.editLike"/><ref name="model.transcriptionLike"/><ref name="model.persNamePart"/></choice></zeroOrMore></content><attList><attDef ident="label" usage="opt">
+    </remarks></elementSpec><elementSpec rend="add" ident="persName" module="MEI.namesdates" ns="http://www.music-encoding.org/ns/mei"><gloss rend="replace" versionDate="2013-11-11" xml:lang="en">personal name</gloss><gloss rend="replace" versionDate="2013-11-11" xml:lang="de">Personenname</gloss><desc rend="replace" versionDate="2013-11-11" xml:lang="en">contains a proper noun or proper-noun phrase referring to a person, possibly including one or more of the person's forenames, surnames, honorifics, added names, etc.</desc><desc rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw.</desc><classes><memberOf key="att.canonical"/><memberOf key="model.nameLike.agent"/></classes><content><zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><rng:text xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude"/><ref name="model.textPhraseLike"/><ref name="model.editLike"/><ref name="model.transcriptionLike"/><ref name="model.persNamePart"/></choice></zeroOrMore></content><constraintSpec scheme="schematron" ident="persname-role-values-respstmt">
+        <constraint>
+            <sch:rule context="mei:persName[ancestor::mei:titleStmt]">
+                <sch:let name="legalValues" value="'(arr)|(aut)|(cmp)|(edt)|(editorial_assistant)|(dte)|(lbt)|(lyr)|(trc)|(trl)'"/>
+                <sch:assert test="matches(@role, $legalValues)">On this level only following roles are allowed: <sch:value-of select="$legalValues"/>.</sch:assert>
+            </sch:rule>
+        </constraint>
+        </constraintSpec><attList><attDef ident="label" usage="opt">
                 <desc versionDate="2022-01-25" xml:lang="en"/>
                 <desc versionDate="2022-01-25" xml:lang="de">.</desc>
                 <datatype>
@@ -5718,7 +5725,19 @@
         identifier of the element containing the category label.</p>
     </remarks><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
       <p>This element is modelled on an element in the Text Encoding Initiative (TEI) standard.</p>
-    </remarks></elementSpec><elementSpec rend="add" ident="title" module="MEI.shared" ns="http://www.music-encoding.org/ns/mei"><desc rend="replace" versionDate="2021-12-08" xml:lang="de">Markiert einen Titel.</desc><desc rend="replace" versionDate="2021-12-08" xml:lang="en">marks a title.</desc><classes><memberOf key="att.basic"/><memberOf key="att.filing"/><memberOf key="att.labelled"/><memberOf key="att.lang"/><memberOf key="att.nNumberLike"/><memberOf key="model.titleLike"/></classes><content><oneOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="titlePart"/></oneOrMore></content><attList><attDef ident="label" mode="delete"/><attDef ident="xml:base" mode="delete"/><attDef ident="level" usage="opt">
+    </remarks></elementSpec><elementSpec rend="add" ident="title" module="MEI.shared" ns="http://www.music-encoding.org/ns/mei"><desc rend="replace" versionDate="2021-12-08" xml:lang="de">Markiert einen Titel.</desc><desc rend="replace" versionDate="2021-12-08" xml:lang="en">marks a title.</desc><classes><memberOf key="att.basic"/><memberOf key="att.filing"/><memberOf key="att.labelled"/><memberOf key="att.lang"/><memberOf key="att.nNumberLike"/><memberOf key="model.titleLike"/></classes><content><zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><choice><mixed><zeroOrMore><ref name="q"/></zeroOrMore></mixed><ref name="titlePart"/></choice></zeroOrMore></content><constraintSpec scheme="schematron" ident="work-titles-work">
+            <constraint>
+                <sch:rule context="mei:title[parent::mei:work]">
+                    <sch:report test="@type">The attribute type is not recommended for titles on work level.</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><constraintSpec scheme="schematron" ident="work-subtitles-map-xmllang">
+            <constraint>
+                <sch:rule context="mei:title[@type='sub'][parent::mei:titleStmt]">
+                    <sch:assert test="string(@xml:lang) = preceding-sibling::mei:title/string(@xml:lang)">Make sure that this subtitle has a proper xml:lang attribute matching a preceding title's xml:lang</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><attList><attDef ident="label" mode="delete"/><attDef ident="xml:base" mode="delete"/><attDef ident="level" usage="opt">
         <desc>Indicates the bibliographic level of the title.</desc>
         <valList type="closed">
           <valItem ident="a">
@@ -5751,19 +5770,17 @@
               press).</desc>
           </valItem>
         </valList>
-      </attDef><attDef ident="type" usage="req"><desc>Characterizes the title in some sense, using any convenient classification scheme or
+      </attDef><attDef ident="type" usage="rec"><desc>Characterizes the title in some sense, using any convenient classification scheme or
           typology that employs single-token labels.</desc><datatype>
           <rng:data type="NMTOKENS"/>
-        </datatype><valList mode="change" type="closed"><valItem ident="alt">
+        </datatype><valList mode="change" type="closed"><valItem ident="sub">
+                        <desc versionDate="2014-04-30" xml:lang="de">Markiert einen Untertitel.</desc>
+                        <desc versionDate="2014-04-30" xml:lang="en">marks a subtitle.</desc>
+                    </valItem><valItem ident="alt">
                         <gloss versionDate="2014-04-30" xml:lang="de">alternativ</gloss>
                         <gloss versionDate="2014-04-30" xml:lang="en">alternative</gloss>
                         <desc versionDate="2014-04-30" xml:lang="de">Markiert einen alternativen Titel, meist in Übersetzung (siehe <att>xml:lang</att>).</desc>
                         <desc versionDate="2014-04-30" xml:lang="en">marks an alternative title, most frequently translated (cf. <att>xml:lang</att>).</desc>
-                    </valItem><valItem ident="reg" mode="add">
-                        <gloss versionDate="2021-12-08" xml:lang="de">normiert</gloss>
-                        <gloss versionDate="2021-12-08" xml:lang="en">regularized</gloss>
-                        <desc versionDate="2021-12-08" xml:lang="de">Markiert einen Normierten Titel.</desc>
-                        <desc versionDate="2021-12-08" xml:lang="en">marks a regularized title.</desc>
                     </valItem></valList></attDef></attList><remarks xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
       <p>The <att>type</att> attribute may be used to classify the title according to some
         convenient typology. Sample values include: main (main title), subordinate (subtitle, title
