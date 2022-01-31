@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-25T19:02:22Z. .
+Schema generated from ODD source 2022-01-31T11:14:00Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -5737,6 +5737,12 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
             <attribute name="type">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
                <choice>
+                  <value>forest</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                  <value>mountain</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                  <value>river</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                   <value>island</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                </choice>
@@ -6979,26 +6985,11 @@ Beispielwerte sind etwa: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(materielle Beschreibung) enthält eine komplette materielle Beschreibung einer Quelle oder Teile einer Quelle, gegebenenfalls unterteilt mit mehr spezifischen Elementen aus der model.physDescPart Klasse. []</a:documentation>
          <group>
             <zeroOrMore>
-               <ref name="model.pLike"/>
+               <ref name="p"/>
             </zeroOrMore>
-            <optional>
+            <zeroOrMore>
                <ref name="objectDesc"/>
-            </optional>
-            <optional>
-               <ref name="handDesc"/>
-            </optional>
-            <optional>
-               <ref name="typeDesc"/>
-            </optional>
-            <optional>
-               <ref name="scriptDesc"/>
-            </optional>
-            <optional>
-               <ref name="musicNotation"/>
-            </optional>
-            <optional>
-               <ref name="accMat"/>
-            </optional>
+            </zeroOrMore>
             <zeroOrMore>
                <ref name="accMat"/>
             </zeroOrMore>
@@ -7039,10 +7030,12 @@ Beispielwerte sind etwa: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie
          <ref name="att.global.attributes"/>
          <attribute name="form">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(form) a short project-specific name identifying the physical form of the carrier, for example as a codex, roll, fragment, partial leaf, cutting etc.
-Empfohlene Werte sind: 1] document (document); 2] letter (Letter); 3] telegram (telegram); 4] postcard (postcard)</a:documentation>
+Empfohlene Werte sind: 1] document (document); 2] envelope (envelope); 3] letter (Letter); 4] telegram (telegram); 5] postcard (postcard)</a:documentation>
             <choice>
                <value>document</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Dokument) </a:documentation>
+               <value>envelope</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Briefumschlag) </a:documentation>
                <value>letter</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Brief) </a:documentation>
                <value>telegram</value>
@@ -7207,83 +7200,12 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <empty/>
       </element>
    </define>
-   <define name="handDesc">
-      <element name="handDesc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(description of hands) contains a description of all the different hands used in a manuscript or other object. []</a:documentation>
-         <choice>
-            <oneOrMore>
-               <ref name="model.pLike"/>
-            </oneOrMore>
-            <group>
-               <optional>
-                  <ref name="summary"/>
-               </optional>
-               <oneOrMore>
-                  <ref name="handNote"/>
-               </oneOrMore>
-            </group>
-         </choice>
-         <ref name="att.global.attributes"/>
-         <optional>
-            <attribute name="hands">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(hands) specifies the number of distinct hands identified within the manuscript</a:documentation>
-               <data type="nonNegativeInteger"/>
-            </attribute>
-         </optional>
-         <empty/>
-      </element>
-   </define>
-   <define name="typeDesc">
-      <element name="typeDesc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(typeface description) contains a description of the typefaces or other aspects of the printing of an incunable or other printed source. []</a:documentation>
-         <choice>
-            <oneOrMore>
-               <ref name="model.pLike"/>
-            </oneOrMore>
-            <group>
-               <optional>
-                  <ref name="summary"/>
-               </optional>
-               <oneOrMore>
-                  <ref name="typeNote"/>
-               </oneOrMore>
-            </group>
-         </choice>
-         <ref name="att.global.attributes"/>
-         <empty/>
-      </element>
-   </define>
    <define name="typeNote">
       <element name="typeNote">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(typographic note) describes a particular font or other significant typographic feature distinguished within the description of a printed resource. []</a:documentation>
          <ref name="macro.specialPara"/>
          <ref name="att.global.attributes"/>
          <ref name="att.handFeatures.attributes"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="scriptDesc">
-      <element name="scriptDesc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of the scripts used in a manuscript or other object. []</a:documentation>
-         <choice>
-            <oneOrMore>
-               <ref name="model.pLike"/>
-            </oneOrMore>
-            <group>
-               <optional>
-                  <ref name="summary"/>
-               </optional>
-            </group>
-         </choice>
-         <ref name="att.global.attributes"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="musicNotation">
-      <element name="musicNotation">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(music notation) contains description of type of musical notation. []</a:documentation>
-         <ref name="macro.specialPara"/>
-         <ref name="att.global.attributes"/>
          <empty/>
       </element>
    </define>
