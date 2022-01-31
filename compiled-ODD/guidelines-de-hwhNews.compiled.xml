@@ -125,7 +125,7 @@
         </div>
         <div xml:id="DT-documents">
             <head>Dokumente</head>
-            <p>Dokumente zur Biographie und zum Wirken Hans Werner Henzes. Dokumente, die als Briefanlagen versendet wurden, sind im Briefkorpus codiert. <note resp="DR">Zu Dokumenten: Wäre es sinvoll die Briefbeilagen in die Dokumente auszulagern und zu verlinken?</note></p>
+            <p>Dokumente zur Biographie und zum Wirken Hans Werner Henzes. Dokumente, die als Briefanlagen versendet wurden, sind im Briefkorpus codiert. <note resp="DR">Zu Dokumenten: Wäre es sinnvoll die Briefbeilagen in die Dokumente auszulagern und zu verlinken?</note></p>
         </div>
     </div>
     <div xml:id="DT-secondary">
@@ -154,14 +154,43 @@
         </div>
         <div xml:id="DT-characters">
             <head>Rollen</head>
-            <p/>
+            <p>[Dieser Datentyp wird derzeit noch diskutiert.]</p>
         </div>
         <div xml:id="DT-places">
             <head>Orte</head>
-            <p/>
+            <p>Referenzdatensätze zu Orten werden stets einzeln erfasst. Es ist hierbei nicht von Beland ob es sich um ein Land, eine Stadt, eine Adresse oder ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert. Die Normdaten-Verknüpfung wird mit der Datenbank von <ref target="https://www.geonames.org/">GeoNames</ref> mittels Angabe der GeoNames-ID hergestellt. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Orte, wie Schlösser, Burgen, u.a. enthält; zudem sind die Datensätze miteinander verknüpft und hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
+            <p>Das Datenmodell für Orte ist von einfacher Struktur.</p>
+            <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A13025E2">
+                <place xml:id="A13025E2" status="proposed" source="HWH">
+                    <idno type="geonames">5128581</idno>
+                    <placeName type="reg">New York</placeName>
+                    <placeName type="alt">New York City</placeName>
+                </place>
+            </egXML>
+            <p>Für den Fall, dass ein Ort nicht in der <ref target="https://www.geonames.org/">GeoNames</ref>-Datenbank verfügbar ist, werden die Koordinaten ermittelt und im Datensatz nach folgendem Schema hinterlegt.</p>
+            <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A130109C">
+                <place xml:id="A130109C" status="candidate" source="HWH">
+                    <placeName type="reg">Falkenmühle</placeName>
+                    <location>
+                        <geo>49.0957712 7.8051705</geo>
+                    </location>
+                </place>
+            </egXML>
         </div>
         <div xml:id="DT-orgs">
-            <head>Institutionen</head>
+            <head>Organisationen/Institutionen</head>
+            <p>Bei Referenzsdatensätzen zu Organisationen werden derzeit nur Name und Ort erfasst.<note resp="DR" place="bottom">Orgs befinden sich noch im Aufbau.</note></p>
+            <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0800626">
+                <org xml:id="A0800626" status="candidate" source="HWH">
+                    <idno type="gnd">2028455-X</idno>
+                    <orgName type="reg">Bonn. Kulturamt</orgName>
+                    <orgName type="alt">Kulturamt der Stadt Bonn</orgName>
+                    <settlement key="A13007FD">Bonn</settlement>
+                </org>
+            </egXML>
+            <p>Zum Umgang mit Abteilungen, Projektgruppen und organisationshierarchischen Untersektionen: Im Falle, dass </p>
+            
+            
         </div>
         <div xml:id="DT-biblio">
             <head>Literatur</head>
@@ -184,7 +213,38 @@
         </div>
         <div xml:id="DT-works">
             <head>Werke</head>
-            <p/>
+            <p>Dieser Datentyp ist äußerst komplex, da musikalische wie auch literarische Werke erfasst werden. Für die musikalischen Eerke findet die Music Encoding Initiative (MEI) anwendung; für literarische Werke die Text Encoding Initiative (TEI). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
+            <div xml:id="DT-works-musical">
+                <head>Musikalische Werke</head>
+                <p/>
+            </div>
+            <div xml:id="DT-works-literary">
+            <head>Literarische Werke</head>
+            <p>Die literarischen Werke, hierbei ist es unerheblich von wem das Werk stammt, werden als TEI-Dokumente erfasst. Auch wenn hierfür zunächst nur der <gi>teiHeader</gi>, also die Metadaten relevant sind, so besteht die Möglichkeit später den Inhalte des verzeichneten Werkes hinzuzufügen.</p>
+                <p>Verzeichnet werden die Werke mittels eines <gi>biblStruct</gi> Elements aufgrund der restriktiven Verwendung.
+                <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
+                    <biblStruct type="book">
+                        <monogr>
+                            <title>Les amitiés particulières</title>
+                            <title xml:lang="de">Heimliche Freundschaften</title>
+                            <author key="A0010785">Peyrefitte, Roger</author>
+                            <imprint>
+                                <date when="1944">1944</date>
+                                <pubPlace/>
+                                <publisher/>
+                            </imprint>
+                        </monogr>
+                    </biblStruct>
+                </egXML>
+                Im vorangegangenen Beispiel wurde zusätzlich ein übersetzter Titel angegeben. Im Rahmen des Projektes Henze-Digital wird <att>xml:lang</att> hier nicht verwendet, um die Sprache, in welcher der Titel angegeben wird, im allgemeinen zu definieren. Der erste Titel ist stets als originär zu betrachten und lediglich die u. U. folgenden Titel bedürfen das <att>xml:lang</att> Attribut, um anzugeben in welche Sprache der originäre Titel übersetzt wurde.</p>
+                <p>Die Sprache(n), in der/denen das Werk selbst verfasst ist, werden über die <gi>langUsage</gi> angegeben.
+                <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
+                    <langUsage>
+                        <language ident="fr"/>
+                    </langUsage>
+                </egXML>
+            </p>
+            </div>
         </div>
         <!--<div xml:id="DT-sources">
             <head>Quellen</head>
@@ -306,45 +366,45 @@
 			<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?><div xml:id="chap-editorialGuide" xml:lang="de" xml:base="de/chap-editorialGuide.xml">
     <head>Grundsätze der Textübertragung und -auszeichnung</head>
     <p/>
-    <div xml:id="MU-characters">
+    <div xml:id="eG-characters">
         <head>Zeichenebene</head>
-        <div xml:id="MU-dashes">
+        <div xml:id="eG-dashes">
             <head>Trennungs- und Bindestriche</head>
             <p/>
         </div>
-        <div xml:id="MU-brackets">
+        <div xml:id="eG-brackets">
             <head>Klammerformen</head>
             <p/>
         </div>
-        <div xml:id="MU-syl">
+        <div xml:id="eG-syl">
             <head>Endsilben</head>
             <p/>
         </div>
-        <div xml:id="MU-sic">
+        <div xml:id="eG-sic">
             <head>Schreibversehen</head>
             <p/>
         </div>
-        <div xml:id="MU-lb">
+        <div xml:id="eG-lb">
             <head>Zeilenfall</head>
             <p/>
         </div>
-        <div xml:id="MU-case">
+        <div xml:id="eG-case">
             <head>Groß- und Kleinschreibung</head>
             <p/>
         </div>
-        <div xml:id="MU-apos">
+        <div xml:id="eG-apos">
             <head>Apostroph</head>
             <p/>
         </div>
-        <div xml:id="MU-ndash">
+        <div xml:id="eG-ndash">
             <head>Gedankenstrich</head>
             <p/>
         </div>
-        <div xml:id="MU-punct">
+        <div xml:id="eG-punct">
             <head>Satzzeichen</head>
             <p/>
         </div>
-        <div xml:id="MU-ss"> 
+        <div xml:id="eG-ss"> 
             <head>Problematik: ss/ß</head>
             <p/>
         </div>
@@ -352,14 +412,14 @@
 
 
 
-    <div xml:id="MU-currency">
+    <div xml:id="eG-currency">
         <head>Währungssymbole, Längemaße etc.</head>
         <p/>
     </div>
-    <div xml:id="MU-notatedmusic">
+    <div xml:id="eG-notatedmusic">
         <head>Musiknotation</head>
     </div>
-    <div xml:id="MU-symbols">
+    <div xml:id="eG-symbols">
         <head>Sonstige Symbole und Grafiken</head>
         <p>Spezielle graphische Zeichen bzw. Zeichenfolgen Henzes und ihre Erläuterung:</p>
         <table>
@@ -369,7 +429,7 @@
             </row>
         </table>
     </div>
-    <div xml:id="MU-textstructure">
+    <div xml:id="eG-textstructure">
         <head>Textstruktur</head>
         <p>Die Struktur der Texte kann mit folgenden Elementen untergliedert werden: <specList>
                 <specDesc key="div"/>
@@ -388,7 +448,7 @@
             </specList>
         </p>
     </div>
-    <div xml:id="MU-hi">
+    <div xml:id="eG-hi">
         <head>Texthervorhebungen</head>
         <p>Texthervorhebungen wie Unterstreichungen, Hochstellung, etc. im laufenden Text werden mit
             dem Element <gi>hi</gi> gekennzeichnet.
@@ -398,7 +458,7 @@
             </specList>
         </p>
     </div>
-    <div xml:id="MU-textconst">
+    <div xml:id="eG-textconst">
         <head>Textkonstitution</head>
         <p>Textkonstitutionelle Merkmale im Text werden mit den folgenden Elementen erfasst und
             beschrieben: <specList>
@@ -412,27 +472,27 @@
             </specList>
         </p>
 
-        <div xml:id="MU-deletions">
+        <div xml:id="eG-deletions">
             <head>Streichungen des Autors</head>
             <p>
             </p>
         </div>
-        <div xml:id="MU-additions">
+        <div xml:id="eG-additions">
             <head>Ergänzungen des Autors</head>
             <p>
             </p>
         </div>
 
-        <div xml:id="MU-corrections">
+        <div xml:id="eG-corrections">
             <head>Korrekturen des Autors</head>
             <p/>
         </div>
-        <div xml:id="MU-illegible">
+        <div xml:id="eG-illegible">
             <head>Unleserliches</head>
             <p/>
         </div>
     </div>
-    <div xml:id="MU-app">
+    <div xml:id="eG-app">
         <head>Lesarten</head>
         <p>Für Apparateinträge stehen folgende Elemente zur Verfügung: <specList>
                 <specDesc key="app"/>
@@ -441,7 +501,7 @@
             </specList>
         </p>
     </div>
-    <div xml:id="MU-supplied">
+    <div xml:id="eG-supplied">
         <head>Herausgeberzusätze und Kommentare</head>
         <p>
             <specList>
@@ -455,12 +515,12 @@
                 <!-- editorial, summary, commentary, themCom  -->
             </specList>
         </p>
-        <div xml:id="MU-Hg-Korrekturen">
+        <div xml:id="eG-Hg-Korrekturen">
             <head>Herausgeberergänzungen und -korrekturen</head>
             <p>
             </p>
         </div>
-        <div xml:id="MU-commentary">
+        <div xml:id="eG-commentary">
             <head>Herausgeberkommentare</head>
             <p/>
             <table>
@@ -502,7 +562,7 @@
         </div>
 
     </div>
-    <div xml:id="MU-sources">
+    <div xml:id="eG-sources">
         <head>Quellenangaben/Textzeugen</head>
         <p>
             <specList>
@@ -514,11 +574,11 @@
             </specList>
         </p>
     </div>
-    <div xml:id="MU-related">
+    <div xml:id="eG-related">
         <head>Beziehungen zwischen Texten/Dokumenten</head>
         <p>Briefkontexte, Entwürfe, mehrteilige Schriften, floatingText</p>
     </div>
-    <div xml:id="MU-semantics">
+    <div xml:id="eG-semantics">
         <head>Inhaltliche Auszeichnung</head>
         <p>
             <specList>
@@ -550,10 +610,10 @@
 		<back>
 			<div>
 				<head>All the different schemaSpecs of Henze-Digital (HWH)</head>
-				
-				
-				
-				<schemaSpec xmlns:sch="http://purl.oclc.org/dsdl/schematron" ident="hwhNews" xml:lang="en" start="TEI" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaNews.compiled.xml" xml:base="../Specs/schemaSpec-news.odd.xml"><classSpec rend="add" module="tei" type="atts" ident="att.anchoring">
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?><schemaSpec xmlns:sch="http://purl.oclc.org/dsdl/schematron" ident="hwhNews" xml:lang="en" start="TEI" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaNews.compiled.xml" xml:base="../Specs/schemaSpec-news.odd.xml"><classSpec rend="add" module="tei" type="atts" ident="att.anchoring">
   <gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2021-01-28" xml:lang="en">anchoring</gloss>
   <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2021-01-28" xml:lang="en">provides attributes for use on annotations, e.g. notes and groups of notes
   describing the existence and position of an anchor for annotations.</desc>
@@ -6475,7 +6535,7 @@ epistemology, methodology and history of
     structurée dans laquelle les sous-composants peuvent ou non être explicitement balisés.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">contiene una cita bibliográfica estructurada libremente,
     los componentes de la cual pueden nohaber sido etiquetados explícitamente.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">contiene una citazione bibliografica strutturata
     liberamente i cui componeneti potrebbero o meno essere codificati esplicitamente.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-13" xml:lang="de">enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit
-    ausgezeichnet sein können.</desc><classes><memberOf key="att.global"/><memberOf key="model.biblLike"/><memberOf key="model.biblPart"/><memberOf key="att.typed"/></classes><content><alternate minOccurs="0" maxOccurs="unbounded"><textNode xmlns:teix="http://www.tei-c.org/ns/Examples"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.gLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.highlighted"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.pPart.data"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.pPart.edit"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.segLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.ptrLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.biblPart"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.global"/></alternate></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
+    ausgezeichnet sein können.</desc><classes><memberOf key="model.biblLike"/><memberOf key="model.biblPart"/></classes><content><alternate minOccurs="0" maxOccurs="unbounded"><textNode xmlns:teix="http://www.tei-c.org/ns/Examples"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.gLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.highlighted"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.pPart.data"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.pPart.edit"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.segLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.ptrLike"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.biblPart"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.global"/></alternate></content><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hwh.biblio.pointer"/>
                     </datatype>
@@ -7241,7 +7301,7 @@ définissant les droits d'utilisation.</desc><desc xmlns:xi="http://www.w3.org/2
       </p>
   </remarks><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD24">2.2.4. Publication, Distribution, Licensing, etc.</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="header" ident="sourceDesc"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">source description</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">Quellenbeschreibung</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de"/><classes/><content><alternate minOccurs="1" maxOccurs="1"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="biblStruct"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="bibl"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="msDesc"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="listWit"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="p"/></alternate></content><attList/><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+  </listRef></elementSpec><elementSpec rend="change" module="header" ident="sourceDesc"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">source description</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">Quellenbeschreibung</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de"/><classes/><content><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="biblStruct" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="listEvent" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="msDesc" minOccurs="0" maxOccurs="1"/></sequence></content><attList/><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <sourceDesc>
         <bibl><title level="a">The Interesting story of the Children in the Wood</title>. In
@@ -7879,19 +7939,19 @@ should be supplied for the <att>scheme</att> attribute.</p>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="parent-org" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org]">
+                    <sch:rule context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
                         <sch:report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</sch:report>
                     </sch:rule>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="parent-org-reg" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName)]">
+                    <sch:rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
                         <sch:assert test="@type='reg'">There must exactly be one name with @type='reg'.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="parent-org-reg" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and preceding::tei:orgName]">
+                    <sch:rule context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
                         <sch:report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</sch:report>
                     </sch:rule>
                 </constraint>
@@ -8929,13 +8989,13 @@ purposes.</p>
                 </attDef>
             </attList>
         </classSpec><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="DS" xml:id="DDS" ident="textstructure"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="FT" xml:id="DFTFF" ident="figures"/></schemaSpec>
-				
-				
-				
-				
-				
-				
-				
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<!--<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-var.odd.xml"/>-->
 				<!--<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-diaries.odd.xml"/>-->
 			</div>

@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-01-18T07:21:58Z. .
+Schema generated from ODD source 2022-01-31T11:39:42Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -2683,8 +2683,6 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
-         <ref name="att.global.attributes"/>
-         <ref name="att.typed.attributes"/>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -2800,10 +2798,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
    <define name="sourceDesc">
       <element name="sourceDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Quellenbeschreibung)  [2.2.7. The Source Description]</a:documentation>
-         <choice>
-            <ref name="bibl"/>
-            <ref name="p"/>
-         </choice>
+         <rng:empty xmlns:rng="http://relaxng.org/ns/structure/1.0"/>
       </element>
    </define>
    <define name="profileDesc">
@@ -3057,7 +3052,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:orgName[parent::tei:org]">
+                      context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
                <sch:report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</sch:report>
             </sch:rule>
          </pattern>
@@ -3069,7 +3064,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:orgName[parent::tei:org and not(preceding::tei:orgName)]">
+                      context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
                <sch:assert test="@type='reg'">There must exactly be one name with @type='reg'.</sch:assert>
             </sch:rule>
          </pattern>
@@ -3081,7 +3076,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      context="tei:orgName[parent::tei:org and preceding::tei:orgName]">
+                      context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
                <sch:report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</sch:report>
             </sch:rule>
          </pattern>
