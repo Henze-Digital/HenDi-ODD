@@ -10,7 +10,7 @@
             <p>In die Digitale Briefedition wurden sämtliche postalischen Dokumente aus den ausgewählten Korrespondenzen und einschließlich der Gegenkorrespondenzen aufgenommen. In der Korrespondenz von Hans Werner Henze kommen dabei Briefe (zum Teil mit Umschlag), Postkarten und Telegramme vor, die unterschiedliche Codierungsbesonderheiten haben, weshalb sie getrennt behandelt werden.</p>
         </div>
                 <div>
-                    <head>Briefe</head>
+                    <head>Briefe (allgemein)</head>
                  <p>Bei den Briefen sind zwei Formen zu unterscheiden: Die eher formellen, darunter vor allem die typoschriftlichen, enthalten (meist zu Beginn des Briefes) eine Adresse. Die eher privaten und oft handschriftlichen Briefe beginnen dagegen in der Regel direkt mit dem Datum und der Anrede. Hier ist die Adresse dann nur auf dem Umschlag notiert, der aber nicht in jedem Fall überliefert ist.<lb/>
                      Die Grobstruktur eines Briefes besteht also ggf. aus der Adresse <gi>address</gi> (die sich wiederum aus mehreren Adresszeilen <gi>addrLine</gi> zusammensetzt), <note resp="DR">Beispiel für eine Adresse</note>
                
@@ -34,25 +34,29 @@
                 Absatzbildung des <gi>closer</gi> durch die Angabe @rend="inline" verhindern.
                      <lb></lb>Nachschriften am Ende des eigentlichen Briefes (also nach dem <gi>closer</gi> mit der Unterschriftsformel) können, wenn es sich um kürzere Zusätze handelt, innerhalb eines <gi>postscript</gi>-Elements erscheinen oder – falls eine längere bzw. stärker strukturierte Nachschrift vorliegt – in ein weiteres Element <tag>div type="writingSession"</tag> eingeschlossen werden. <!-- Bei uns ist postscript immer mit p?? -->
                      <egXML
-                         xmlns="http://www.tei-c.org/ns/Examples" source="A040C885">
+                         xmlns="http://www.tei-c.org/ns/Examples" source="A040C8A0">
                          <text type="Brief">
                              <body>
                                  <div>
                                      <opener>
                                          <dateline rend="right">
-                                             <date when="1968-01-22">22 jan 1968</date>
+                                             <settlement>berlin</settlement>
+                                             <date when="1968-09-05">5. 9. 68</date>
                                              <lb/>
-                                             <!-- steht am Ende -->
                                          </dateline>
-                                         <salute>lieber <persName key="A001000A">hans werner</persName>,</salute>
+                                         <salute>
+                                            lieber <persName key="A001000A">hans</persName>
+                                         </salute>
                                      </opener>
-                                     <p rend="inline">[hier folgt der Brieftext</p>
-                                     <closer rend="right">
-                                         <foreign xml:lang="es">hasta la victoria siempre!</foreign><lb/>
-                                         Ihr, dein <persName key="A0002EA0">hme</persName>. <seg rend="right"><date when="1968-01-22">22 jan 68</date></seg>
-                                     </closer>
+                                     <p>hier steht der Brieftext
+                                     </p>
+                                     <closer>
+                                         <foreign xml:lang="es">¡abrazos y abrazos!</foreign><space unit="chars" quantity="10"></space>
+                                         <persName key="A0002EA0">mang</persName>.</closer>
                                      <postscript>
-                                         <p>[hier folgt der Text]</p>
+                                         <p>P.S. ist <persName>orsini</persName> nun definitiv aus dem spiel? hoffen wirs!<lb/>aber man müßte sich dessen versichern; mit ihm ist<lb/>die <rs type="work">oper</rs> 
+                                             <hi rend="underline">nicht zu machen</hi>
+                                         </p>
                                      </postscript>
                                  </div>
                              </body>
@@ -60,8 +64,62 @@
                 </egXML>-->
             </p>
         </div>
+        <div>
+            <head>Briefe (auf Briefpapier)</head>
+            <p>In den überwiegenden Fällen sind die Briefe auf einem blanko Papier geschrieben, doch kommt es auch vor, dass Briefe auf eigenem Briefpapier mit aufgedrucktem Namen und/oder Adresse oder z. B. auf Hotel-Briefpapier geschrieben werden. In diesen Fällen – und hierbei kann es sich auch um vorgedruckte Fußzeilen handeln – müssen die vorgedruckten Elemente in dem Element <gi>fw</gi> (formed work) wiedergegeben werden.</p>
+            <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C9CB">
+                        <div>
+                            <fw><hi rend="capital">La Leprara</hi><lb/>60047 <hi rend="capital">Marino</hi> (<hi rend="capital">Roma</hi>)</fw>
+                            <opener>
+                                <dateline>6 Juni</dateline>
+                                <salute>
+                                    <foreign xml:lang="es">Querido</foreign> 
+                                    <persName key="A0002EA0">Mang</persName>,
+                                </salute>
+                            </opener>
+                        </div>
+            </egXML>
+            <p>Nach demselben Prinzip ist mit vorgedruckten Fußzeilen zu verfahren. Auf die Verwendung von gedrucktem Briefpapier wird sowohl in der <gi>physDesc</gi> als auch in der <gi>LayoutDesc</gi> verwiesen.</p>
+        </div>
         <div xml:id="DT-envelopes">
             <head>Umschläge</head>
+            <p>Die Überlieferung des Umschlags zu dem postalischen Dokument ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich ist es auch möglich, dass nur ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="letter"</tag> ausgezeichnet, wobei die Adressseite als erste und die Absenderseite als zweite angegeben wird.</p>
+            <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C883">
+                <text type="Umschlag">
+                    <body>
+                        <div><p>
+                            <address>
+                                <addrLine>Air Mail / Par Avion </addrLine>
+                                <addrLine>StempeL. Par Avion</addrLine>
+                                <addrLine> Herr Hans Werner Henze</addrLine>
+                                <addrLine> La Leprara</addrLine>
+                                <addrLine>Marino (Roma)</addrLine>
+                                <addrLine> Italia</addrLine>
+                            </address></p>
+                            <pb/>
+                            <p><!-- Rückseite -->
+                                <address>
+                                    <addrLine rend="center">H.M.E. c/o Casa de las Américas</addrLine>
+                                    <addrLine rend="center">G y Tercera, Vedado</addrLine>
+                                    <addrLine rend="center"> La Habana</addrLine>
+                                </address>
+                                <!-- + Rundstempel:_ 00947 Marino (Roma) F. [und kleines Posthorn], darin: 3. 1. 69 -->
+                            </p>
+                        </div>
+                    </body>
+                </text>
+            </egXML>
+            <p>Als zusätzliche Elemente finden sich auf Umschlägen oft vorgedruckte Texte und vor allem Briefmarken und Stempel – in den 50er Jahren sowohl Ausgangs- als auch Eingangsstempel. Die vorgedruckten Elemente werden wie bei den auf Briefpapier geschriebenen vorgedruckten Textteilen in <gi>fw</gi> wiedergegeben. Zur Wiedergabe von Stempeln und Briefmarken (?) vgl. ???</p>
+            <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C885">
+                <text type="Umschlag">
+                    <body>
+                        <div>
+                            <p><fw><hi rend="spaced_out">Center for Advanced Studies</hi><lb/><hi rend="capital">WESLYAN UNIVERSITY . MIDDLETOWN . CONNETICUT</hi> 06457</fw></p>
+                            <p>companero hans werner henze<space unit="chars" quantity="3"></space>la leprara<space unit="chars" quantity="3"></space>marino (roma)<space unit="chars" quantity="3"></space>italia</p>
+                        </div>
+                    </body>
+                </text>
+            </egXML>
         </div>
         <div xml:id="DT-postcards">
             <head>Postkarten</head>
