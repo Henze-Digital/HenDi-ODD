@@ -35,7 +35,7 @@
     <p>Hier entsteht die Dokumentation von Henze-Digital.</p>
     <p>Die hier angegebenen Schema-Spezifikationen stellen eine Erweiterung des ODD der Weber-Gesamtausgabe (WeGA) dar. Die weiter unten dokumentierten Schema-Anpassungen sind mittels ODD-Chaining Veränderungen zur WeGA-Customization von TEI-P5.</p>
     
-    
+    <p>Zwei Grundsprachen für die Edition (dt/en) diese werden nicht gegenseitig übersetzt.</p>
     <closer>
         <dateline><placeName><settlement>Detmold</settlement></placeName>, <date when="2022-01-17">17. Januar 2022</date></dateline>
         <signed><persName>Irmlind Capelle</persName>/<persName>Elena Minetti</persName>/<persName>Dennis Ried</persName></signed>
@@ -52,6 +52,7 @@
         </div>
                 <div>
                     <head>Briefe (allgemein)</head>
+                    <!-- Hier noch etwas zu divs und Tabellen und Lyrik sagen -->
                  <p>Bei den Briefen sind zwei Formen zu unterscheiden: Die eher formellen, darunter vor allem die typoschriftlichen, enthalten (meist zu Beginn des Briefes) eine Adresse. Die eher privaten und oft handschriftlichen Briefe beginnen dagegen in der Regel direkt mit dem Datum und der Anrede. Hier ist die Adresse dann nur auf dem Umschlag notiert, der aber nicht in jedem Fall überliefert ist.<lb/>
                      Die Grobstruktur eines Briefes besteht also ggf. aus der Adresse <gi>address</gi> (die sich wiederum aus mehreren Adresszeilen <gi>addrLine</gi> zusammensetzt), <note resp="DR">Beispiel für eine Adresse</note>
                
@@ -333,7 +334,7 @@
             </row>
             <row>
                 <cell>A07</cell>
-                <cell>derzeit nicht belegt (WeGA: Varia)</cell>
+                <cell>Varia (Impressum, Projektbeschreibung et al.)</cell>
             </row>
             <row>
                 <cell>A08</cell>
@@ -369,7 +370,7 @@
             </row>
         </table>
         <p>Die Präfixe wurden analog zur Weber-Gesamtausgabe gewählt, um größtmögliche Kompatibilität zur WeGA-WebApp herzustellen. Daher kommt es zu unbelegten Präfixen.</p>
-        <p>Zur Berechnung der Prüfziffern siehe die constraint-Definition zur Prüfung im GitHub-Repo, HWH-ODD/src/Specs/common-specs.odd.xml, Zeilen <ref target="https://github.com/Henze-Digital/HWH-ODD/blob/9cde2a7628bc4d8bd8064b6f1d15e063042e6b00/src/Specs/common-specs.odd.xml#L928">928–976</ref> (<tag>ident="idCheckDigit"</tag>).</p>
+        <p>Zur Berechnung der Prüfziffern siehe die constraint-Definition zur Prüfung im GitHub-Repo, HWH-ODD/src/Specs/common-specs.odd.xml, Zeilen <ref target="https://github.com/Henze-Digital/HWH-ODD/blob/9cde2a7628bc4d8bd8064b6f1d15e063042e6b00/src/Specs/common-specs.odd.xml#L928">928–976</ref> (@ident="idCheckDigit").</p>
     </div>
     <div xml:id="DT-revisions">
         <head>Revisionen</head>
@@ -416,45 +417,47 @@
     <p/>
     <div xml:id="eG-characters">
         <head>Zeichenebene</head>
-        <div xml:id="eG-dashes">
-            <head>Trennungs- und Bindestriche</head>
-            <p/>
+        
+        <div xml:id="eG-lb">
+            <head>Zeilenfall, Trennstriche</head>
+            <p>
+                Der Zeilenfall wird mit lb kodiert. Damit ergibt sich die Möglichkeit eine Lesefassung zu erzeugen. Ein "normaler" Zeilenumbruch wird durch lb dargestellt. Ein Zeilenumbruch, der innerhalb eines Wortes vorlommt und durch einen Trennstrich orthographisch realisiert ist, wird mit lb break="no" kodiert. -&gt; Vergessener Bindestrich = <tag>lb break="no" rend="noHyphen"</tag>! 
+            </p>
         </div>
-        <div xml:id="eG-brackets">
-            <head>Klammerformen</head>
-            <p/>
+        
+        <div xml:id="eG-space">
+            <head>Abstände und Leerzeichen</head>
+            <p>In Typoskripten werden (Zeilen-)Abstände abweichend von 1,0 in der <tag>layoutDesc</tag> beschrieben. In allen Dokumenten 
+               werden Standard-Einrückungen (erste Zeile eines Absatzes) in der <tag>layoutDesc</tag> angemerkt. Von der Regel abweichende Einschübe werden als <tag>space</tag> kodiert.</p>
+            <p>
+                In Typoskripten ist die Behandlung von Leerzeichen differenziert. Fehlende Leerzeichen (nach Satzzeichen), werden nicht ergänzt sondern diplomatisch wiedergegeben. Die wiedergabe zusätzlicher Leerzeichen erfolgt durch entsprechende Kodierung: <tag>space unit="char" n="1"</tag> (ein zusätzliches Zeichen).
+                <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8D9">
+                    <!-- Einzug von vier Leerzeichen unt ein doppeltes -->
+                    <p><space unit="chars" quantity="4"/>Dieser Absatz beginnt mit einem Einzug. Später folgt eine Lücke mit einem zusätzliche <space unit="chars" quantity="1"/>Leerzeichen.</p>
+                </egXML>
+            </p>
         </div>
-        <div xml:id="eG-syl">
-            <head>Endsilben</head>
-            <p/>
+        <div xml:id="eG-langTypes">
+            <head>Zeichen anderer Sprachen auf der deutschen Schreibmaschinentastatur</head>
+            <p>Spanisches Alphabet: Tilde, ¿?, ¡!, ñÑ</p>
+            <p>Französisches Alphabet: ^, ç</p>
         </div>
+        
         <div xml:id="eG-sic">
             <head>Schreibversehen</head>
-            <p/>
+            <div>
+                <head>Handschrift</head>
+                <p>Sofortkorrektur, subst/choice, </p>
+            </div>
+            <div>
+                <head>Maschinenschrift</head>
+                <p>Korrektur, Ergänzung, Unterstreichung (gleiches Medium, anderes Medium), handShift-Problem!</p>
+            </div>
         </div>
-        <div xml:id="eG-lb">
-            <head>Zeilenfall</head>
-            <p/>
-        </div>
+        
         <div xml:id="eG-case">
             <head>Groß- und Kleinschreibung</head>
-            <p/>
-        </div>
-        <div xml:id="eG-apos">
-            <head>Apostroph</head>
-            <p/>
-        </div>
-        <div xml:id="eG-ndash">
-            <head>Gedankenstrich</head>
-            <p/>
-        </div>
-        <div xml:id="eG-punct">
-            <head>Satzzeichen</head>
-            <p/>
-        </div>
-        <div xml:id="eG-ss"> 
-            <head>Problematik: ss/ß</head>
-            <p/>
+            <p>Die Wiedergabe der Groß- und Kleinschreibung erfolgt diplomatisch, d.h. sie wird nicht angepasst. Zu Schreibeigenheiten der einzelnen Autoren siehe die entsprechenden Unterkapitel.</p>
         </div>
     </div>
 
@@ -649,8 +652,58 @@
         <head>Getrennt- und Zusammenschreibung</head>
         <p/>
     </div>
+    <div xml:id="WR-spelling">
+        <head>Laufweite und Lücken</head>
+        <p/>
+    </div>
     <div xml:id="WR-drawings">
         <head>Zeichnungen</head>
+        <p/>
+    </div>
+</div>
+			<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?><div xml:id="chap-writingHabits-auden" xml:lang="de" xml:base="de/chap-writingHabits-auden.xml">
+    <head>Schreibeigenheiten Auden</head>
+    <div xml:id="WR-case">
+        <head>Groß- und Kleinschreibung</head>
+        <p/>
+    </div>
+    <div xml:id="WR-spelling">
+        <head>Getrennt- und Zusammenschreibung</head>
+        <p/>
+    </div>
+    <div xml:id="WR-spelling">
+        <head>Laufweite und Lücken</head>
+        <p/>
+    </div>
+    <!--<div xml:id="WR-drawings">
+        <head>Zeichnungen</head>
+        <p></p>
+    </div>-->
+    <div xml:id="WR-layout">
+        <head>Zum Layout der Korrespondenz-Dokumente</head>
+        <p/>
+    </div>
+</div>
+			<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?><div xml:id="chap-writingHabits-kallman" xml:lang="de" xml:base="de/chap-writingHabits-kallman.xml">
+    <head>Schreibeigenheiten Kallman</head>
+    <div xml:id="WR-case">
+        <head>Groß- und Kleinschreibung</head>
+        <p/>
+    </div>
+    <div xml:id="WR-spelling">
+        <head>Getrennt- und Zusammenschreibung</head>
+        <p/>
+    </div>
+    <div xml:id="WR-spelling">
+        <head>Laufweite und Lücken</head>
+        <p/>
+    </div>
+    <!--<div xml:id="WR-drawings">
+        <head>Zeichnungen</head>
+        <p></p>
+    </div>-->
+    <div xml:id="WR-layout">
+        <head>Zum Layout der Korrespondenz-Dokumente</head>
         <p/>
     </div>
 </div>
@@ -3334,7 +3387,7 @@ means of a <gi>glyph</gi> or <gi>char</gi> element referenced here as <code>#sym
 				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-				<!--<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-var.odd.xml"/>-->
+				<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<!--<include xmlns="http://www.w3.org/2001/XInclude" href="../Specs/schemaSpec-diaries.odd.xml"/>-->
 			</div>
 		</back>

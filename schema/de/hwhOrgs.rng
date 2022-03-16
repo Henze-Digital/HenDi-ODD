@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-02-25T09:49:58Z. .
+Schema generated from ODD source 2022-03-16T13:41:16Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding orgs at Henze-Digital 
@@ -106,35 +106,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <value>SS</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sophie Stremel</a:documentation>
       </choice>
-   </define>
-   <define name="macro.orgContent">
-      <zeroOrMore>
-         <ref name="idno"/>
-      </zeroOrMore>
-      <oneOrMore>
-         <ref name="orgName"/>
-      </oneOrMore>
-      <zeroOrMore>
-         <ref name="settlement"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="country"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <ref name="state"/>
-      </zeroOrMore>
-      <optional>
-         <ref name="listOrg"/>
-      </optional>
-      <zeroOrMore>
-         <ref name="event"/>
-      </zeroOrMore>
-      <optional>
-         <ref name="listBibl"/>
-      </optional>
-      <optional>
-         <ref name="note"/>
-      </optional>
    </define>
    <define name="att.ascribed.attributes">
       <ref name="att.ascribed.attribute.who"/>
@@ -1634,9 +1605,6 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
          <ref name="model.pPart.data"/>
       </choice>
    </define>
-   <define name="att.locatable.attributes">
-      <ref name="att.locatable.attribute.where"/>
-   </define>
    <define name="att.locatable.attribute.where">
       <optional>
          <attribute name="where">
@@ -2005,6 +1973,10 @@ Empfohlene Werte sind: 1] deprecationInfo (deprecation information)</a:documenta
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">markiert einen Aufführungsort/ eine Lokalität, welche beim Namen genannten ist.</a:documentation>
                   <value>other</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">markiert ein Subjekt oder Objekt, welches in keine Kategorie einzurdnen ist.</a:documentation>
+                  <value>journal</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Titel einer Zeitschrift</a:documentation>
+                  <value>newspaper</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Titel einer Zeitung</a:documentation>
                </choice>
             </attribute>
          </optional>
@@ -3360,26 +3332,6 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
          <empty/>
       </element>
    </define>
-   <define name="event">
-      <element name="event">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(event) enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft. [13.3.1. Basic Principles]</a:documentation>
-         <ref name="label"/>
-         <ref name="desc"/>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhOrgs-event-org-events-constraint-assert-19">
-            <rule context="tei:event">
-               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           xmlns:xi="http://www.w3.org/2001/XInclude"
-                           xmlns="http://www.tei-c.org/ns/1.0"
-                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                           test="tei:label=('Beginn der Tätigkeit', 'Einstellung der Tätigkeit')">label for event should be 'Beginn der Tätigkeit' or 'Einstellung der Tätigkeit'.</sch:assert>
-            </rule>
-         </pattern>
-         <ref name="att.datable.attributes"/>
-         <ref name="att.locatable.attributes"/>
-         <empty/>
-      </element>
-   </define>
    <define name="org">
       <element name="org">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization) enthält Informationen über eine Organisation oder Körperschaft [13.3.3. Organizational Data]</a:documentation>
@@ -3403,7 +3355,6 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
                </attribute>
                <empty/>
             </element>
-            <ref name="macro.orgContent"/>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hwhOrgs-org-listorg-org-status-constraint-rule-39">
