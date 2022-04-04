@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://jenkins.tei-c.org/job/TEIP5-dev/lastSuccessfulBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
+<?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 <schemaSpec ident="hwhLetters" xml:lang="en" start="TEI" source="../../../WeGA-ODD/compiled-ODD/guidelines-de-wegaLetters.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
 
     <desc>This is the customization for encoding letters at Henze-Digital</desc>
@@ -58,7 +58,17 @@
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-macros"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-biblStruct"/>
-
+    
+    <constraintSpec scheme="schematron" ident="rendIfBreakNo" mode="add">
+        <desc versionDate="2014-07-09" xml:lang="en">If a line break (line beginning) is inside a word then <att>rend</att> can be used to encode the hyphen is orthographiclally not realzied.</desc>
+        <desc versionDate="2014-07-09" xml:lang="de">Wenn ein Umbruch im wort erfolgt, so kann mit <att>rend</att> dargestellt werden, dass ein Trennstrich orthographisch nciht realisiert ist.</desc>
+        <constraint>
+            <sch:rule context="tei:lb | tei:pb">
+                <sch:assert test="not(@*) or @break or (@break and @rend)">@rend is only allowed if @break is used.</sch:assert>
+            </sch:rule>
+        </constraint>
+    </constraintSpec>
+    
     <elementSpec ident="TEI" mode="change" module="core">
         <attList>
             <attDef ident="status" usage="req" mode="add">
@@ -250,15 +260,6 @@
     <elementSpec ident="lb" module="core" mode="change">
         <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
         <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
-        <constraintSpec scheme="schematron" ident="rendIfBreakNo" mode="add">
-            <desc versionDate="2014-07-09" xml:lang="en">If a line break (line beginning) is inside a word then <att>rend</att> can be used to encode the hyphen is orthographiclally not realzied.</desc>
-            <desc versionDate="2014-07-09" xml:lang="de">Wenn ein Umbruch im wort erfolgt, so kann mit <att>rend</att> dargestellt werden, dass ein Trennstrich orthographisch nciht realisiert ist.</desc>
-            <constraint>
-                <sch:rule context="tei:lb">
-                    <sch:assert test="not(@*) or @break or (@break and @rend)">@rend is only allowed if @break is used.</sch:assert>
-                </sch:rule>
-            </constraint>
-        </constraintSpec>
         <attList>
             <attDef ident="rend" usage="opt">
                 <desc versionDate="2021-10-18" xml:lang="en"><att>rend</att> is intended as an extension to <att>break</att> and is to be used when, for example, a hyphen is missing at the line break.</desc>
@@ -269,7 +270,21 @@
             </attDef>
         </attList>
     </elementSpec>
-
+    
+    <elementSpec ident="pb" module="core" mode="change">
+        <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
+        <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
+        <attList>
+            <attDef ident="rend" usage="opt">
+                <desc versionDate="2021-10-18" xml:lang="en"><att>rend</att> is intended as an extension to <att>break</att> and is to be used when, for example, a hyphen is missing at the line break.</desc>
+                <desc versionDate="2021-10-18" xml:lang="de"><att>rend</att> ist als Erweiterung zu <att>break</att> gedacht und soll verwendet werden, wenn z.B. ein Trennstrich am Zeilenumbruch fehlt.</desc>
+                <valList type="closed">
+                    <valItem ident="noHyphen"/>
+                </valList>
+            </attDef>
+        </attList>
+    </elementSpec>
+    
     <elementSpec ident="foreign" module="core" mode="change">
         <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
         <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
