@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-04-01T10:20:43Z. .
+Schema generated from ODD source 2022-04-04T11:08:01Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -6093,7 +6093,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-att.hwh.rend-underline-n-constraint-rule-84">
+            id="hwhReviews-att.hwh.rend-underline-n-constraint-rule-85">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6231,8 +6231,44 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
+   <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+               xmlns:mei="http://www.music-encoding.org/ns/mei"
+               xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+               xmlns:s="http://www.ascc.net/xml/schematron"
+               xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+               xmlns="http://www.tei-c.org/ns/1.0"
+               xmlns:rng="http://relaxng.org/ns/structure/1.0"
+               queryBinding="xslt2">
+      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+      <sch:ns uri="http://www.functx.com" prefix="functx"/>
+      <xsl:function name="functx:escape-for-regex" as="xs:string">
+         <xsl:param name="arg" as="xs:string?"/>
+         <xsl:sequence select="replace($arg, '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')"/>
+      </xsl:function>
+      <xsl:function name="functx:substring-before-last" as="xs:string">
+         <xsl:param name="arg" as="xs:string?"/>
+         <xsl:param name="delim" as="xs:string"/>
+         <xsl:sequence select="if (matches($arg, functx:escape-for-regex($delim))) then replace($arg, concat('^(.*)', functx:escape-for-regex($delim),'.*'), '$1') else ''"/>
+      </xsl:function>
+      <xsl:function name="functx:substring-after-last" as="xs:string">
+         <xsl:param name="arg" as="xs:string?"/>
+         <xsl:param name="delim" as="xs:string"/>
+         <xsl:sequence select="replace ($arg,concat('^.*', functx:escape-for-regex($delim)),'')"/>
+      </xsl:function>
+      <sch:pattern id="checkFilesNameAndDir">
+         <sch:rule context="root()">
+            <sch:let name="docUri" value="document-uri(.)"/>
+            <sch:let name="fileName"
+                     value="functx:substring-after-last(substring-before($docUri, '.xml'), '/')"/>
+            <sch:let name="fileDir"
+                     value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
+            <sch:assert test="./node()/@xml:id = $fileName" role="error">The id of this record does not match the files name. Please check!</sch:assert>
+            <sch:assert test="$fileDir = concat(substring($fileName,1,6),'xx')" role="error">The file is stored in the wrong directory. Please check!</sch:assert>
+         </sch:rule>
+      </sch:pattern>
+   </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-addWithoutPlace-constraint-rule-56">
+            id="hwhReviews-addWithoutPlace-constraint-rule-57">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6244,7 +6280,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-nameTypeRequirement-constraint-rule-57">
+            id="hwhReviews-nameTypeRequirement-constraint-rule-58">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6256,7 +6292,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-lbInsideAddress-constraint-rule-58">
+            id="hwhReviews-lbInsideAddress-constraint-rule-59">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6269,7 +6305,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-renditionWithPosition-constraint-rule-59">
+            id="hwhReviews-renditionWithPosition-constraint-rule-60">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6360,7 +6396,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-importName-constraint-rule-81">
+            id="hwhReviews-importName-constraint-rule-82">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6372,7 +6408,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-styleguide-document-node-content-constraint-rule-82">
+            id="hwhReviews-styleguide-document-node-content-constraint-rule-83">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -6385,7 +6421,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhReviews-styleguide-document-node-content-constraint-rule-83">
+            id="hwhReviews-styleguide-document-node-content-constraint-rule-84">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"

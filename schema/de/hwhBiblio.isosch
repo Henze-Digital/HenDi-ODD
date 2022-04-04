@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-04-01T10:20:34Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-04-04T11:07:52Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
    <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+   <ns uri="http://www.functx.com" prefix="functx"/>
    <!-- ********************* -->
    <!-- namespaces, implicit: -->
    <!-- ********************* -->
@@ -471,23 +473,56 @@ relatedItem element must be empty</report>
          </rule>
       </pattern>
    </schema>
-   <pattern id="schematron-constraint-hwhBiblio-addWithoutPlace-75">
+   <schema queryBinding="xslt2">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform"
+                name="functx:escape-for-regex"
+                as="xs:string">
+         <param name="arg" as="xs:string?"/>
+         <sequence select="replace($arg, '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')"/>
+      </function>
+      <function xmlns="http://www.w3.org/1999/XSL/Transform"
+                name="functx:substring-before-last"
+                as="xs:string">
+         <param name="arg" as="xs:string?"/>
+         <param name="delim" as="xs:string"/>
+         <sequence select="if (matches($arg, functx:escape-for-regex($delim))) then replace($arg, concat('^(.*)', functx:escape-for-regex($delim),'.*'), '$1') else ''"/>
+      </function>
+      <function xmlns="http://www.w3.org/1999/XSL/Transform"
+                name="functx:substring-after-last"
+                as="xs:string">
+         <param name="arg" as="xs:string?"/>
+         <param name="delim" as="xs:string"/>
+         <sequence select="replace ($arg,concat('^.*', functx:escape-for-regex($delim)),'')"/>
+      </function>
+      <pattern id="checkFilesNameAndDir">
+         <rule context="root()">
+            <let name="docUri" value="document-uri(.)"/>
+            <let name="fileName"
+                 value="functx:substring-after-last(substring-before($docUri, '.xml'), '/')"/>
+            <let name="fileDir"
+                 value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
+            <assert test="./node()/@xml:id = $fileName" role="error">The id of this record does not match the files name. Please check!</assert>
+            <assert test="$fileDir = concat(substring($fileName,1,6),'xx')" role="error">The file is stored in the wrong directory. Please check!</assert>
+         </rule>
+      </pattern>
+   </schema>
+   <pattern id="schematron-constraint-hwhBiblio-addWithoutPlace-76">
       <rule context="tei:add[not(parent::tei:subst)]">
          <assert test="@place">Missing @place, because this is no substitution here.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhBiblio-nameTypeRequirement-76">
+   <pattern id="schematron-constraint-hwhBiblio-nameTypeRequirement-77">
       <rule context="tei:name[not(ancestor::tei:teiHeader)]">
          <assert test="@type">@type is required at <name/>.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhBiblio-lbInsideAddress-77">
+   <pattern id="schematron-constraint-hwhBiblio-lbInsideAddress-78">
       <rule context="tei:lb">
          <report test="parent::tei:address" role="info">Does <name/> mark a new line inside the address? If yes, please use &lt;addrLine&gt; instead of <name/>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhBiblio-renditionWithPosition-78">
+   <pattern id="schematron-constraint-hwhBiblio-renditionWithPosition-79">
       <rule context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
          <assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</assert>
       </rule>
@@ -558,12 +593,12 @@ relatedItem element must be empty</report>
          <assert test="count(distinct-values(for $i in tokenize(@key, '\s+') return substring($i, 1, 3))) gt 1">A type value of 'mixed' must have keys referring to different document types</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhBiblio-importName-80">
+   <pattern id="schematron-constraint-hwhBiblio-importName-81">
       <rule context="tei:persName | tei:orgName | tei:placeName">
          <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhBiblio-att.hwh.rend-underline-n-81">
+   <pattern id="schematron-constraint-hwhBiblio-att.hwh.rend-underline-n-82">
       <rule context="*:hi[@n] | *:rend[@n]">
          <report test="@rend ne 'underline'">The @n-attribute is only supported in combination with @rend='underline'</report>
       </rule>
