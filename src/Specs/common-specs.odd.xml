@@ -1296,6 +1296,53 @@
             </attList>
         </elementSpec>
 
+        <elementSpec ident="date" mode="change" module="core">
+            <desc versionDate="2013-11-11" xml:lang="en">contains a date in any format.</desc>
+            <desc versionDate="2013-11-11" xml:lang="de">enthält ein Datum in einem beliebigen Format.</desc>
+            <!--<classes mode="change">
+                <memberOf key="att.global" mode="delete"/>
+                <memberOf key="att.editLike" mode="delete"/>
+                <memberOf key="att.typed" mode="delete"/>
+                <memberOf key="att.canonical" mode="delete"/>
+                <memberOf key="att.dimensions" mode="delete"/>
+                <memberOf key="att.global.responsibility" mode="add"/>
+            </classes>-->
+            <constraintSpec scheme="schematron" ident="date-types-for-corresp-action">
+                <constraint>
+                    <sch:rule context="tei:date[parent::tei:correspAction][@type]">
+                        <sch:assert test="@type = ('editor','postal','source')">Valid values for dates in the correspAction are 'editor','postal','source'.</sch:assert>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec>
+            <attList>
+<!--                <attRef class="att.global" name="xml:id"/>-->
+                <!--<attDef ident="n" mode="add" usage="mwa"/>-->
+<!--                <attRef class="att.global" name="n"/>-->
+                <attDef ident="type" mode="change" usage="opt">
+                    <valList type="closed" mode="change">
+                        <valItem ident="editor" mode="add">
+                            <gloss versionDate="2022-05-02" xml:lang="en">editor</gloss>
+                            <desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as reconstructed by an editor.</desc>
+                            <gloss versionDate="2022-05-02" xml:lang="de">Editor</gloss>
+                            <desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als erschlossen durch den Herausgeber.</desc>
+                        </valItem>
+                        <valItem ident="source" mode="add">
+                            <gloss versionDate="2022-05-02" xml:lang="en">source</gloss>
+                            <desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as written on a source.</desc>
+                            <gloss versionDate="2022-05-02" xml:lang="de">Quelle</gloss>
+                            <desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als in der Quelle vorhanden.</desc>
+                        </valItem>
+                        <valItem ident="postal" mode="add">
+                            <gloss versionDate="2022-05-02" xml:lang="en">postal</gloss>
+                            <desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as a postal.</desc>
+                            <gloss versionDate="2022-05-02" xml:lang="de">Postdatum</gloss>
+                            <desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als postalisches Datum (z.B. Poststempel).</desc>
+                        </valItem>
+                    </valList>
+                </attDef>
+            </attList>
+        </elementSpec>
+
         <elementSpec ident="addrLine" mode="change" module="core">
             <attList>
                 <attDef ident="rend" mode="add" usage="rec">
