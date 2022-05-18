@@ -1284,6 +1284,24 @@
             </sch:rule>
         </constraint>
         </constraintSpec>
+    	<constraintSpec scheme="schematron" ident="quotation-rend-values" mode="add">
+    		<desc versionDate="2022-05-18" xml:lang="en">Checks for illegal combination of values in <att>rend</att></desc>
+    		<desc versionDate="2022-05-18" xml:lang="de">Überprüft auf illegale Wert-Kombinationen in <att>rend</att></desc>
+    		<constraint>
+    			<sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+    				<sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
+    	<constraintSpec scheme="schematron" ident="quotation-rend-attributes" mode="add">
+    		<desc versionDate="2022-05-18" xml:lang="en">Checks for illegal combination of <att>rend</att>, <att>rendLeft</att>, <att>rendRight</att>.</desc>
+    		<desc versionDate="2022-05-18" xml:lang="de">Überprüft auf illegale Kombinationen von <att>rend</att>, <att>rendLeft</att>, <att>rendRight</att>.</desc>
+    		<constraint>
+    			<sch:rule context="*:q[@rend] | *:quote[@rend] | *:q[@rendLeft] | *:quote[@rendLeft] | *:q[@rendRight] | *:quote[@rendRight]">
+    				<sch:report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hwh-styleguides">
