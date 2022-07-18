@@ -240,7 +240,8 @@
         </div>
         <div xml:id="DT-persons">
             <head>Personen</head>
-            <p>Personen-Datensätze enthalten innerhalb des Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. von <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen auftreten <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches Angaben zu Taufnamen und Namensänderungen durch Heirat usw. enthalten kann, z.B. <tag>persName type="alt"</tag> oder <tag>subtype="married"</tag>. Weitere Bestandteile von Personendokumenten sind Geburtsdaten: <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001000A">
+            <p>Personen-Datensätze enthalten innerhalb des Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. von <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen auftreten <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches Angaben zu Taufnamen und Namensänderungen durch Heirat usw. enthalten kann, z.B. <tag>persName type="alt"</tag> oder <tag>subtype="married"</tag>. 
+            	Weitere Bestandteile von Personendokumenten sind Geburtsdaten: <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001000A">
                     <birth>
                         <date when="1926-07-01"/>
                         <settlement key="A13014E4">Gütersloh</settlement>
@@ -250,7 +251,17 @@
                         <date when="2012-10-27"/>
                         <settlement>Dresden</settlement>
                     </death>
-                </egXML> sowie Angaben zum Geschlecht <gi>sex</gi>, zu Beruf <gi>occupation</gi> und Wohnorten <gi>residence</gi>. Weitere zusätzliche erwähnenswerte Aspekte zur entsprechenen Person werden in einem <tag>note type="bioSummary"</tag> mittels Element <gi>list</gi> und <gi>item</gi> gesammelt.</p>
+                </egXML> sowie Angaben zum Geschlecht <gi>sex</gi>, zu Beruf <gi>occupation</gi> und Wohnorten <gi>residence</gi>. Weitere zusätzliche erwähnenswerte Aspekte zur entsprechenen Person werden in einem <tag>note type="bioSummary"</tag> gesammelt.</p>
+        	<p>Bei biblischen und mythologischen Personen wird der Datensatz verschlankt auf die Angabe des Namens innerhalb des Elements <gi>persName</gi> ohne weitere Spezifizierung, die Angaben zum Geschlecht, zum Beruf und die Kennzeichnung in den Anmerkungen als biblische oder mythologische Figur.
+        		<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001148F">
+        			<person>
+        				<persName>Orpheus</persName>
+        				<occupation>Sänger</occupation>
+        				<occupation>Dichter</occupation>
+        				<sex>unknown</sex>
+        				<note>mythologische Figur</note>
+        			</person></egXML>
+        	</p>
         </div>
         <div xml:id="DT-characters">
             <head>Rollen</head>
@@ -281,14 +292,14 @@
             <head>Organisationen/Institutionen</head>
             <p>Bei Referenzsdatensätzen zu Organisationen werden derzeit nur Name und Ort erfasst.<note resp="DR" place="bottom">Orgs befinden sich noch im Aufbau.</note></p>
             <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0800626">
-                <org xml:id="A0800626" status="candidate" source="HWH">
+                <org xml:id="A0800626" source="HWH">
                     <idno type="gnd">2028455-X</idno>
                     <orgName type="reg">Bonn. Kulturamt</orgName>
                     <orgName type="alt">Kulturamt der Stadt Bonn</orgName>
                     <settlement key="A13007FD">Bonn</settlement>
                 </org>
             </egXML>
-            <p>Zum Umgang mit Abteilungen, Projektgruppen und organisationshierarchischen Untersektionen: Im Falle, dass </p>
+            <p>Zum Umgang mit Abteilungen, Projektgruppen und organisationshierarchischen Untersektionen: Vgl. hierzu issue 107 </p>
         </div>
         <div xml:id="DT-biblio">
             <head>Literatur</head>
@@ -314,11 +325,11 @@
             <p>Dieser Datentyp ist äußerst komplex, da musikalische wie auch literarische Werke erfasst werden. Für die musikalischen Werke findet die Music Encoding Initiative (MEI) anwendung; für literarische Werke die Text Encoding Initiative (TEI). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
             <p>UNTERSCHEIDUNG: Henze-Werke, die ausführlicher und fremde Werke, die rudimentär beschrieben werden.</p>
             <div xml:id="DT-works-musical">
-                <head>Musikalische Werke</head>
-                <p/>
+                <head>Musikalische Werke (MEI)</head>
+                <p>Angabe von Übersetzern...</p>
             </div>
             <div xml:id="DT-works-literary">
-                <head>Literarische Werke</head>
+                <head>Literarische Werke (TEI)</head>
                 <p>Die literarischen Werke, hierbei ist es unerheblich von wem das Werk stammt, werden als TEI-Dokumente erfasst. Auch wenn hierfür zunächst nur der <gi>teiHeader</gi>, also die Metadaten relevant sind, so besteht die Möglichkeit später den Inhalte des verzeichneten Werkes hinzuzufügen.</p>
                 <p>Verzeichnet werden die Werke mittels eines <gi>biblStruct</gi> Elements aufgrund der restriktiven Verwendung.<!-- was heißt das? -->
                     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
@@ -335,13 +346,22 @@
                             </monogr>
                         </biblStruct>
                     </egXML> Im vorangegangenen Beispiel wurde zusätzlich ein übersetzter Titel angegeben. Im Rahmen des Projektes Henze-Digital wird <att>xml:lang</att> hier nicht verwendet, um die Sprache, in welcher der Titel angegeben wird, im allgemeinen zu definieren. Der erste Titel ist stets als originär zu betrachten und lediglich die u. U. folgenden Titel bedürfen das <att>xml:lang</att> Attribut, um anzugeben in welche Sprache der originäre Titel übersetzt wurde.</p>
-                <p>Die Sprache(n), in der/denen das Werk selbst verfasst ist, werden über die <gi>langUsage</gi> angegeben.<!-- IC: Ist diese Trennung der Angabe der Sprache für Titel und für den Text des Werkes wichtig? -->
-                    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
+                <p>Die Sprache(n), in der/denen das Werk selbst verfasst ist, werden über die <gi>langUsage</gi> angegeben.<!-- IC: Ist diese Trennung der Angabe der Sprache für Titel und für den Text des Werkes wichtig? -->                    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
                         <langUsage>
                             <language ident="fr"/>
                         </langUsage>
                     </egXML>
                 </p>
+            	<p>Es kommt immer wieder vor, dass Texte übersetzt werden. Da Übersetzungen auch in mehrere Sprachen angefertigt werden können, ist es überaus wichtig neben den Übersetzern auch die Sprache zu erfassen, in die der Text übersetzt wurde. Dies geschieht über das Attribut <att>label</att>, das den im Projekt verwendeten Sprachcode enthält.  
+            		<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A02014EA">
+            			<monogr>
+            				<title level="m">The Rise and Fall of the City of Mahagonny</title>
+            				<author key="A00110DF">Brecht, Bertolt</author>
+            				<editor role="trl" label="en" key="A00006DC">Wystan Hugh Auden </editor>
+            				<editor role="trl" label="en" key="A0005702">Chester Kallman</editor>
+            			</monogr>
+            		</egXML>
+            	</p>
             </div>
         </div>
         <!--<div xml:id="DT-sources">
@@ -494,7 +514,7 @@
             <div xml:id="eG-space">
                 <head>Abstände und Leerzeichen</head>
                 <p>In Typoskripten werden (Zeilen-)Abstände abweichend von 1,0 in der <tag>layoutDesc</tag> beschrieben. In allen Dokumenten werden Standard-Einrückungen (erste Zeile eines Absatzes) in der <tag>layoutDesc</tag> angemerkt. Von der Regel abweichende Einschübe werden als <tag>space</tag> kodiert.</p>
-                <p> In Typoskripten ist die Behandlung von Leerzeichen differenziert. Fehlende Leerzeichen (nach Satzzeichen), werden nicht ergänzt sondern diplomatisch wiedergegeben. Die wiedergabe zusätzlicher Leerzeichen erfolgt durch entsprechende Kodierung: <tag>space unit="char" n="1"</tag> (ein zusätzliches Zeichen). <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8D9">
+                <p> In Typoskripten ist die Behandlung von Leerzeichen differenziert. Fehlende Leerzeichen (nach Satzzeichen), werden nicht ergänzt sondern diplomatisch wiedergegeben. Die Wiedergabe zusätzlicher Leerzeichen erfolgt durch entsprechende Kodierung: <tag>space unit="char" n="1"</tag> (ein zusätzliches Zeichen). <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8D9">
                         <!-- Einzug von vier Leerzeichen unt ein doppeltes -->
                         <p><space unit="chars" quantity="4"/>Dieser Absatz beginnt mit einem Einzug. Später folgt eine Lücke mit einem zusätzliche <space unit="chars" quantity="1"/>Leerzeichen.</p>
                     </egXML>
@@ -508,11 +528,11 @@
 
             <div xml:id="eG-sic">
                 <head>Schreibversehen</head>
-                <p>Schreibversehen (wie z. B. versehentliche Wortwiederholungen) werden in der Regel so übernommen und durch das Element <sic/> markiert, um eine spätere irrtümliche Korrektur durch einen Editor zu verhindern. Dort, wo solche Schreibversehen zu Leseschwierigkeitn führen, kann in einem <choice/>-Element neben der originalen Schreibung (<sic/> oder <orig/>) eine vom Editor angebotene Korrektur angeboten werden (mit <corr resp="XY"/>.</p>
+                <p>Schreibversehen (wie z. B. versehentliche Wortwiederholungen) werden in der Regel so übernommen und durch das Element <sic/> markiert, um eine spätere irrtümliche Korrektur durch einen Editor zu verhindern. Dort, wo solche Schreibversehen zu Leseschwierigkeiten führen, kann in einem <choice/>-Element neben der originalen Schreibung (<sic/> oder <orig/>) eine vom Editor angebotene Korrektur angeboten werden (mit <corr resp="XY"/>.</p>
             </div>
             <div xml:id="eG-foreign">
                 <!-- korrekt? -->
-                <head>fremdsprachliche Textteile</head>
+                <head>Fremdsprachliche Textteile</head>
                 <p>Die Korrespondenz von Henze und seinen Partnern verwendet sehr unterschiedliche Sprachen und fügt immer wieder Worte oder Satzteile in anderen Sprachen ein. Die Grundsprache eines Briefes wird in den Metadaten angegeben, hiervon abweichende Sprachen werden mit <g>foreign</g> gekennzeichnet. Wenn es sich um Einfügungen in anderen Sprachen als deutsch und englisch handelt, wird eine Übersetzung in <g><!-- Übersetzung --></g> ergänzt. <!-- Noch ein Wort zur Darstellung --></p>
             </div>
             <div xml:id="eG-lb">
@@ -550,7 +570,7 @@
         			<item>“[...]” und ‘[...]’ (englisch)</item>
         			<item>«[...]» und ‹[...]› (französisch)</item>
         		</list>
-        		<p>Werden also keine näheren Angaben gemacht, werden stehen die Elemente <gi>q</gi> und <gi>quote</gi> stellvertretend für doppelte Anführungszeichen in der definierten Sprache des Dokumentes.</p>
+        		<p>Werden also keine näheren Angaben gemacht, stehen die Elemente <gi>q</gi> und <gi>quote</gi> stellvertretend für doppelte Anführungszeichen in der definierten Sprache des Dokumentes.</p>
         		<egXML xmlns="http://www.tei-c.org/ns/Examples">
         			<p>Dieser deutsche Satz <q>enthält</q> doppelte Zeichen.</p>
         			<!-- Dieser deutsche Satz „enthält“ doppelte Zeichen. -->
@@ -560,21 +580,21 @@
         			<p>Dieser deutsche Satz <q rend="single">enthält</q> einfache Zeichen.</p>
         			<!-- Dieser deutsche Satz ,enthält‘ einfache Zeichen. -->
         		</egXML>
-        		<p>Im Falle, dass Anführungszeichen einer anderen Sprache verwendet werden, dient das Attribut <att>xml:lang</att> dazu diese Sprache zu definieren.</p>
+        		<p>Wenn Anführungszeichen einer anderen Sprache verwendet werden, dient das Attribut <att>xml:lang</att> dazu diese Sprache zu definieren.</p>
         		
         		<egXML xmlns="http://www.tei-c.org/ns/Examples">
         			<p>Dieser deutsche Satz <q xml:lang="fr">enthält</q> französische Zeichen.</p>
         			<!-- Dieser deutsche Satz «enthält» französische Zeichen. -->
         		</egXML>
-        		<p>Im Falle, dass die Zeichen ungleichmäßig voneinander abweichen, kann dies über eigens dafür definierte Attribute (<att>rendLeft</att>, <att>rendRight</att>) angegeben werden.</p>
+        		<p>Wenn die Zeichen ungleichmäßig voneinander abweichen, kann dies über eigens dafür definierte Attribute (<att>rendLeft</att>, <att>rendRight</att>) angegeben werden.</p>
         		<egXML xmlns="http://www.tei-c.org/ns/Examples">
         			<p>Dieser deutsche Satz <q rendRight="single">enthält</q> solche Abweichungen.</p>
         			<!-- Dieser deutsche Satz „enthält‘ solche Abweichungen. -->
         		</egXML>
-        		<p>Auch der Fall, dass eines der beiden Zeichen oder beide fehlen kann auf diese Art kodiert werden. Für ein Fehlen wird der Wert <val>none</val> verwendet. Durch dne Umstand, dass bei der Verwendung der Elemente <gi>q</gi> und <gi>quote</gi> ein Anfangs- und Endpunkt zwangsläufig definiert werden muss, kommt diese form der Codierung einer editorischen Ergänzung gleich.</p>
+        		<p>Auch der Fall, dass eines der beiden Zeichen oder beide fehlen kann auf diese Art kodiert werden. Für ein Fehlen wird der Wert <val>none</val> verwendet. Durch den Umstand, dass bei der Verwendung der Elemente <gi>q</gi> und <gi>quote</gi> ein Anfangs- und Endpunkt zwangsläufig definiert werden muss, kommt diese Form der Codierung einer editorischen Ergänzung gleich.</p>
         		<egXML xmlns="http://www.tei-c.org/ns/Examples">
-        			<p>In diesem deutschen Satz <q rendRight="none">fehlt</q> etwas.</p>
-        			<!-- In diesem deutschen Satz „fehlt[“] etwas. -->
+        			<p>In diesem deutschen Satz <q rendRight="none">fehlt</q> das rechte Anführungszeichen.</p>
+        			<!-- In diesem deutschen Satz „fehlt[“] das rechte Anführungszeichen. -->
         		</egXML>
         		<p>Zum Hintergrund dieses Modells: Ziel der Edition ist es den Inhalt im Code adäquat abzubilden. Gleichzeitig ist auch die Vermittlung der Forschungsdaten ein wichtiger Aspekt. Ersteres ließe sich auch dadurch realisieren, dass die Anführungszeichen als Textzeichen in die Dateien eingegeben werden. Ein solches Vorgehen verwehrt jedoch die Möglichkeit eine Lesefassung anzubieten, in der z.B. sämtliche Zeichen normalisiert sein könnten. Um also eine Steuerung dieser Zeichen in der späteren Anzeige zu ermöglichen ist es notwendig diese ansteuerbar zu machen. Gleichzeitig soll der Inhalt aber nicht dadurch defizitär werden, dass Rückschlüsse auf das Original (Diplomatik) nicht mehr möglich sind. Aus diesen Gründen werden die Anführungszeichen entsprechend auskodiert. Das Modell der Norm-Hierarchie bringt zwar eine weitere Ebene hinein, durch welche die Komplexität weiter steigt, jedoch müssen dadurch nur wenige Stellen explizit kodiert werden, nämlich die Abweichungen. In der Konstitution komlex, erleichtert dieses Modell die Erarbeitung der Edition.</p>
         	</div>
@@ -629,6 +649,19 @@
                     <specDesc key="item"/>
                 </specList>
             </p>
+        	<div xml:id="eG-p">
+        		<head>div Abschnitte?</head><!-- <div
+                xml:id="DT-primary-struct-text">
+                <head>Grundstruktur des Textes</head>
+                <p>Zur grundlegenden Struktur der <gi>text</gi> Elemente, bestehend aus <gi>div</gi> und <gi>p</gi> Elementen, ist anzumerken, dass <gi>div</gi> Elemente zur groben Gliederung verwendet werden, sofern das überhaupt nötig ist. Für gewöhnlich bestehen Briefe aus einem oder wenigen Abschnitten, die als <gi>div</gi> zu codieren wären. Die Verwendung des Elements <gi>p</gi>, welches zur Abtrennung von Absätzen Anwendung dient, orientiert sich streng an derjenigen Struktur, welche der zu edierende Textes vorgibt. Ausnahmen hiervon entstehen zwangsläufig bei Inhalten von komplexer Struktur und an denjenigen Stellen, an denen bedingt durch das Schema ein <gi>div</gi> oder <gi>p</gi> erforderlich ist; beispielsweise um ein Element wie <gi>address</gi> einzusetzten (<gi>address</gi> erfordert <gi>p</gi> als Wrapper).</p>
+            </div> -->
+        		<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Darüber hinaus erhalten beiliegende Elemente einen eigenen <gi>div</gi> wie Umschläge oder Beilagen (gedruckt oder handschriftlich). Handelt es sich bei den Beilagen um Dokumente oder Rezensionen, so werden diese getrennt erfasst, aber in dem Brief verlinkt.</p>
+        		<p>Darüber hinaus wird im <gi>p</gi> die Ausrichtung des Paragraphen codiert: center, bloc, left, right, </p>
+        	</div>
+        	<div xml:id="eG-p">
+        		<head>Absätze</head><!-- vgl. oben Abstände und Einzüge -->
+        		<p>Die grundsätzliche Gestaltung der Absätze wird vor allem bei Typoscripten in der <gi>physDesc</gi> beschrieben: Zeilenabstand, Einzüge. Weicht ein Absatz davon ab, wird dies als Attribut in <gi>p</gi> vermerkt. Für den Einzug wird hierbei das <gi>space</gi> verwendet. Die Breite des Einzugs wird wie auch bei anderen Abständen in der Zahl der Buchstaben angegeben. Wird in der <gi>physDesc</gi> kein Einzug standardmäßig für die Absätze angegeben, beginnen Absätze ohne weiteres Attribut am linken Rand.</p>
+        	</div>
         </div>
         <div xml:id="eG-hi">
             <head>Texthervorhebungen</head>
@@ -654,7 +687,7 @@
 
             <div xml:id="eG-deletions">
                 <head>Streichungen des Autors</head>
-                <p>Das einfache Streichen von Worten oder Absätzen wird durch das Element <del/> (deleted) gekennzeichnet, die Form der Streichung sollte dabei durch das Attribut @rend (rendition) angegeben werden (in der Regel als <del rend="strikethrough"/>). Geschieht das Streichen und Ersetzen als ad-hoc-Korrektur in der Zeile, genügt diese Kennzeichnung und es muss kein Substitutionsvorgang bezeichnet werden. </p>
+            	<p>Das einfache Streichen von Worten oder Absätzen wird durch das Element <del/> (deleted) gekennzeichnet, die Form der Streichung sollte dabei durch das Attribut @rend (rendition) angegeben werden (in der Regel als <del rend="strikethrough"/>). Geschieht das Streichen und Ersetzen als ad-hoc-Korrektur in der Zeile, genügt diese Kennzeichnung und es muss kein Substitutionsvorgang bezeichnet werden. Doppelte Durchstreichungen sind folgendermaßen zu codieren: <del><hi rend="strikethrough" n="2">...</hi></del> </p>
             </div>
             <div xml:id="eG-additions">
                 <head>Ergänzungen des Autors</head>
@@ -667,12 +700,13 @@
                         <del rend="overwritten">wollte</del>
                         <add place="inline">musste</add>
                     </subst></p>
+            	<p>Sind z. B. in Typoskripten notwendige Korrekturen, oft nachträglich, nur mit Korrekturzeichen angegeben (z. B. zu tauschende Buchstaben mit dem entsprechenden Korrekturzeichen) so wird dies in einer Anmerkung beschrieben. Einfache nachträgliche Streichungen werden mit <gi>del</gi> und <gi>handShift</gi> codiert, z. B.: <egXML xmlns="http://www.tei-c.org/ns/Examples">we<del rend="strikethrough"><handShift script="manuscript"/>a</del>sen</egXML></p>
             </div>
             <div xml:id="eG-illegible">
                 <head>Unleserliches</head>
                 <p>Hier sind zwei Möglichkeiten zu unterscheiden: 1. Wenn durch Wasserschäden, Siegelloch oder sonstige äußere Einwirkungen (nicht aktives Eingreifen des Schreibers in den Text!) Teile nicht lesbar sind, wird dies durch das Element <damage/> gekennzeichnet. Dabei wird die Ursache der Lesebeeinträchtigung durch das Attribut @agent angegeben. Die Auszeichnung kann als bloße Kennzeichnung der „Schadenstatsache“ erfolgen oder aber unklare bzw. vom Herausgeber ergänzte Lesungen kennzeichnen (Bsp.: An die<damage agent="water"><unclear>ser roten</unclear></damage> Stelle war etwas beschädigt"). Wenn die Ergänzung auf den Hg. zurückgeht und, wie im vorstehenden Falle, etwas „nicht Selbstverständliches“ (zu letzterem gehören Ergänzungen einzelner Buchstaben) umfasst, sollte sich der Hg. als Verantwortlicher eintragen: @resp="JV". Komplett unlesbare Bereiche werde durch das Element <gap/> gekennzeichnet, wobei der Vollständigkeit halber der Umfang mit den Attributen @unit und @quantity notiert werden kann (als Werte kommen z. B. „characters“ in Frage), die Entzifferungsprobleme können zusätzlich durch das Attribut @reason="illegible" vermerkt sein.</p>
             </div>
-            <div xml:id="eG-unclear???">
+            <div xml:id="eG-unclear">
                 <head>Unsichere Lesung</head>
                 <p>Alle nur aus Leseschwierigkeiten der Handschrift resultierenden Unklarheiten werden in das Element <unclear/> eingeschlossen. Sofern mehrere Deutungsmöglichkeiten vorhanden sind, werden diese innerhalb des Elements <choice/> zur Auswahl gestellt. In diesem Falle sollte bei den Einzellesungen das Element <unclear/> durch ein Attribut @cert (certainty) ergänzt werden. Als Werte kommen dafür „high“, „medium“, „low“ oder „unknown“ in Frage. Durch das hinzugefügte Attribut @resp ist dabei der für diese Einschätzung verantwortliche Editor erkennbar.</p>
             </div>
@@ -688,7 +722,7 @@
         </div>
         <div xml:id="eG-supplied">
             <head>Herausgeberergänzungen</head>
-            <p> Gelegentlich kann es vorkommen, dass der Autor zum besseren Textverständnis einzelne fehlende Zeichen oder auch Zeichenfolgen bzw. Worte ergänzen muss/möchte (wenn dies die Folge von Textverlusten ist, vgl. allerdings die Rubrik „Unleserliches 1“). Diese Ergänzungen werden mit dem Attribut @resp innerhalb eines Elements <supplied/> (supplied) vorgenommen (Bsp.: heute kam Friedr<supplied resp="editor">i</supplied>ch). Alle auf diese Weise vorgenommenen Ergänzungen erscheinen z.Zt. im Text in eckigen Klammern; Ausnahme bilden ergänzte Währungsangaben im Tagebuch, diese werden in der Darstellung im Grausatz wiedergegeben. <specList>
+            <p> Gelegentlich kann es vorkommen, dass der Autor zum besseren Textverständnis einzelne fehlende Zeichen oder auch Zeichenfolgen bzw. Worte ergänzen muss/möchte (wenn dies die Folge von Textverlusten ist, vgl. allerdings die Rubrik „Unleserliches 1“). Diese Ergänzungen werden mit dem Attribut @resp innerhalb von <gi>supplied</gi> vorgenommen (Bsp.: heute kam Friedr<supplied resp="editor">i</supplied>ch). Alle auf diese Weise vorgenommenen Ergänzungen erscheinen z.Zt. im Text in eckigen Klammern; Ausnahme bilden ergänzte Währungsangaben im Tagebuch, diese werden in der Darstellung im Grausatz wiedergegeben. <specList><!-- Achtung dieser Text ist noch von WEber -->
                     <specDesc key="supplied"/>
                     <specDesc key="choice"/>
                     <specDesc key="sic"/>
@@ -785,8 +819,45 @@
                     <specDesc key="placeName"/>
                     <specDesc key="rs"/>
                     <specDesc key="date"/>
-                </specList>
+                </specList><!-- müsste noch erweitert werden? -->
             </p>
+        	<div xml:id="eG-semantics_Namen">
+        		<head>Personen</head>
+        	<p>In der Auszeichnung von Personen ist zu unterscheiden, ob der Name einer Person genannt wird oder eine Be- bzw. Umschreibung. Wird der Name genannt, ist <gi>persName</gi> zu verwenden, gibt es nur eine (indirekte) Beschreibung einer Person wie <q>sein Bruder</q>, <q>die Ärtze</q> oder <q>die Musiker</q>, so ist <gi>rs</gi> mit dem @person oder @persons zu verwenden. Auszeichnungen von Personen sollten immer zur eindeutigen Bestimmung mit Hilfe eines @key verwendet werden. Werden mehrere Personen in einem Wort angesprochen, z. B. Ehepaar Müller, sind die keys beider Personen in dem Element als Attribut zu ergänzen. Achtung: da der Personennamen dann nicht eindeutig ist wird in diesem Fall, trotz Namensnennung, <gi>rs</gi> verwendet. Nur in <gi>rs</gi> können mehrere keys gesetzt werden.</p>
+        		<p>Bei biblischen oder mythologischen Namen wird <gi>name</gi> verwendet und jeweils präzisiert mit @myth oder @biblical. Ebenso werden Namen von dramatis personae (Rollen) aus Schauspielen oder Musiktheaterstücken, z. B. Elisabeth Zimmer, Dr. Wilhelm Reischmann (aus: Elegie für junge Liebende) mit @actingRole oder Figuren aus Prosatexten wie Wilhelm Meister mit @character spezifiziert</p>
+        	</div>
+        	<div xml:id="eG-semantics_Namen">
+        		<head>weitere Namen</head>
+        		<p>Ortsnamen und andere geographische Namen werden direkt mit den zugehörigen Elementen <gi>settlement</gi>, <gi>region</gi>, <gi>country</gi>, <gi>bloc</gi>, [vollständige Liste] ausgezeichnet und mit einem key versehen. In dem zugehörigen Datensatz wird dann über ??? die Angabe präzisiert. Ortsangaben, die keine politische Einheit, sondern geographische Einheiten bezeichnen, werden mit <gi>geogName</gi> und @type codiert: forest, island, lake, mountain, river</p>
+        		<p>Es bleiben jedoch einige Namen, die mit <gi>name</gi> und einem Attribut bestimmt werden müssen: vor allem Aufführungsorte @venue und Werke @work oder @works. Gerade bei Theatern ist dabei sorgfältig zu unterscheiden, ob in dem Brief z. B. "Mailander Scala" als Aufführungsort oder als Organisation angesprochen ist.</p>
+        		<p>Achtung: hier noch endgültig festlegen, ob wir name @journal(newspaper machen oder title @journal/newspaper machen vgl. auch issue 102</p>
+        	</div>
+        	<div xml:id="eG-semantics_reference_string">
+        		<head>indirekte Angaben</head>
+        		<p>Für alle indirekten Erwähnungen, nicht nur für Namen (s.o.), ist <gi>rs</gi> zu verwenden und ist das Element mit Attributen zu präzisieren. Dies wird auch verwendet, um auf angesprochene postalische Dokumente zu verweisen wie z. B.: "dein letzter Brief". Anschließend folgt der Key des angesprochenen Gegenstandes. [kann man hier automatisch die Liste der erlaubten types einfügen?]</p>
+        	</div>
+        	<div xml:id="eG-semantics_date">
+        		<head>Datumsangaben</head>
+        		<p>Alle Datumsangaben werden, damit sie prozessierbar werden, mit <g>date</g> ausgezeichnet und mit Hilfe eines Attributs in ein normiertes Datum umgesetzt, z. B. wird 3. Januar 1956 als <g>date</g> ausgezeichnet mit @when="1956-01-03". Zeiträume werden in dem Element mit @from @to wiedergegeben, also <q>zwischen dem 5. und 8. März 1958 werde ich bei Euch sein</q> wird zu @from="1958-03-05" @to="1958-03-08". Ist nur ein ungefährer Zeitraum wie Ende März angegeben, so wird dies mit @notBefore="1958-03-20" @notAfter="1958-03-30" ausgezeichnet. Die Jahreszahl muss in jedem Fall ergänzt werden, auch wenn sie wie im letzten Beispiel im Text nicht genannt ist. </p>
+        	</div>
+        	<div xml:id="eG-semantics_date">
+        		<head>Datierungen</head>
+        		<p>Die Datumsangaben in der in einem Brief üblichen <g>dateline</g> wird codiert wie alle anderen Daten. Wird ein Datum oder ein Teil davon erschlossen, so wird dieses Datum mit <g>supplied</g> als vom Herausgeber ergänzt markiert.</p>
+        		<egXML xmlns="http://www.tei-c.org/ns/Examples">
+        			<dateline>Edinburgh Monday <date>17th August <supplied>1970</supplied></date></dateline>
+        		</egXML>
+        		<egXML xmlns="http://www.tei-c.org/ns/Examples">
+        			<dateline><date when="1958-01-03"><supplied>3. Januar 1958</supplied></date></dateline>
+        		</egXML>
+        		<p>Die Verantwortlichkeit für die Ergänzung kann mit @resp angegeben werden. Bei vollständiger Erschließung des Datums sollte eine Begründung in einer <g>note</g> festgehalten werden.
+        		<egXML xmlns="http://www.tei-c.org/ns/Examples">
+        			<dateline><supplied resp="IC"><date notBefore="1972-06-10" notAfter="1972-06-20">Mitte Juni 1972</date></supplied></dateline><note resp="IC">Enzensberger bezieht sich auf den Brief Henzes vom 2. Juni 1972</note>
+        		</egXML></p>
+        		<p>In den Metadaten unter <g>correspAction</g> wird das erschlossene Datum <q>normal</q> eingetragen, allerdings erhält das Element <g>date</g> dann ein Attribut @type="editor". ebenfalls hervorgehoben mit einem @type="postal" sind Datumsangaben, die nicht auf Angaben des Autors, sondern auf postalischen Angaben wie Stempel oder Postvermerke zurückgehen. Bei allen <g>date</g>-Angaben ohne Attribut ist von dem Attribut @type="source" auszugehen. Da dies der Normalfall ist, wird er nicht ausdrücklich codiert.</p>
+        		</div>
+        	<div xml:id="eG-semantics_title">
+        		<p>#102: prüfen, ob wir alles mit <gi>name</gi> abdecken.</p>
+        	</div>
         </div>
     </div>
 </div>
@@ -7117,7 +7188,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPT">16.1. Links</ref>
   </listRef></elementSpec><elementSpec rend="change" module="core" ident="list"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2014-07-09" xml:lang="en">list</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2014-07-09" xml:lang="de">Liste</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2014-07-09" xml:lang="en">contains any sequence of items organized as a list.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2014-07-09" xml:lang="de">enthält eine Menge von Elementen, die als Liste organisiert sind.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples"><memberOf key="att.typed"/><memberOf key="model.listLike"/></classes><content xmlns:teix="http://www.tei-c.org/ns/Examples"><zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="head"/></zeroOrMore><choice xmlns="http://relaxng.org/ns/structure/1.0"><oneOrMore><ref name="item"/><optional><ref name="note"/></optional><optional><ref name="model.milestoneLike"/></optional></oneOrMore><oneOrMore><ref name="label"/><ref name="item"/></oneOrMore></choice></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="gloss-list">
                 <desc versionDate="2014-07-09" xml:lang="en">checks for <gi>label</gi> within <gi>list</gi> without <att>type</att>='gloss'.</desc>
-                <desc versionDate="2014-07-09" xml:lang="de">stellt sicher, dass <gi>label</gi> nur innerhalb einer <gi>list</gi> mit <att>type</att>='gloss' vorkommen.</desc>
+                <desc versionDate="2014-07-09" xml:lang="de">stellt sicher, dass <gi>label</gi> nur innerhalb einer <gi>list</gi> mit <att>tpye</att>='gloss' vorkommen.</desc>
                 <constraint>
                     <sch:report test="./tei:label and not(@type='gloss')">Labels are only allowed in lists of type='gloss'</sch:report>
                 </constraint>
@@ -13223,9 +13294,9 @@ different hands identified within the source texts.</desc><desc xmlns:xi="http:/
                             <desc versionDate="2021-10-27" xml:lang="en">manuscript.</desc>
                             <desc versionDate="2021-10-27" xml:lang="de">Manuskript.</desc>
                         </valItem>
-                        <valItem ident="typoscript">
-                            <desc versionDate="2021-10-27" xml:lang="en">typoscript.</desc>
-                            <desc versionDate="2021-10-27" xml:lang="de">Typoscript.</desc>
+                        <valItem ident="typescript">
+                            <desc versionDate="2022-07-18" xml:lang="en">typescript.</desc>
+                            <desc versionDate="2022-07-18" xml:lang="de">Typoskript.</desc>
                         </valItem>
                     </valList>
                 </attDef><attDef ident="medium" mode="change" usage="rec">
@@ -19177,8 +19248,9 @@ Ce ne seroyt que bon que nous rendissiez noz cloches...</egXML>
             <desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
             <constraint>
                 <sch:rule context="tei:textClass/tei:keywords/tei:term">
-                    <sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typoscript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
-                    <sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typoscript','Typoskript')" role="warn">The values 'manuscript' and 'typoscript' should only occur in the first term.</sch:report>
+                    <sch:report test="parent::node()/tei:term = 'typoscript')" role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
+                    <sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
+                    <sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')" role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
                 </sch:rule>
             </constraint>
         </constraintSpec><attList/><exemplum xml:lang="en">
