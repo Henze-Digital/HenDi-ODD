@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-04-29T08:47:23Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-07-19T07:18:31Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -202,7 +202,7 @@
             <let name="fileDir"
                  value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
             <assert test="./node()/@xml:id = $fileName" role="error">The id of this record does not match the files name. Please check!</assert>
-            <assert test="$fileDir = concat(substring($fileName,1,6),'xx')" role="error">The file is stored in the wrong directory. Please check!</assert>
+            <assert test="$fileDir = concat(substring($fileName,1,5),'xxx')" role="error">The file is stored in the wrong directory. Please check!</assert>
          </rule>
       </pattern>
    </schema>
@@ -298,7 +298,17 @@
          <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-28">
+   <pattern id="schematron-constraint-hwhPlaces-quotation-rend-values-28">
+      <rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+         <report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <value-of select="node-name()"/>.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hwhPlaces-quotation-rend-attributes-29">
+      <rule context="*:q[@rend] | *:quote[@rend] | *:q[@rendLeft] | *:quote[@rendLeft] | *:q[@rendRight] | *:quote[@rendRight]">
+         <report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hwhPlaces-styleguide-document-node-content-30">
       <rule context="document-node()">
          <report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</report>
          <report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</report>

@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.music-encoding.org/ns/mei"><!--
-Schema generated from ODD source 2022-04-07T16:54:45Z. .
+Schema generated from ODD source 2022-07-19T07:19:32Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding works at Henze-Digital 
@@ -6422,7 +6422,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
             <sch:let name="fileDir"
                      value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
             <sch:assert test="./node()/@xml:id = $fileName" role="error">The id of this record does not match the files name. Please check!</sch:assert>
-            <sch:assert test="$fileDir = concat(substring($fileName,1,6),'xx')" role="error">The file is stored in the wrong directory. Please check!</sch:assert>
+            <sch:assert test="$fileDir = concat(substring($fileName,1,5),'xxx')" role="error">The file is stored in the wrong directory. Please check!</sch:assert>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
@@ -6564,6 +6564,30 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:persName | tei:orgName | tei:placeName">
          <sch:report test="@type='import'" role="info">This element should be deleted after checking this record.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhWorksMEI-quotation-rend-values-constraint-rule-80">
+      <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+         <sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhWorksMEI-quotation-rend-attributes-constraint-rule-81">
+      <sch:rule xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="*:q[@rend] | *:quote[@rend] | *:q[@rendLeft] | *:quote[@rendLeft] | *:q[@rendRight] | *:quote[@rendRight]">
+         <sch:report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</sch:report>
       </sch:rule>
    </pattern>
    <sch:ns xmlns:mei="http://www.music-encoding.org/ns/mei"

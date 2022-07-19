@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-04-29T08:47:20Z. .
+Schema generated from ODD source 2022-07-19T07:18:29Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding places at Henze-Digital 
@@ -24,11 +24,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          </choice>
       </zeroOrMore>
    </define>
-   <define name="pnd.pattern">
-      <data type="string">
-         <param name="pattern">1[012]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]</param>
-      </data>
-   </define>
    <define name="viaf.pattern">
       <data type="string">
          <param name="pattern">[1-9]\d(\d{0,7}|\d{17,20})</param>
@@ -37,11 +32,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
    <define name="geonames.pattern">
       <data type="string">
          <param name="pattern">[1-9][0-9]{0,8}</param>
-      </data>
-   </define>
-   <define name="bd.pattern">
-      <data type="string">
-         <param name="pattern">BachDigitalPerson_agent_[0-9]{8}</param>
       </data>
    </define>
    <define name="att.canonical.attribute.key">
@@ -783,9 +773,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <element name="idno">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Bezeichner) lieferte jegliche Form eines Bezeichners in einer standardisierten Form, der benutzt werden kann um Objekte zu identifiziert, wie etwa ein bibliographisches Element, eine Organisation, usw. [13.3.1. Basic Principles 2.2.4. Publication, Distribution, Licensing, etc. 2.2.5. The Series Statement 3.12.2.4. Imprint, Size of a Document, and Reprint Information]</a:documentation>
          <choice>
-            <ref name="pnd.pattern"/>
             <ref name="viaf.pattern"/>
-            <ref name="bd.pattern"/>
             <ref name="geonames.pattern"/>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -1246,7 +1234,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             <sch:let name="fileDir"
                      value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
             <sch:assert test="./node()/@xml:id = $fileName" role="error">The id of this record does not match the files name. Please check!</sch:assert>
-            <sch:assert test="$fileDir = concat(substring($fileName,1,6),'xx')" role="error">The file is stored in the wrong directory. Please check!</sch:assert>
+            <sch:assert test="$fileDir = concat(substring($fileName,1,5),'xxx')" role="error">The file is stored in the wrong directory. Please check!</sch:assert>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
@@ -1391,7 +1379,31 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-styleguide-document-node-content-constraint-rule-51">
+            id="hwhPlaces-quotation-rend-values-constraint-rule-51">
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+         <sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhPlaces-quotation-rend-attributes-constraint-rule-52">
+      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                context="*:q[@rend] | *:quote[@rend] | *:q[@rendLeft] | *:quote[@rendLeft] | *:q[@rendRight] | *:quote[@rendRight]">
+         <sch:report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhPlaces-styleguide-document-node-content-constraint-rule-53">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"

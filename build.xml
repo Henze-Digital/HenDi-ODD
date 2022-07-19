@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="HenDi-ODD" default="letters">
+<project basedir="." name="HenDi-ODD" default="all">
     
     <!-- import default properties from file -->
     <property file="local.build.properties"/>
@@ -10,9 +10,10 @@
     </condition>
     
     <target name="works" depends="worksMEI, worksTEI"/>
-    <target name="tei" depends="letters, orgs, persons, places, biblio, reviews, news, documents, thematicCommentaries, var, worksTEI"/>
+    <target name="tei" depends="letters, orgs, places, biblio, news, thematicCommentaries, tei-html-problems"/>
+    <target name="tei-html-problems" depends="persons, reviews, documents, var, worksTEI"/>
     <target name="mei" depends="worksMEI"/>
-    <target name="all" depends="tei, mei"/>
+    <target name="all" depends="tei, mei, text"/>
     
     <target name="dir.check">
         <condition property="dir.exists">
@@ -62,6 +63,12 @@
         </antcall>
     </target>
     
+	<target name="text" depends="init">
+		<antcall target="process-text">
+			<param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de-text.xml"/>
+		</antcall>
+	</target>
+	
     <target name="letters" depends="init">
         <antcall target="process">
             <param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
@@ -173,7 +180,7 @@
                 <param name="selectedSchema" expression="${selectedSchema}"/>
             </xslt>
             
-            <echo>Generate html guidelines</echo>
+            <!--<echo>Generate html guidelines</echo>
             <xslt force="yes" style="${stylesheets.dir}/odds/odd2html.xsl" 
                 in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="guidelines-html/${inputFile.basename}-${selectedSchema}.html">
                 <factory name="net.sf.saxon.TransformerFactoryImpl">
@@ -182,7 +189,7 @@
                 <param name="lang" expression="${lang}" if="lang"/>
                 <param name="defaultSource" expression="${source}"/>
                 <param name="selectedSchema" expression="${selectedSchema}"/>
-            </xslt>
+            </xslt>-->
             
             <echo>Creating RelaxNG schema</echo>
             <xslt force="yes" style="${stylesheets.dir}/profiles/default/relaxng/to.xsl" 
@@ -210,4 +217,26 @@
         </sequential>
     </target>
     
+    <target name="process-text">
+    	<basename property="inputFile.basename" file="${inputFile}" suffix=".xml"/>
+    	<!-- TEI is considered default source -->
+    	<condition property="source" value="${source}" else="${tei.source}">
+    		<isset property="source"/>
+    	</condition>
+    	<sequential>
+	    	<echo>Expanding ODD file (text)</echo>
+	    	<xslt force="yes" style="${stylesheets.dir}/odds/odd2odd.xsl" 
+	    		in="${inputFile}" out="${compiledODD.dir}/${inputFile.basename}.compiled.xml">
+	    		<factory name="net.sf.saxon.TransformerFactoryImpl">
+	    			<attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
+	    		</factory>
+	    		<param name="lang" expression="${lang}" if="lang"/>
+	    		<param name="defaultSource" expression="${source}"/>
+	    	</xslt>
+    	</sequential>
+    	
+    	<echo>copy output to hendi-data repo.</echo>
+    	<echo>Attention: This runs only locally and is hard-coded!</echo>
+    	<copy file="compiled-ODD/guidelines-de-text.compiled.xml" tofile="../henze-digital/var/A0700xxx/A070001F.xml" overwrite="yes"/>
+    </target>
 </project>
