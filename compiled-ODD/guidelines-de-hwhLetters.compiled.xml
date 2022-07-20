@@ -8040,9 +8040,7 @@ entre les Romains.</label>
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
                         <sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
-                    </sch:rule>
-                    <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint)]">
-                        <sch:report test="@type and @resp and @xml:id">It is recommended to provide @type and @resp and @xml:id on note.</sch:report>
+                        <sch:assert test="@type">It is required to classify the note with @type.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="text-notes" mode="replace">
@@ -8082,7 +8080,49 @@ entre les Romains.</label>
                         <sch:assert test="matches(replace(normalize-unicode(normalize-space(.), 'NFKD'),  '[\p{M}]', ''), '^[A-Z0-9]')">Commentary notes must start with an upper case letter.</sch:assert>
                     </sch:rule>
                 </constraint>
-            </constraintSpec><attList><attDef ident="status" usage="opt">
+            </constraintSpec><attList><attDef ident="type" mode="replace">
+                    <valList type="closed">
+                        <valItem ident="internal">
+                            <gloss versionDate="2022-04-29" xml:lang="en">(project) internal commentary</gloss>
+                            <gloss versionDate="2022-04-29" xml:lang="de">(Projekt-)Interner Kommentar</gloss>
+                        </valItem>
+                        <valItem ident="commentary">
+                            <gloss versionDate="2013-11-11" xml:lang="en">commentary</gloss>
+                            <gloss versionDate="2013-11-11" xml:lang="de">Stellenkommentar</gloss>
+                        </valItem>
+                        <valItem ident="definition">
+                            <gloss versionDate="2013-11-11" xml:lang="en">Word definitions/Term explanations</gloss>
+                            <desc versionDate="2013-11-11" xml:lang="en">words should stand between pointer and note that marking is possible.</desc>
+                            <gloss versionDate="2013-11-11" xml:lang="de">Worterklärungen/Begriffserläuterungen</gloss>
+                            <desc versionDate="2013-11-11" xml:lang="de">die Worte sollen zwischen pointer und note stehen, damit eine Markierung möglich ist.</desc>
+                        </valItem>
+                        <valItem ident="textConst">
+                            <gloss versionDate="2013-11-11" xml:lang="en">Text constitution</gloss>
+                            <desc versionDate="2013-11-11" xml:lang="en">Comments to variants, writings or other corrections which can not be encoded with an app or subst etc. in the letter.</desc>
+                            <gloss versionDate="2013-11-11" xml:lang="de">Textkonstitution</gloss>
+                            <desc versionDate="2013-11-11" xml:lang="de">Bemerkungen zu Varianten, Schreibkorrekturen oder sonstigem, was im Brief nicht mit app oder subst etc. codiert werden kann.</desc>
+                        </valItem>
+                        <valItem ident="thematicCom">
+                            <gloss versionDate="2016-09-19" xml:lang="en">Thematic commentary</gloss>
+                            <desc versionDate="2016-09-19" xml:lang="en">A synoptical commentary that can be applied to several places within the edition.</desc>
+                            <gloss versionDate="2016-09-19" xml:lang="de">Themenkommentar</gloss>
+                            <desc versionDate="2016-09-19" xml:lang="de">Stellenübergreifender Kommentar.</desc>
+                        </valItem>
+                        <valItem ident="summary">
+                            
+                            <desc versionDate="2016-02-09" xml:lang="en">A summary of the content of the text (only applicable in the <gi>notesStmt</gi>).</desc>
+                            <gloss versionDate="2016-02-09" xml:lang="de">Zusammenfassung</gloss>
+                            <desc versionDate="2016-02-09" xml:lang="de">Eine Zusammenfassung des Texts (nur anwendbar im <gi>notesStmt</gi>).</desc>
+                        </valItem>
+                        <valItem ident="editorial">
+                            
+                            <desc versionDate="2016-02-09" xml:lang="en">Some general remark about the file (only applicable in the <gi>notesStmt</gi>).</desc>
+                            <gloss versionDate="2016-02-09" xml:lang="de">Generalkommentar</gloss>
+                            <desc versionDate="2016-02-09" xml:lang="de">Ein Generalkommentar zur vorliegenden Datei (nur anwendbar im <gi>notesStmt</gi>).</desc>
+                        </valItem>
+                        
+                    </valList>
+                </attDef><attDef ident="status" usage="opt">
                     <desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
                     <desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
                     <valList type="closed">
@@ -8091,10 +8131,7 @@ entre les Romains.</label>
                             <desc versionDate="2013-11-11" xml:lang="de">nur für den internen Gebrauch.</desc>
                         </valItem>
                     </valList>
-                </attDef><attDef ident="type" mode="change" rend="change"><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc><valList xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" type="closed" mode="replace"><valItem ident="internal">
-                            <gloss versionDate="2022-04-29" xml:lang="en">(project) internal commentary</gloss>
-                            <gloss versionDate="2022-04-29" xml:lang="de">(Projekt-)Interner Kommentar</gloss>
-                        </valItem></valList></attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="resp" mode="change">
+                </attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="resp" mode="change">
                     <gloss versionDate="2013-11-11" xml:lang="en">responsible party</gloss>
                     <desc versionDate="2013-11-11" xml:lang="en">indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</desc>
                     <gloss versionDate="2013-11-11" xml:lang="de">verantwortliche Institution</gloss>
@@ -19300,7 +19337,7 @@ Ce ne seroyt que bon que nous rendissiez noz cloches...</egXML>
             <desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
             <constraint>
                 <sch:rule context="tei:textClass/tei:keywords/tei:term">
-                    <sch:report test="parent::node()/tei:term = 'typoscript')" role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
+                    <sch:report test="parent::node()/tei:term = 'typoscript'" role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
                     <sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
                     <sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')" role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
                 </sch:rule>

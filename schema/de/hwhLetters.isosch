@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-07-19T07:18:15Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-07-20T17:48:04Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -203,9 +203,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
    <pattern id="schematron-constraint-hwhLetters-note-note-in-text-32">
       <rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
          <assert test="@resp">It is required to give a responsibillity (@resp) on note.</assert>
-      </rule>
-      <rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint)]">
-         <report test="@type and @resp and @xml:id">It is recommended to provide @type and @resp and @xml:id on note.</report>
+         <assert test="@type">It is required to classify the note with @type.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hwhLetters-note-text-notes-33">
@@ -544,7 +542,7 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hwhLetters-term-controleContentOfTermElements-94">
       <rule context="tei:textClass/tei:keywords/tei:term">
-         <report test="parent::node()/tei:term = 'typoscript')" role="warn">Typo! Use 'typescript' instead of 'typoscript'.</report>
+         <report test="parent::node()/tei:term = 'typoscript'" role="warn">Typo! Use 'typescript' instead of 'typoscript'.</report>
          <assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')"
                  role="warn">The value of the first term should be 'manuscript' or 'typoscript'</assert>
          <report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
