@@ -1966,6 +1966,15 @@
                     </sch:pattern>
                 </constraint>
             </constraintSpec>
+            <constraintSpec scheme="schematron" ident="name-typeDep" mode="add">
+                <desc versionDate="2022-07-26" xml:lang="en">warnings if <att>type</att>=<val>dep</val> is used outside an <gi>orgName</gi>.</desc>
+                <desc versionDate="2022-07-26" xml:lang="de">Warnung falls <att>type</att>=<val>dep</val> außerhalb von <gi>orgName</gi> verwendet wird.</desc>
+                <constraint>
+                    <sch:rule context="tei:name[@type='dep']">
+                        <sch:assert test="parent::tei:orgName and ancestor::tei:org">The value 'dep' is only allowed within the doctype 'orgs'.</sch:assert>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec>
             <attList>
                 <attDef ident="type" mode="replace" usage="rec">
                     <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
@@ -2018,6 +2027,10 @@
                         <valItem ident="newspaper">
                             <desc versionDate="2013-11-11" xml:lang="en">Title of a newspaper</desc>
                             <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitung</desc>
+                        </valItem>
+                        <valItem ident="dep">
+                            <desc versionDate="2022-07-26" xml:lang="en">Department (of an organization)</desc>
+                            <desc versionDate="2022-07-26" xml:lang="de">Abteilung (einer Organisation)</desc>
                         </valItem>
                     </valList>
                 </attDef>
