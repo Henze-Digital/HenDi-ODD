@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-07-26T05:56:30Z. .
+Schema generated from ODD source 2022-07-26T10:52:29Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -101,6 +101,34 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Peter Stadler</a:documentation>
          <value>SS</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sophie Stremel</a:documentation>
+      </choice>
+   </define>
+   <define name="postal.type.list">
+      <choice>
+         <value>card.business</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Visitenkarte</a:documentation>
+         <value>card.letter</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Briefkarte, Weihnachtskarte, Glückwunschkarte, Grußkarte</a:documentation>
+         <value>card.postal</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Postkarte, Kunstkarte, Ansichtskarte, Bildkarte</a:documentation>
+         <value>contract</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Vertrag</a:documentation>
+         <value>document</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dokument</a:documentation>
+         <value>envelope</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Umschlag</a:documentation>
+         <value>formCommitment</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Verpflichtungsschein</a:documentation>
+         <value>letter</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Brief</a:documentation>
+         <value>statement</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Abrechnung</a:documentation>
+         <value>statement.fee</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Honorar-Abrechnung/-Berechnung</a:documentation>
+         <value>telegram</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Telegramm</a:documentation>
+         <value>unknown</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Unbekannt</a:documentation>
       </choice>
    </define>
    <define name="att.ascribed.attributes">
@@ -5207,32 +5235,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
          <ref name="att.written.attributes"/>
          <attribute name="type">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</a:documentation>
-            <choice>
-               <value>card.business</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Visitenkarte</a:documentation>
-               <value>card.letter</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Briefkarte, Weihnachtskarte, Glückwunschkarte, Grußkarte</a:documentation>
-               <value>card.postal</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Postkarte, Kunstkarte, Ansichtskarte, Bildkarte</a:documentation>
-               <value>contract</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Vertrag</a:documentation>
-               <value>document</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dokument</a:documentation>
-               <value>envelope</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Umschlag</a:documentation>
-               <value>formCommitment</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Verpflichtungsschein</a:documentation>
-               <value>letter</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Brief</a:documentation>
-               <value>statement</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Abrechnung</a:documentation>
-               <value>statement.fee</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Honorar-Abrechnung/-Berechnung</a:documentation>
-               <value>telegram</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Telegramm</a:documentation>
-               <value>unknown</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Unbekannt</a:documentation>
-            </choice>
+            <ref name="postal.type.list"/>
          </attribute>
          <empty/>
       </element>
@@ -7115,7 +7118,20 @@ Beispielwerte sind etwa: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie
    </define>
    <define name="objectDesc">
       <element name="objectDesc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(object description) contains a description of the physical components making up the object which is being described. []</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Objektbeschreibung) enthält eine Beschreibung der physischen Komponenten, aus denen das beschriebene Objekt besteht. []</a:documentation>
+         <choice>
+            <oneOrMore>
+               <ref name="model.pLike"/>
+            </oneOrMore>
+            <group>
+               <optional>
+                  <ref name="supportDesc"/>
+               </optional>
+               <optional>
+                  <ref name="layoutDesc"/>
+               </optional>
+            </group>
+         </choice>
          <choice>
             <oneOrMore>
                <ref name="model.pLike"/>
@@ -7130,6 +7146,30 @@ Beispielwerte sind etwa: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie
             </group>
          </choice>
          <ref name="att.global.attributes"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</a:documentation>
+            <ref name="postal.type.list"/>
+         </attribute>
+         <attribute name="form">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(form) a short project-specific name identifying the physical form of the carrier, for example as a codex, roll, fragment, partial leaf, cutting etc.
+Empfohlene Werte sind: 1] document (document); 2] envelope (envelope); 3] letter (Letter); 4] telegram (telegram); 5] postcard (postcard)</a:documentation>
+            <choice>
+               <value>document</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Dokument) </a:documentation>
+               <value>envelope</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Briefumschlag) </a:documentation>
+               <value>letter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Brief) </a:documentation>
+               <value>telegram</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Telegramm) </a:documentation>
+               <value>postcard</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Postkarte) </a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </choice>
+         </attribute>
          <attribute name="form">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(form) a short project-specific name identifying the physical form of the carrier, for example as a codex, roll, fragment, partial leaf, cutting etc.
 Empfohlene Werte sind: 1] document (document); 2] envelope (envelope); 3] letter (Letter); 4] telegram (telegram); 5] postcard (postcard)</a:documentation>
