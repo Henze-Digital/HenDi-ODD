@@ -44,6 +44,9 @@
             <param name="outputFileSchematron" value="${basedir}/schema/${lang}/hwhBiblio.isosch"/>
             <param name="selectedSchema" value="hwhBiblio"/>
         </antcall>
+    		<property name="schema.outputFileRNG" value="${basedir}/schema/${lang}/hwhBiblio.rng"/>
+    		<property name="schema.name" value="hwhBiblio"/>
+    	<antcall target="check-rng-output"/>
     </target>
     
     <!--<target name="diaries" depends="init">
@@ -240,4 +243,13 @@
     	<echo>Attention: This runs only locally and is hard-coded!</echo>
     	<copy file="compiled-ODD/guidelines-de-text.compiled.xml" tofile="../henze-digital/var/A0700xxx/A070001F.xml" overwrite="yes"/>
     </target>
+	
+	<target name="check-rng-output">
+		<echo>Test if relaxNG is working.</echo>
+		<taskdef name="jing" classpath="test-set/jing.jar" classname="com.thaiopensource.relaxng.util.JingTask"/>
+		<sequential>
+			<echo level="info">Validating test-set with RelaxNG output file.</echo>
+			<jing rngfile="${schema.outputFileRNG}" file="test-set/${schema.name}.xml"/>
+		</sequential>
+	</target>
 </project>
