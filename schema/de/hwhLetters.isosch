@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-09-01T13:32:29Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-09-13T18:56:26Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -14,12 +14,13 @@
    <!-- ********************* -->
    <!-- namespaces, implicit: -->
    <!-- ********************* -->
+   <ns prefix="hendi" uri="http://henze-digital.zenmem.de/ns/1.0"/>
    <!-- ************ -->
    <!-- constraints: -->
    <!-- ************ -->
    <pattern id="schematron-constraint-hwhLetters-att.written-hand-hand-reference-1">
       <rule context="tei:*[@hand]">
-         <assert test="id(substring(@hand,2)) or starts-with(@hand, 'hwh:')">There must be an element with the xml:id = "<value-of select="substring(@hand,2)"/>" which is the target of this @hand.</assert>
+         <assert test="id(substring(@hand,2))">There must be an element with the xml:id = "<value-of select="substring(@hand,2)"/>" which is the target of this @hand.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hwhLetters-att.breaking-break-hyphenation-whitespace-2">
@@ -629,7 +630,7 @@ The element <name/> may appear once only
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id[not(parent::tei:layout)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target">
+         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target">
             <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
