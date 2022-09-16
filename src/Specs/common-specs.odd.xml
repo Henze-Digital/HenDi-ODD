@@ -1602,27 +1602,24 @@
                 </constraint>
             </constraintSpec>
 
-            <!--<constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
+            <constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[parent::tei:notesStmt]">
-                        <sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst')">Within the notesStmt only 'editorial', 'summary', 'textConst', or 'thematicCom' are allowed for @type on note.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>-->
-            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-                        <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
+                    	<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom' or 'translation' are allowed for @type on note.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec>
-        	<constraintSpec scheme="schematron" ident="translation-notes" mode="add">
+            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
+                <constraint>
+                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
+                    	<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec>
+        	<constraintSpec scheme="schematron" ident="translation-notes-corresp" mode="add">
         		<constraint>
         			<sch:rule context="tei:note[parent::tei:notesStmt]">
         				<sch:report test="@type='translation' and not(@corresp)" role="fatal">A note that contains a translation must be liked to the original using @corresp.</sch:report>
-        			</sch:rule>
-        			<sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-        				<sch:report test="@type='translation'" role="error">A note that contains a translation is ony allowed in notesStmt. IUse the foreign element in text paragraphs.</sch:report>
         			</sch:rule>
         		</constraint>
         	</constraintSpec>
@@ -1685,8 +1682,8 @@
             		<desc versionDate="2022-09-16" xml:lang="de">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</desc>
             		<constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
             			<constraint>
-            				<sch:rule context="tei:*[@xml:id]">
-            					<sch:assert test="id(substring(@xml:id,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@xml:id,2)"/>" which is the target of this @corresp.</sch:assert>
+            				<sch:rule context="tei:note[@type='translation' and @corresp]">
+            					<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
             				</sch:rule>
             			</constraint>
             		</constraintSpec>
