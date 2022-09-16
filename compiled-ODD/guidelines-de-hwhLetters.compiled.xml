@@ -8064,17 +8064,29 @@ entre les Romains.</label>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/DS.html#DSHD">4.2.1. Headings and Trailers</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="core" ident="note"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2017-06-25">note</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-25" xml:lang="de">Anmerkung</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a note or annotation.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält eine Notiz oder eine Anmerkung/Annotation.</desc><classes><memberOf key="model.correspDescPart"/><memberOf key="att.global"/><memberOf key="model.noteLike"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="att.anchoring"/><memberOf key="model.correspActionPart"/><memberOf key="model.correspContextPart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.specialPara"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="note-in-text" mode="replace">
+  </listRef></elementSpec><elementSpec rend="change" module="core" ident="note"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2017-06-25">note</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-25" xml:lang="de">Anmerkung</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a note or annotation.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält eine Notiz oder eine Anmerkung/Annotation.</desc><classes><memberOf key="model.correspDescPart"/><memberOf key="att.global"/><memberOf key="model.noteLike"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="att.anchoring"/><memberOf key="model.correspActionPart"/><memberOf key="model.correspContextPart"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.specialPara"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="translation-notes-corresp" mode="add">
+        		<constraint>
+        			<sch:rule context="tei:note[parent::tei:notesStmt]">
+        				<sch:report test="@type='translation' and not(@corresp)" role="fatal">A note that contains a translation must be liked to the original using @corresp.</sch:report>
+        			</sch:rule>
+        		</constraint>
+        	</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="note-in-text" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
                         <sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
                         <sch:assert test="@type">It is required to classify the note with @type.</sch:assert>
                     </sch:rule>
                 </constraint>
+            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="notesStmt-notes" mode="replace">
+                <constraint>
+                    <sch:rule context="tei:note[parent::tei:notesStmt]">
+                    	<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom' or 'translation' are allowed for @type on note.</sch:assert>
+                    </sch:rule>
+                </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="text-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-                        <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
+                    	<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
                     </sch:rule>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="thematicCom-target">
@@ -8087,12 +8099,6 @@ entre les Romains.</label>
                 <constraint>
                     <sch:rule context="tei:note[@type='thematicCom' or @target]">
                         <sch:report test="normalize-space() ne''">Thematic commentaries must not contain any text.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="notesStmt-notes">
-                <constraint>
-                    <sch:rule context="tei:note[parent::tei:notesStmt]">
-                        <sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst')">Within the notesStmt only 'editorial', 'summary', 'textConst', or 'thematicCom' are allowed for @type on note.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="structured-content-notes">
@@ -8137,17 +8143,23 @@ entre les Romains.</label>
                             <desc versionDate="2016-09-19" xml:lang="de">Stellenübergreifender Kommentar.</desc>
                         </valItem>
                         <valItem ident="summary">
-                            
+                            <gloss versionDate="2016-02-09" xml:lang="en">Summary</gloss>
                             <desc versionDate="2016-02-09" xml:lang="en">A summary of the content of the text (only applicable in the <gi>notesStmt</gi>).</desc>
                             <gloss versionDate="2016-02-09" xml:lang="de">Zusammenfassung</gloss>
                             <desc versionDate="2016-02-09" xml:lang="de">Eine Zusammenfassung des Texts (nur anwendbar im <gi>notesStmt</gi>).</desc>
                         </valItem>
                         <valItem ident="editorial">
-                            
+                            <gloss versionDate="2016-02-09" xml:lang="en">General remark</gloss>
                             <desc versionDate="2016-02-09" xml:lang="en">Some general remark about the file (only applicable in the <gi>notesStmt</gi>).</desc>
                             <gloss versionDate="2016-02-09" xml:lang="de">Generalkommentar</gloss>
                             <desc versionDate="2016-02-09" xml:lang="de">Ein Generalkommentar zur vorliegenden Datei (nur anwendbar im <gi>notesStmt</gi>).</desc>
                         </valItem>
+                    	<valItem ident="translation">
+                    		<gloss versionDate="2022-09-16" xml:lang="en">translation</gloss>
+                    		<desc versionDate="2022-09-16" xml:lang="en">Translation of a specific element content . Linking with <att>corresp</att> is required.</desc>
+                    		<gloss versionDate="2022-09-16" xml:lang="de">Übersetzung</gloss>
+                    		<desc versionDate="2022-09-16" xml:lang="de">Übersetzung des Inhalts eines spezifischen Dokuments. Verlinkung mit <att>corresp</att> zwingend.</desc>
+                    	</valItem>
                         
                     </valList>
                 </attDef><attDef ident="status" usage="opt">
@@ -8159,7 +8171,17 @@ entre les Romains.</label>
                             <desc versionDate="2013-11-11" xml:lang="de">nur für den internen Gebrauch.</desc>
                         </valItem>
                     </valList>
-                </attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="resp" mode="change">
+                </attDef><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="corresp" mode="change">
+            		<desc versionDate="2022-09-16" xml:lang="en">points to the foreign text passage which is translated in this note.</desc>
+            		<desc versionDate="2022-09-16" xml:lang="de">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</desc>
+            		<constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
+            			<constraint>
+            				<sch:rule context="tei:note[@corresp]">
+            					<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
+            				</sch:rule>
+            			</constraint>
+            		</constraintSpec>
+            	</attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="resp" mode="change">
                     <gloss versionDate="2013-11-11" xml:lang="en">responsible party</gloss>
                     <desc versionDate="2013-11-11" xml:lang="en">indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</desc>
                     <gloss versionDate="2013-11-11" xml:lang="de">verantwortliche Institution</gloss>
@@ -19113,6 +19135,12 @@ may be empty.</p>
                 <datatype>
                     <dataRef key="teidata.language"/>
                 </datatype>
+            </attDef><attDef ident="xml:id" usage="rec" mode="change">
+                <desc versionDate="2022-09-16" xml:lang="en">The id of the current element.</desc>
+                <desc versionDate="2022-09-16" xml:lang="de">Die ID des aktuellen Elements.</desc>
+            	<datatype>
+            		<dataRef key="hwh.foreign.pointer"/>
+            	</datatype>
             </attDef></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#DRPAL-eg-44">This is
                         heathen Greek to you still? Your <foreign xml:lang="la">lapis
@@ -19971,7 +19999,13 @@ should be supplied for the <att>scheme</att> attribute.</p>
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="hand\.[0-9]{1,3}"/>
             </content>
-        </dataSpec><macroSpec rend="add" module="derived-module-hwhLetters" ident="pages.pattern" mode="add">
+        </dataSpec><dataSpec rend="add" module="derived-module-hwhLetters" ident="hwh.foreign.pointer">
+    		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für &lt;foreign&gt;-IDs innerhalb einer Datei.</desc>
+    		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for &lt;foreign&gt; IDs within a file</desc>
+    		<content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+    			<dataRef name="string" restriction="foreign\.[0-9]{1,3}"/>
+    		</content>
+    	</dataSpec><macroSpec rend="add" module="derived-module-hwhLetters" ident="pages.pattern" mode="add">
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <choice xmlns="http://relaxng.org/ns/structure/1.0"><rng:data xmlns="http://www.tei-c.org/ns/1.0" type="string">
                         
@@ -20185,7 +20219,7 @@ should be supplied for the <att>scheme</att> attribute.</p>
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                        <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target"> 
+                    	<sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target"> 
                             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>

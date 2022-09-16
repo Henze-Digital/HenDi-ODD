@@ -232,6 +232,14 @@
                 <dataRef name="string" restriction="hand\.[0-9]{1,3}"/>
             </content>
         </dataSpec>
+    	
+    	<dataSpec ident="hwh.foreign.pointer">
+    		<desc xml:lang="de" versionDate="2017-08-29">definiert das Muster für &lt;foreign&gt;-IDs innerhalb einer Datei.</desc>
+    		<desc xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for &lt;foreign&gt; IDs within a file</desc>
+    		<content>
+    			<dataRef name="string" restriction="foreign\.[0-9]{1,3}"/>
+    		</content>
+    	</dataSpec>
         
         <macroSpec ident="gnd.pattern" mode="add">
             <content>
@@ -1241,7 +1249,7 @@
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                        <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target"> 
+                    	<sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target"> 
                             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>
@@ -1594,20 +1602,27 @@
                 </constraint>
             </constraintSpec>
 
-            <!--<constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
+            <constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[parent::tei:notesStmt]">
-                        <sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst')">Within the notesStmt only 'editorial', 'summary', 'textConst', or 'thematicCom' are allowed for @type on note.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>-->
-            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-                        <sch:report test="@type=('editorial', 'summary', 'incipit')">The note types 'editorial', 'summary', or 'thematicCom' are not allowed within the text section but only in the notesStmt.</sch:report>
+                    	<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom' or 'translation' are allowed for @type on note.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec>
+            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
+                <constraint>
+                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
+                    	<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec>
+        	<constraintSpec scheme="schematron" ident="translation-notes-corresp" mode="add">
+        		<constraint>
+        			<sch:rule context="tei:note[parent::tei:notesStmt]">
+        				<sch:report test="@type='translation' and not(@corresp)" role="fatal">A note that contains a translation must be liked to the original using @corresp.</sch:report>
+        			</sch:rule>
+        		</constraint>
+        	</constraintSpec>
             <attList>
                 <attDef ident="type" mode="replace">
                     <valList type="closed">
@@ -1638,17 +1653,23 @@
                             <desc versionDate="2016-09-19" xml:lang="de">Stellenübergreifender Kommentar.</desc>
                         </valItem>
                         <valItem ident="summary">
-                            <!--<gloss versionDate="2016-02-09" xml:lang="en"></gloss>-->
+                            <gloss versionDate="2016-02-09" xml:lang="en">Summary</gloss>
                             <desc versionDate="2016-02-09" xml:lang="en">A summary of the content of the text (only applicable in the <gi>notesStmt</gi>).</desc>
                             <gloss versionDate="2016-02-09" xml:lang="de">Zusammenfassung</gloss>
                             <desc versionDate="2016-02-09" xml:lang="de">Eine Zusammenfassung des Texts (nur anwendbar im <gi>notesStmt</gi>).</desc>
                         </valItem>
                         <valItem ident="editorial">
-                            <!--<gloss versionDate="2016-02-09" xml:lang="en"></gloss>-->
+                            <gloss versionDate="2016-02-09" xml:lang="en">General remark</gloss>
                             <desc versionDate="2016-02-09" xml:lang="en">Some general remark about the file (only applicable in the <gi>notesStmt</gi>).</desc>
                             <gloss versionDate="2016-02-09" xml:lang="de">Generalkommentar</gloss>
                             <desc versionDate="2016-02-09" xml:lang="de">Ein Generalkommentar zur vorliegenden Datei (nur anwendbar im <gi>notesStmt</gi>).</desc>
                         </valItem>
+                    	<valItem ident="translation">
+                    		<gloss versionDate="2022-09-16" xml:lang="en">translation</gloss>
+                    		<desc versionDate="2022-09-16" xml:lang="en">Translation of a specific element content . Linking with <att>corresp</att> is required.</desc>
+                    		<gloss versionDate="2022-09-16" xml:lang="de">Übersetzung</gloss>
+                    		<desc versionDate="2022-09-16" xml:lang="de">Übersetzung des Inhalts eines spezifischen Dokuments. Verlinkung mit <att>corresp</att> zwingend.</desc>
+                    	</valItem>
                         <!--<valItem ident="incipit">
                             <desc versionDate="2016-04-23" xml:lang="en">The text incipit of the letter (or other piece of correspondence).</desc>
                             <gloss versionDate="2016-04-23" xml:lang="de">Incipit</gloss>
@@ -1656,7 +1677,18 @@
                         </valItem>-->
                     </valList>
                 </attDef>
-                <!--<attDef ident="target" mode="change">
+            	<attDef ident="corresp" mode="change">
+            		<desc versionDate="2022-09-16" xml:lang="en">points to the foreign text passage which is translated in this note.</desc>
+            		<desc versionDate="2022-09-16" xml:lang="de">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</desc>
+            		<constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
+            			<constraint>
+            				<sch:rule context="tei:note[@type='translation' and @corresp]">
+            					<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
+            				</sch:rule>
+            			</constraint>
+            		</constraintSpec>
+            	</attDef>
+            	<!--<attDef ident="target" mode="change">
                     <gloss versionDate="2021-10-25" xml:lang="en">Reference targets</gloss>
                     <desc versionDate="2021-10-25" xml:lang="en">Takes the URIs (in the form "hwh:A07xxxx") of the topic comments to be linked (only possible in conjunction with <att>type</att>="thematicCom").</desc>
                     <gloss versionDate="2016-02-08" xml:lang="de">Verweisziele</gloss>
