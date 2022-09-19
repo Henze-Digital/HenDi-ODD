@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-09-16T10:04:15Z. .
+Schema generated from ODD source 2022-09-19T17:34:44Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -781,12 +781,8 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
    </define>
    <define name="att.handFeatures.attributes">
       <ref name="att.handFeatures.attribute.color"/>
-      <ref name="att.handFeatures.attribute.scribe"/>
-      <ref name="att.handFeatures.attribute.scribeRef"/>
       <ref name="att.handFeatures.attribute.script"/>
-      <ref name="att.handFeatures.attribute.scriptRef"/>
       <ref name="att.handFeatures.attribute.medium"/>
-      <ref name="att.handFeatures.attribute.scope"/>
    </define>
    <define name="att.handFeatures.attribute.color">
       <optional>
@@ -835,28 +831,6 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          </attribute>
       </optional>
    </define>
-   <define name="att.handFeatures.attribute.scribe">
-      <optional>
-         <attribute name="scribe">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gives a name or other identifier for the scribe believed to be responsible for this hand.</a:documentation>
-            <data type="string">
-               <param name="pattern">A00[0-9A-F]{5}</param>
-            </data>
-         </attribute>
-      </optional>
-   </define>
-   <define name="att.handFeatures.attribute.scribeRef">
-      <optional>
-         <attribute name="scribeRef">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to a full description of the scribe concerned, typically supplied by a <code xmlns="http://www.w3.org/1999/xhtml">&lt;person&gt;</code> element elsewhere in the description.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <data type="anyURI"/>
-               </oneOrMore>
-            </list>
-         </attribute>
-      </optional>
-   </define>
    <define name="att.handFeatures.attribute.script">
       <attribute name="script">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the particular script or writing style used by this hand, for example secretary, copperplate, Chancery, Italian, etc.</a:documentation>
@@ -871,18 +845,6 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </oneOrMore>
          </list>
       </attribute>
-   </define>
-   <define name="att.handFeatures.attribute.scriptRef">
-      <optional>
-         <attribute name="scriptRef">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to a full description of the script or writing style used by this hand, typically supplied by a <code xmlns="http://www.w3.org/1999/xhtml">&lt;scriptNote&gt;</code> element elsewhere in the description.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <data type="anyURI"/>
-               </oneOrMore>
-            </list>
-         </attribute>
-      </optional>
    </define>
    <define name="att.handFeatures.attribute.medium">
       <optional>
@@ -905,21 +867,6 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kugelschreiber</a:documentation>
                <value>ribbon</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Farbband (Schreibmaschine)</a:documentation>
-            </choice>
-         </attribute>
-      </optional>
-   </define>
-   <define name="att.handFeatures.attribute.scope">
-      <optional>
-         <attribute name="scope">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies how widely this hand is used in the manuscript.</a:documentation>
-            <choice>
-               <value>sole</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">only this hand is used throughout the manuscript</a:documentation>
-               <value>major</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">this hand is used through most of the manuscript</a:documentation>
-               <value>minor</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">this hand is used occasionally in the manuscript</a:documentation>
             </choice>
          </attribute>
       </optional>
@@ -5119,6 +5066,7 @@ relatedItem element must be empty</sch:report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(note on hand) beschreibt einen bestimmten Stil oder die Hand in einer Handschrift [10.7.2. Writing, Decoration, and Other Notations]</a:documentation>
          <ref name="macro.specialPara"/>
          <ref name="att.global.responsibility.attributes"/>
+         <ref name="att.handFeatures.attributes"/>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Bezeichner) liefert einen eindeutigen Bezeichner für das Element, dass das Attribut trägt.</a:documentation>
             <data type="string">
@@ -5128,19 +5076,24 @@ relatedItem element must be empty</sch:report>
          <optional>
             <attribute name="scribe">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gibt dem Schreiber, von dem geglaubt wird für diese Hand verwantwortlich zu sein, einen Namen oder eine andere Bezeichnung.</a:documentation>
+               <data type="string">
+                  <param name="pattern">A00[0-9A-F]{5}</param>
+               </data>
             </attribute>
          </optional>
-         <attribute name="scope">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gibt an, wie umfangreich die Handschrift im Manuskript verwendet wird.</a:documentation>
-            <choice>
-               <value>sole</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">nur diese Hand wird in der Handschrift verwendet</a:documentation>
-               <value>major</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">diese Hand wird in den meisten Manuskripten verwendet</a:documentation>
-               <value>minor</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">diese Hand wird gelegentlich in dem Manuskript verwendet</a:documentation>
-            </choice>
-         </attribute>
+         <optional>
+            <attribute name="scope">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gibt an, wie umfangreich die Handschrift im Manuskript verwendet wird.</a:documentation>
+               <choice>
+                  <value>sole</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">nur diese Hand wird in der Handschrift verwendet</a:documentation>
+                  <value>major</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">diese Hand wird in den meisten Manuskripten verwendet</a:documentation>
+                  <value>minor</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">diese Hand wird gelegentlich in dem Manuskript verwendet</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -6386,10 +6339,31 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
    </define>
    <define name="handShift">
       <element name="handShift">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(handwriting shift) marks the beginning of a sequence of text written in a new hand, or the beginning of a scribal stint. [11.3.2.1. Document Hands]</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Veränderung der Handschrift) Markiert den Beginn einer Textsequenz, die von einer neuen Hand geschrieben wurde. [11.3.2.1. Document Hands]</a:documentation>
          <empty/>
          <ref name="att.global.attributes"/>
          <ref name="att.handFeatures.attributes"/>
+         <optional>
+            <attribute name="scribe">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <data type="string">
+                  <param name="pattern">A00[0-9A-F]{5}</param>
+               </data>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="scope">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gibt an, wie umfangreich die Handschrift im Manuskript verwendet wird.</a:documentation>
+               <choice>
+                  <value>sole</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">nur diese Hand wird in der Handschrift verwendet</a:documentation>
+                  <value>major</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">diese Hand wird in den meisten Manuskripten verwendet</a:documentation>
+                  <value>minor</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">diese Hand wird gelegentlich in dem Manuskript verwendet</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <optional>
             <attribute name="new">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates a <code xmlns="http://www.w3.org/1999/xhtml">&lt;handNote&gt;</code> element describing the hand concerned.</a:documentation>
