@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-<schemaSpec ident="hwhWorksAV" xml:lang="en" start="av" source="tei:4.3.0" xmlns="http://www.tei-c.org/ns/1.0" ns="http://henze-digital.zenmem.de/ns/schema-av" xmlns:hendi="http://henze-digital.zenmem.de/ns/schema-av" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-	<elementRef key="date" source="tei:4.3.0"/>
-	<elementRef key="name" source="tei:4.3.0"/>
-	<elementRef key="note" source="tei:4.3.0"/>
-	<elementRef key="q" source="tei:4.3.0"/>
-	<elementRef key="ref" source="tei:4.3.0"/>
-	<elementRef key="respStmt" source="tei:4.3.0"/>
-	<elementRef key="title" source="tei:4.3.0"/>
-	<elementRef key="creation" source="tei:4.3.0"/>
-	<elementRef key="idno" source="tei:4.3.0"/>
-	<elementRef key="keywords" source="tei:4.3.0"/>
-	<elementRef key="langUsage" source="tei:4.3.0"/>
-	<elementRef key="language" source="tei:4.3.0"/>
-	<elementRef key="notesStmt" source="tei:4.3.0"/>
-	<elementRef key="titleStmt" source="tei:4.3.0"/>
-	<elementRef key="publicationStmt" source="tei:4.3.0"/>
-	<elementRef key="publisher" source="tei:4.3.0"/>
-	<elementRef key="pubPlace" source="tei:4.3.0"/>
-	<elementRef key="placeName" source="tei:4.3.0"/>
-	<elementRef key="country" source="tei:4.3.0"/>
-	<elementRef key="settlement" source="tei:4.3.0"/>
-	<elementRef key="persName" source="tei:4.3.0"/>
-	<elementRef key="orgName" source="tei:4.3.0"/>
-	<elementRef key="listEvent" source="tei:4.3.0"/>
-	<elementRef key="event" source="tei:4.3.0"/>
-	<!--<elementRef key="playingSpeed" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>-->
+<schemaSpec ident="hwhWorksAV" xml:lang="en" start="avCorpus avEntity" source="tei:4.3.0" xmlns="http://www.tei-c.org/ns/1.0" ns="http://henze-digital.zenmem.de/ns/schema-av" xmlns:hendi="http://henze-digital.zenmem.de/ns/schema-av" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+
+	<moduleRef key="tei" source="tei:4.3.0"/>
+	<moduleRef key="core" source="tei:4.3.0" include="date note q ref respStmt title publisher pubPlace"/>
+	<moduleRef key="namesdates" source="tei:4.3.0" include="country event listEvent orgName persName placeName settlement"/>
+	<moduleRef key="header" source="tei:4.3.0" include="creation idno keywords langUsage language notesStmt publicationStmt titleStmt"/>
+	<moduleRef key="drama" source="tei:4.3.0" include="actor castItem castList role roleDesc"/>
+	
+	<elementRef key="playingSpeed" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
+	<elementRef key="perfDuration" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
 	<elementRef key="contents" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
 	<elementRef key="contentItem" source="../../../../static/music-encoding-4.0.1/source/mei-source.xml"/>
 
@@ -33,46 +17,79 @@
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-classes"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-element-additions"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-constraints"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-styleguides"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-atts"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-atts"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-core"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-header"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-namesdates"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-msdescription"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-linking"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-macros"/>
 	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-biblStruct"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-nameLikeEntities"/>
+	<constraintSpec ident="declareNamespaceHendi" scheme="schematron" mode="add">
+		<constraint>
+			<sch:ns uri="http://henze-digital.zenmem.de/ns/schema-av" prefix="hendi"/>
+		</constraint>
+	</constraintSpec>
+	
 	<classSpec type="atts" ident="att.roles.marc">
 		<desc xml:lang="de" versionDate="2022-08-04">Eine Klasse für Attribute, die Rollen nach Vorbild der MARC-relators definieren.</desc>
-	<attList>
-		<attDef ident="role">
-			<datatype>
-				<dataRef key="marcRelator.list"/>
-			</datatype>
-		</attDef>
-	</attList>
+		<attList>
+			<attDef ident="role">
+				<datatype>
+					<dataRef key="marcRelator.list"/>
+				</datatype>
+			</attDef>
+		</attList>
 	</classSpec>
 	
-	<elementSpec ident="av" mode="add" ns="http://henze-digital.zenmem.de/ns/schema-av">
-		<gloss versionDate="2013-11-11" xml:lang="en">TEI document</gloss>
-		<desc versionDate="2013-11-11" xml:lang="en">contains a single TEI-conformant document, comprising a TEI header and a text, either in isolation or as part of a <gi>teiCorpus</gi> element.</desc>
-		<gloss versionDate="2013-11-11" xml:lang="de">TEI Dokument</gloss>
-		<desc versionDate="2013-11-11" xml:lang="de">enthält ein einzelnes TEI-konformes Dokument, TEI header und text einschließend, entweder einzeln oder als Teile des <gi>teiCorpus</gi> Elements.</desc>
+	<classSpec type="atts" ident="att.unit.time">
+		<desc xml:lang="de" versionDate="2022-08-04">Eine Klasse für Attribute, die zeitliche Einheiten definieren.</desc>
+		<attList>
+			<attDef ident="unit" mode="add" usage="req">
+				<gloss versionDate="2022-10-06" xml:lang="en">unit</gloss>
+				<desc versionDate="2022-10-06" xml:lang="en">indicates the unit of the encoded value.</desc>
+				<gloss versionDate="2022-10-06" xml:lang="de">Einheit</gloss>
+				<desc versionDate="2022-10-06" xml:lang="de">gibt die Einheit der codierten Werte an.</desc>
+				<valList type="closed">
+					<valItem ident="min">
+						<gloss versionDate="2022-10-06" xml:lang="en">minutes</gloss>
+						<gloss versionDate="2022-10-06" xml:lang="de">Minuten</gloss>
+					</valItem>
+					<valItem ident="rpm">
+						<gloss versionDate="2022-10-06" xml:lang="en">rounds per minute</gloss>
+						<gloss versionDate="2022-10-06" xml:lang="de">Umdrehungen pro Minute</gloss>
+					</valItem>
+				</valList>
+			</attDef>
+		</attList>
+	</classSpec>
+	
+	<elementSpec ident="avCorpus" mode="add" ns="http://henze-digital.zenmem.de/ns/schema-av">
 		<content>
+			<elementRef key="avEntity" minOccurs="1" maxOccurs="unbounded"/>
+		</content>
+	</elementSpec>
+	
+	<elementSpec ident="avEntity" mode="add" ns="http://henze-digital.zenmem.de/ns/schema-av">
+		<gloss versionDate="2013-11-11" xml:lang="en">AV Entity</gloss>
+		<desc versionDate="2013-11-11" xml:lang="en">.</desc>
+		<gloss versionDate="2013-11-11" xml:lang="de">AV Entität</gloss>
+		<desc versionDate="2013-11-11" xml:lang="de"></desc>
+		<content>
+			<elementRef key="medium" minOccurs="0" maxOccurs="1"/>
 			<elementRef key="titleStmt"/>
 			<elementRef key="respStmt"/>
 			<elementRef key="publicationStmt"/>
-
-			<elementRef key="playingSpeed"/>
-			<elementRef key="contents"/>
+			<elementRef key="contents" minOccurs="0" maxOccurs="1"/>
+			<elementRef key="castList" minOccurs="0" maxOccurs="1"/>
+			<elementRef key="perfDuration" minOccurs="0" maxOccurs="1"/>
+			<elementRef key="playingSpeed" minOccurs="0" maxOccurs="1"/>
+			<elementRef key="notesStmt" minOccurs="0" maxOccurs="1"/>
 		</content>
 		<constraintSpec scheme="schematron" ident="checkFilesNameAndDir" mode="delete"/>
 		<attList>
+			<attDef ident="type" usage="req" mode="add">
+				<datatype>
+					<dataRef key="hwh_avEntityType.list"/>
+				</datatype>
+			</attDef>
 			<attDef ident="status" usage="req" mode="add">
 				<datatype>
 					<dataRef key="hwh_docStatus.list"/>
@@ -97,19 +114,182 @@
 			</attDef>
 		</attList>
 	</elementSpec>
-
-	<elementSpec ident="respStmt" mode="change" ns="http://henze-digital.zenmem.de/ns/schema-av">
+	
+	<elementSpec ident="medium" mode="add">
+		<gloss versionDate="2022-10-05" xml:lang="en">Medium</gloss>
+		<desc versionDate="2022-10-05" xml:lang="en">defines the medium of the recorded resource.</desc>
+		<gloss versionDate="2022-10-05" xml:lang="de">Medium</gloss>
+		<desc versionDate="2022-10-05" xml:lang="de">definiert das Medium der erfassten Ressource.</desc>
 		<content>
-			<elementRef key="persName"/>
-			<elementRef key="orgName"/>
-			<elementRef key="name"/>
+			<valList type="closed">
+				<valItem ident="cassette">
+					<gloss versionDate="2022-10-06" xml:lang="en">cassette</gloss>
+					<desc versionDate="2022-10-06" xml:lang="en">A medium for audio recording.</desc>
+					<gloss versionDate="2022-10-06" xml:lang="de">Kassette</gloss>
+					<desc versionDate="2022-10-06" xml:lang="de">Ein Medium für Audioaufnahmen.</desc>
+				</valItem>
+				<valItem ident="cd">
+					<gloss versionDate="2022-10-06" xml:lang="en">compact disc (CD)</gloss>
+					<desc versionDate="2022-10-06" xml:lang="en">A medium for audio recording.</desc>
+					<gloss versionDate="2022-10-06" xml:lang="de">Compact Disc (CD)</gloss>
+					<desc versionDate="2022-10-06" xml:lang="de">Ein Medium für Audioaufnahmen.</desc>
+				</valItem>
+				<valItem ident="dvd">
+					<gloss versionDate="2022-10-06" xml:lang="en">digital video disc (DVD)</gloss>
+					<desc versionDate="2022-10-06" xml:lang="en">A medium for video recording.</desc>
+					<gloss versionDate="2022-10-06" xml:lang="de">Digital Video Disc (DVD)</gloss>
+					<desc versionDate="2022-10-06" xml:lang="de">Ein Medium für Videoaufnahmen.</desc>
+				</valItem>
+				<valItem ident="record">
+					<gloss versionDate="2022-10-06" xml:lang="en">(vinyl) record</gloss>
+					<desc versionDate="2022-10-06" xml:lang="en">A medium for audio recording.</desc>
+					<gloss versionDate="2022-10-06" xml:lang="de">Schallplatte</gloss>
+					<desc versionDate="2022-10-06" xml:lang="de">Ein Medium für Audioaufnahmen.</desc>
+				</valItem>
+				<valItem ident="vhs">
+					<gloss versionDate="2022-10-06" xml:lang="en">video home system (VHS)</gloss>
+					<desc versionDate="2022-10-06" xml:lang="en">A medium for video recording.</desc>
+					<gloss versionDate="2022-10-06" xml:lang="de">Video Home System (VHS)</gloss>
+					<desc versionDate="2022-10-06" xml:lang="de">Ein Medium für Videoaufnahmen.</desc>
+				</valItem>
+				<valItem ident="tape">
+					<gloss versionDate="2022-10-06" xml:lang="en">(magnetic) tape </gloss>
+					<desc versionDate="2022-10-06" xml:lang="en">A medium for audio recording.</desc>
+					<gloss versionDate="2022-10-06" xml:lang="de">Tonband</gloss>
+					<desc versionDate="2022-10-06" xml:lang="de">Ein Medium für Audioaufnahmen.</desc>
+				</valItem>
+			</valList>
 		</content>
 	</elementSpec>
 
-	<elementSpec ident="persName" mode="change" ns="http://henze-digital.zenmem.de/ns/schema-av">
-	<classes>
-		<memberOf key="att.roles.marc" mode="add"/>
-	</classes>
+	<elementSpec ident="respStmt" mode="change" ns="http://henze-digital.zenmem.de/ns/schema-av" prefix="hendi">
+		<content>
+			<elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+			<elementRef key="orgName" minOccurs="0" maxOccurs="unbounded"/>
+			<elementRef key="country" minOccurs="0" maxOccurs="unbounded"/>
+		</content>
+		<constraintSpec scheme="schematron" ident="respStmtRoles" mode="add">
+			<desc versionDate="2022-10-06" xml:lang="en">Checks if <att>role</att> is present in child elements of <gi>respStmt</gi></desc>
+			<desc versionDate="2022-10-06" xml:lang="de">Überprüft, ob <att>rend</att> in den Kindelementen von <gi>respStmt</gi> vorhanden ist.</desc>
+			<constraint>
+				<sch:rule context="(hendi:persName|hendi:orgName)[parent::hendi:respStmt]">
+					<sch:assert test="@role">Please add a role to element <sch:value-of select="node-name()"/>.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+		<constraintSpec scheme="schematron" ident="checkVideoCountry" mode="add">
+			<desc versionDate="2022-10-06" xml:lang="en">Checks if <gi>country</gi> is present if media type is video.</desc>
+			<desc versionDate="2022-10-06" xml:lang="de">Überprüft, ob <gi>country</gi> vorhanden ist, wenn es sich um ein Video handelt.</desc>
+			<constraint>
+				<sch:rule context="hendi:respStmt[parent::hendi:avEntity[@type = 'video']]">
+					<sch:assert test="hendi:country">Please record the country of production.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+	</elementSpec>
+
+	<elementSpec ident="persName" mode="change">
+		<classes>
+			<memberOf key="att.roles.marc" mode="add"/>
+		</classes>
+		<constraintSpec ident="persNameKeyRequirement" scheme="schematron">
+			<constraint>
+				<sch:rule context="hendi:persName">
+					<sch:assert test="@key" role="info">A <sch:name/> should be used for identification.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+		<attList>
+			<attDef ident="key" mode="replace" usage="rec">
+				<datatype>
+					<dataRef key="hwh.persons.pointer"/>
+				</datatype>
+			</attDef>
+		</attList>
+	</elementSpec>
+	
+	<elementSpec ident="orgName" mode="change">
+		<classes>
+			<memberOf key="att.roles.marc" mode="add"/>
+		</classes>
+		<constraintSpec ident="orgNameKeyRequirement" scheme="schematron">
+			<constraint>
+				<sch:rule context="hendi:orgName">
+					<sch:assert test="@key" role="info">A <sch:name/> should be used for identification.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+		<attList>
+			<attDef ident="key" mode="replace" usage="rec">
+				<datatype>
+					<dataRef key="hwh.orgs.pointer"/>
+				</datatype>
+			</attDef>
+		</attList>
+	</elementSpec>
+	
+	<elementSpec ident="placeName" mode="change" module="namesdates">
+		<attList>
+			<attDef ident="key" mode="replace" usage="rec">
+				<datatype>
+					<dataRef key="hwh.places.pointer"/>
+				</datatype>
+			</attDef>
+		</attList>
+	</elementSpec>
+	<elementSpec ident="settlement" mode="change" module="namesdates">
+		<attList>
+			<attDef ident="key" mode="replace" usage="rec">
+				<datatype>
+					<dataRef key="hwh.places.pointer"/>
+				</datatype>
+			</attDef>
+		</attList>
+	</elementSpec>
+	<elementSpec ident="country" mode="change" module="namesdates">
+		<attList>
+			<attDef ident="key" mode="replace" usage="rec">
+				<datatype>
+					<dataRef key="hwh.places.pointer"/>
+				</datatype>
+			</attDef>
+			<attDef ident="type" mode="replace" usage="req">
+				<valList type="closed">
+					<valItem ident="production"/>
+				</valList>
+			</attDef>
+		</attList>
+	</elementSpec>
+	
+	<elementSpec ident="contents" mode="change" ns="http://henze-digital.zenmem.de/ns/schema-av" prefix="hendi">
+		<constraintSpec scheme="schematron" ident="checkContentsLabels" mode="delete"/>
+		<constraintSpec scheme="schematron" ident="checkContentsItem" mode="add">
+			<desc versionDate="2022-10-06" xml:lang="en">Checks if <gi>contentItem</gi> is present.</desc>
+			<desc versionDate="2022-10-06" xml:lang="de">Überprüft, ob <gi>contentItem</gi> vorhanden ist.</desc>
+			<constraint>
+				<sch:rule context="hendi:contents">
+					<sch:assert test="hendi:contentItem">The Element <sch:value-of select="node-name()"/> should have at least one contentItem.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+	</elementSpec>
+	
+	<elementSpec ident="perfDuration" mode="change">
+		<classes>
+			<memberOf key="att.unit.time" mode="add"/>
+		</classes>
+		<content>
+			<textNode/>
+		</content>
+	</elementSpec>
+	
+	<elementSpec ident="playingSpeed" mode="change">
+		<classes>
+			<memberOf key="att.unit.time" mode="add"/>
+		</classes>
+		<content>
+			<textNode/>
+		</content>
 	</elementSpec>
 	
 </schemaSpec>
