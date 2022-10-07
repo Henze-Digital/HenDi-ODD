@@ -8,6 +8,8 @@ variables:
 
 stages:
   - build
+  - test
+  - save
 
 .install_dependencies:
   image: ubuntu
@@ -16,17 +18,14 @@ stages:
     #- apt upgrade -y
     - apt install -y gnupg2 curl
     - apt install -y --no-install-recommends ant git
-    #- clone static/tei
-    #- clone static/mei
+    - git config user.email "dennis.ried@uni-paderborn.de"
+    - git config user.name "CI-Bot"
 
-build-odd-places:
+places-build:
   stage: build
   extends: .install_dependencies
   script:
     - ant places
-  artifacts:
-    paths:
-      - odd/*
   only:
     refs:
       - merge_requests
@@ -34,3 +33,24 @@ build-odd-places:
     changes:
       - src/Specs/schemaSpec-places.odd.xml
       - src/Specs/common-specs.odd.xml
+
+places-test:
+  stage: test
+  extends: .install_dependencies
+  needs: 
+    - job: places-build
+  script:
+    - ant check-rng-output -DselectedSchema=hwhPlaces
+
+places-save:
+  stage: save
+  extends: .install_dependencies
+  needs:
+    - job: places-build
+    - job: places-test
+
+  script:
+    - git remote add gitlab_origin $CI_REPOSITORY_URL
+    - git add .
+    - git commit -m "push back from pipeline"
+    - git push gitlab_origin HEAD:$CI_COMMIT_REF_SLUG -o ci.skip # prevent triggering pipeline again
