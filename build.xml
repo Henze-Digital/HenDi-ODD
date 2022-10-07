@@ -48,6 +48,10 @@
         <unzip src="temp/download" overwrite="true" dest="lib/saxon/"/>
     </target>
     
+    <path id="hendi.odd.classpath">
+        <pathelement path="${basedir}/lib/saxon/saxon-he-10.5.jar"/>
+    </path>
+    
     <target name="clean">
         <delete>
            <fileset dir="schema/en">
@@ -180,6 +184,7 @@
     
     <!-- processing schema -->
     <target name="process">
+        
         <basename property="inputFile.basename" file="${inputFile}" suffix=".xml"/>
         <!-- TEI is considered default source -->
         <condition property="source" value="${source}" else="${tei.source}">
@@ -187,8 +192,7 @@
         </condition>
         <sequential>
             <echo>Expanding ODD file</echo>
-            <xslt force="yes" style="${stylesheets.dir}/odds/odd2odd.xsl" 
-                in="${inputFile}" out="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml">
+            <xslt force="yes" style="${stylesheets.dir}/odds/odd2odd.xsl" in="${inputFile}" out="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" classpathref="hendi.odd.classpath">
                 <factory name="net.sf.saxon.TransformerFactoryImpl">
                     <attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
                 </factory>
@@ -199,7 +203,7 @@
             
             <!--<echo>Generate html guidelines</echo>
             <xslt force="yes" style="${stylesheets.dir}/odds/odd2html.xsl" 
-                in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="guidelines-html/${inputFile.basename}-${selectedSchema}.html">
+                in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="guidelines-html/${inputFile.basename}-${selectedSchema}.html" classpathref="hendi.odd.classpath">
                 <factory name="net.sf.saxon.TransformerFactoryImpl">
                     <attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
                 </factory>
@@ -210,7 +214,7 @@
             
             <echo>Creating RelaxNG schema</echo>
             <xslt force="yes" style="${stylesheets.dir}/profiles/default/relaxng/to.xsl" 
-                in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="${outputFileRNG}">
+                in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="${outputFileRNG}" classpathref="hendi.odd.classpath">
                 <factory name="net.sf.saxon.TransformerFactoryImpl">
                     <attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
                 </factory>
@@ -228,7 +232,7 @@
             <echo>Extracting Schematron rules</echo>
             <xslt processor="trax" force="yes" 
                 style="${stylesheets.dir}/profiles/default/schematron/to.xsl" 
-                in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="${outputFileSchematron}">
+                in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="${outputFileSchematron}" classpathref="hendi.odd.classpath">
                 <factory name="net.sf.saxon.TransformerFactoryImpl"/>
             </xslt>
         </sequential>
@@ -243,7 +247,7 @@
     	<sequential>
 	    	<echo>Expanding ODD file (text)</echo>
 	    	<xslt force="yes" style="${stylesheets.dir}/odds/odd2odd.xsl" 
-	    		in="${inputFile}" out="${compiledODD.dir}/${inputFile.basename}.compiled.xml">
+	    	    in="${inputFile}" out="${compiledODD.dir}/${inputFile.basename}.compiled.xml" classpathref="hendi.odd.classpath">
 	    		<factory name="net.sf.saxon.TransformerFactoryImpl">
 	    			<attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
 	    		</factory>
