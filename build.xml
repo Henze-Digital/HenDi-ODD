@@ -22,8 +22,30 @@
         </condition>
     </target>
     
-    <target name="init" depends="dir.check" unless="dir.exists">
+    <target name="init-dirs" depends="dir.check" unless="dir.exists">
         <mkdir dir="${compiledODD.dir}"/>
+    </target>
+    
+    <target name="init" description="initializes the build, e.g. downloads saxon">
+        <antcall target="init-dirs"></antcall>
+        <available property="saxon-available" file="${basedir}/lib/saxon/saxon-he-10.5.jar"/>
+        <antcall target="saxon-prepare"/>
+        <echo>initialized</echo>
+    </target>
+    
+    <target name="saxon-download" unless="${saxon-available}">
+        <mkdir dir="temp"/>
+        <get src="https://sourceforge.net/projects/saxon/files/Saxon-HE/10/Java/SaxonHE10-8J.zip/download" dest="temp/"/>
+        <!-- TODO check for newer releases-->
+    </target>
+    
+    <target name="saxon-prepare" depends="saxon-unzip" unless="${saxon-available}">
+        <delete dir="temp/"/>
+    </target>
+    
+    <target name="saxon-unzip" depends="saxon-download" unless="${saxon-available}">
+        <mkdir dir="lib"/>
+        <unzip src="temp/download" overwrite="true" dest="lib/saxon/"/>
     </target>
     
     <target name="clean">
