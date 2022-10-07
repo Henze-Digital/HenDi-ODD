@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<grammar xmlns:xlink="http://www.w3.org/1999/xlink"
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
          xmlns:tei="http://www.tei-c.org/ns/1.0"
          xmlns:teix="http://www.tei-c.org/ns/Examples"
-         xmlns="http://relaxng.org/ns/structure/1.0"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-07-26T11:40:10Z. .
+Schema generated from ODD source 2022-10-07T13:47:40Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding places at Henze-Digital 
@@ -128,30 +128,30 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="hwhPlaces-att.datable.w3c-att-datable-w3c-when-constraint-rule-1">
-      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
                 context="tei:*[@when]">
          <sch:report test="@notBefore|@notAfter|@from|@to" role="nonfatal">The @when attribute cannot be used with any other att.datable.w3c attributes.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="hwhPlaces-att.datable.w3c-att-datable-w3c-from-constraint-rule-2">
-      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
                 context="tei:*[@from]">
          <sch:report test="@notBefore" role="nonfatal">The @from and @notBefore attributes cannot be used together.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="hwhPlaces-att.datable.w3c-att-datable-w3c-to-constraint-rule-3">
-      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
                 context="tei:*[@to]">
          <sch:report test="@notAfter" role="nonfatal">The @to and @notAfter attributes cannot be used together.</sch:report>
       </sch:rule>
@@ -173,11 +173,23 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-att.datable-calendar-calendar-constraint-rule-4">
-      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
+            id="hwhPlaces-att.datable-calendar-calendar-constraint-rule-5">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
+                context="tei:*[@calendar]">
+         <sch:assert test="string-length(.) gt 0"> @calendar indicates one or more systems or calendars to
+              which the date represented by the content of this element belongs, but this
+              <sch:name/> element has no textual content.</sch:assert>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hwhPlaces-att.datable-calendar-constraint-rule-4">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
                 context="tei:*[@calendar]">
          <sch:assert test="string-length(.) gt 0"> @calendar indicates one or more systems or calendars to
               which the date represented by the content of this element belongs, but this
@@ -212,11 +224,24 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <optional>
          <attribute name="resp">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(responsible party) indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <data type="anyURI"/>
-               </oneOrMore>
-            </list>
+            <choice>
+               <value>AT</value>
+               <value>DR</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dennis Ried</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Antje Tumat</a:documentation>
+               <value>EM</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Elena Minetti</a:documentation>
+               <value>IC</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Irmlind Capelle</a:documentation>
+               <value>JV</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Joachim Veit</a:documentation>
+               <value>PH</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Philipp Heitmann</a:documentation>
+               <value>PS</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Peter Stadler</a:documentation>
+               <value>SS</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sophie Stremel</a:documentation>
+            </choice>
          </attribute>
       </optional>
    </define>
@@ -284,6 +309,8 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             <choice>
                <value>en</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Englisch</a:documentation>
+               <value>da</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dänisch</a:documentation>
                <value>de</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Deutsch</a:documentation>
                <value>fr</value>
@@ -351,11 +378,11 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-att.typed-subtypeTyped-constraint-rule-5">
-      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
+            id="hwhPlaces-att.typed-subtypeTyped-constraint-rule-6">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:xi="http://www.w3.org/2001/XInclude"
                 context="tei:*[@subtype]">
          <sch:assert test="@type">The <sch:name/> element should not be categorized in detail with @subtype unless also categorized in general with @type</sch:assert>
       </sch:rule>
@@ -771,53 +798,58 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             <ref name="geonames.pattern"/>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-idno-types-match-external-identifiers-constraint-rule-6">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                  id="hwhPlaces-idno-types-match-external-identifiers-constraint-rule-7">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:idno[@type='gnd']">
                <sch:assert test="matches(., '^1[01]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]$')">That doesn't look like a valid GND ID.</sch:assert>
             </sch:rule>
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:idno[@type='viaf']">
                <sch:assert test="matches(., '^[1-9]\d(\d{0,7}|\d{17,20})$')">That doesn't look like a valid VIAF ID.</sch:assert>
             </sch:rule>
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:idno[@type='geonames']">
                <sch:assert test="matches(., '^[1-9][0-9]{0,8}$')">That doesn't look like a valid Geonames ID.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-idno-match-external-identifiers-constraint-rule-9">
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                  id="hwhPlaces-idno-match-external-identifiers-constraint-rule-10">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:idno[parent::tei:place]">
                <sch:report test="@type=('bd')">Bach IDs are not meant for places.</sch:report>
                <sch:report test="@type=('gnd')" role="info">There are less GND Identifier for places. Have you tried http://www.geonames.org/ ?</sch:report>
             </sch:rule>
-            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:idno[parent::tei:person]">
                <sch:report test="@type=('geonames')">Geonames IDs are not meant for persons.</sch:report>
             </sch:rule>
@@ -860,11 +892,11 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(place name) enthält einen absoluten oder relativen Ortsnamen. [13.2.3. Place Names]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-placeName-count-modern-names-constraint-rule-11">
-            <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
+                  id="hwhPlaces-placeName-count-modern-names-constraint-rule-12">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:placeName[@type='modern']">
                <sch:let name="lang" value="string(@xml:lang)"/>
                <sch:report test="following-sibling::tei:placeName[@type='modern'][string(@xml:lang)=$lang]">Only one modern name per xml:lang allowed.</sch:report>
@@ -918,12 +950,12 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(geographische Koordinaten) enthält einen Terminus eines Sets von geographischen Koordinaten, die einen Punkt, eine Linie oder einen Bereich der Erde in einer bestimmten Schreibweise darstellen. [13.3.4.1. Varieties of Location]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-geo-whitespace-separated-coordinates-constraint-assert-6">
+                  id="hwhPlaces-geo-whitespace-separated-coordinates-constraint-assert-7">
             <rule context="tei:geo">
-               <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
-                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           xmlns="http://www.tei-c.org/ns/1.0"
+               <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           xmlns:xi="http://www.w3.org/2001/XInclude"
                            test="matches(., '^\-?\d+(\.\d+)? \-?\d+(\.\d+)?$')">There must be two coordinates, separated with a whitespace only (no comma!)</sch:assert>
             </rule>
          </pattern>
@@ -969,42 +1001,42 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             </group>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-place-listorg-place-status-constraint-rule-12">
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
+                  id="hwhPlaces-place-listorg-place-status-constraint-rule-13">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:place[not(parent::tei:listPlace)]">
                <sch:assert test="@status">@status is missing.</sch:assert>
             </sch:rule>
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:place[parent::tei:listPlace]">
                <sch:report test="@status">@status is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-place-listorg-place-source-constraint-rule-14">
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
+                  id="hwhPlaces-place-listorg-place-source-constraint-rule-15">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:place[not(parent::tei:listPlace)]">
                <sch:assert test="@source">@source is missing.</sch:assert>
             </sch:rule>
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:place[parent::tei:listPlace]">
                <sch:report test="@source">@source is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hwhPlaces-place-placeName_reg-constraint-assert-9">
+                  id="hwhPlaces-place-placeName_reg-constraint-assert-10">
             <rule context="tei:place">
-               <sch:assert xmlns:xi="http://www.w3.org/2001/XInclude"
-                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           xmlns="http://www.tei-c.org/ns/1.0"
+               <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           xmlns:xi="http://www.w3.org/2001/XInclude"
                            test="(tei:placeName[1][@type='reg'] and count(./tei:placeName[@type='reg']) = 1) or tei:ref">tei:place muss (genau) ein placeName@type="reg" enthalten</sch:assert>
             </rule>
          </pattern>
@@ -1055,100 +1087,108 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-styleguide-document-node-content-constraint-rule-16">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-styleguide-document-node-content-constraint-rule-17">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="document-node()">
          <sch:report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</sch:report>
          <sch:report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-whitespaceOnlyContent-constraint-rule-17">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-whitespaceOnlyContent-constraint-rule-18">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:surname | tei:forename | tei:persName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <sch:report test="normalize-space(.) = ''">
             <sch:name/> has whitespace only content</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-elementStartsWithWhitespace-constraint-rule-18">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-elementStartsWithWhitespace-constraint-rule-19">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:surname | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
          <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/>
          </sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-untrimmedAttributeValues-constraint-rule-19">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-untrimmedAttributeValues-constraint-rule-20">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="*">
          <sch:report test="some $i in @* satisfies string-length(normalize-unicode(normalize-space(replace($i, ' | | | ', ' ')))) ne string-length($i)">There is some whitespace here at the beginning or end of some attribute value.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-hwhTargets-constraint-rule-20">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-hwhTargets-constraint-rule-21">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="*[starts-with(@target, 'hwh:')]">
          <sch:assert test="matches(@target, '^hwh:A\d{2}[0-9A-F]{5}(#.+)?(\s+hwh:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hwh:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</sch:assert>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-emojiCheck-constraint-rule-21">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-emojiCheck-constraint-rule-22">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="*[some $i in text() satisfies normalize-space($i) ne '']">
          <sch:report test="matches(.,                         '[⌚-⌛]|[⏩-⏬]|[⏰]|[⏳]|[◽-◾]|[☔-☕]|[♈-♓]|[♿]|[⚓]|[⚡]|[⚪-⚫]|[⚽-⚾]|[⛄-⛅]|[⛎]|[⛔]|[⛪]|[⛲-⛳]|[⛵]|[⛺]|[⛽]|[✅]|[✊-✋]|[✨]|[❌]|[❎]|[❓-❕]|[❗]|[➕-➗]|[➰]|[➿]|[⬛-⬜]|[⭐]|[⭕]|[🀄]|[🃏]|[🆎]|[🆑-🆚]|[🇦-🇿]|[🈁]|[🈚]|[🈯]|[🈲-🈶]|[🈸-🈺]|[🉐-🉑]|[🌀-🌠]|[🌭-🌯]|[🌰-🌵]|[🌷-🍼]|[🍾-🍿]|[🎀-🎓]|[🎠-🏄]|[🏅]|[🏆-🏊]|[🏏-🏓]|[🏠-🏰]|[🏴]|[🏸-🏿]|[🐀-🐾]|[👀]|[👂-📷]|[📸]|[📹-📼]|[📿]|[🔀-🔽]|[🕋-🕎]|[🕐-🕧]|[🕺]|[🖕-🖖]|[🖤]|[🗻-🗿]|[😀]|[😁-😐]|[😑]|[😒-😔]|[😕]|[😖]|[😗]|[😘]|[😙]|[😚]|[😛]|[😜-😞]|[😟]|[😠-😥]|[😦-😧]|[😨-😫]|[😬]|[😭]|[😮-😯]|[😰-😳]|[😴]|[😵-🙀]|[🙁-🙂]|[🙃-🙄]|[🙅-🙏]|[🚀-🛅]|[🛌]|[🛐]|[🛑-🛒]|[🛕]|[🛫-🛬]|[🛴-🛶]|[🛷-🛸]|[🛹]|[🛺]|[🟠-🟫]|[🤍-🤏]|[🤐-🤘]|[🤙-🤞]|[🤟]|[🤠-🤧]|[🤨-🤯]|[🤰]|[🤱-🤲]|[🤳-🤺]|[🤼-🤾]|[🤿]|[🥀-🥅]|[🥇-🥋]|[🥌]|[🥍-🥏]|[🥐-🥞]|[🥟-🥫]|[🥬-🥰]|[🥱]|[🥳-🥶]|[🥺]|[🥻]|[🥼-🥿]|[🦀-🦄]|[🦅-🦑]|[🦒-🦗]|[🦘-🦢]|[🦥-🦪]|[🦮-🦯]|[🦰-🦹]|[🦺-🦿]|[🧀]|[🧁-🧂]|[🧃-🧊]|[🧍-🧏]|[🧐-🧦]|[🧧-🧿]|[🩰-🩳]|[🩸-🩺]|[🪀-🪂]|[🪐-🪕]')">Text contains characters with Emoji presentation as default.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-sourceMustResolve-constraint-rule-22">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-sourceMustResolve-constraint-rule-23">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="*[starts-with(@source, '#')]">
          <sch:let name="source" value="@source"/>
          <sch:assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</sch:assert>
       </sch:rule>
    </pattern>
-   <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               xmlns:mei="http://www.music-encoding.org/ns/mei"
+   <sch:schema xmlns="http://www.tei-c.org/ns/1.0"
                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+               xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+               xmlns:mei="http://www.music-encoding.org/ns/mei"
+               xmlns:rng="http://relaxng.org/ns/structure/1.0"
                xmlns:s="http://www.ascc.net/xml/schematron"
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-               xmlns="http://www.tei-c.org/ns/1.0"
-               xmlns:rng="http://relaxng.org/ns/structure/1.0"
+               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                queryBinding="xslt2">
       <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
       <xsl:function name="hwh-xsl:int2hex">
@@ -1184,18 +1224,19 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <xsl:value-of select="$check"/>
       </xsl:function>
       <sch:pattern id="idCheckDigit">
-         <sch:rule context="@key | @xml:id[not(parent::tei:layout)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target">
+         <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
             <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
-   <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               xmlns:mei="http://www.music-encoding.org/ns/mei"
+   <sch:schema xmlns="http://www.tei-c.org/ns/1.0"
                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+               xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+               xmlns:mei="http://www.music-encoding.org/ns/mei"
+               xmlns:rng="http://relaxng.org/ns/structure/1.0"
                xmlns:s="http://www.ascc.net/xml/schematron"
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-               xmlns="http://www.tei-c.org/ns/1.0"
-               xmlns:rng="http://relaxng.org/ns/structure/1.0"
+               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                queryBinding="xslt2">
       <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
       <sch:ns uri="http://www.functx.com" prefix="functx"/>
@@ -1226,70 +1267,76 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-addWithoutPlace-constraint-rule-25">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-addWithoutPlace-constraint-rule-26">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:add[not(parent::tei:subst)]">
          <sch:assert test="@place">Missing @place, because this is no substitution here.</sch:assert>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-nameTypeRequirement-constraint-rule-26">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-nameTypeRequirement-constraint-rule-27">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:name[not(ancestor::tei:teiHeader)]">
          <sch:assert test="@type">@type is required at <sch:name/>.</sch:assert>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-lbInsideAddress-constraint-rule-27">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-lbInsideAddress-constraint-rule-28">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:lb">
          <sch:report test="parent::tei:address" role="info">Does <sch:name/> mark a new line inside the address? If yes, please use &lt;addrLine&gt; instead of <sch:name/>
          </sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-renditionWithPosition-constraint-rule-28">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-renditionWithPosition-constraint-rule-29">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
          <sch:assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
       </sch:rule>
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:addrLine[@rend] | tei:dateline[@rend]">
          <sch:assert test="tokenize(@rend, ' ')[1] = ('top','middle','bottom','inline')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
          <sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
       </sch:rule>
    </pattern>
-   <sch:pattern xmlns:mei="http://www.music-encoding.org/ns/mei"
+   <sch:pattern xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 id="node-typeNkey"
                 abstract="true">
       <sch:rule context="$node[@type='person'][@key]|$node[@type='character'][@key]|$node[@type='actingRole'][@key]|$node[@type='myth'][@key]">
@@ -1354,49 +1401,53 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-importName-constraint-rule-50">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-importName-constraint-rule-51">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:persName | tei:orgName | tei:placeName">
          <sch:report test="@type='import'" role="info">This element should be deleted after checking this record.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-quotation-rend-values-constraint-rule-51">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-quotation-rend-values-constraint-rule-52">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
          <sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-quotation-rend-attributes-constraint-rule-52">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-quotation-rend-attributes-constraint-rule-53">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="*:q[@rend] | *:quote[@rend] | *:q[@rendLeft] | *:quote[@rendLeft] | *:q[@rendRight] | *:quote[@rendRight]">
          <sch:report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hwhPlaces-styleguide-document-node-content-constraint-rule-53">
-      <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+            id="hwhPlaces-styleguide-document-node-content-constraint-rule-54">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="document-node()">
          <sch:report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</sch:report>
          <sch:report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</sch:report>
