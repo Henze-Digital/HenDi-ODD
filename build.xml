@@ -27,9 +27,17 @@
     </target>
     
     <target name="init" description="initializes the build, e.g. downloads saxon">
-        <antcall target="init-dirs"></antcall>
+        <antcall target="init-dirs"/>
         <available property="saxon-available" file="${basedir}/lib/saxon/saxon-he-10.5.jar"/>
         <antcall target="saxon-prepare"/>
+        
+        <property name="tei.source" value="${basedir}/lib/tei-${tei.source.version}/xml/tei/odd/p5subset.xml"/>
+        <available property="tei.source.available" file="${tei.source}"/>
+        <antcall target="tei-source-prepare"/>
+        
+        <property name="mei.source" value="${basedir}/lib/music-encoding-${mei.source.version}/source/mei-source.xml"/>
+        <available property="mei.source.available" file="${mei.source}"/>
+        <antcall target="mei-source-prepare"/>
         <echo>initialized</echo>
     </target>
     
@@ -51,6 +59,36 @@
     <path id="hendi.odd.classpath">
         <pathelement path="${basedir}/lib/saxon/saxon-he-10.5.jar"/>
     </path>
+    
+    <target name="tei-source-download" unless="${tei.source.available}">
+        <mkdir dir="temp"/>
+        <get src="https://downloads.sourceforge.net/project/tei/TEI-P5-all/tei-${tei.source.version}.zip" dest="temp/"/>
+        <!-- TODO check for newer releases-->
+    </target>
+    
+    <target name="tei-source-prepare" depends="tei-source-unzip" unless="${tei.source.available}">
+        <delete dir="temp/"/>
+    </target>
+    
+    <target name="tei-source-unzip" depends="tei-source-download" unless="${tei.source.available}">
+        <mkdir dir="lib"/>
+        <unzip src="temp/tei-${tei.source.version}" overwrite="true" dest="lib/tei-${tei.source.version}"/>
+    </target>
+    
+    <target name="mei-source-download" unless="${mei.source.available}">
+        <mkdir dir="temp"/>
+        <get src="https://github.com/music-encoding/music-encoding/archive/refs/tags/v${mei.source.version}.zip" dest="temp/"/>
+        <!-- TODO check for newer releases-->
+    </target>
+    
+    <target name="mei-source-prepare" depends="mei-source-unzip" unless="${mei.source.available}">
+        <delete dir="temp/"/>
+    </target>
+    
+    <target name="mei-source-unzip" depends="mei-source-download" unless="${mei.source.available}">
+        <mkdir dir="lib"/>
+        <unzip src="temp/v${mei.source.version}.zip" overwrite="true" dest="lib/"/>
+    </target>
     
     <target name="clean">
         <delete>
