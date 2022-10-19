@@ -2,41 +2,33 @@
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-  DOCKER_HOST: tcp://localhost:2375
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  HENDI_CI_DOCKER_IMAGE: "registry.git.uni-paderborn.de/vife/henze-digital/hendi-ci-docker-image:develop"
   GIT_SUBMODULE_STRATEGY: recursive
+  GIT_DEPTH: 10
 
+default:
+  image: $HENDI_CI_DOCKER_IMAGE
+  
 stages:
   - build
   - test
   - save
+  - build-text
 
-.install_dependencies:
-  image: ubuntu
+.setup_git:
   before_script:
-    - apt update -y
-    #- apt upgrade -y
-    - apt install -y gnupg2 curl
-    - apt install -y --no-install-recommends ant git
-    - git config user.email "dennis.ried@uni-paderborn.de"
-    - git config user.name "CI-Bot"
+    - git config user.email "${GITLAB_USER_EMAIL}"
+    - git config user.name "${GITLAB_USER_NAME}"
+    - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
 
 places-build:
   stage: build
-  extends: .install_dependencies
   script:
     - ant places
-  only:
-    refs:
-      - merge_requests
-      #- develop
-    changes:
-      - src/Specs/schemaSpec-places.odd.xml
-      - src/Specs/common-specs.odd.xml
 
 places-test:
   stage: test
-  extends: .install_dependencies
   needs: 
     - job: places-build
   script:
@@ -44,13 +36,13 @@ places-test:
 
 places-save:
   stage: save
-  extends: .install_dependencies
-  needs:
-    - job: places-build
+  extends: .setup_git
+  needs: 
     - job: places-test
-
+    #- job: persons-save
+    #  optional: true
   script:
-    - git remote add gitlab_origin $CI_REPOSITORY_URL
+    - ant places
     - git add .
-    - git commit -m "push back from pipeline"
-    - git push gitlab_origin HEAD:$CI_COMMIT_REF_SLUG -o ci.skip # prevent triggering pipeline again
+    - git commit -m "auto compile schema places"
+    - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
