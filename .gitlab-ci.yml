@@ -40,7 +40,7 @@ biblio-save:
   needs: 
     - job: biblio-test
   script:
-    - git pull
+    - git pull origin ${CI_COMMIT_REF_NAME}
     - ant biblio
     - git add .
     - git commit -m "auto compile schema biblio"
@@ -66,7 +66,7 @@ places-save:
     - job: biblio-save
       optional: true
   script:
-    - git pull HEAD:${CI_COMMIT_REF_NAME}
+    - git pull origin ${CI_COMMIT_REF_NAME}
     - ant places
     - git add .
     - git commit -m "auto compile schema places"
