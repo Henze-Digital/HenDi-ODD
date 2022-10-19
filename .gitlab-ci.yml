@@ -73,6 +73,10 @@ places-test:
     - job: places-build
   script:
     - ant check-rng-output -DselectedSchema=hwhPlaces
+only:
+    changes:
+      - src/Specs/schemaSpec-places.odd.xml
+      - src/Specs/common-specs.odd.xml
 
 places-save:
   stage: save
@@ -87,3 +91,7 @@ places-save:
     - git add .
     - git commit -m "auto compile schema places"
     - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
+  only:
+    changes:
+      - src/Specs/schemaSpec-places.odd.xml
+      - src/Specs/common-specs.odd.xml
