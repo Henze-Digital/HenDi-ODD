@@ -33,7 +33,7 @@
 		
 		<property name="tei.source" value="${basedir}/lib/tei-${tei.source.version}-subset/p5subset.xml"/>
 		<available property="tei.source.available" file="${tei.source}"/>
-		<available property="tei.source.zip.available" file="${basedir}/lib/tei-${tei.source.version}.zip"/>
+		<available property="tei.source.zip.available" file="${basedir}/temp/tei-${tei.source.version}.zip"/>
 		<antcall target="tei-source-prepare"/>
 		
 		<property name="mei.source" value="${basedir}/lib/music-encoding-${mei.source.version}/source/mei-source.xml"/>
@@ -62,12 +62,14 @@
 	</path>
 	
 	<target name="tei-source-download" unless="${tei.source.zip.available}">
-		<get src="https://downloads.sourceforge.net/project/tei/TEI-P5-all/tei-${tei.source.version}.zip" dest="lib/"/>
+		<mkdir dir="temp"/>
+		<get src="https://downloads.sourceforge.net/project/tei/TEI-P5-all/tei-${tei.source.version}.zip" dest="temp/"/>
 		<!-- TODO check for newer releases-->
 	</target>
 	
 	<target name="tei-source-prepare" depends="tei-source-download" unless="${tei.source.available}">
-		<unzip src="lib/tei-${tei.source.version}.zip" overwrite="true" dest="lib/"/>
+		<mkdir dir="lib"/>
+		<unzip src="temp/tei-${tei.source.version}.zip" overwrite="true" dest="lib/"/>
 	</target>
 	
 	<target name="mei-source-download" unless="${mei.source.available}">
