@@ -50,20 +50,12 @@ biblio-test:
 #    - !reference [.default_rules, rules]
 #    - changes:
 #      - src/Specs/schemaSpec-biblio.odd.xml
-  
-biblio-test2:
-  stage: test
-  dependencies:
-    - biblio-build
-  script:
-    - ant check-rng-output -DselectedSchema=hwhBiblio
-
 
 biblio-deploy:
   stage: deploy
   extends: .setup_git
   needs: 
-    - job: biblio-test2
+    - job: biblio-test
       artifacts: true
   script:
     #- ant biblio
