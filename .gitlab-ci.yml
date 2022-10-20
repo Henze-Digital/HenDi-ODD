@@ -25,7 +25,7 @@ stages:
 .git_commit:
   script:
     - git add .
-    - git commit -m "auto compile schema ${CI_JOB_NAME}"
+    - git commit -m "${CI_JOB_NAME} auto compile"
     - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
 
 .default_rules:
@@ -34,12 +34,12 @@ stages:
     - changes:
         - src/Specs/common-specs.odd.xml
 
-biblio:
+hendiBiblio:
   stage: build
   extends: .git_setup
   script:
     - ant ${CI_JOB_NAME}
-    - ant check-rng-output -DselectedSchema=hendiBiblio
+    - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
     - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
