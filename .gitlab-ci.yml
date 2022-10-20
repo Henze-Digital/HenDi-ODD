@@ -52,7 +52,7 @@ biblio-test:
     - job: biblio-build
       artifacts: true
   script:
-    - ant check-rng-output -DselectedSchema=hwhBiblio
+    - ant check-rng-output -DselectedSchema=hendiBiblio
   rules:
     - !reference [.default_rules, rules]
     - changes:
@@ -69,4 +69,39 @@ biblio-deploy:
     - !reference [.default_rules, rules]
     - changes:
       - src/Specs/schemaSpec-biblio.odd.xml
-  
+
+documents-build:
+  stage: build
+  extends: .git_setup
+  script:
+    - ant documents
+  rules:
+    - !reference [.default_rules, rules]
+    - changes:
+        - src/Specs/schemaSpec-documents.odd.xml
+
+documents-test:
+  stage: test
+  needs: 
+    - job: documents-build
+      artifacts: true
+  script:
+    - ant check-rng-output -DselectedSchema=hendiDocuments
+  rules:
+    - !reference [.default_rules, rules]
+    - changes:
+      - src/Specs/schemaSpec-documents.odd.xml
+
+documents-deploy:
+  stage: deploy
+  extends: [.git_setup, .git_commit]
+  needs: 
+    - job: documents-test
+    - job: biblio-deploy
+      optional: true
+  script:
+    - ant documents
+  rules:
+    - !reference [.default_rules, rules]
+    - changes:
+      - src/Specs/schemaSpec-documents.odd.xml
