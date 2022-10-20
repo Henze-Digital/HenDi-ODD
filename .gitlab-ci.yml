@@ -34,10 +34,10 @@ biblio-build:
   stage: build
   script:
     - ant biblio
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-biblio.odd.xml
+#  rules:
+#    - !reference [.default_rules, rules]
+#    - changes:
+#        - src/Specs/schemaSpec-biblio.odd.xml
 
 biblio-test:
   stage: test
@@ -46,10 +46,10 @@ biblio-test:
       artifacts: true
   script:
     - ant check-rng-output -DselectedSchema=hwhBiblio
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-biblio.odd.xml
+#  rules:
+#    - !reference [.default_rules, rules]
+#    - changes:
+#      - src/Specs/schemaSpec-biblio.odd.xml
   
 biblio-test2:
   stage: test
@@ -66,7 +66,7 @@ biblio-deploy:
     - job: biblio-test2
       artifacts: true
   script:
-    - ant biblio
+    #- ant biblio
     - git add .
     - git commit -m "auto compile schema biblio"
     #- git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
