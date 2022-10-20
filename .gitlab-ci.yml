@@ -13,85 +13,57 @@ default:
 stages:
   - build
   - test
-  - save
-  - build-text
+  - deploy
 
 .setup_git:
   before_script:
     - git config user.email "${GITLAB_USER_EMAIL}"
     - git config user.name "${GITLAB_USER_NAME}"
     - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
+    - git pull origin ${CI_COMMIT_REF_NAME}
+
+.default_rules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push"
+      changes:
+      - src/Specs/common-specs.odd.xml
+    - when: never
 
 biblio-build:
   stage: build
   script:
     - ant biblio
-  only:
+  rules:
+    - !reference [.default_rules, rules]
     changes:
       - src/Specs/schemaSpec-biblio.odd.xml
-      - src/Specs/common-specs.odd.xml
 
 biblio-test:
   stage: test
   needs: 
     - job: biblio-build
+      artifacts: true
   script:
     - ant check-rng-output -DselectedSchema=hwhBiblio
-  only:
-    changes:
-      - src/Specs/schemaSpec-biblio.odd.xml
-      - src/Specs/common-specs.odd.xml
+  
+biblio-test2:
+  stage: test
+  dependencies:
+    - biblio-build
+  script:
+    - ant check-rng-output -DselectedSchema=hwhBiblio
 
-biblio-save:
-  stage: save
+
+biblio-deploy:
+  stage: deploy
   extends: .setup_git
   needs: 
-    - job: biblio-test
+    - job: biblio-test2
+      artifacts: true
   script:
-    - git pull origin ${CI_COMMIT_REF_NAME}
     - ant biblio
     - git add .
     - git commit -m "auto compile schema biblio"
-    - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
-  only:
-    changes:
-      - src/Specs/schemaSpec-biblio.odd.xml
-      - src/Specs/common-specs.odd.xml
-
-places-build:
-  stage: build
-  script:
-    - ant places
-  only:
-    changes:
-      - src/Specs/schemaSpec-places.odd.xml
-      - src/Specs/common-specs.odd.xml
-
-places-test:
-  stage: test
-  needs: 
-    - job: places-build
-  script:
-    - ant check-rng-output -DselectedSchema=hwhPlaces
-  only:
-    changes:
-      - src/Specs/schemaSpec-places.odd.xml
-      - src/Specs/common-specs.odd.xml
-
-places-save:
-  stage: save
-  extends: .setup_git
-  needs: 
-    - job: places-test
-    - job: biblio-save
-      optional: true
-  script:
-    - git pull origin ${CI_COMMIT_REF_NAME}
-    - ant places
-    - git add .
-    - git commit -m "auto compile schema places"
-    - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
-  only:
-    changes:
-      - src/Specs/schemaSpec-places.odd.xml
-      - src/Specs/common-specs.odd.xml
+    #- git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
+  
