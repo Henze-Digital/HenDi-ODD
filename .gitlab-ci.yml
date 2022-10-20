@@ -17,6 +17,7 @@ stages:
   script:
     - git config user.email "${GITLAB_USER_EMAIL}"
     - git config user.name "${GITLAB_USER_NAME}"
+    - git config pull.rebase true
     - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
     - git pull origin ${CI_COMMIT_REF_NAME}
 
@@ -40,6 +41,17 @@ stages:
     - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
     - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
+    - !reference [.git_commit, script]
+  rules:
+    - !reference [.default_rules, rules]
+    - changes:
+        - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
+
+.compile-text:
+  resource_group: compileANDcommit
+  script:
+    - !reference [.git_setup, script]
+    - ant ${CI_JOB_NAME}
     - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
@@ -85,6 +97,7 @@ hendiVar:
 hendiWorksAV:
   stage: compile
   extends: .compile-target
+  allow_failure: true
 
 hendiWorksMEI:
   stage: compile
@@ -100,4 +113,4 @@ hendiWritings:
 
 text:
   stage: compile
-  extends: .compile-target
+  extends: .compile-text
