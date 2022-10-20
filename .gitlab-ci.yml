@@ -11,9 +11,7 @@ default:
   image: $HENDI_CI_DOCKER_IMAGE
   
 stages:
-  - build
-  - test
-  - deploy
+  - compile
 
 .git_setup:
   script:
@@ -32,9 +30,12 @@ stages:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - changes:
+        - src/Guidelines/*.xml
+        - src/Guidelines/de/*.xml
         - src/Specs/common-specs.odd.xml
 
 .compile-target:
+  resource_group: compileANDcommit
   script:
     - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
@@ -46,452 +47,57 @@ stages:
         - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
 hendiBiblio:
+  stage: compile
   extends: .compile-target
 
-documents-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant documents
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-documents.odd.xml
+hendiDocuments:
+  stage: compile
+  extends: .compile-target
 
-documents-test:
-  stage: test
-  needs: 
-    - job: documents-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiDocuments
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-documents.odd.xml
+hendiLetters:
+  stage: compile
+  extends: .compile-target
 
-documents-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: documents-test
-    #- job: biblio-deploy
-    #  optional: true
-  script:
-    - ant documents
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-documents.odd.xml
+hendiNews:
+  stage: compile
+  extends: .compile-target
 
-letters-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant letters
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-letters.odd.xml
+hendiOrgs:
+  stage: compile
+  extends: .compile-target
 
-letters-test:
-  stage: test
-  needs: 
-    - job: letters-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiLetters
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-letters.odd.xml
+hendiPersons:
+  stage: compile
+  extends: .compile-target
 
-letters-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: letters-test
-    - job: documents-deploy
-      optional: true
-  script:
-    - ant letters
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-letters.odd.xml
+hendiPlaces:
+  stage: compile
+  extends: .compile-target
 
-news-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant news
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-news.odd.xml
+hendiThematicCommentaries:
+  stage: compile
+  extends: .compile-target
 
-news-test:
-  stage: test
-  needs: 
-    - job: news-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiNews
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-news.odd.xml
+hendiVar:
+  stage: compile
+  extends: .compile-target
 
-news-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: news-test
-    - job: letters-deploy
-      optional: true
-  script:
-    - ant news
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-news.odd.xml
+hendiWorksAV:
+  stage: compile
+  extends: .compile-target
 
-orgs-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant orgs
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-orgs.odd.xml
+hendiWorksMEI:
+  stage: compile
+  extends: .compile-target
 
-orgs-test:
-  stage: test
-  needs: 
-    - job: orgs-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiOrgs
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-orgs.odd.xml
+hendiWorksTEI:
+  stage: compile
+  extends: .compile-target
 
-orgs-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: orgs-test
-    - job: news-deploy
-      optional: true
-  script:
-    - ant orgs
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-orgs.odd.xml
+hendiWritings:
+  stage: compile
+  extends: .compile-target
 
-persons-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant persons
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-persons.odd.xml
-
-persons-test:
-  stage: test
-  needs: 
-    - job: persons-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiPersons
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-persons.odd.xml
-
-persons-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: persons-test
-    - job: orgs-deploy
-      optional: true
-  script:
-    - ant persons
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-persons.odd.xml
-
-places-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant places
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-places.odd.xml
-
-places-test:
-  stage: test
-  needs: 
-    - job: places-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiPlaces
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-places.odd.xml
-
-places-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: places-test
-    - job: persons-deploy
-      optional: true
-  script:
-    - ant places
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-places.odd.xml
-
-thematicCommentaries-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant thematicCommentaries
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-thematicCommentaries.odd.xml
-
-thematicCommentaries-test:
-  stage: test
-  needs: 
-    - job: thematicCommentaries-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiThematicCommentaries
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-thematicCommentaries.odd.xml
-
-thematicCommentaries-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: thematicCommentaries-test
-    - job: places-deploy
-      optional: true
-  script:
-    - ant thematicCommentaries
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-thematicCommentaries.odd.xml
-
-var-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant var
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-var.odd.xml
-
-var-test:
-  stage: test
-  needs: 
-    - job: var-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiVar
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-var.odd.xml
-
-var-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: var-test
-    - job: thematicCommentaries-deploy
-      optional: true
-  script:
-    - ant var
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-var.odd.xml
-
-worksAV-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant worksAV
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-worksAV.odd.xml
-  allow_failure: true
-
-worksAV-test:
-  stage: test
-  needs: 
-    - job: worksAV-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiWorksAV
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-worksAV.odd.xml
-  allow_failure: true
-
-worksAV-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: worksAV-test
-    - job: var-deploy
-      optional: true
-  script:
-    - ant worksAV
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-worksAV.odd.xml
-  allow_failure: true
-
-worksMEI-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant worksMEI
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-worksMEI.odd.xml
-
-worksMEI-test:
-  stage: test
-  needs: 
-    - job: worksMEI-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiWorksMEI
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-worksMEI.odd.xml
-
-worksMEI-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: worksMEI-test
-    - job: worksAV-deploy
-      optional: true
-  script:
-    - ant worksMEI
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-worksMEI.odd.xml
-
-worksTEI-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant worksTEI
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-worksTEI.odd.xml
-
-worksTEI-test:
-  stage: test
-  needs: 
-    - job: worksTEI-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiWorksTEI
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-worksTEI.odd.xml
-
-worksTEI-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: worksTEI-test
-    - job: worksMEI-deploy
-      optional: true
-  script:
-    - ant worksTEI
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-worksTEI.odd.xml
-
-writings-build:
-  stage: build
-  extends: .git_setup
-  script:
-    - ant writings
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-        - src/Specs/schemaSpec-writings.odd.xml
-
-writings-test:
-  stage: test
-  needs: 
-    - job: writings-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DselectedSchema=hendiWritings
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-writings.odd.xml
-
-writings-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: writings-test
-    - job: worksTEI-deploy
-      optional: true
-  script:
-    - ant writings
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-writings.odd.xml
-
-text-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs:
-    - job: writings-deploy
-      optional: true
-  script:
-    - ant text
-  rules:
-    - changes:
-      - src/Guidelines/*.xml
-      - src/Guidelines/de/*.xml
+text:
+  stage: compile
+  extends: .compile-target
