@@ -32,6 +32,7 @@ stages:
 
 biblio-build:
   stage: build
+  extends: .setup_git
   script:
     - ant biblio
 #  rules:
@@ -55,10 +56,10 @@ biblio-deploy:
   stage: deploy
   extends: .setup_git
   needs: 
-    - job: biblio-test
+    - job: biblio-build
       artifacts: true
+    - job: biblio-test
   script:
-    #- ant biblio
     - git add .
     - git commit -m "auto compile schema biblio"
     #- git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
