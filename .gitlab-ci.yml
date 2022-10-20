@@ -15,12 +15,18 @@ stages:
   - test
   - deploy
 
-.setup_git:
+.git_setup:
   before_script:
     - git config user.email "${GITLAB_USER_EMAIL}"
     - git config user.name "${GITLAB_USER_NAME}"
     - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
     - git pull origin ${CI_COMMIT_REF_NAME}
+
+.git_commit:
+  after_script:
+    - git add .
+    - git commit -m "auto compile schema ${CI_JOB_NAME}"
+    - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
 
 .default_rules:
   rules:
@@ -32,7 +38,7 @@ stages:
 
 biblio-build:
   stage: build
-  extends: .setup_git
+  extends: .git_setup
   script:
     - ant biblio
   rules:
@@ -54,15 +60,11 @@ biblio-test:
 
 biblio-deploy:
   stage: deploy
-  extends: .setup_git
+  extends: [.git_setup, .git_commit]
   needs: 
-    - job: biblio-build
-      artifacts: true
     - job: biblio-test
   script:
-    - git add .
-    - git commit -m "auto compile schema biblio"
-    - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
+    - ant biblio
   rules:
     - !reference [.default_rules, rules]
     - changes:
