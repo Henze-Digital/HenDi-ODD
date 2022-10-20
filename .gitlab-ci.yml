@@ -23,7 +23,7 @@ stages:
     - git pull origin ${CI_COMMIT_REF_NAME}
 
 .git_commit:
-  after_script:
+  script:
     - git add .
     - git commit -m "auto compile schema ${CI_JOB_NAME}"
     - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
@@ -34,43 +34,17 @@ stages:
     - changes:
         - src/Specs/common-specs.odd.xml
 
-biblio-build:
+biblio:
   stage: build
   extends: .git_setup
   script:
-    - ant biblio
+    - ant ${CI_JOB_NAME}
+    - ant check-rng-output -DselectedSchema=hendiBiblio
+    - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
     - changes:
-        - src/Specs/schemaSpec-biblio.odd.xml
-  artifacts:
-    name: "$CI_JOB_NAME"
-    paths:
-      - ${CI_JOB_NAME}/
-
-biblio-test:
-  stage: test
-  needs: 
-    - job: biblio-build
-      artifacts: true
-  script:
-    - ant check-rng-output -DcompiledODD.dir=biblio-build/compiled-ODD -DselectedSchema=hendiBiblio
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-biblio.odd.xml
-
-biblio-deploy:
-  stage: deploy
-  extends: [.git_setup, .git_commit]
-  needs: 
-    - job: biblio-test
-  script:
-    - ant biblio
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-biblio.odd.xml
+        - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
 documents-build:
   stage: build
