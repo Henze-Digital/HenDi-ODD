@@ -502,3 +502,15 @@ writings-deploy:
     - changes:
       - src/Specs/schemaSpec-writings.odd.xml
 
+text-deploy:
+  stage: build-text
+  extends: [.git_setup, .git_commit]
+  needs:
+    - job: writings-deploy
+      optional: true
+  script:
+    - ant text
+  rules:
+    - changes:
+      - src/Guidelines/*.xml
+      - src/Guidelines/de/*.xml
