@@ -45,6 +45,10 @@ biblio-build:
     - !reference [.default_rules, rules]
     - changes:
         - src/Specs/schemaSpec-biblio.odd.xml
+  artifacts:
+    name: "$CI_JOB_NAME"
+    paths:
+      - ${CI_JOB_NAME}/
 
 biblio-test:
   stage: test
@@ -52,7 +56,7 @@ biblio-test:
     - job: biblio-build
       artifacts: true
   script:
-    - ant check-rng-output -DselectedSchema=hendiBiblio
+    - ant check-rng-output -DcompiledODD.dir=biblio-build/compiled-ODD -DselectedSchema=hendiBiblio
   rules:
     - !reference [.default_rules, rules]
     - changes:
