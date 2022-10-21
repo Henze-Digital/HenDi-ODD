@@ -39,7 +39,12 @@ stages:
     - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
     - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
-    - !reference [.git_commit, script]
+    - >
+      if [ "$CI_PIPELINE_SOURCE" == "merge_request_event" ]; then
+        echo "Merge Request. Results will not be committed."
+      else
+        !reference [.git_commit, script]
+      fi
   rules:
     - !reference [.default_rules, rules]
     - changes:
