@@ -2206,6 +2206,14 @@
                     </sch:rule>
                 </constraint>
             </constraintSpec>
+        	<constraintSpec ident="persNameTypes" scheme="schematron">
+        		<constraint>
+        			<sch:rule context="tei:persName[@type='alt' and @subtype='married']">
+        				<sch:report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) > 1 and not(@n)" role="error">If there are more than one name of marriage, please add @n to differ.</sch:report>
+        				<sch:report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) = 1 and @n" role="warning">If there is only one name of marriage, it is obsolete to use @n.</sch:report>
+        			</sch:rule>
+        		</constraint>
+        	</constraintSpec>
             <attList>
                 <attDef ident="key" mode="replace" usage="rec">
                     <datatype>
