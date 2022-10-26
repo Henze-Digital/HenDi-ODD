@@ -4451,7 +4451,10 @@ one initial.</desc>
                         </valItem><valItem ident="right" mode="add">
                             <desc versionDate="2013-11-11" xml:lang="en">marks that the paragraph is placed on the right</desc>
                             <desc versionDate="2013-11-11" xml:lang="de">markiert einen Paragraph, der rechts liegt</desc>
-                        </valItem></valList></attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+                        </valItem><valItem ident="noIndent" mode="add">
+                    		<desc versionDate="2013-11-11" xml:lang="en">marks that the paragraph starts without an indent</desc>
+                    		<desc versionDate="2013-11-11" xml:lang="de">markiert einen Paragraph, der ohne Einzug beginnt</desc>
+                    	</valItem></valList></attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#NJAL">
       <p>Hallgerd was outside. <q>There is blood on your axe,</q> she said. <q>What have you
                     done?</q>
@@ -8522,7 +8525,14 @@ should be supplied for the <att>scheme</att> attribute.</p>
                         <sch:assert test="@key" role="warning">A <sch:name/> should be used for identification.</sch:assert>
                     </sch:rule>
                 </constraint>
-            </constraintSpec><attList><attDef ident="key" mode="replace" usage="rec">
+            </constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" ident="persNameTypes" scheme="schematron">
+        		<constraint>
+        			<sch:rule context="tei:persName[@type='alt' and @subtype='married']">
+        				<sch:report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) &gt; 1 and not(@n)" role="error">If there are more than one name of marriage, please add @n to differ.</sch:report>
+        				<sch:report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) = 1 and @n" role="warning">If there is only one name of marriage, it is obsolete to use @n.</sch:report>
+        			</sch:rule>
+        		</constraint>
+        	</constraintSpec><attList><attDef ident="key" mode="replace" usage="rec">
                     <datatype xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
                         <dataRef key="hwh.persons.pointer"/>
                     </datatype>
