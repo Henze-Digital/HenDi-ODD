@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-10-20T18:25:00Z. .
+Schema generated from ODD source 2022-10-26T17:30:16Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -48,21 +48,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          </choice>
       </zeroOrMore>
    </define>
-   <define name="gnd.pattern">
-      <data type="string">
-         <param name="pattern">1[012]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]</param>
-      </data>
-   </define>
-   <define name="viaf.pattern">
-      <data type="string">
-         <param name="pattern">[1-9]\d(\d{0,7}|\d{17,20})</param>
-      </data>
-   </define>
-   <define name="geonames.pattern">
-      <data type="string">
-         <param name="pattern">[1-9][0-9]{0,8}</param>
-      </data>
-   </define>
    <define name="staffSignatures.list">
       <choice>
          <value>AT</value>
@@ -82,6 +67,21 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <value>SS</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sophie Stremel</a:documentation>
       </choice>
+   </define>
+   <define name="gnd.pattern">
+      <data type="string">
+         <param name="pattern">1[012]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]</param>
+      </data>
+   </define>
+   <define name="viaf.pattern">
+      <data type="string">
+         <param name="pattern">[1-9]\d(\d{0,7}|\d{17,20})</param>
+      </data>
+   </define>
+   <define name="geonames.pattern">
+      <data type="string">
+         <param name="pattern">[1-9][0-9]{0,8}</param>
+      </data>
    </define>
    <define name="macro.persNameContent">
       <interleave>
@@ -1694,6 +1694,8 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">markiert einen Paragraph, der mittig liegt</a:documentation>
                   <value>right</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">markiert einen Paragraph, der rechts liegt</a:documentation>
+                  <value>noIndent</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">markiert einen Paragraph, der ohne Einzug beginnt</a:documentation>
                </choice>
             </attribute>
          </optional>
@@ -1910,8 +1912,14 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung unter der Zeile.</a:documentation>
                   <value>inline</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung in der Zeile.</a:documentation>
-                  <value>margin</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am Rand.</a:documentation>
+                  <value>margin-left</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am linken Rand.</a:documentation>
+                  <value>margin-right</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am rechten Rand.</a:documentation>
+                  <value>margin-top</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am oberen Rand.</a:documentation>
+                  <value>margin-bottom</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Einfügung am unteren Rand.</a:documentation>
                   <value>mixed</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                </choice>
@@ -2088,7 +2096,22 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
    <define name="addrLine">
       <element name="addrLine">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Adresszeile) enthält eine postalische Adresse. [3.6.2. Addresses 2.2.4. Publication, Distribution, Licensing, etc. 3.12.2.4. Imprint, Size of a Document, and Reprint Information]</a:documentation>
-         <ref name="macro.phraseSeq"/>
+         <choice>
+            <ref name="macro.phraseSeq"/>
+         </choice>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiPersons-addrLine-addrLineStreet-constraint-rule-14">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:addrLine">
+               <sch:report test="tei:street and count(./node()) gt 1">When the element street is used no text nodes are allowed within addrLine.</sch:report>
+            </sch:rule>
+         </pattern>
          <optional>
             <attribute name="rend">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Ausgabe) gibt die Position und Ausrichtung in der Quelle an.</a:documentation>
@@ -2158,7 +2181,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-date-types-for-corresp-action-constraint-rule-14">
+                  id="hendiPersons-date-date-types-for-corresp-action-constraint-rule-15">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2171,7 +2194,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics2-constraint-rule-15">
+                  id="hendiPersons-date-dateHeuristics2-constraint-rule-16">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2210,7 +2233,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics3-constraint-report-15">
+                  id="hendiPersons-date-dateHeuristics3-constraint-report-16">
             <rule context="tei:date">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -2222,7 +2245,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics4-constraint-report-16">
+                  id="hendiPersons-date-dateHeuristics4-constraint-report-17">
             <rule context="tei:date">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -2246,7 +2269,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics6-constraint-rule-19">
+                  id="hendiPersons-date-dateHeuristics6-constraint-rule-20">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2267,7 +2290,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-julian-before-1582-constraint-rule-21">
+                  id="hendiPersons-date-julian-before-1582-constraint-rule-22">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2321,7 +2344,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Quellenangabe) definiert eine Quellenangabe an einer anderen Stelle, die womöglich durch zusätzlichen Text oder Kommentare modifizert wurde. [3.7. Simple Links and Cross-References 16.1. Links]</a:documentation>
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-ref-prev-next-correspContext-constraint-report-20">
+                  id="hendiPersons-ref-prev-next-correspContext-constraint-report-21">
             <rule context="tei:ref">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -2333,7 +2356,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-ref-refAtts-constraint-report-21">
+                  id="hendiPersons-ref-refAtts-constraint-report-22">
             <rule context="tei:ref">
                <report xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -2388,7 +2411,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </oneOrMore>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-list-gloss-list-constraint-report-22">
+                  id="hendiPersons-list-gloss-list-constraint-report-23">
             <rule context="tei:list">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -2400,7 +2423,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-list-gloss-list-must-have-labels-constraint-rule-22">
+                  id="hendiPersons-list-gloss-list-must-have-labels-constraint-rule-23">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -2469,7 +2492,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Anmerkung) enthält eine Notiz oder eine Anmerkung/Annotation. [3.9.1. Notes and Simple Annotation 2.2.6. The Notes Statement 3.12.2.8. Notes and Statement of Language 9.3.5.4. Notes within Entries]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-translation-notes-corresp-constraint-rule-23">
+                  id="hendiPersons-note-translation-notes-corresp-constraint-rule-24">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2482,7 +2505,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-note-in-text-constraint-rule-24">
+                  id="hendiPersons-note-note-in-text-constraint-rule-25">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2496,7 +2519,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-notesStmt-notes-constraint-rule-25">
+                  id="hendiPersons-note-notesStmt-notes-constraint-rule-26">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2509,7 +2532,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-text-notes-constraint-rule-26">
+                  id="hendiPersons-note-text-notes-constraint-rule-27">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2522,7 +2545,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-thematicCom-target-constraint-rule-27">
+                  id="hendiPersons-note-thematicCom-target-constraint-rule-28">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2534,7 +2557,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-thematicCom-must-be-empty-constraint-rule-28">
+                  id="hendiPersons-note-thematicCom-must-be-empty-constraint-rule-29">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2546,7 +2569,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-structured-content-notes-constraint-rule-29">
+                  id="hendiPersons-note-structured-content-notes-constraint-rule-30">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2558,7 +2581,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-initial-uppercase-commentaries-constraint-rule-30">
+                  id="hendiPersons-note-initial-uppercase-commentaries-constraint-rule-31">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2637,7 +2660,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             <ref name="geonames.pattern"/>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-idno-types-match-external-identifiers-constraint-rule-31">
+                  id="hendiPersons-idno-types-match-external-identifiers-constraint-rule-32">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2670,7 +2693,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-idno-match-external-identifiers-constraint-rule-34">
+                  id="hendiPersons-idno-match-external-identifiers-constraint-rule-35">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2801,7 +2824,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization name) contains an organizational name. [13.2.2. Organizational Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-orgName-orgNameKeyRequirement-constraint-rule-36">
+                  id="hendiPersons-orgName-orgNameKeyRequirement-constraint-rule-37">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2814,7 +2837,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-orgName-parent-org-constraint-rule-37">
+                  id="hendiPersons-orgName-parent-org-constraint-rule-38">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2827,7 +2850,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-orgName-parent-org-reg-constraint-rule-38">
+                  id="hendiPersons-orgName-parent-org-reg-constraint-rule-39">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2840,7 +2863,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-orgName-parent-org-reg-constraint-rule-39">
+                  id="hendiPersons-orgName-parent-org-reg-constraint-rule-40">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2853,7 +2876,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-orgName-parent-not-org-constraint-rule-40">
+                  id="hendiPersons-orgName-parent-not-org-constraint-rule-41">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2866,7 +2889,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-orgName-parent-org-reg2-constraint-rule-41">
+                  id="hendiPersons-orgName-parent-org-reg2-constraint-rule-42">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2904,11 +2927,10 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
    </define>
    <define name="persName">
       <element name="persName">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(PersonennamePersonenname) enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw.enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw. [13.2.1. Personal Names13.2.1. Personal Names]</a:documentation>
-         <ref name="macro.phraseSeq"/>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Personenname) enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw. [13.2.1. Personal Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-persName-persNameKeyRequirement-constraint-rule-42">
+                  id="hendiPersons-persName-persNameKeyRequirement-constraint-rule-43">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2921,9 +2943,13 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-persName-persNameTypes-constraint-rule-43">
+                  id="hendiPersons-persName-persNameTypes-constraint-rule-44">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:persName[@type='alt' and @subtype='married']">
                <sch:report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) &gt; 1 and not(@n)"
@@ -2955,7 +2981,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(forename) enthält einen Vornamen. [13.2.1. Personal Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-forename-forename-exclusions-constraint-report-36">
+                  id="hendiPersons-forename-forename-exclusions-constraint-report-37">
             <rule context="tei:forename">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3630,7 +3656,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             </group>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-person-enforceWhitespace-constraint-rule-44">
+                  id="hendiPersons-person-enforceWhitespace-constraint-rule-45">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3639,7 +3665,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-person-bioSummary-mixed-content-constraint-rule-45">
+                  id="hendiPersons-person-bioSummary-mixed-content-constraint-rule-46">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3648,7 +3674,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-person-personHeuristics1-constraint-report-38">
+                  id="hendiPersons-person-personHeuristics1-constraint-report-39">
             <rule context="tei:person">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3658,7 +3684,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-person-personHeuristics2-constraint-report-39">
+                  id="hendiPersons-person-personHeuristics2-constraint-report-40">
             <rule context="tei:person">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3668,7 +3694,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-person-enforceWhitespace-constraint-rule-46">
+                  id="hendiPersons-person-enforceWhitespace-constraint-rule-47">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3678,7 +3704,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-person-bioSummary-mixed-content-constraint-rule-47">
+                  id="hendiPersons-person-bioSummary-mixed-content-constraint-rule-48">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3722,7 +3748,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             <ref name="country"/>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-residence-residence-no-mixed-content-constraint-report-41">
+                  id="hendiPersons-residence-residence-no-mixed-content-constraint-report-42">
             <rule context="tei:residence">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -3915,7 +3941,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-att.hwh.rend-underline-n-constraint-rule-86">
+            id="hendiPersons-att.hwh.rend-underline-n-constraint-rule-49">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4015,21 +4041,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-styleguide-document-node-content-constraint-rule-48">
-      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
-                xmlns:mei="http://www.music-encoding.org/ns/mei"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                xmlns:s="http://www.ascc.net/xml/schematron"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                context="document-node()">
-         <sch:report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</sch:report>
-         <sch:report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</sch:report>
-      </sch:rule>
-   </pattern>
-   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-whitespaceOnlyContent-constraint-rule-49">
+            id="hendiPersons-whitespaceOnlyContent-constraint-rule-50">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4043,7 +4055,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-elementStartsWithWhitespace-constraint-rule-50">
+            id="hendiPersons-elementStartsWithWhitespace-constraint-rule-51">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4057,7 +4069,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-untrimmedAttributeValues-constraint-rule-51">
+            id="hendiPersons-untrimmedAttributeValues-constraint-rule-52">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4070,7 +4082,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-hwhTargets-constraint-rule-52">
+            id="hendiPersons-hwhTargets-constraint-rule-53">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4083,7 +4095,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-emojiCheck-constraint-rule-53">
+            id="hendiPersons-emojiCheck-constraint-rule-54">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4096,7 +4108,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-sourceMustResolve-constraint-rule-54">
+            id="hendiPersons-sourceMustResolve-constraint-rule-55">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4195,7 +4207,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-addWithoutPlace-constraint-rule-57">
+            id="hendiPersons-addWithoutPlace-constraint-rule-58">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4208,7 +4220,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-nameTypeRequirement-constraint-rule-58">
+            id="hendiPersons-nameTypeRequirement-constraint-rule-59">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4221,7 +4233,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-lbInsideAddress-constraint-rule-59">
+            id="hendiPersons-lbInsideAddress-constraint-rule-60">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4235,7 +4247,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-renditionWithPosition-constraint-rule-60">
+            id="hendiPersons-renditionWithPosition-constraint-rule-61">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4329,7 +4341,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-importName-constraint-rule-82">
+            id="hendiPersons-importName-constraint-rule-83">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4342,7 +4354,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-quotation-rend-values-constraint-rule-83">
+            id="hendiPersons-quotation-rend-values-constraint-rule-84">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4355,7 +4367,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-quotation-rend-attributes-constraint-rule-84">
+            id="hendiPersons-quotation-rend-attributes-constraint-rule-85">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4368,7 +4380,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-styleguide-document-node-content-constraint-rule-85">
+            id="hendiPersons-styleguide-document-node-content-constraint-rule-86">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
