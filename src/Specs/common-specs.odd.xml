@@ -1564,7 +1564,20 @@
         </elementSpec>
 
         <elementSpec ident="addrLine" mode="change" module="core">
-            <attList>
+        	<content>
+        		<alternate>
+        			<macroRef key="macro.phraseSeq"/>
+        			<elementRef key="street" minOccurs="0" maxOccurs="1"/>
+        		</alternate>
+        	</content>
+        	<constraintSpec scheme="schematron" ident="addrLineStreet" mode="add">
+        		<constraint>
+        			<sch:rule context="tei:addrLine">
+        				<sch:report test="tei:street and count(./node()) gt 1">When the element street is used no text nodes are allowed within addrLine.</sch:report>
+        			</sch:rule>
+        		</constraint>
+        	</constraintSpec>
+        	<attList>
                 <attDef ident="rend" mode="add" usage="rec">
                     <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
                     <desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
