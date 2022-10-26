@@ -149,6 +149,13 @@
                 </sequence>
             </sequence>
         </content>
+    	<constraintSpec scheme="schematron" ident="divRotation" mode="add">
+    		<constraint>
+    			<sch:rule context="tei:div[@rotation]">
+    				<sch:assert test="number(@rotation) gt 0 and number(@rotation) lt 361 and not(starts-with(@rotation,'0'))">The value must be between 1 and 360 (without leading zeros).</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
         <attList>
             <attDef ident="type" mode="change" usage="opt">
                 <desc versionDate="2021-10-19" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
@@ -169,6 +176,13 @@
                     <dataRef key="teidata.count"/>
                 </datatype>
             </attDef>
+        	<attDef ident="rotation" mode="add" usage="opt">
+        		<desc versionDate="2022-10-26" xml:lang="en">Zeigt an, dass ein Element gedreht zur Schreibrichtung/grundsätzlichen Ausrichtung des Textes erscheint. Die Drehung wird im Uhrzeigersinn in Grad (0-360) angegeben.</desc>
+        		<desc versionDate="2022-10-26" xml:lang="de">Indicates that an element appears rotated to the writing direction/basic alignment of the text. The rotation is indicated clockwise in degrees (0-360).</desc>
+        		<datatype>
+        			<dataRef name="nonNegativeInteger"/>
+        		</datatype>
+        	</attDef>
         </attList>
         <remarks xml:lang="en" versionDate="2021-10-19">
             <p>For Henze-Digital the content model was changed. It was necessary to allow text blocs after the closer.</p>
