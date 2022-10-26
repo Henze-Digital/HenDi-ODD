@@ -19,7 +19,7 @@ stages:
     - git config user.name "${GITLAB_USER_NAME}"
     - git config pull.rebase false
     - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
-    - git pull origin ${CI_COMMIT_REF_NAME}
+    #- git pull origin ${CI_COMMIT_REF_NAME}
 
 .git_commit:
   script:
@@ -34,7 +34,7 @@ stages:
       - src/Specs/common-specs.odd.xml
 
 .compile-target:
-  resource_group: compilation
+  #resource_group: compilation
   script:
     - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
@@ -46,7 +46,7 @@ stages:
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
 .compile-text:
-  resource_group: compilation
+  #resource_group: compilation
   script:
     - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
@@ -58,57 +58,58 @@ stages:
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
 hendiBiblio:
-  stage: compile
+  stage: compile-01
   extends: .compile-target
 
 hendiDocuments:
-  stage: compile
+  stage: compile-02
   extends: .compile-target
 
 hendiLetters:
-  stage: compile
+  stage: compile-03
   extends: .compile-target
 
 hendiNews:
-  stage: compile
+  stage: compile-04
   extends: .compile-target
 
 hendiOrgs:
-  stage: compile
+  stage: compile-05
   extends: .compile-target
 
 hendiPersons:
-  stage: compile
+  stage: compile-06
   extends: .compile-target
 
 hendiPlaces:
-  stage: compile
+  stage: compile-07
   extends: .compile-target
 
 hendiThematicCommentaries:
-  stage: compile
+  stage: compile-08
   extends: .compile-target
 
 hendiVar:
-  stage: compile
+  stage: compile-09
   extends: .compile-target
 
 hendiWorksAV:
-  stage: compile
+  stage: compile-10
   extends: .compile-target
+  allow_failure: true
 
 hendiWorksMEI:
-  stage: compile
+  stage: compile-11
   extends: .compile-target
 
 hendiWorksTEI:
-  stage: compile
+  stage: compile-12
   extends: .compile-target
 
 hendiWritings:
-  stage: compile
+  stage: compile-13
   extends: .compile-target
 
 text:
-  stage: compile
+  stage: compile-14
   extends: .compile-text
