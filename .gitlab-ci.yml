@@ -25,6 +25,7 @@ stages:
   - compile-12
   - compile-13
   - compile-14
+  - trigger-hendiData
 
 .git_setup:
   script:
@@ -126,3 +127,8 @@ hendiWritings:
 text:
   stage: compile-14
   extends: .compile-text
+
+trigger-update-submodule-hendiData:
+  stage: trigger-hendiData
+  script:
+    - "curl -X POST --fail -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
