@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-10-27T06:04:21Z. .
+Schema generated from ODD source 2022-11-03T08:28:09Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -4725,6 +4725,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
+         <ref name="att.docStatus.attributes"/>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -5467,6 +5468,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
                            test="string(@when) &gt; (current-date() cast as xs:string)">The when-attribute must not refer to a future date.</sch:report>
             </rule>
          </pattern>
+         <ref name="att.docStatus.attributes"/>
          <attribute name="who">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">bezeichnet die Person oder die Gruppe von Personen, denen derv Elementinhalt zugewiesen ist.</a:documentation>
             <ref name="staffSignatures.list"/>
@@ -6810,6 +6812,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attributes"/>
          <ref name="att.declaring.attributes"/>
+         <ref name="att.docStatus.attributes"/>
          <empty/>
       </element>
    </define>
@@ -8633,6 +8636,24 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Englische Anführungszeichen.</a:documentation>
                <value>fr</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Französische Anführungszeichen.</a:documentation>
+            </choice>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.docStatus.attributes">
+      <ref name="att.docStatus.attribute.status"/>
+   </define>
+   <define name="att.docStatus.attribute.status">
+      <optional>
+         <attribute name="status">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</a:documentation>
+            <choice>
+               <value>proposed</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Kategorie "rot") unterste Kategorie, d.h. die Dokumente sind noch im Rohzustand.</a:documentation>
+               <value>candidate</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Kategorie "gelb") mittlere Kategorie für Dokumente, die schon eine gewisse Auszeichnungstiefe besitzen.</a:documentation>
+               <value>approved</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Kategorie "grün") freigegebene Dokumente, die den aktuellen Auszeichnungsvorgaben entsprechen sowie kontrolliert und durchgesehen wurden.</a:documentation>
             </choice>
          </attribute>
       </optional>
