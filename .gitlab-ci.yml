@@ -11,6 +11,7 @@ default:
   image: $HENDI_CI_DOCKER_IMAGE
   
 stages:
+  - compile-00
   - compile-01
   - compile-02
   - compile-03
@@ -70,6 +71,13 @@ stages:
     - changes:
       - src/Guidelines/de/*.xml
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
+
+hendiAll:
+  stage: compile-00
+  extends: .compile-target
+  rules:
+    - changes:
+      - src/Guidelines/de/*.xml
 
 hendiBiblio:
   stage: compile-01
