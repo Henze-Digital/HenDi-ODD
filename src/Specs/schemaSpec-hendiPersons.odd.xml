@@ -4,6 +4,8 @@
     xmlns:sch="http://purl.oclc.org/dsdl/schematron">
     <desc>This is the customization for encoding persons at Henze-Digital</desc>
     <moduleRef key="core"/>
+    <elementRef key="name" source="tei:4.3.0"/>
+    
     <moduleRef key="tei"/>
     <moduleRef key="header"/>
     <moduleRef key="namesdates"/>
@@ -33,6 +35,38 @@
     
     <macroRef key="macro.persNameContent"/>
     <macroRef key="macro.birthDeathContent"/>
+    
+    <macroSpec ident="macro.persNameContent" mode="change">
+        <content>
+            <rng:interleave>
+                <rng:oneOrMore>
+                    <rng:text/>
+                </rng:oneOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="name"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="surname"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="forename"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="nameLink"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="genName"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="roleName"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <rng:ref name="addName"/>
+                </rng:zeroOrMore>
+            </rng:interleave>
+        </content>
+    </macroSpec>
+    
     <elementSpec ident="person" mode="change" module="namesdates">
         <desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source.</desc>
         <desc versionDate="2021-10-28" xml:lang="de">liefert Informationen über ein identifizierbares Individuum, beispielsweise ein Teilnehmer einer Sprachinteraktion, oder eine Person, auf die in einer historischen Quelle verwiesen wird.</desc>
