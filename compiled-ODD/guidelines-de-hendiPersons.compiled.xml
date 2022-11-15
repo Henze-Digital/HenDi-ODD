@@ -7471,7 +7471,112 @@ element is appropriate for which circumstance.</p>
     </p>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHDA">11.3.3.1. Damage, Illegibility, and Supplied Text</ref>
-  </listRef></elementSpec><desc>This is the customization for encoding persons at Henze-Digital</desc><macroSpec rend="add" module="derived-module-hendiPersons" ident="hwh.data.temporal.iso" mode="add">
+  </listRef></elementSpec><desc>This is the customization for encoding persons at Henze-Digital</desc><elementSpec rend="change" module="core" ident="name"><gloss versionDate="2005-01-14" xml:lang="en">name, proper noun</gloss><gloss versionDate="2007-12-20" xml:lang="ko">이름, 고유명사</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">名稱，特定名稱</gloss><gloss versionDate="2009-01-06" xml:lang="fr">nom, nom propre</gloss><gloss versionDate="2007-05-04" xml:lang="es">nombre, nombre propio</gloss><gloss versionDate="2007-01-21" xml:lang="it">nome, nome proprio</gloss><gloss versionDate="2016-11-24" xml:lang="de">Name, Eigenname</gloss><desc versionDate="2005-01-14" xml:lang="en">contains a proper noun or noun phrase.</desc><desc versionDate="2007-12-20" xml:lang="ko">고유명사 또는 명사구를 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含一個特定名稱 或名詞詞組。</desc><desc versionDate="2008-04-05" xml:lang="ja">固有名詞．</desc><desc versionDate="2009-01-06" xml:lang="fr">contient un nom propre ou un syntagme nominal.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene un nombre propio o un sintagma nominal</desc><desc versionDate="2007-01-21" xml:lang="it">contiene un nome proprio o un sintagma nominale.</desc><desc versionDate="2016-11-24" xml:lang="de">enthält einen Eigennamen in Form eines Nomens oder einer Nominalphrase.</desc><classes><memberOf key="att.global"/><memberOf key="model.nameLike.agent"/><memberOf key="att.personal"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.typed"/></classes><content><macroRef key="macro.phraseSeq"/></content><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="name-typeDep" mode="add">
+                <desc versionDate="2022-07-26" xml:lang="en">warnings if <att>type</att>=<val>dep</val> is used outside an <gi>orgName</gi>.</desc>
+                <desc versionDate="2022-07-26" xml:lang="de">Warnung falls <att>type</att>=<val>dep</val> außerhalb von <gi>orgName</gi> verwendet wird.</desc>
+                <constraint>
+                    <sch:rule context="tei:name[@type='dep']">
+                        <sch:assert test="parent::tei:orgName and ancestor::tei:org">The value 'dep' is only allowed within the doctype 'orgs'.</sch:assert>
+                    </sch:rule>
+                </constraint>
+            </constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="name-typeNkey" mode="replace">
+                <desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
+                <desc versionDate="2021-11-16" xml:lang="de">Warnung vor falscher Kombination von <att>type</att> und <att>key</att> Werten.</desc>
+                <constraint>
+                    <sch:pattern is-a="node-typeNkey">
+                        <sch:param name="node" value="tei:name"/>
+                    </sch:pattern>
+                </constraint>
+            </constraintSpec><attList><attDef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" ident="type" mode="replace" usage="rec">
+                    <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
+                    <desc versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc>
+                    <valList type="closed">
+                        <valItem ident="character">
+                            <desc versionDate="2021-11-16" xml:lang="en">marks a character (acting role) which is mentioned by name/title.</desc>
+                            <desc versionDate="2021-11-16" xml:lang="de">markiert einen Charakter (eine Rolle), die namentlich genannt ist.</desc>
+                        </valItem>
+                        <valItem ident="characters">
+                            <desc versionDate="2021-12-01" xml:lang="en">marks characters (acting roles) which are mentioned by name/title.</desc>
+                            <desc versionDate="2021-12-01" xml:lang="de">markiert eine Gruppe von Charakteren (Rollen), die namentlich genannt sind.</desc>
+                        </valItem>
+                        <valItem ident="work">
+                            <desc versionDate="2021-11-16" xml:lang="en">marks an artistic work which is mentioned by name/title.</desc>
+                            <desc versionDate="2021-11-16" xml:lang="de">markiert ein künstlerisches Werk, welches beim Namen/Titel genannten ist.</desc>
+                        </valItem>
+                        <valItem ident="works">
+                            <desc versionDate="2021-12-01" xml:lang="en">marks artistic works which are mentioned by name/title.</desc>
+                            <desc versionDate="2021-12-01" xml:lang="de">markiert künstlerische Werke, welche beim Namen/Titel genannt sind.</desc>
+                        </valItem>
+                        <valItem ident="actingRole">
+                            <desc versionDate="2021-11-16" xml:lang="en">marks an acting role which is mentioned by name.</desc>
+                            <desc versionDate="2021-11-16" xml:lang="de">markiert eine (theatralische) Rolle, die beim Namen genannten ist.</desc>
+                        </valItem>
+                        <valItem ident="actingRoles">
+                            <desc versionDate="2021-12-01" xml:lang="en">marks acting roles which are mentioned by name.</desc>
+                            <desc versionDate="2021-12-01" xml:lang="de">markiert (theatralische) Rollen, die beim Namen genannt sind.</desc>
+                        </valItem>
+                        <valItem ident="myth">
+                            <desc versionDate="2021-11-16" xml:lang="en">marks a mythological character which is mentioned by name.</desc>
+                            <desc versionDate="2021-11-16" xml:lang="de">markiert einen beim Namen genannten mythologischen Charakter.</desc>
+                        </valItem>
+                        <valItem ident="myths">
+                            <desc versionDate="2021-12-01" xml:lang="en">marks mythological characters which are mentioned by name.</desc>
+                            <desc versionDate="2021-12-01" xml:lang="de">markiert beim Namen genannte mythologische Charaktere.</desc>
+                        </valItem>
+                        <valItem ident="venue">
+                            <desc versionDate="2021-11-16" xml:lang="en">marks a venue which is mentioned by name.</desc>
+                            <desc versionDate="2021-11-16" xml:lang="de">markiert einen Aufführungsort/ eine Lokalität, welche beim Namen genannten ist.</desc>
+                        </valItem>
+                        <valItem ident="other">
+                            <desc versionDate="2021-11-16" xml:lang="en">marks a named subject or object that does not fit into any category.</desc>
+                            <desc versionDate="2021-11-16" xml:lang="de">markiert ein Subjekt oder Objekt, welches in keine Kategorie einzurdnen ist.</desc>
+                        </valItem>
+                        <valItem ident="journal">
+                            <desc versionDate="2013-11-11" xml:lang="en">Title of a journal</desc>
+                            <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitschrift</desc>
+                        </valItem>
+                        <valItem ident="newspaper">
+                            <desc versionDate="2013-11-11" xml:lang="en">Title of a newspaper</desc>
+                            <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitung</desc>
+                        </valItem>
+                        <valItem ident="dep">
+                            <desc versionDate="2022-07-26" xml:lang="en">Department (of an organization)</desc>
+                            <desc versionDate="2022-07-26" xml:lang="de">Abteilung (einer Organisation)</desc>
+                        </valItem>
+                    </valList>
+                </attDef><attDef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" ident="key" mode="replace" usage="opt">
+                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
+                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+                    <datatype maxOccurs="unbounded">
+                        <dataRef key="hwh.internal.pointer"/>
+                    </datatype>
+                </attDef></attList><exemplum xml:lang="mul">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#NONE">
+      <name type="person">Thomas Hoccleve</name>
+      <name type="place">Villingaholt</name>
+      <name type="org">Vetus Latina Institut</name>
+      <name type="person" ref="#HOC001">Occleve</name>
+    </egXML>
+  </exemplum><remarks versionDate="2005-01-14" xml:lang="en">
+    <p>Proper nouns referring to people, places, and organizations may be tagged instead with
+                <gi>persName</gi>, <gi>placeName</gi>, or <gi>orgName</gi>, when the TEI module for
+            names and dates is included.</p>
+  </remarks><remarks xml:lang="fr" versionDate="2007-06-12">
+    <p>Les noms propres relatifs aux personnes, aux lieux et aux organismes peuvent également
+            être balisés à l'aide de <gi>persName</gi>, <gi>placeName</gi>, ou <gi>orgName</gi>,
+            lorsque le module TEI concernant les noms et dates est inclus.</p>
+  </remarks><remarks xml:lang="ja" versionDate="2008-04-05">
+    <p> TEI名前モジュールが使われる場合には，人々，場所，組織を示す固有名 詞は，それぞれ要素<gi>persName</gi>, <gi>placeName</gi>,
+                <gi>orgName</gi>を使い示されるかもしれない． </p>
+  </remarks><remarks xml:lang="de" versionDate="2016-11-24">
+      <p>
+          Eigennamen, die auf Personen, Orte und Organisationen verweisen, können stattdessen auch mit den Elementen 
+          <gi>persName</gi>, <gi>placeName</gi> oder <gi>orgName</gi> ausgezeichnet werden, vorausgesetzt, das TEI-Modul 
+          <ident type="module">namesdates</ident> ist inkludiert.
+      </p>
+  </remarks><listRef>
+    <ptr target="#CONARS" type="div2"/>
+  </listRef></elementSpec><macroSpec rend="add" module="derived-module-hendiPersons" ident="hwh.data.temporal.iso" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" versionDate="2014-04-22" xml:lang="en">A replacement for the TEI macro data.temporal.iso which allows only date (YYYY-MM-DD) and gYear (YYYY).</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" versionDate="2014-04-22" xml:lang="de">Henze-Digital-Ersatz für das TEI Makro data.temporal.iso mit der Einschränkung auf date (YYYY-MM-DD) und gYear (YYYY).</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
@@ -7595,7 +7700,7 @@ element is appropriate for which circumstance.</p>
             <desc versionDate="2014-03-05" xml:lang="en">warnings for whitespace at the beginning of an element.</desc>
             <desc versionDate="2014-03-05" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
             <constraint>
-                <sch:rule context="tei:surname | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
+                <sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/></sch:report>
                 </sch:rule>
             </constraint>
@@ -8140,19 +8245,34 @@ element is appropriate for which circumstance.</p>
                     </valList>
                 </attDef>
             </attList>
-        </classSpec><macroSpec rend="add" module="derived-module-wegaPersons" ident="macro.persNameContent" mode="add">
-        <content xmlns:teix="http://www.tei-c.org/ns/Examples">
+        </classSpec><macroSpec rend="add" module="derived-module-wegaPersons" ident="macro.persNameContent" mode="add"><content rend="replace">
             <rng:interleave>
-                <oneOrMore xmlns="http://relaxng.org/ns/structure/1.0"><rng:text xmlns="http://www.tei-c.org/ns/1.0"/></oneOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="surname"/></zeroOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="forename"/></zeroOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="nameLink"/></zeroOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="genName"/></zeroOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="roleName"/></zeroOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="addName"/></zeroOrMore>
+                <rng:oneOrMore>
+                    <rng:text/>
+                </rng:oneOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="name"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="surname"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="forename"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="nameLink"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="genName"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="roleName"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                    <ref xmlns="http://relaxng.org/ns/structure/1.0" name="addName"/>
+                </rng:zeroOrMore>
             </rng:interleave>
-        </content>
-    </macroSpec><macroSpec rend="add" module="derived-module-wegaPersons" ident="macro.birthDeathContent" mode="add">
+        </content></macroSpec><macroSpec rend="add" module="derived-module-wegaPersons" ident="macro.birthDeathContent" mode="add">
         <content xmlns:teix="http://www.tei-c.org/ns/Examples">
             <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
             <alternate minOccurs="0" maxOccurs="unbounded"><elementRef key="placeName"/><elementRef key="settlement"/><elementRef key="country"/><elementRef key="region"/></alternate>
