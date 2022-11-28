@@ -95,6 +95,15 @@
 		</delete>
 	</target>
 	
+	<target name="hendiAll" depends="init">
+		<antcall target="process">
+			<param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
+			<param name="outputFileRNG" value="${basedir}/schema/${lang}/hendiAll.rng"/>
+			<param name="outputFileSchematron" value="${basedir}/schema/${lang}/hendiAll.isosch"/>
+			<param name="selectedSchema" value="hendiAll"/>
+		</antcall>
+	</target>
+	
 	<target name="hendiBiblio" depends="init">
 		<antcall target="process">
 			<param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
@@ -237,6 +246,8 @@
 				</factory>
 				<param name="lang" expression="${lang}" if="lang"/>
 				<param name="defaultSource" expression="${source}"/>
+				<param name="verbose" expression="true"/>
+<!--				<param name="summaryDoc" expression="false"/>-->
 				<param name="selectedSchema" expression="${selectedSchema}"/>
 			</xslt>
 			
@@ -296,12 +307,4 @@
 		</sequential>
 	</target>
 	
-	<target name="check-rng-output">
-		<echo>Test if relaxNG is valid.</echo>
-		<taskdef name="jing" classpath="resources/jing.jar" classname="com.thaiopensource.relaxng.util.JingTask"/>
-		<sequential>
-			<echo level="info">Validating RelaxNG output file with RelaxNG.</echo>
-			<jing rngfile="resources/relaxng.rng" file="schema/de/${selectedSchema}.rng"/>
-		</sequential>
-	</target>
 </project>

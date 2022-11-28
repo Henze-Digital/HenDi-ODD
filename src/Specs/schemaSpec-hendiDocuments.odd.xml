@@ -16,30 +16,33 @@
     <moduleRef key="textcrit"/>
     <moduleRef key="gaiji"/>
     
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-biblStruct"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-classes"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-atts"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-constraints"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-core"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-element-additions"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-figures"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-gaiji"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-header"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-linking"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-msdescription"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-namesdates"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-styleguides"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-classes"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-element-additions"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-constraints"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-atts"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-atts"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-core"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-header"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textstructure"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-namesdates"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-figures"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-transcr"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-msdescription"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-linking"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textcrit"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-gaiji"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-macros"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-biblStruct"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textcrit"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textstructure"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-transcr"/>
     
     <elementSpec ident="TEI" mode="change" module="textstructure">
-        <content>
+    	<classes mode="change">
+    		<memberOf key="att.docStatus" mode="add"/>
+    	</classes>
+    	<content>
             <rng:choice>
                 <!--   Ordentlicher Eintrag   -->
                 <rng:group>
@@ -73,12 +76,7 @@
             </rng:choice>
         </content>
         <attList>
-            <attDef ident="status" usage="req" mode="add">
-                <datatype>
-                    <dataRef key="hwh_docStatus.list"/>
-                </datatype>
-            </attDef>
-            <attDef ident="xml:id" mode="add" usage="req">
+            <attDef ident="xml:id" mode="change" usage="req">
                 <datatype>
                     <dataRef key="hwh.documents.pointer"/>
                 </datatype>
@@ -95,7 +93,7 @@
                 <elementRef key="revisionDesc"/>
             </sequence>
         </content>
-        <constraintSpec scheme="isoschematron" ident="seriesTitle">
+        <constraintSpec scheme="schematron" ident="seriesTitle" mode="replace">
             <constraint>
                 <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
                     <sch:assert test=".='Henze-Digital, Dokumente, Digitale Edition'">The series title must be 
@@ -142,54 +140,53 @@
             </attDef>
         </attList>
     </elementSpec>
-    
-    
+       
     <macroSpec ident="hwh.document.keywords.list" mode="add">
         <desc versionDate="2021-07-26" xml:lang="de">geschlossene Liste von Schlagworten zur Beschreibung der Dokumente</desc>
         <desc versionDate="2021-07-26" xml:lang="en">closed list of keywords for describing the documents</desc>
         <content>
-            <valList>
+            <valList mode="add" type="closed">
                 <valItem ident="Finanzen">
-                    <desc>auf dem Dokument ist der An- oder Verkauf, oder Schuld von Waren oder Dienstleistungen mit entsprechenden Summen genannt oder die Anbahnung eines solchen Geschäfts</desc>
+                    <desc versionDate="2022-11-07" xml:lang="de">auf dem Dokument ist der An- oder Verkauf, oder Schuld von Waren oder Dienstleistungen mit entsprechenden Summen genannt oder die Anbahnung eines solchen Geschäfts</desc>
                 </valItem>
                 <valItem ident="Behördliches">
-                    <desc>das Dokument ist von einer zivilen Behörde oder Stelle ausgefertigt</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument ist von einer zivilen Behörde oder Stelle ausgefertigt</desc>
                 </valItem>
                 <valItem ident="Kirchliches">
-                    <desc>das Dokument ist von einer kirchlichen Behörde oder Stelle ausgefertigt</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument ist von einer kirchlichen Behörde oder Stelle ausgefertigt</desc>
                 </valItem>
                 <valItem ident="Persönliches">
-                    <desc>das Dokument gibt Zeugnis von Dingen oder Ereignissen die Individualität einer Person, Familie oder Gruppe betreffend</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Dingen oder Ereignissen die Individualität einer Person, Familie oder Gruppe betreffend</desc>
                 </valItem>
                 <valItem ident="Künstlerische_Arbeit">
-                    <desc>das Dokument enthält Informationen zu künstlerischer Arbeit wie Aufführungen, Werke oder Proben</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zu künstlerischer Arbeit wie Aufführungen, Werke oder Proben</desc>
                 </valItem>
                 <valItem ident="Theaterbetrieb">
-                    <desc>das Dokument enthält Informationen zum internen Theaterbetrieb</desc><!-- keine Zettel! -->
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zum internen Theaterbetrieb</desc><!-- keine Zettel! -->
                 </valItem>
                 <valItem ident="Reisen">
-                    <desc>das Dokument enthält Informationen zu Reisen oder Aufenthalten außer Haus</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zu Reisen oder Aufenthalten außer Haus</desc>
                 </valItem>
                 <valItem ident="Haushalt">
-                    <desc>das Dokument enthält Informationen zum (persönlichen) Haushalt wie Einrichtung, Besorgungen, Umzüge oder auch Personal</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zum (persönlichen) Haushalt wie Einrichtung, Besorgungen, Umzüge oder auch Personal</desc>
                 </valItem>
                 <valItem ident="Ehrung">
-                    <desc>das Dokument enhält Informationen zu Auszeichnungen, Preisen, Huldigungen o.ä.</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument enhält Informationen zu Auszeichnungen, Preisen, Huldigungen o.ä.</desc>
                 </valItem>
                 <valItem ident="Verzeichnis">
-                    <desc>das Dokument enhält eine beliebige Auflistung von Gegenständen, Werken, Ereignissen, Finanztiteln o.ä.</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument enhält eine beliebige Auflistung von Gegenständen, Werken, Ereignissen, Finanztiteln o.ä.</desc>
                 </valItem>
                 <valItem ident="Justiz">
-                    <desc>das Dokument gibt Zeugnis von Vorgängen der Justiz</desc> <!-- = Verfeinerung von "Behördliches" -->
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Vorgängen der Justiz</desc> <!-- = Verfeinerung von "Behördliches" -->
                 </valItem>
                 <valItem ident="Theaterzettel">
-                    <desc>das Dokument ist eine Einblattveröffentlichung zur Ankündigung der Aufführung eines Bühnenwerks</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument ist eine Einblattveröffentlichung zur Ankündigung der Aufführung eines Bühnenwerks</desc>
                 </valItem>
                 <valItem ident="Konzertwesen">
-                    <desc>das Dokument gibt Zeugnis von Vorbereitungen, Ankündigungen oder Abrechnungen von Konzerten</desc><!-- auch konzertante Anteile von Bühnenwerken -->
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Vorbereitungen, Ankündigungen oder Abrechnungen von Konzerten</desc><!-- auch konzertante Anteile von Bühnenwerken -->
                 </valItem>
                 <valItem ident="Vereine">
-                    <desc>das Dokument gibt Zeugnis von Vorgängen in Vereinen und Zirkeln</desc>
+                	<desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Vorgängen in Vereinen und Zirkeln</desc>
                 </valItem>
             </valList>
         </content>

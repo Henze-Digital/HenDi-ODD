@@ -7,6 +7,7 @@
     <moduleRef key="core"/>
     <elementRef key="foreign" source="tei:4.3.0"/>
     <elementRef key="measure" source="tei:4.3.0"/>
+	<classRef key="att.measurement" source="tei:4.3.0"/>
     <elementRef key="term" source="tei:4.3.0"/>
 
     <moduleRef key="tei"/>
@@ -80,12 +81,10 @@
     </constraintSpec>
     
     <elementSpec ident="TEI" mode="change" module="core">
+    	<classes mode="change">
+    		<memberOf key="att.docStatus" mode="add"/>
+    	</classes>
         <attList>
-            <attDef ident="status" usage="req" mode="add">
-                <datatype>
-                    <dataRef key="hwh_docStatus.list"/>
-                </datatype>
-            </attDef>
             <attDef ident="source" mode="add" usage="req">
                 <valList type="closed" mode="change">
                     <valItem ident="HWH" mode="add">
@@ -367,5 +366,28 @@
            </attDef>
        </attList>
     </elementSpec>
-    
+	
+	<elementSpec ident="choice" module="core" mode="change">
+		<classes mode="change">
+			<memberOf key="att.global.responsibility" mode="add"/>
+		</classes>
+	</elementSpec>
+	
+	<elementSpec ident="resp" module="core" mode="change">
+		<content>
+			<dataRef key="hwh_resp.list"/>
+		</content>
+	</elementSpec>
+	
+	<elementSpec ident="respStmt" module="core" mode="change">
+		<constraintSpec scheme="schematron" ident="respStmt-distinct" mode="add">
+			<desc versionDate="2022-11-28" xml:lang="en">Checks if resp in multiple respStmt elements is unique.</desc>
+			<desc versionDate="2022-11-28" xml:lang="de">Prüft ob resp einzigartig ist, wenn mehrere respStmt vorkommen.</desc>
+			<constraint>
+				<sch:rule context="tei:resp">
+					<sch:assert test="ancestor::tei:titleStmt//tei:resp != ./text()">Multiple respStmt elements can't have the same resp.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+	</elementSpec>
 </schemaSpec>

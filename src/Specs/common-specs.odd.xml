@@ -615,6 +615,25 @@
     			</valList>
     		</content>
     	</macroSpec>
+    
+    	<macroSpec ident="hwh_resp.list" mode="add">
+    		<content>
+    			<valList mode="add" type="closed">
+    				<valItem ident="Übertragung">
+    					<gloss versionDate="2022-01-14" xml:lang="de">Übertragung</gloss>
+    					<gloss versionDate="2022-01-14" xml:lang="en">Transmission</gloss>
+    				</valItem>
+    				<valItem ident="Sprachliche Beratung">
+    					<gloss versionDate="2022-01-31" xml:lang="de">Sprachliche Beratung</gloss>
+    					<gloss versionDate="2022-01-31" xml:lang="en">Linguistic advice</gloss>
+    				</valItem>
+    				<valItem ident="Übersetzung">
+    					<gloss versionDate="2022-01-31" xml:lang="de">Übersetzung</gloss>
+    					<gloss versionDate="2022-01-31" xml:lang="en">Translation</gloss>
+    				</valItem>
+    			</valList>
+    		</content>
+    	</macroSpec>
     </specGrp>
 
     <specGrp xml:id="hwh-common-atts">
@@ -798,8 +817,8 @@
                 <dataRef key="hwh.data.temporal.iso"/>
             </content>
         </macroSpec>
-
-        <classSpec type="atts" ident="att.docStatus" mode="replace">
+		
+        <classSpec type="atts" ident="att.docStatus" mode="add" module="tei">
             <desc versionDate="2013-11-11" xml:lang="en">provides attributes for use on metadata elements describing the status of a document.</desc>
             <desc versionDate="2013-11-11" xml:lang="de">stellt Attribute für den Gebrauch von Metadaten-Elementen, die den Status eines Dokuments beschreiben.</desc>
             <attList>
@@ -989,7 +1008,7 @@
     <specGrp xml:id="hwh-tei-macros"/>
 
     <specGrp xml:id="hwh-datatypes">
-        <dataSpec ident="hwhdata.textAlignment" mode="add">
+    	<dataSpec ident="hwhdata.textAlignment" mode="add" module="tei">
             <desc>A closed list of values to be used with a <att>rend</att> attribute on e.g. <gi>dateline</gi>.</desc>
             <content>
                 <valList type="closed">
@@ -1012,7 +1031,7 @@
                 </valList>
             </content>
         </dataSpec>
-        <dataSpec ident="hwhdata.position" mode="add">
+    	<dataSpec ident="hwhdata.position" mode="add" module="tei">
             <desc>A closed list of values to be used with a <att>rend</att> attribute on e.g. <gi>dateline</gi>.</desc>
             <content>
                 <valList type="closed">
@@ -1047,10 +1066,10 @@
                 </valList>
             </content>
         </dataSpec>
-        <dataSpec ident="teidata.language" mode="change">
+    	<dataSpec ident="teidata.language" mode="change" module="tei">
             <desc>A closed list of values to be used with a <att>ident</att> attribute on e.g. <gi>language</gi>. The values follow ISO-639-1 (except "noRecord" which is used as wildcard).</desc>
             <content>
-                <valList type="closed">
+                <valList type="closed" mode="add">
                     <valItem ident="en">
                         <desc versionDate="2021-08-10" xml:lang="en">English</desc>
                         <desc versionDate="2021-08-10" xml:lang="de">Englisch</desc>
@@ -1094,7 +1113,7 @@
                 </valList>
             </content>
         </dataSpec>
-        <dataSpec ident="hwhdata.medium" mode="add">
+    	<dataSpec ident="hwhdata.medium" mode="add" module="tei">
             <desc>A closed list of values to be used with a <att>medium</att> attribute on <gi>handShift</gi>.</desc>
             <content>
                 <valList type="closed">
@@ -1133,10 +1152,11 @@
                 </valList>
             </content>
         </dataSpec>
-        <dataSpec ident="hwhdata.medium.color" mode="add">
-            <desc>A closed list of values to be used with a <att>medium</att> attribute on <gi>handShift</gi>.</desc>
+        <dataSpec ident="hwhdata.medium.color" mode="add" module="tei">
+        	<desc versionDate="2021-11-16" xml:lang="en">A closed list of values for <att>color</att> to be used in the context of <att>medium</att> on <gi>handShift</gi> or <gi>handNote</gi>.</desc>
+        	<desc versionDate="2021-11-16" xml:lang="de">Eine geschlossene Liste mit Werten für <att>color</att>, dass im Zusammenhang mit <att>medium</att> in <gi>handShift</gi> oder <gi>handNote</gi> genutzt werden kann.</desc>
             <content>
-                <valList type="closed">
+                <valList type="closed" mode="add">
                     <valItem ident="blue">
                         <desc versionDate="2021-11-16" xml:lang="en">blue</desc>
                         <desc versionDate="2021-11-16" xml:lang="de">Blau</desc>
@@ -1239,7 +1259,7 @@
             <desc versionDate="2014-03-05" xml:lang="en">warnings for whitespace at the beginning of an element.</desc>
             <desc versionDate="2014-03-05" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
             <constraint>
-                <sch:rule context="tei:surname | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
+                <sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/></sch:report>
                 </sch:rule>
             </constraint>
@@ -1507,6 +1527,7 @@
     			</sch:rule>
     		</constraint>
     	</constraintSpec>
+    	<constraintSpec scheme="schematron" ident="assert-chronologic-order" mode="delete"/>
     </specGrp>
 
     <specGrp xml:id="hwh-styleguides">
@@ -1534,7 +1555,7 @@
     <specGrp xml:id="hwh-core">
 
         <elementSpec ident="title" mode="change" module="core">
-            <constraintSpec scheme="schematron" ident="report-type-outside-text">
+            <constraintSpec scheme="schematron" ident="report-type-outside-text" mode="add">
                 <desc versionDate="2021-12-23" xml:lang="en">report the use of a type attribute inside the header section</desc>
                 <desc versionDate="2021-12-23" xml:lang="de">weist auf die Verwendung des type attributes innerhalb des Headers hin</desc>
                 <constraint>
@@ -1545,7 +1566,7 @@
                 <attDef ident="type" mode="replace" usage="opt">
                     <desc versionDate="2021-12-23" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
                     <desc versionDate="2021-12-23" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc>
-                    <valList type="closed">
+                    <valList type="closed" mode="add">
                         <valItem ident="journal">
                             <desc versionDate="2013-11-11" xml:lang="en">Title of a journal</desc>
                             <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitschrift</desc>
@@ -1698,13 +1719,12 @@
         <elementSpec ident="note" mode="change" module="core">
             <constraintSpec scheme="schematron" ident="note-in-text" mode="replace">
                 <constraint>
-                    <sch:rule context="tei:note[not(parent::tei:org or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
+                	<sch:rule context="tei:note[not(parent::tei:org or parent::tei:place or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
                         <sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
                         <sch:assert test="@type">It is required to classify the note with @type.</sch:assert>
                     </sch:rule>
                 </constraint>
             </constraintSpec>
-
             <constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
                 <constraint>
                     <sch:rule context="tei:note[parent::tei:notesStmt]">
@@ -1978,7 +1998,7 @@
         </elementSpec>
         <elementSpec ident="measure" mode="change" module="core">
             <attList>
-                <attDef ident="unit" mode="add" usage="req">
+                <attDef ident="unit" mode="change" usage="req">
                     <valList type="closed" mode="add">
                         <valItem ident="folio" mode="add">
                             <gloss versionDate="2021-11-22" xml:lang="en">folio</gloss>
@@ -2001,6 +2021,7 @@
             <classes mode="change">
                 <memberOf key="att.global" mode="delete"/>
                 <memberOf key="att.typed" mode="delete"/>
+                <memberOf key="att.docStatus" mode="delete"/>
             </classes>
             <attList>
                 <attDef ident="key" mode="replace" usage="rec">
