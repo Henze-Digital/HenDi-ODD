@@ -8808,7 +8808,15 @@ places, in particular where  multiple names are given.</p>
     Edition, einer Aufnahme oder Reihe, wo die spezialisierten Elemente <gi>author</gi>,
     <gi>editor</gi> etc. nicht ausreichen oder unzutreffend sind; auch verwendbar für
     Informationen zu Individuen oder Organisationen, die bei der Produktion oder Verbreitung eines
-    bibliografischen Objekts eine Rolle gespielt.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples"><memberOf key="att.global"/><memberOf key="att.canonical"/><memberOf key="model.respLike"/></classes><content xmlns:teix="http://www.tei-c.org/ns/Examples"><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="resp" minOccurs="1" maxOccurs="1"/><classRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="model.nameLike.agent" minOccurs="1" maxOccurs="unbounded"/></sequence></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    bibliografischen Objekts eine Rolle gespielt.</desc><classes><memberOf key="att.global"/><memberOf key="att.canonical"/><memberOf key="model.respLike"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" key="resp" minOccurs="1" maxOccurs="1"/><classRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.nameLike.agent" minOccurs="1" maxOccurs="unbounded"/></sequence></content><constraintSpec scheme="schematron" ident="respStmt-distinct" mode="add">
+			<desc versionDate="2022-11-28" xml:lang="en">Checks if resp in multiple respStmt elements is unique.</desc>
+			<desc versionDate="2022-11-28" xml:lang="de">Prüft ob resp einzigartig ist, wenn mehrere respStmt vorkommen.</desc>
+			<constraint>
+				<sch:rule context="tei:resp">
+					<sch:assert test="ancestor::tei:titleStmt//tei:resp != ./text()">Multiple respStmt elements can't have the same resp.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <respStmt>
         <resp>transcribed from original ms</resp>
@@ -8860,13 +8868,7 @@ places, in particular where  multiple names are given.</p>
     responsabilité intellectuelle d'une personne.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">contiene un sintagma que describe la naturaleza de la
     responsabilidad intelectual de una persona.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">contiene una frase che descrive la natura della
     responsabilità intellettuale di una persona.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">enthält eine Phrase, die die Art der intellektuellen Verantwortung einer Person oder die
-    Rolle einer Organisation bei der Herstellung oder Distribution eines Werkes beschreibt.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples">
-    <memberOf key="att.global"/>
-    <memberOf key="att.canonical"/>
-    <memberOf key="att.datable"/>
-  </classes><content xmlns:teix="http://www.tei-c.org/ns/Examples">
-    <macroRef key="macro.phraseSeq.limited"/>
-  </content><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    Rolle einer Organisation bei der Herstellung oder Distribution eines Werkes beschreibt.</desc><classes><memberOf key="att.global"/><memberOf key="att.canonical"/><memberOf key="att.datable"/></classes><content><dataRef key="hwh_resp.list"/></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <respStmt>
         <resp ref="http://id.loc.gov/vocabulary/relators/com.html">compiler</resp>
@@ -20509,6 +20511,23 @@ should be supplied for the <att>scheme</att> attribute.</p>
     				<valItem ident="fr">
     					<desc versionDate="2022-05-18" xml:lang="en">french quotation marks.</desc>
     					<desc versionDate="2022-05-18" xml:lang="de">Französische Anführungszeichen.</desc>
+    				</valItem>
+    			</valList>
+    		</content>
+    	</macroSpec><macroSpec rend="add" module="derived-module-hendiLetters" ident="hwh_resp.list" mode="add">
+    		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    			<valList rend="add" type="closed">
+    				<valItem ident="Übertragung">
+    					<gloss versionDate="2022-01-14" xml:lang="de">Übertragung</gloss>
+    					<gloss versionDate="2022-01-14" xml:lang="en">Transmission</gloss>
+    				</valItem>
+    				<valItem ident="Sprachliche Beratung">
+    					<gloss versionDate="2022-01-31" xml:lang="de">Sprachliche Beratung</gloss>
+    					<gloss versionDate="2022-01-31" xml:lang="en">Linguistic advice</gloss>
+    				</valItem>
+    				<valItem ident="Übersetzung">
+    					<gloss versionDate="2022-01-31" xml:lang="de">Übersetzung</gloss>
+    					<gloss versionDate="2022-01-31" xml:lang="en">Translation</gloss>
     				</valItem>
     			</valList>
     		</content>
