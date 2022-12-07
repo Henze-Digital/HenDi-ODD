@@ -21,12 +21,13 @@
     <elementRef key="arranger" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="author" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="editor" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
+	<elementRef key="contributor" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="librettist" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="lyricist" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="biblList" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="bibl" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="castList" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
-<!--    <elementRef key="castGrp" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>-->
+    <elementRef key="castGrp" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="castItem" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="roleDesc" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="role" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
@@ -34,6 +35,7 @@
     <elementRef key="body" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="mdiv" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="titlePart" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
+	<classRef key="att.classed" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     
     <moduleRef key="MEI.text"/>
     <elementRef key="list" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
@@ -75,7 +77,6 @@
             <rng:choice>
                 <rng:group>
                     <rng:ref name="meiHead"/>
-                    <rng:ref name="music"/>
                 </rng:group>
                 <!--  Dubletten  -->
                 <rng:element name="ref">
@@ -128,7 +129,10 @@
     </elementSpec>-->
     
     <elementSpec ident="work" module="MEI.header" mode="change" ns="http://www.music-encoding.org/ns/mei">
-        <content>
+        <classes>
+        	<memberOf key="att.classed"/>
+        </classes>
+    	<content>
             <rng:choice>
                 <rng:group>
                     <rng:oneOrMore>
@@ -236,6 +240,30 @@
                     </valItem>
                 </valList>
             </attDef>
+        	<attDef ident="class" usage="rec" mode="change">
+        		<valList type="closed" mode="add">
+        			<valItem ident="music" mode="add">
+        				<desc versionDate="2021-10-20" xml:lang="en">musical work</desc>
+        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk</desc>
+        			</valItem>
+        			<valItem ident="cd" mode="add">
+        				<desc versionDate="2021-10-20" xml:lang="en">musical work (CD)</desc>
+        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (CD)</desc>
+        			</valItem>
+        			<valItem ident="lp" mode="add">
+        				<desc versionDate="2021-10-20" xml:lang="en">musical work (LP)</desc>
+        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (LP)</desc>
+        			</valItem>
+        			<valItem ident="tape" mode="add">
+        				<desc versionDate="2021-10-20" xml:lang="en">musical work (Tape)</desc>
+        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (Kassette)</desc>
+        			</valItem>
+        			<valItem ident="film" mode="add">
+        				<desc versionDate="2021-10-20" xml:lang="en">film work</desc>
+        				<desc versionDate="2021-10-20" xml:lang="de">Filmisches Werk</desc>
+        			</valItem>
+        		</valList>
+        	</attDef>
         </attList>
     </elementSpec>
     
@@ -296,6 +324,17 @@
         </content>
     </elementSpec>
     
+	<elementSpec ident="contributor" module="MEI.namesdates" mode="change" ns="http://www.music-encoding.org/ns/mei">
+		<content>
+			<rng:oneOrMore>
+				<rng:choice>
+					<rng:ref name="persName"/>
+					<rng:ref name="corpName"/>
+				</rng:choice>
+			</rng:oneOrMore>
+		</content>
+	</elementSpec>
+		
     <elementSpec ident="persName" module="MEI.namesdates" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <constraintSpec scheme="schematron" ident="persname-role-values-respstmt">
         <constraint>
@@ -305,6 +344,13 @@
             </sch:rule>
         </constraint>
         </constraintSpec>
+    	<constraintSpec scheme="schematron" ident="persname-role-contributor">
+    		<constraint>
+    			<sch:rule context="mei:persName[ancestor::mei:contributor]">
+    				<sch:assert test="@role">The role of the entity must be specified.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
         <attList>
             <attDef ident="label" mode="add" usage="opt">
                 <desc versionDate="2022-01-25" xml:lang="en"></desc>
@@ -315,7 +361,21 @@
             </attDef>
         </attList>
     </elementSpec>
-    <!--<elementSpec ident="manifestation" module="MEI.frbr" mode="change" ns="http://www.music-encoding.org/ns/mei">
+	
+	<elementSpec ident="corpName" module="MEI.namesdates" mode="change" ns="http://www.music-encoding.org/ns/mei">
+		<classes>
+			<memberOf key="att.roles.marc" mode="add"/>
+		</classes>
+		<constraintSpec scheme="schematron" ident="corpname-role-contributor">
+			<constraint>
+				<sch:rule context="mei:corpName[ancestor::mei:contributor]">
+					<sch:assert test="@role">The role of the entity must be specified.</sch:assert>
+				</sch:rule>
+			</constraint>
+		</constraintSpec>
+	</elementSpec>
+    
+	<!--<elementSpec ident="manifestation" module="MEI.frbr" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <content>
             <rng:zeroOrMore>
                 <rng:ref name="model.identifierLike"/>
@@ -498,7 +558,7 @@
         </content>
     </elementSpec>
     
-    <elementSpec ident="music" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
+    <!--<elementSpec ident="music" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <desc versionDate="2022-01-26" xml:lang="en">Contains a single musical text of any kind, whether unitary or composite, for example, an etude, opera, song cycle, symphony, or anthology of piano solos.</desc>
         <desc versionDate="2022-01-26" xml:lang="de">Enthält einen einzelnen musikalischen Text jeglicher Art, sei er einheitlich oder zusammengesetzt, z. B. eine Etüde, eine Oper, einen Liederzyklus, eine Sinfonie oder eine Anthologie von Klaviersolos.</desc>
         <classes>
@@ -509,7 +569,7 @@
         <content>
             <rng:ref name="macro.musicPart"/>
         </content>
-    </elementSpec>
+    </elementSpec>-->
     
     <elementSpec ident="body" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <desc versionDate="2022-01-26" xml:lang="en">Contains the whole of a single musical text, excluding any front or back matter.</desc>
@@ -1706,5 +1766,19 @@
             </attDef>
         </attList>
     </elementSpec>
-    
+
+	<elementSpec ident="creation" module="MEI.shared" mode="change" ns="http://www.music-encoding.org/ns/mei">
+		<content>
+			<alternate minOccurs="0" maxOccurs="1">
+				<elementRef key="geogName"/>
+				<classRef key="model.geogNamePart"/>
+			</alternate>
+			<elementRef key="date"/>
+			<alternate minOccurs="0" maxOccurs="1">
+				<elementRef key="country"/>
+			</alternate>
+		</content>
+		<constraintSpec scheme="schematron" ident="check_creationDateHasText" mode="delete"/>
+	</elementSpec>
+
 </schemaSpec>
