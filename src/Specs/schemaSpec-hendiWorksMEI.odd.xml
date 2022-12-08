@@ -35,7 +35,7 @@
     <elementRef key="body" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="mdiv" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     <elementRef key="titlePart" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
-	<classRef key="att.classed" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
+	<classRef key="att.typed" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
     
     <moduleRef key="MEI.text"/>
     <elementRef key="list" source="../../lib/music-encoding-4.0.1/source/mei-source.xml"/>
@@ -130,7 +130,8 @@
     
     <elementSpec ident="work" module="MEI.header" mode="change" ns="http://www.music-encoding.org/ns/mei">
         <classes>
-        	<memberOf key="att.classed"/>
+        	<memberOf key="att.typed" mode="add"/>
+        	<memberOf key="att.classed" mode="delete"/>
         </classes>
     	<content>
             <rng:choice>
@@ -226,7 +227,24 @@
                 </sch:rule>
             </constraint>
         </constraintSpec>
-        <attList>
+    	<constraintSpec scheme="schematron" ident="mei-work-type">
+    		<constraint>
+    			<sch:rule context="mei:work[not(parent::mei:componentList)]">
+    				<sch:assert test="@type" role="error">@type is missing, please specify.</sch:assert>
+    			</sch:rule>
+    			<sch:rule context="mei:work[parent::mei:componentList]">
+    				<sch:assert test="@type" role="warning">@type is missing, a specification is recommented.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
+    	<constraintSpec scheme="schematron" ident="mei-work-subtype">
+    		<constraint>
+    			<sch:rule context="mei:work">
+    				<sch:report test="@type[. != 'music'] and @subtype" role="error">@subtype is only for specifying @type='music'.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
+    	<attList>
             <attDef ident="status" usage="rec" mode="add">
                 <datatype>
                     <dataRef key="hwh_docStatus.list"/>
@@ -240,23 +258,11 @@
                     </valItem>
                 </valList>
             </attDef>
-        	<attDef ident="class" usage="rec" mode="change">
+        	<attDef ident="type" usage="rec" mode="change">
         		<valList type="closed" mode="add">
         			<valItem ident="music" mode="add">
         				<desc versionDate="2021-10-20" xml:lang="en">musical work</desc>
         				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk</desc>
-        			</valItem>
-        			<valItem ident="cd" mode="add">
-        				<desc versionDate="2021-10-20" xml:lang="en">musical work (CD)</desc>
-        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (CD)</desc>
-        			</valItem>
-        			<valItem ident="lp" mode="add">
-        				<desc versionDate="2021-10-20" xml:lang="en">musical work (LP)</desc>
-        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (LP)</desc>
-        			</valItem>
-        			<valItem ident="tape" mode="add">
-        				<desc versionDate="2021-10-20" xml:lang="en">musical work (Tape)</desc>
-        				<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (Kassette)</desc>
         			</valItem>
         			<valItem ident="film" mode="add">
         				<desc versionDate="2021-10-20" xml:lang="en">film work</desc>
@@ -264,6 +270,22 @@
         			</valItem>
         		</valList>
         	</attDef>
+    		<attDef ident="subtype" usage="rec" mode="add">
+    			<valList type="closed" mode="add">
+    				<valItem ident="cd" mode="add">
+    					<desc versionDate="2021-10-20" xml:lang="en">musical work (CD)</desc>
+    					<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (CD)</desc>
+    				</valItem>
+    				<valItem ident="lp" mode="add">
+    					<desc versionDate="2021-10-20" xml:lang="en">musical work (LP)</desc>
+    					<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (LP)</desc>
+    				</valItem>
+    				<valItem ident="tape" mode="add">
+    					<desc versionDate="2021-10-20" xml:lang="en">musical work (Tape)</desc>
+    					<desc versionDate="2021-10-20" xml:lang="de">Musikalisches Werk (Kassette)</desc>
+    				</valItem>
+    			</valList>
+    		</attDef>
         </attList>
     </elementSpec>
     
