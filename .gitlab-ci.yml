@@ -54,7 +54,6 @@ stages:
     - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
   rules:
     - !reference [.default_rules, rules]
-    #- if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
@@ -65,7 +64,8 @@ stages:
     - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
-    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
