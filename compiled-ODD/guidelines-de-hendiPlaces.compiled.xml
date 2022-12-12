@@ -3832,23 +3832,28 @@ psychological significance.
         </macroSpec><macroSpec rend="add" module="derived-module-hendiPlaces" ident="hwh_quotation.rend.list" mode="add">
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
     			<valList type="closed">
-    			<valItem ident="single">
-    				<desc versionDate="2022-05-18" xml:lang="en">single quotation marks.</desc>
-    				<desc versionDate="2022-05-18" xml:lang="de">Einfache Anführungszeichen.</desc>
-    			</valItem>
-    			<valItem ident="double">
-    				<desc versionDate="2022-05-18" xml:lang="en">double quotation marks.</desc>
-    				<desc versionDate="2022-05-18" xml:lang="de">Doppelte Anführungszeichen.</desc>
-    			</valItem>
-    			<valItem ident="up">
-    				<desc versionDate="2022-05-18" xml:lang="en">quotation marks up.</desc>
-    				<desc versionDate="2022-05-18" xml:lang="de">Anführungszeichen oben.</desc>
-    			</valItem>
-    			<valItem ident="down">
-    				<desc versionDate="2022-05-18" xml:lang="en">quotation marks down.</desc>
-    				<desc versionDate="2022-05-18" xml:lang="de">Anführungszeichen unten.</desc>
-    			</valItem>
-    		</valList></content>
+    			    <valItem ident="none">
+    			        <desc versionDate="2022-05-18" xml:lang="en">no quotation mark.</desc>
+    			        <desc versionDate="2022-05-18" xml:lang="de">Kein Anführungszeichen.</desc>
+    			    </valItem>
+    			    <valItem ident="single">
+          				<desc versionDate="2022-05-18" xml:lang="en">single quotation marks.</desc>
+          				<desc versionDate="2022-05-18" xml:lang="de">Einfache Anführungszeichen.</desc>
+          			</valItem>
+          			<valItem ident="double">
+          				<desc versionDate="2022-05-18" xml:lang="en">double quotation marks.</desc>
+          				<desc versionDate="2022-05-18" xml:lang="de">Doppelte Anführungszeichen.</desc>
+          			</valItem>
+          			<valItem ident="up">
+          				<desc versionDate="2022-05-18" xml:lang="en">quotation marks up.</desc>
+          				<desc versionDate="2022-05-18" xml:lang="de">Anführungszeichen oben.</desc>
+          			</valItem>
+          			<valItem ident="down">
+          				<desc versionDate="2022-05-18" xml:lang="en">quotation marks down.</desc>
+          				<desc versionDate="2022-05-18" xml:lang="de">Anführungszeichen unten.</desc>
+          			</valItem>
+          		</valList>
+    		</content>
     	</macroSpec><macroSpec rend="add" module="derived-module-hendiPlaces" ident="hwh_quotation.lang.list" mode="add">
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
     		<valList type="closed">
@@ -4106,6 +4111,12 @@ psychological significance.
     		<desc versionDate="2022-05-18" xml:lang="en">Checks for illegal combination of values in <att>rend</att></desc>
     		<desc versionDate="2022-05-18" xml:lang="de">Überprüft auf illegale Wert-Kombinationen in <att>rend</att></desc>
     		<constraint>
+    		    <sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend">
+    		        <sch:report test="contains(.,'none')">The value 'none' is not allowed at <sch:value-of select="node-name()"/>.</sch:report>
+    		    </sch:rule>
+    		    <sch:rule context="*:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+    		        <sch:report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</sch:report>
+    		    </sch:rule>
     			<sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
     				<sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
     			</sch:rule>
