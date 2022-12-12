@@ -48,16 +48,9 @@ stages:
     - changes:
       - src/Specs/common-specs.odd.xml
 
-.build-target:
+.build-test-target:
   script:
     - ant ${CI_JOB_STAGE}
-  rules:
-    - !reference [.default_rules, rules]
-    - changes:
-      - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
-
-.test-target:
-  script:
     - ant check-rng-output -DselectedSchema=${CI_JOB_STAGE}
   rules:
     - !reference [.default_rules, rules]
@@ -68,7 +61,7 @@ stages:
   script:
     - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
-    #- !reference [.git_commit, script]
+    - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -83,14 +76,9 @@ hendiAll:
     - changes:
       - src/Guidelines/de/*.xml
 
-hendiBiblio:build:
-  stage: hendiBiblio
-  extends: .build-target
-
 hendiBiblio:test:
   stage: hendiBiblio
-  needs: [hendiBiblio:build]
-  extends: .test-target
+  extends: .build-test-target
 
 hendiBiblio:compile:
   stage: hendiBiblio
