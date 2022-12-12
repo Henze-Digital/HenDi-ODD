@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-12-09T12:48:25Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2022-12-12T11:00:34Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -714,6 +714,12 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiVar-quotation-rend-values-102">
+      <rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend">
+         <report test="contains(.,'none')">The value 'none' is not allowed at <value-of select="node-name()"/>.</report>
+      </rule>
+      <rule context="*:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+         <report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</report>
+      </rule>
       <rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
          <report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <value-of select="node-name()"/>.</report>
       </rule>
