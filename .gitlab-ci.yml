@@ -12,7 +12,7 @@ default:
   
 stages:
   - compile-00
-  - hendiBiblio
+  - compile-01
   - compile-02
   - compile-03
   - compile-04
@@ -76,13 +76,17 @@ hendiAll:
     - changes:
       - src/Guidelines/de/*.xml
 
-hendiBiblio:test:
-  stage: hendiBiblio
-  extends: .build-test-target
+#hendiBiblio:test:
+#  stage: hendiBiblio
+#  extends: .build-test-target
 
-hendiBiblio:compile:
-  stage: hendiBiblio
-  needs: [hendiBiblio:test]
+#hendiBiblio:compile:
+#  stage: hendiBiblio
+#  needs: [hendiBiblio:test]
+#  extends: .compile-target
+
+hendiBiblio:
+  stage: compile-01
   extends: .compile-target
 
 hendiDocuments:
@@ -136,8 +140,5 @@ trigger-update-submodules:
     - "curl -X POST --fail -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
     - "curl -X POST --fail -F token=$TRIGGER_WEBAPP_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/5005/trigger/pipeline"
   rules:
-    - !reference [.default_rules, rules]
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
-    - changes:
-      - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
