@@ -1536,6 +1536,12 @@
     		<desc versionDate="2022-05-18" xml:lang="en">Checks for illegal combination of values in <att>rend</att></desc>
     		<desc versionDate="2022-05-18" xml:lang="de">Überprüft auf illegale Wert-Kombinationen in <att>rend</att></desc>
     		<constraint>
+    		    <sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend">
+    		        <sch:report test="contains(.,'none')">The value 'none' is not allowed at <sch:value-of select="node-name()"/>.</sch:report>
+    		    </sch:rule>
+    		    <sch:rule context="*:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
+    		        <sch:report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</sch:report>
+    		    </sch:rule>
     			<sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
     				<sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
     			</sch:rule>
