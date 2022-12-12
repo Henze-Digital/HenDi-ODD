@@ -12,7 +12,7 @@ default:
   
 stages:
   - compile-00
-  - compile-01
+  - biblio
   - compile-02
   - compile-03
   - compile-04
@@ -45,7 +45,6 @@ stages:
 
 .default_rules:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - changes:
       - src/Specs/common-specs.odd.xml
 
@@ -57,19 +56,18 @@ stages:
     - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
-
-.compile-text:
-  #resource_group: compilation
+  
+.compile-test-target:
   script:
-    - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
-    - !reference [.git_commit, script]
+    - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
   rules:
-    #- !reference [.default_rules, rules]
+    - !reference [.default_rules, rules]
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - changes:
-      - src/Guidelines/de/*.xml
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
 hendiAll:
@@ -79,8 +77,13 @@ hendiAll:
     - changes:
       - src/Guidelines/de/*.xml
 
-hendiBiblio:
-  stage: compile-01
+hendiBiblio:compile-test:
+  stage: biblio
+  extends: .compile-test-target
+
+hendiBiblio:compile-commit:
+  stage: biblio
+  needs: [hendiBiblio:compile-test]
   extends: .compile-target
 
 hendiDocuments:
@@ -126,10 +129,6 @@ hendiWorksTEI:
 hendiWritings:
   stage: compile-13
   extends: .compile-target
-
-text:
-  stage: compile-14
-  extends: .compile-text
 
 trigger-update-submodules:
   stage: trigger-update
