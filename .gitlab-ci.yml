@@ -48,6 +48,16 @@ stages:
     - changes:
       - src/Specs/common-specs.odd.xml
 
+.test-target:
+  script:
+    - ant ${CI_JOB_NAME}
+    - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
+  rules:
+    - !reference [.default_rules, rules]
+    #- if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - changes:
+      - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
+
 .compile-target:
   script:
     - !reference [.git_setup, script]
@@ -55,17 +65,7 @@ stages:
     - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-    - changes:
-      - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
-  
-.compile-test-target:
-  script:
-    - ant ${CI_JOB_NAME}
-    - ant check-rng-output -DselectedSchema=${CI_JOB_NAME}
-  rules:
-    - !reference [.default_rules, rules]
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_NAME}.odd.xml
 
@@ -76,11 +76,11 @@ hendiAll:
     - changes:
       - src/Guidelines/de/*.xml
 
-hendiBiblio:compile-test:
+hendiBiblio:test:
   stage: biblio
-  extends: .compile-test-target
+  extends: .test-target
 
-hendiBiblio:compile-commit:
+hendiBiblio:compile:
   stage: biblio
   extends: .compile-target
 
