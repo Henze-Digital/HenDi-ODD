@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-12-12T10:54:32Z. .
+Schema generated from ODD source 2022-12-13T07:57:00Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -1013,18 +1013,38 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
    <define name="att.placement.attribute.place">
       <optional>
          <attribute name="place">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Definiert den Ort, an dem das Element plaziert ist.</a:documentation>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies where this item is placed.
+Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6] above; 7] right; 8] below; 9] left; 10] end; 11] inline; 12] inspace</a:documentation>
             <list>
                <oneOrMore>
                   <choice>
-                     <value>margin.left</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Linker Rand) Rand links vom Haupttext.</a:documentation>
-                     <value>margin.right</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Rechter Rand) Rand rechts vom Haupttext.</a:documentation>
-                     <value>margin.top</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Oberer Rand) Rand oberhalb vom Haupttext.</a:documentation>
-                     <value>margin.bottom</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Unterer Rand) Rand unterhalb vom Haupttext.</a:documentation>
+                     <value>top</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">at the top of the page</a:documentation>
+                     <value>bottom</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">at the foot of the page</a:documentation>
+                     <value>margin</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in the margin (left, right, or both)</a:documentation>
+                     <value>opposite</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">on the opposite, i.e. facing, page</a:documentation>
+                     <value>overleaf</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">on the other side of the leaf</a:documentation>
+                     <value>above</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">above the line</a:documentation>
+                     <value>right</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">to the right, e.g. to the right of a vertical line of text, or to the right of a figure</a:documentation>
+                     <value>below</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">below the line</a:documentation>
+                     <value>left</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">to the left, e.g. to the left of a vertical line of text, or to the left of a figure</a:documentation>
+                     <value>end</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">at the end of e.g. chapter or volume.</a:documentation>
+                     <value>inline</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">within the body of the text.</a:documentation>
+                     <value>inspace</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in a predefined space, for example left by an earlier scribe.</a:documentation>
+                     <data type="token">
+                        <param name="pattern">[^\p{C}\p{Z}]+</param>
+                     </data>
                   </choice>
                </oneOrMore>
             </list>
@@ -2464,7 +2484,9 @@ The element indicated by @spanTo (<sch:value-of select="@spanTo"/>) must follow 
       </choice>
    </define>
    <define name="model.divLike">
-      <notAllowed/>
+      <choice>
+         <ref name="div"/>
+      </choice>
    </define>
    <define name="model.divGenLike">
       <notAllowed/>
@@ -5694,7 +5716,18 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-div-abstractModel-structure-div-in-l-or-lg-constraint-report-51">
+                  id="hendiLetters-div-divColSumControl-constraint-rule-50">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:div[@type='row' and tei:div[contains(@type,'col-')]]">
+               <sch:let name="sumOfCols"
+                        value="sum(tei:div[contains(@type,'col-')]/number(substring-after(@type,'col-')))"/>
+               <sch:report test="$sumOfCols &gt; 12">The sum of all cols must not be greater than 12. It's <sch:value-of select="$sumOfCols"/>.</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiLetters-div-abstractModel-structure-div-in-l-or-lg-constraint-report-52">
             <rule context="tei:div">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5705,7 +5738,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-div-abstractModel-structure-div-in-ab-or-p-constraint-report-52">
+                  id="hendiLetters-div-abstractModel-structure-div-in-ab-or-p-constraint-report-53">
             <rule context="tei:div">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5715,7 +5748,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
       </sch:report>
             </rule>
          </pattern>
-         <ref name="att.placement.attributes"/>
+         <ref name="att.written.attributes"/>
          <optional>
             <attribute name="rotation">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Indicates that an element appears rotated to the writing direction/basic alignment of the text. The rotation is indicated clockwise in degrees (0-360).</a:documentation>
@@ -5732,6 +5765,32 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Wrapper für ein Gedicht.</a:documentation>
                   <value>row</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Wrapper, dessen Kind-Elemente in einer Reihe nebeneinander stehen.</a:documentation>
+                  <value>col</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte).</a:documentation>
+                  <value>col-1</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 1/12 Einheiten.</a:documentation>
+                  <value>col-2</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 2/12 Einheiten.</a:documentation>
+                  <value>col-3</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 3/12 Einheiten.</a:documentation>
+                  <value>col-4</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 4/12 Einheiten.</a:documentation>
+                  <value>col-5</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 5/12 Einheiten.</a:documentation>
+                  <value>col-6</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 6/12 Einheiten.</a:documentation>
+                  <value>col-7</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 7/12 Einheiten.</a:documentation>
+                  <value>col-8</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 8/12 Einheiten.</a:documentation>
+                  <value>col-9</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 9/12 Einheiten.</a:documentation>
+                  <value>col-10</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 10/12 Einheiten.</a:documentation>
+                  <value>col-11</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 11/12 Einheiten.</a:documentation>
+                  <value>col-12</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 12/12 Einheiten. Dieser Wert ist identisch mit col.</a:documentation>
                </choice>
             </attribute>
          </optional>
@@ -5964,7 +6023,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(organization name) contains an organizational name. [13.2.2. Organizational Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-orgName-orgNameKeyRequirement-constraint-rule-50">
+                  id="hendiLetters-orgName-orgNameKeyRequirement-constraint-rule-51">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -5977,7 +6036,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-orgName-parent-org-constraint-rule-51">
+                  id="hendiLetters-orgName-parent-org-constraint-rule-52">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -5990,7 +6049,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-orgName-parent-org-reg-constraint-rule-52">
+                  id="hendiLetters-orgName-parent-org-reg-constraint-rule-53">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6003,7 +6062,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-orgName-parent-org-reg-constraint-rule-53">
+                  id="hendiLetters-orgName-parent-org-reg-constraint-rule-54">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6016,7 +6075,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-orgName-parent-not-org-constraint-rule-54">
+                  id="hendiLetters-orgName-parent-not-org-constraint-rule-55">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6029,7 +6088,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-orgName-parent-org-reg2-constraint-rule-55">
+                  id="hendiLetters-orgName-parent-org-reg2-constraint-rule-56">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -6070,7 +6129,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Personenname) enthält einen Eigennamen oder ein Nominalphrase im Bezug auf eine Person, möglicherweise einschließlich einer oder mehrerer Vornamen, Nachnamen, Höflichkeitsformen, hinzugefügten Namen, usw. [13.2.1. Personal Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-persName-persNameKeyRequirement-constraint-rule-56">
+                  id="hendiLetters-persName-persNameKeyRequirement-constraint-rule-57">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6083,7 +6142,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-persName-persNameTypes-constraint-rule-57">
+                  id="hendiLetters-persName-persNameTypes-constraint-rule-58">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6275,7 +6334,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <ref name="row"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-table-collapsible-head-constraint-report-59">
+                  id="hendiLetters-table-collapsible-head-constraint-report-60">
             <rule context="tei:table">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -6309,7 +6368,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             <ref name="cell"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-row-number-of-cells-constraint-rule-58">
+                  id="hendiLetters-row-number-of-cells-constraint-rule-59">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -6341,7 +6400,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Tabellenzelle) enthält eine Zelle einer Tabelle. [14.1.1. TEI Tables]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-cell-cell-rows-constraint-rule-59">
+                  id="hendiLetters-cell-cell-rows-constraint-rule-60">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -6464,7 +6523,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-facsimile-sourceNwitness-constraint-rule-60">
+                  id="hendiLetters-facsimile-sourceNwitness-constraint-rule-61">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -6478,7 +6537,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-facsimile-sourcePattern-constraint-rule-61">
+                  id="hendiLetters-facsimile-sourcePattern-constraint-rule-62">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -6542,7 +6601,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </data>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-addSpan-hand-hand-reference-constraint-rule-62">
+                  id="hendiLetters-addSpan-hand-hand-reference-constraint-rule-63">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6561,7 +6620,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </data>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-addSpan-spanTo-spanTo-7-constraint-rule-63">
+                  id="hendiLetters-addSpan-spanTo-spanTo-7-constraint-rule-64">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -6826,7 +6885,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-dimensions-duplicateDim-constraint-report-61">
+                  id="hendiLetters-dimensions-duplicateDim-constraint-report-62">
             <rule context="tei:dimensions">
                <report xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -7137,7 +7196,7 @@ Beispielwerte sind etwa: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-msIdentifier-msId_minimal-constraint-report-64">
+                  id="hendiLetters-msIdentifier-msId_minimal-constraint-report-65">
             <rule context="tei:msIdentifier">
                <report xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -7973,7 +8032,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(beliebiges Segment) steht für eine beliebige Segmentierung des Textes unterhalb des ‘chunk’ Levels. [16.3. Blocks, Segments, and Anchors 6.2. Components of the Verse Line 7.2.5. Speech Contents]</a:documentation>
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-seg-activeOrPassivePerformance-constraint-report-65">
+                  id="hendiLetters-seg-activeOrPassivePerformance-constraint-report-66">
             <rule context="tei:seg">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -7986,7 +8045,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-seg-AddresseeOrSenderCorrespondence-constraint-report-66">
+                  id="hendiLetters-seg-AddresseeOrSenderCorrespondence-constraint-report-67">
             <rule context="tei:seg">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -8099,7 +8158,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-att.witnessed-att-wit-constraint-rule-64">
+            id="hendiLetters-att.witnessed-att-wit-constraint-rule-65">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -8191,7 +8250,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
             </oneOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-listWit-only-one-witness-constraint-report-67">
+                  id="hendiLetters-listWit-only-one-witness-constraint-report-68">
             <rule context="tei:listWit">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -8236,7 +8295,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Zeichen oder Glyphe) Repräsentiert eine Glyphe oder ein ausgefallenes (nicht im Unicode-Standard beschriebenes) Zeichen. [5. Characters, Glyphs, and Writing Modes]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-65">
+                  id="hendiLetters-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-66">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -8395,7 +8454,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-att.measurement-att-measurement-unitRef-constraint-rule-66">
+            id="hendiLetters-att.measurement-att-measurement-unitRef-constraint-rule-67">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8409,7 +8468,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Fachbegriff) enthält ein einzelnes Wort, Mehrworttermini oder symbolische Bezeichnungen, die als Fachbegriffe verstanden werden []</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiLetters-term-controleContentOfTermElements-constraint-rule-67">
+                  id="hendiLetters-term-controleContentOfTermElements-constraint-rule-68">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8582,7 +8641,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-att.hwh.rend-underline-n-constraint-rule-107">
+            id="hendiLetters-att.hwh.rend-underline-n-constraint-rule-108">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8708,7 +8767,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-styleguide-document-node-content-constraint-rule-68">
+            id="hendiLetters-styleguide-document-node-content-constraint-rule-69">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8722,7 +8781,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-whitespaceOnlyContent-constraint-rule-69">
+            id="hendiLetters-whitespaceOnlyContent-constraint-rule-70">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8736,7 +8795,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-elementStartsWithWhitespace-constraint-rule-70">
+            id="hendiLetters-elementStartsWithWhitespace-constraint-rule-71">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8750,7 +8809,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-untrimmedAttributeValues-constraint-rule-71">
+            id="hendiLetters-untrimmedAttributeValues-constraint-rule-72">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8763,7 +8822,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-hwhTargets-constraint-rule-72">
+            id="hendiLetters-hwhTargets-constraint-rule-73">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8776,7 +8835,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-emojiCheck-constraint-rule-73">
+            id="hendiLetters-emojiCheck-constraint-rule-74">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8789,7 +8848,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-sourceMustResolve-constraint-rule-74">
+            id="hendiLetters-sourceMustResolve-constraint-rule-75">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8888,7 +8947,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-addWithoutPlace-constraint-rule-77">
+            id="hendiLetters-addWithoutPlace-constraint-rule-78">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8901,7 +8960,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-nameTypeRequirement-constraint-rule-78">
+            id="hendiLetters-nameTypeRequirement-constraint-rule-79">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8914,7 +8973,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-lbInsideAddress-constraint-rule-79">
+            id="hendiLetters-lbInsideAddress-constraint-rule-80">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8928,7 +8987,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-renditionWithPosition-constraint-rule-80">
+            id="hendiLetters-renditionWithPosition-constraint-rule-81">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -9022,7 +9081,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-importName-constraint-rule-102">
+            id="hendiLetters-importName-constraint-rule-103">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -9035,7 +9094,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-quotation-rend-values-constraint-rule-103">
+            id="hendiLetters-quotation-rend-values-constraint-rule-104">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -9068,7 +9127,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-quotation-rend-attributes-constraint-rule-106">
+            id="hendiLetters-quotation-rend-attributes-constraint-rule-107">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -9081,7 +9140,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-rendIfBreakNo-constraint-rule-108">
+            id="hendiLetters-rendIfBreakNo-constraint-rule-109">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -9090,7 +9149,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-reportLBfollowsPB-constraint-rule-109">
+            id="hendiLetters-reportLBfollowsPB-constraint-rule-110">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
