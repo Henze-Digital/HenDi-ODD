@@ -162,6 +162,14 @@
     			</sch:rule>
     		</constraint>
     	</constraintSpec>
+    	<constraintSpec scheme="schematron" ident="divColSumControl" mode="add">
+    		<constraint>
+    			<sch:rule context="tei:div[@type='row' and tei:div[contains(@type,'col-')]]">
+    				<sch:let name="sumOfCols" value="sum(tei:div[contains(@type,'col-')]/number(substring-after(@type,'col-')))"/>
+    				<sch:report test="$sumOfCols &gt; 12">The sum of all cols must not be greater than 12. It's <sch:value-of select="$sumOfCols"/>.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
         <attList>
             <attDef ident="type" mode="change" usage="opt">
             	<desc versionDate="2022-10-26" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
