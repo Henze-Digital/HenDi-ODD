@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-12-13T08:00:02Z. .
+Schema generated from ODD source 2022-12-14T10:39:07Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -82,47 +82,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       <data type="string">
          <param name="pattern">[1-9][0-9]{0,8}</param>
       </data>
-   </define>
-   <define name="macro.persNameContent">
-      <interleave>
-         <oneOrMore>
-            <text/>
-         </oneOrMore>
-         <zeroOrMore>
-            <ref name="name"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="surname"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="forename"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="nameLink"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="genName"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="roleName"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="addName"/>
-         </zeroOrMore>
-      </interleave>
-   </define>
-   <define name="macro.birthDeathContent">
-      <zeroOrMore>
-         <ref name="date"/>
-      </zeroOrMore>
-      <zeroOrMore>
-         <choice>
-            <ref name="placeName"/>
-            <ref name="settlement"/>
-            <ref name="country"/>
-            <ref name="region"/>
-         </choice>
-      </zeroOrMore>
    </define>
    <define name="att.ascribed.attributes">
       <ref name="att.ascribed.attribute.who"/>
@@ -3296,7 +3255,6 @@ Beispielwerte sind etwa: 1] sponsor; 2] recommend; 3] discredit; 4] pledged</a:d
    <define name="birth">
       <element name="birth">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Geburt) enthält Informationen über die Geburt einer Person, wie etwa das Datum und der Ort. [15.2.2. The Participant Description]</a:documentation>
-         <ref name="macro.birthDeathContent"/>
          <ref name="att.dimensions.attributes"/>
          <ref name="att.typed.attribute.subtype"/>
          <optional>
@@ -3314,7 +3272,6 @@ Beispielwerte sind etwa: 1] caesarean (caesarean section); 2] vaginal (vaginal d
    <define name="death">
       <element name="death">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Tod) enthält Informationen über den Tod einer Person, wie etwa das Datum und der Ort. [15.2.2. The Participant Description]</a:documentation>
-         <ref name="macro.birthDeathContent"/>
          <ref name="att.dimensions.attributes"/>
          <ref name="att.typed.attribute.subtype"/>
          <optional>
@@ -3446,7 +3403,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                   <ref name="idno"/>
                </zeroOrMore>
                <element name="persName">
-                  <ref name="macro.persNameContent"/>
                   <optional>
                      <element name="note">
                         <ref name="macro.specialPara"/>
@@ -3497,7 +3453,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </element>
                <optional>
                   <element name="persName">
-                     <ref name="macro.persNameContent"/>
                      <attribute name="type">
                         <value>initial</value>
                      </attribute>
@@ -3533,7 +3488,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </optional>
                <optional>
                   <element name="persName">
-                     <ref name="macro.persNameContent"/>
                      <attribute name="type">
                         <value>full</value>
                      </attribute>
@@ -3569,7 +3523,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </optional>
                <optional>
                   <element name="persName">
-                     <ref name="macro.persNameContent"/>
                      <attribute name="type">
                         <value>real</value>
                      </attribute>
@@ -3605,7 +3558,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </optional>
                <zeroOrMore>
                   <element name="persName">
-                     <ref name="macro.persNameContent"/>
                      <attribute name="type">
                         <choice>
                            <value>alt</value>
@@ -3666,7 +3618,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                            <choice>
                               <value>birth</value>
                               <value>married</value>
-                              <value>nick</value>
                               <value>role</value>
                            </choice>
                         </attribute>
@@ -3675,7 +3626,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </zeroOrMore>
                <optional>
                   <element name="persName">
-                     <ref name="macro.persNameContent"/>
                      <attribute name="type">
                         <value>import</value>
                      </attribute>
@@ -3731,7 +3681,11 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiPersons-person-enforceWhitespace-constraint-rule-45">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:persName[@type][./*]">
                <sch:assert test="every $x in ./*[following-sibling::*] satisfies $x[following-sibling::node()[1] instance of text()]">Child elements of persName should be separated with whitespace.</sch:assert>
@@ -3740,7 +3694,11 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiPersons-person-bioSummary-mixed-content-constraint-rule-46">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:note[@type='bioSummary'][tei:list]">
                <sch:report test="text()[matches(., '\S')]">When utilizing tei:list as structural unit you should wrap other text in tei:p.</sch:report>
@@ -4255,7 +4213,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                context="tei:surname | tei:forename | tei:persName | tei:orgName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
+                context="tei:surname | tei:forename | tei:persName | mei:persName | tei:orgName | mei:corpName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <sch:report test="normalize-space(.) = ''">
             <sch:name/> has whitespace only content</sch:report>
       </sch:rule>
@@ -4605,6 +4563,15 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <sch:report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</sch:report>
       </sch:rule>
    </pattern>
+   <sch:ns xmlns="http://www.tei-c.org/ns/1.0"
+           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+           xmlns:mei="http://www.music-encoding.org/ns/mei"
+           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+           xmlns:s="http://www.ascc.net/xml/schematron"
+           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+           prefix="mei"
+           uri="http://www.music-encoding.org/ns/mei"/>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="hendiPersons-styleguide-document-node-content-constraint-rule-89">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
