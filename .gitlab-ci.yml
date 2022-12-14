@@ -54,6 +54,8 @@ stages:
     - ant check-rng-output -DselectedSchema=${CI_JOB_STAGE}
   rules:
     - !reference [.default_rules, rules]
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
+      when: always
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
 
@@ -65,6 +67,8 @@ stages:
   rules:
     - !reference [.default_rules, rules]
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
       when: never
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
