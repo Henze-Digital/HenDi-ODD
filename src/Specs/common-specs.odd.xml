@@ -938,7 +938,29 @@
     			</attDef>
     		</attList>
     	</classSpec>
-        <classSpec type="atts" ident="att.pointing" module="tei" mode="change">
+        
+    	<!--<classSpec type="atts" ident="att.global.source" module="tei" mode="change">
+    		<attList>
+    			<attDef ident="source" mode="change">
+	    			<valList type="closed" mode="change">
+	    				<valItem ident="HenDi" mode="add">
+	    					<desc versionDate="2021-10-20" xml:lang="en">Based on information from the Henze-Digital project (HenDi).</desc>
+	    					<desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus Henze-Digital (HenDi).</desc>
+	    				</valItem>
+	    				<valItem ident="WeGA" mode="add">
+	    					<desc versionDate="2021-10-20" xml:lang="en">Based on information from the Weber-Gesamtausgabe (WeGA).</desc>
+	    					<desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus der Weber-Gesamtausgabe (WeGA).</desc>
+	    				</valItem>
+	    				<valItem ident="CubMus" mode="add">
+	    					<desc versionDate="2021-10-20" xml:lang="en">Based on information from Cuman Music.</desc>
+	    					<desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus Cuman Music.</desc>
+	    				</valItem>
+	    			</valList>
+    			</attDef>
+    		</attList>
+    	</classSpec>-->
+        
+    	<classSpec type="atts" ident="att.pointing" module="tei" mode="change">
             <attList>
                 <attDef ident="evaluate" mode="delete"/>
                 <attDef ident="targetLang" mode="delete"/>
@@ -1604,288 +1626,6 @@
     <specGrp xml:id="hendi-biblStruct"/>
 
     <specGrp xml:id="hendi-core">
-
-        <elementSpec ident="title" mode="change" module="core">
-            <constraintSpec scheme="schematron" ident="report-type-outside-text" mode="add">
-                <desc versionDate="2021-12-23" xml:lang="en">report the use of a type attribute inside the header section</desc>
-                <desc versionDate="2021-12-23" xml:lang="de">weist auf die Verwendung des type attributes innerhalb des Headers hin</desc>
-                <constraint>
-                    <sch:report test=".[@type]/ancestor::tei:teiHeader">Do not use the <sch:emph>type</sch:emph> attribute here!</sch:report>
-                </constraint>
-            </constraintSpec>
-            <attList>
-                <attDef ident="type" mode="replace" usage="opt">
-                    <desc versionDate="2021-12-23" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
-                    <desc versionDate="2021-12-23" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc>
-                    <valList type="closed" mode="add">
-                        <valItem ident="journal">
-                            <desc versionDate="2013-11-11" xml:lang="en">Title of a journal</desc>
-                            <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitschrift</desc>
-                        </valItem>
-                        <valItem ident="newspaper">
-                            <desc versionDate="2013-11-11" xml:lang="en">Title of a newspaper</desc>
-                            <desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitung</desc>
-                        </valItem>
-                    </valList>
-                </attDef>
-            </attList>
-        </elementSpec>
-
-        <elementSpec ident="date" mode="change" module="core">
-            <desc versionDate="2013-11-11" xml:lang="en">contains a date in any format.</desc>
-            <desc versionDate="2013-11-11" xml:lang="de">enthält ein Datum in einem beliebigen Format.</desc>
-            <classes mode="change">
-                <!--<memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.editLike" mode="delete"/>
-                <memberOf key="att.typed" mode="delete"/>
-                <memberOf key="att.canonical" mode="delete"/>
-                <memberOf key="att.dimensions" mode="delete"/>
-                <memberOf key="att.global.responsibility" mode="add"/>-->
-            	<memberOf key="att.datable.custom" mode="add"/>
-            </classes>
-            <constraintSpec scheme="schematron" ident="date-types-for-corresp-action">
-                <constraint>
-                    <sch:rule context="tei:date[parent::tei:correspAction][@type]">
-                        <sch:assert test="@type = ('editor','postal','source')">Valid values for dates in the correspAction are 'editor','postal','source'.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <attList>
-                <attDef ident="type" mode="change" usage="opt">
-                    <valList type="closed" mode="change">
-                        <valItem ident="editor" mode="add">
-                            <gloss versionDate="2022-05-02" xml:lang="en">editor</gloss>
-                            <desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as reconstructed by an editor.</desc>
-                            <gloss versionDate="2022-05-02" xml:lang="de">Editor</gloss>
-                            <desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als erschlossen durch den Herausgeber.</desc>
-                        </valItem>
-                        <valItem ident="source" mode="add">
-                            <gloss versionDate="2022-05-02" xml:lang="en">source</gloss>
-                            <desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as written on a source.</desc>
-                            <gloss versionDate="2022-05-02" xml:lang="de">Quelle</gloss>
-                            <desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als in der Quelle vorhanden.</desc>
-                        </valItem>
-                        <valItem ident="postal" mode="add">
-                            <gloss versionDate="2022-05-02" xml:lang="en">postal</gloss>
-                            <desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as a postal.</desc>
-                            <gloss versionDate="2022-05-02" xml:lang="de">Postdatum</gloss>
-                            <desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als postalisches Datum (z.B. Poststempel).</desc>
-                        </valItem>
-                    </valList>
-                </attDef>
-            </attList>
-        </elementSpec>
-
-        <elementSpec ident="addrLine" mode="change" module="core">
-        	<content>
-        		<alternate>
-        			<macroRef key="macro.phraseSeq"/>
-        			<elementRef key="street" minOccurs="0" maxOccurs="1"/>
-        		</alternate>
-        	</content>
-        	<constraintSpec scheme="schematron" ident="addrLineStreet" mode="add">
-        		<constraint>
-        			<sch:rule context="tei:addrLine">
-        				<sch:report test="tei:street and count(./node()) gt 1">When the element street is used no text nodes are allowed within addrLine.</sch:report>
-        			</sch:rule>
-        		</constraint>
-        	</constraintSpec>
-        	<attList>
-                <attDef ident="rend" mode="add" usage="rec">
-                    <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
-                    <desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
-                    <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
-                    <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
-                    <datatype minOccurs="1" maxOccurs="2">
-                        <dataRef key="hwhdata.position"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-
-        <elementSpec ident="rs" mode="change" module="core">
-            <constraintSpec scheme="schematron" ident="rs-typeNkey" mode="replace">
-                <desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
-                <desc versionDate="2021-11-16" xml:lang="de">Warnung vor falscher Kombination von <att>type</att> und <att>key</att> Werten.</desc>
-                <constraint>
-                    <sch:pattern is-a="node-typeNkey">
-                        <sch:param name="node" value="tei:rs"/>
-                    </sch:pattern>
-                </constraint>
-            </constraintSpec>
-            <attList>
-                <attRef class="att.global.responsibility" name="cert"/>
-                <attDef ident="key" mode="replace" usage="opt">
-                    <desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
-                    <datatype maxOccurs="unbounded">
-                        <dataRef key="hendi.internal.pointer"/>
-                    </datatype>
-                </attDef>
-                <attDef ident="type" mode="change" usage="req">
-                    <valList type="closed" mode="change">
-                        <valItem ident="letter" mode="delete"/>
-                        <valItem ident="letters" mode="delete"/>
-                        <valItem ident="postal" mode="add">
-                            <desc versionDate="2021-11-17" xml:lang="en">marks a postal.</desc>
-                            <desc versionDate="2021-11-17" xml:lang="de">markiert eine Postsache.</desc>
-                        </valItem>
-                        <valItem ident="postals" mode="add">
-                            <desc versionDate="2021-11-17" xml:lang="en">marks postals.</desc>
-                            <desc versionDate="2021-11-17" xml:lang="de">markiert mehrere Postsachen.</desc>
-                        </valItem>
-                        <valItem ident="diaryDay" mode="delete"/>
-                        <valItem ident="diaryDays"  mode="delete"/>
-                        <!--<valItem ident="place">
-                            <desc versionDate="2017-08-29" xml:lang="en">marks a place that is not explicitly mentioned.</desc>
-                            <desc versionDate="2017-08-29" xml:lang="de">markiert einen Ort, der nicht explizit genannt wird.</desc>
-                        </valItem>
-                        <valItem ident="places">
-                            <desc versionDate="2017-08-29" xml:lang="en">marks places that are not explicitly mentioned.</desc>
-                            <desc versionDate="2017-08-29" xml:lang="de">markiert Orte, die nicht explizit genannt werden.</desc>
-                        </valItem>-->
-                        <valItem ident="mixed" mode="delete"/>
-                        <valItem ident="addenda" mode="delete"/>
-                    	<valItem ident="character" mode="add">
-                    		<desc versionDate="2021-11-16" xml:lang="en">marks a character (acting role) which is mentioned by name/title.</desc>
-                    		<desc versionDate="2021-11-16" xml:lang="de">markiert einen Charakter (eine Rolle), die namentlich genannt ist.</desc>
-                    	</valItem>
-                    	<valItem ident="characters" mode="add">
-                    		<desc versionDate="2021-12-01" xml:lang="en">marks characters (acting roles) which are mentioned by name/title.</desc>
-                    		<desc versionDate="2021-12-01" xml:lang="de">markiert eine Gruppe von Charakteren (Rollen), die namentlich genannt sind.</desc>
-                    	</valItem>
-                    	<valItem ident="actingRole" mode="add">
-                    		<desc versionDate="2021-11-16" xml:lang="en">marks an acting role which is mentioned by name.</desc>
-                    		<desc versionDate="2021-11-16" xml:lang="de">markiert eine (theatralische) Rolle, die beim Namen genannten ist.</desc>
-                    	</valItem>
-                    	<valItem ident="actingRoles" mode="add">
-                    		<desc versionDate="2021-12-01" xml:lang="en">marks acting roles which are mentioned by name.</desc>
-                    		<desc versionDate="2021-12-01" xml:lang="de">markiert (theatralische) Rollen, die beim Namen genannt sind.</desc>
-                    	</valItem>
-                    </valList>
-                </attDef>
-            </attList>
-        </elementSpec>
-
-        <elementSpec ident="note" mode="change" module="core">
-            <constraintSpec scheme="schematron" ident="note-in-text" mode="replace">
-                <constraint>
-                	<sch:rule context="tei:note[not(parent::tei:org or parent::tei:place or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
-                        <sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
-                        <sch:assert test="@type">It is required to classify the note with @type.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:note[parent::tei:notesStmt]">
-                    	<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom' or 'translation' are allowed for @type on note.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="text-notes" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-                    	<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-        	<constraintSpec scheme="schematron" ident="translation-notes-corresp" mode="add">
-        		<constraint>
-        			<sch:rule context="tei:note[parent::tei:notesStmt]">
-        				<sch:report test="@type='translation' and not(@corresp)" role="fatal">A note that contains a translation must be liked to the original using @corresp.</sch:report>
-        				<sch:report test="@type='translation' and not(@xml:lang)">The language must be defined with @xml:lang.</sch:report>
-        			</sch:rule>
-        		</constraint>
-        	</constraintSpec>
-            <attList>
-                <attDef ident="type" mode="replace">
-                    <valList type="closed">
-                        <valItem ident="internal">
-                            <gloss versionDate="2022-04-29" xml:lang="en">(project) internal commentary</gloss>
-                            <gloss versionDate="2022-04-29" xml:lang="de">(Projekt-)Interner Kommentar</gloss>
-                        </valItem>
-                        <valItem ident="commentary">
-                            <gloss versionDate="2013-11-11" xml:lang="en">commentary</gloss>
-                            <gloss versionDate="2013-11-11" xml:lang="de">Stellenkommentar</gloss>
-                        </valItem>
-                        <valItem ident="definition">
-                            <gloss versionDate="2013-11-11" xml:lang="en">Word definitions/Term explanations</gloss>
-                            <desc versionDate="2013-11-11" xml:lang="en">words should stand between pointer and note that marking is possible.</desc>
-                            <gloss versionDate="2013-11-11" xml:lang="de">Worterklärungen/Begriffserläuterungen</gloss>
-                            <desc versionDate="2013-11-11" xml:lang="de">die Worte sollen zwischen pointer und note stehen, damit eine Markierung möglich ist.</desc>
-                        </valItem>
-                        <valItem ident="textConst">
-                            <gloss versionDate="2013-11-11" xml:lang="en">Text constitution</gloss>
-                            <desc versionDate="2013-11-11" xml:lang="en">Comments to variants, writings or other corrections which can not be encoded with an app or subst etc. in the letter.</desc>
-                            <gloss versionDate="2013-11-11" xml:lang="de">Textkonstitution</gloss>
-                            <desc versionDate="2013-11-11" xml:lang="de">Bemerkungen zu Varianten, Schreibkorrekturen oder sonstigem, was im Brief nicht mit app oder subst etc. codiert werden kann.</desc>
-                        </valItem>
-                        <valItem ident="thematicCom">
-                            <gloss versionDate="2016-09-19" xml:lang="en">Thematic commentary</gloss>
-                            <desc versionDate="2016-09-19" xml:lang="en">A synoptical commentary that can be applied to several places within the edition.</desc>
-                            <gloss versionDate="2016-09-19" xml:lang="de">Themenkommentar</gloss>
-                            <desc versionDate="2016-09-19" xml:lang="de">Stellenübergreifender Kommentar.</desc>
-                        </valItem>
-                        <valItem ident="summary">
-                            <gloss versionDate="2016-02-09" xml:lang="en">Summary</gloss>
-                            <desc versionDate="2016-02-09" xml:lang="en">A summary of the content of the text (only applicable in the <gi>notesStmt</gi>).</desc>
-                            <gloss versionDate="2016-02-09" xml:lang="de">Zusammenfassung</gloss>
-                            <desc versionDate="2016-02-09" xml:lang="de">Eine Zusammenfassung des Texts (nur anwendbar im <gi>notesStmt</gi>).</desc>
-                        </valItem>
-                        <valItem ident="editorial">
-                            <gloss versionDate="2016-02-09" xml:lang="en">General remark</gloss>
-                            <desc versionDate="2016-02-09" xml:lang="en">Some general remark about the file (only applicable in the <gi>notesStmt</gi>).</desc>
-                            <gloss versionDate="2016-02-09" xml:lang="de">Generalkommentar</gloss>
-                            <desc versionDate="2016-02-09" xml:lang="de">Ein Generalkommentar zur vorliegenden Datei (nur anwendbar im <gi>notesStmt</gi>).</desc>
-                        </valItem>
-                    	<valItem ident="translation">
-                    		<gloss versionDate="2022-09-16" xml:lang="en">translation</gloss>
-                    		<desc versionDate="2022-09-16" xml:lang="en">Translation of a specific element content . Linking with <att>corresp</att> is required.</desc>
-                    		<gloss versionDate="2022-09-16" xml:lang="de">Übersetzung</gloss>
-                    		<desc versionDate="2022-09-16" xml:lang="de">Übersetzung des Inhalts eines spezifischen Dokuments. Verlinkung mit <att>corresp</att> zwingend.</desc>
-                    	</valItem>
-                        <!--<valItem ident="incipit">
-                            <desc versionDate="2016-04-23" xml:lang="en">The text incipit of the letter (or other piece of correspondence).</desc>
-                            <gloss versionDate="2016-04-23" xml:lang="de">Incipit</gloss>
-                            <desc versionDate="2016-04-23" xml:lang="de">Das Textincipit des Briefs (oder anderer Korrespondenzmaterialien)</desc>
-                        </valItem>-->
-                    </valList>
-                </attDef>
-            	<attDef ident="corresp" mode="change">
-            		<desc versionDate="2022-09-16" xml:lang="en">points to the foreign text passage which is translated in this note.</desc>
-            		<desc versionDate="2022-09-16" xml:lang="de">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</desc>
-            		<constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
-            			<constraint>
-            				<sch:rule context="tei:note[@type='translation' and @corresp]">
-            					<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
-            				</sch:rule>
-            			</constraint>
-            		</constraintSpec>
-            	</attDef>
-            	<!--<attDef ident="target" mode="change">
-                    <gloss versionDate="2021-10-25" xml:lang="en">Reference targets</gloss>
-                    <desc versionDate="2021-10-25" xml:lang="en">Takes the URIs (in the form "hendi:A07xxxx") of the topic comments to be linked (only possible in conjunction with <att>type</att>="thematicCom").</desc>
-                    <gloss versionDate="2016-02-08" xml:lang="de">Verweisziele</gloss>
-                    <desc versionDate="2016-02-08" xml:lang="de">Nimmt die URIs (in der Form "hendi:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <att>type</att>="thematicCom")</desc>
-                    <datatype maxOccurs="unbounded">
-                        <rng:ref name="thematicCom.target"/>
-                    </datatype>
-                </attDef>-->
-                <!-- Interne Kommentare in dieser Form ?! Comment from WeGA -->
-                <attDef ident="status" mode="add" usage="opt">
-                    <desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
-                    <desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
-                    <valList type="closed">
-                        <valItem ident="restricted">
-                            <desc versionDate="2013-11-11" xml:lang="en">only for internal use.</desc>
-                            <desc versionDate="2013-11-11" xml:lang="de">nur für den internen Gebrauch.</desc>
-                        </valItem>
-                    </valList>
-                </attDef>
-            </attList>
-        </elementSpec>
-
         <elementSpec ident="add" mode="change" module="core">
             <!--<gloss versionDate="2013-11-11" xml:lang="en">addition</gloss>
             <desc versionDate="2013-11-11" xml:lang="en">contains letters, words, or phrases inserted in the source text by an author, scribe, annotator, or corrector.</desc>
@@ -1937,64 +1677,68 @@
                 </attDef>
             </attList>
         </elementSpec>
-
-        <elementSpec ident="del" mode="change" module="core">
-            <attList>
-                <attDef ident="hand" mode="add" usage="rec">
-                    <datatype>
-                        <dataRef key="teidata.pointer"/>
-                    </datatype>
-                </attDef>
-                <attDef ident="rend" mode="change" usage="rec">
-                    <constraintSpec ident="rendAtDel" scheme="schematron">
-                        <constraint>
-                            <sch:rule context="tei:del[not(@rend)]">
-                                <sch:assert test="parent::tei:subst" role="info">This is not a substitution, so if you don't specify the rendition (@rend) this will be interpreted as a total deletion.</sch:assert>
-                            </sch:rule>
-                        </constraint>
-                    </constraintSpec>
-                    <valList type="closed" mode="change">
-                        <valItem ident="overwritten" mode="change">
-                            <gloss versionDate="2021-10-19" xml:lang="en">overwritten (by hand)</gloss>
-                            <desc versionDate="2021-10-19" xml:lang="en">The deleted word (or the deleted character) is overwritten by hand by the substitution.</desc>
-                            <gloss versionDate="2021-10-19" xml:lang="de">überschrieben (händisch)</gloss>
-                            <desc versionDate="2021-10-19" xml:lang="de">Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung händisch überschrieben.</desc>
-                        </valItem>
-                        <valItem ident="overtyped" mode="add">
-                            <gloss versionDate="2021-10-18" xml:lang="en">overtyped (by machine)</gloss>
-                            <desc versionDate="2021-10-18" xml:lang="en">The deleted word (or the deleted character) is overtyped by machine by the substitution.</desc>
-                            <gloss versionDate="2021-10-18" xml:lang="de">überschrieben (maschinell)</gloss>
-                            <desc versionDate="2021-10-18" xml:lang="de">Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung maschinell überschrieben.</desc>
-                        </valItem>
-                        <!--<valItem ident="crossOut" mode="add">
-                            <gloss versionDate="2021-10-18" xml:lang="en">cross out</gloss>
-                            <desc versionDate="2021-10-18" xml:lang="en">The deleted word (or the deleted character) is crossed out ('xxx').</desc>
-                            <gloss versionDate="2021-10-18" xml:lang="de">ausgeixt</gloss>
-                            <desc versionDate="2021-10-18" xml:lang="de">Das gelöschte Wort (bzw. das gelöschte Zeichen) wurde durch Ausixen ('xxx') getilgt.</desc>
-                        </valItem>-->
-                    </valList>
-                </attDef>
-            </attList>
-        </elementSpec>
-
-        <elementSpec ident="hi" mode="change" module="core">
-            <!--<gloss versionDate="2013-11-11" xml:lang="en">highlighted</gloss>
-            <desc versionDate="2013-11-11" xml:lang="en">marks a word or phrase as graphically distinct from the surrounding text, for reasons concerning which no claim is made.</desc>
-            <gloss versionDate="2013-11-11" xml:lang="de">hervorgehoben</gloss>
-            <desc versionDate="2013-11-11" xml:lang="de">markiert ein Wort oder eine Phrase als grafisch deutlich vom umgebenden Text abgehoben, aus Gründen über die keine Angaben gemacht werden können.</desc>-->
-            <classes mode="change">
-                <memberOf key="att.wega.rend" mode="delete"/>
-                <memberOf key="att.hendi.rend" mode="add"/>
-            </classes>
-            <attList>
-                <attDef ident="color" mode="add" usage="opt">
-                    <datatype>
-                        <dataRef key="hwhdata.medium.color"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-        <elementSpec ident="corr" mode="change" module="core">
+    	<elementSpec ident="address" module="core" mode="change">
+    		<attList>
+    			<attDef ident="type" mode="add" usage="opt">
+    				<valList mode="add" type="closed">
+    					<valItem ident="sender">
+    						<gloss versionDate="2022-01-14" xml:lang="de">Absender</gloss>
+    						<gloss versionDate="2022-01-14" xml:lang="en">sender</gloss>
+    					</valItem>
+    					<valItem ident="receiver">
+    						<gloss versionDate="2022-01-31" xml:lang="de">Empfänger</gloss>
+    						<gloss versionDate="2022-01-31" xml:lang="en">receiver</gloss>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="addrLine" mode="change" module="core">
+    		<content>
+    			<alternate>
+    				<macroRef key="macro.phraseSeq"/>
+    				<elementRef key="street" minOccurs="0" maxOccurs="1"/>
+    			</alternate>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="addrLineStreet" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:addrLine">
+    					<sch:report test="tei:street and count(./node()) gt 1">When the element street is used no text nodes are allowed within addrLine.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="rend" mode="add" usage="rec">
+    				<gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
+    				<desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
+    				<gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
+    				<desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
+    				<datatype minOccurs="1" maxOccurs="2">
+    					<dataRef key="hwhdata.position"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="bibl" module="core" mode="change">
+    		<classes mode="change">
+    			<memberOf key="att.global" mode="delete"/>
+    			<memberOf key="att.typed" mode="delete"/>
+    			<memberOf key="att.docStatus" mode="delete"/>
+    		</classes>
+    		<attList>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.biblio.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="choice" module="core" mode="change">
+    		<classes mode="change">
+    			<memberOf key="att.global.responsibility" mode="add"/>
+    		</classes>
+    	</elementSpec>
+    	<elementSpec ident="corr" mode="change" module="core">
             <!--<gloss versionDate="2013-11-11" xml:lang="en">correction</gloss>
             <desc versionDate="2013-11-11" xml:lang="en">contains the correct form of a passage apparently erroneous in the copy text.</desc>
             <gloss versionDate="2013-11-11" xml:lang="de">Korrektur</gloss>
@@ -2003,7 +1747,123 @@
                 <memberOf key="model.pPart.transcriptional" mode="add"/>
             </classes>
         </elementSpec>
-        <elementSpec ident="gap" mode="change" module="core">
+    	<elementSpec ident="date" mode="change" module="core">
+    		<desc versionDate="2013-11-11" xml:lang="en">contains a date in any format.</desc>
+    		<desc versionDate="2013-11-11" xml:lang="de">enthält ein Datum in einem beliebigen Format.</desc>
+    		<classes mode="change">
+    			<!--<memberOf key="att.global" mode="delete"/>
+                <memberOf key="att.editLike" mode="delete"/>
+                <memberOf key="att.typed" mode="delete"/>
+                <memberOf key="att.canonical" mode="delete"/>
+                <memberOf key="att.dimensions" mode="delete"/>
+                <memberOf key="att.global.responsibility" mode="add"/>-->
+    			<memberOf key="att.datable.custom" mode="add"/>
+    		</classes>
+    		<constraintSpec scheme="schematron" ident="date-types-for-corresp-action">
+    			<constraint>
+    				<sch:rule context="tei:date[parent::tei:correspAction][@type]">
+    					<sch:assert test="@type = ('editor','postal','source')">Valid values for dates in the correspAction are 'editor','postal','source'.</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="type" mode="change" usage="opt">
+    				<valList type="closed" mode="change">
+    					<valItem ident="editor" mode="add">
+    						<gloss versionDate="2022-05-02" xml:lang="en">editor</gloss>
+    						<desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as reconstructed by an editor.</desc>
+    						<gloss versionDate="2022-05-02" xml:lang="de">Editor</gloss>
+    						<desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als erschlossen durch den Herausgeber.</desc>
+    					</valItem>
+    					<valItem ident="source" mode="add">
+    						<gloss versionDate="2022-05-02" xml:lang="en">source</gloss>
+    						<desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as written on a source.</desc>
+    						<gloss versionDate="2022-05-02" xml:lang="de">Quelle</gloss>
+    						<desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als in der Quelle vorhanden.</desc>
+    					</valItem>
+    					<valItem ident="postal" mode="add">
+    						<gloss versionDate="2022-05-02" xml:lang="en">postal</gloss>
+    						<desc versionDate="2022-05-02" xml:lang="en">Identifies the selected date as a postal.</desc>
+    						<gloss versionDate="2022-05-02" xml:lang="de">Postdatum</gloss>
+    						<desc versionDate="2022-05-02" xml:lang="de">Identifiziert das markierte Datum als postalisches Datum (z.B. Poststempel).</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="del" mode="change" module="core">
+    		<attList>
+    			<attDef ident="hand" mode="add" usage="rec">
+    				<datatype>
+    					<dataRef key="teidata.pointer"/>
+    				</datatype>
+    			</attDef>
+    			<attDef ident="rend" mode="change" usage="rec">
+    				<constraintSpec ident="rendAtDel" scheme="schematron">
+    					<constraint>
+    						<sch:rule context="tei:del[not(@rend)]">
+    							<sch:assert test="parent::tei:subst" role="info">This is not a substitution, so if you don't specify the rendition (@rend) this will be interpreted as a total deletion.</sch:assert>
+    						</sch:rule>
+    					</constraint>
+    				</constraintSpec>
+    				<valList type="closed" mode="change">
+    					<valItem ident="overwritten" mode="change">
+    						<gloss versionDate="2021-10-19" xml:lang="en">overwritten (by hand)</gloss>
+    						<desc versionDate="2021-10-19" xml:lang="en">The deleted word (or the deleted character) is overwritten by hand by the substitution.</desc>
+    						<gloss versionDate="2021-10-19" xml:lang="de">überschrieben (händisch)</gloss>
+    						<desc versionDate="2021-10-19" xml:lang="de">Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung händisch überschrieben.</desc>
+    					</valItem>
+    					<valItem ident="overtyped" mode="add">
+    						<gloss versionDate="2021-10-18" xml:lang="en">overtyped (by machine)</gloss>
+    						<desc versionDate="2021-10-18" xml:lang="en">The deleted word (or the deleted character) is overtyped by machine by the substitution.</desc>
+    						<gloss versionDate="2021-10-18" xml:lang="de">überschrieben (maschinell)</gloss>
+    						<desc versionDate="2021-10-18" xml:lang="de">Das gelöschte Wort (bzw. das gelöschte Zeichen) ist durch die Ersetzung maschinell überschrieben.</desc>
+    					</valItem>
+    					<!--<valItem ident="crossOut" mode="add">
+                            <gloss versionDate="2021-10-18" xml:lang="en">cross out</gloss>
+                            <desc versionDate="2021-10-18" xml:lang="en">The deleted word (or the deleted character) is crossed out ('xxx').</desc>
+                            <gloss versionDate="2021-10-18" xml:lang="de">ausgeixt</gloss>
+                            <desc versionDate="2021-10-18" xml:lang="de">Das gelöschte Wort (bzw. das gelöschte Zeichen) wurde durch Ausixen ('xxx') getilgt.</desc>
+                        </valItem>-->
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="foreign" module="core" mode="change">
+    		<desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
+    		<desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
+    		<classes>
+    			<memberOf key="model.emphLike"/>
+    			<memberOf key="att.global"/>
+    			<memberOf key="att.global.rendition" mode="delete"/>
+    			<memberOf key="att.global.linking" mode="delete"/>
+    			<memberOf key="att.global.analytic" mode="delete"/>
+    			<memberOf key="att.global.facs" mode="delete"/>
+    			<memberOf key="att.global.change" mode="delete"/>
+    			<memberOf key="att.global.responsibility" mode="delete"/>
+    			<memberOf key="att.global.source" mode="delete"/>
+    		</classes>
+    		<attList>
+    			<attDef ident="n" mode="delete"/>
+    			<attDef ident="xml:base" mode="delete"/>
+    			<attDef ident="xml:space" mode="delete"/>
+    			<attDef ident="xml:lang" usage="req" mode="change">
+    				<desc versionDate="2021-10-18" xml:lang="en">The language used in the following sibling.</desc>
+    				<desc versionDate="2021-10-18" xml:lang="de">Die im Foglenden genutzte Sprache.</desc>
+    				<datatype>
+    					<dataRef key="teidata.language"/>
+    				</datatype>
+    			</attDef>
+    			<attDef ident="xml:id" usage="rec" mode="change">
+    				<desc versionDate="2022-09-16" xml:lang="en">The id of the current element.</desc>
+    				<desc versionDate="2022-09-16" xml:lang="de">Die ID des aktuellen Elements.</desc>
+    				<datatype>
+    					<dataRef key="hendi.foreign.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="gap" mode="change" module="core">
             <!--<gloss versionDate="2013-11-11" xml:lang="en">gap</gloss>
             <desc versionDate="2013-11-11" xml:lang="en">indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible.</desc>
             <gloss versionDate="2013-11-11" xml:lang="de">Textlücke</gloss>
@@ -2026,8 +1886,176 @@
                 </attDef>
             </attList>
         </elementSpec>
-    
-        <elementSpec ident="p" mode="change" module="core">
+    	<elementSpec ident="hi" mode="change" module="core">
+    		<!--<gloss versionDate="2013-11-11" xml:lang="en">highlighted</gloss>
+            <desc versionDate="2013-11-11" xml:lang="en">marks a word or phrase as graphically distinct from the surrounding text, for reasons concerning which no claim is made.</desc>
+            <gloss versionDate="2013-11-11" xml:lang="de">hervorgehoben</gloss>
+            <desc versionDate="2013-11-11" xml:lang="de">markiert ein Wort oder eine Phrase als grafisch deutlich vom umgebenden Text abgehoben, aus Gründen über die keine Angaben gemacht werden können.</desc>-->
+    		<classes mode="change">
+    			<memberOf key="att.wega.rend" mode="delete"/>
+    			<memberOf key="att.hendi.rend" mode="add"/>
+    		</classes>
+    		<attList>
+    			<attDef ident="color" mode="add" usage="opt">
+    				<datatype>
+    					<dataRef key="hwhdata.medium.color"/>
+    				</datatype>
+    				
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="lb" module="core" mode="change">
+    		<desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
+    		<desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
+    		<attList>
+    			<attDef ident="rend" usage="opt">
+    				<desc versionDate="2021-10-18" xml:lang="en"><att>rend</att> is intended as an extension to <att>break</att> and is to be used when, for example, a hyphen is missing at the line break.</desc>
+    				<desc versionDate="2021-10-18" xml:lang="de"><att>rend</att> ist als Erweiterung zu <att>break</att> gedacht und soll verwendet werden, wenn z.B. ein Trennstrich am Zeilenumbruch fehlt.</desc>
+    				<valList type="closed">
+    					<valItem ident="noHyphen"/>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="measure" mode="change" module="core">
+    		<attList>
+    			<attDef ident="unit" mode="change" usage="req">
+    				<valList type="closed" mode="add">
+    					<valItem ident="folio" mode="add">
+    						<gloss versionDate="2021-11-22" xml:lang="en">folio</gloss>
+    						<desc versionDate="2021-11-22" xml:lang="en">The number of folio.</desc>
+    						<gloss versionDate="2021-11-22" xml:lang="de">Folii</gloss>
+    						<desc versionDate="2021-11-22" xml:lang="de">Die Anzahl der Folii/Blätter.</desc>
+    					</valItem>
+    					<valItem ident="pages" mode="add">
+    						<gloss versionDate="2021-11-22" xml:lang="en">pages</gloss>
+    						<desc versionDate="2021-11-22" xml:lang="en">The number of written pages or pages that contain textual content.</desc>
+    						<gloss versionDate="2021-11-22" xml:lang="de">Seiten</gloss>
+    						<desc versionDate="2021-11-22" xml:lang="de">Die Anzahl der beschriebenen Seiten.</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="note" mode="change" module="core">
+    		<constraintSpec scheme="schematron" ident="note-in-text" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:note[not(parent::tei:org or parent::tei:place or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
+    					<sch:assert test="@resp">It is required to give a responsibillity (@resp) on note.</sch:assert>
+    					<sch:assert test="@type">It is required to classify the note with @type.</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="notesStmt-notes" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:note[parent::tei:notesStmt]">
+    					<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom' or 'translation' are allowed for @type on note.</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="text-notes" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:note[not(parent::tei:notesStmt)]">
+    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="translation-notes-corresp" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:note[parent::tei:notesStmt]">
+    					<sch:report test="@type='translation' and not(@corresp)" role="fatal">A note that contains a translation must be liked to the original using @corresp.</sch:report>
+    					<sch:report test="@type='translation' and not(@xml:lang)">The language must be defined with @xml:lang.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="type" mode="replace">
+    				<valList type="closed">
+    					<valItem ident="internal">
+    						<gloss versionDate="2022-04-29" xml:lang="en">(project) internal commentary</gloss>
+    						<gloss versionDate="2022-04-29" xml:lang="de">(Projekt-)Interner Kommentar</gloss>
+    					</valItem>
+    					<valItem ident="commentary">
+    						<gloss versionDate="2013-11-11" xml:lang="en">commentary</gloss>
+    						<gloss versionDate="2013-11-11" xml:lang="de">Stellenkommentar</gloss>
+    					</valItem>
+    					<valItem ident="definition">
+    						<gloss versionDate="2013-11-11" xml:lang="en">Word definitions/Term explanations</gloss>
+    						<desc versionDate="2013-11-11" xml:lang="en">words should stand between pointer and note that marking is possible.</desc>
+    						<gloss versionDate="2013-11-11" xml:lang="de">Worterklärungen/Begriffserläuterungen</gloss>
+    						<desc versionDate="2013-11-11" xml:lang="de">die Worte sollen zwischen pointer und note stehen, damit eine Markierung möglich ist.</desc>
+    					</valItem>
+    					<valItem ident="textConst">
+    						<gloss versionDate="2013-11-11" xml:lang="en">Text constitution</gloss>
+    						<desc versionDate="2013-11-11" xml:lang="en">Comments to variants, writings or other corrections which can not be encoded with an app or subst etc. in the letter.</desc>
+    						<gloss versionDate="2013-11-11" xml:lang="de">Textkonstitution</gloss>
+    						<desc versionDate="2013-11-11" xml:lang="de">Bemerkungen zu Varianten, Schreibkorrekturen oder sonstigem, was im Brief nicht mit app oder subst etc. codiert werden kann.</desc>
+    					</valItem>
+    					<valItem ident="thematicCom">
+    						<gloss versionDate="2016-09-19" xml:lang="en">Thematic commentary</gloss>
+    						<desc versionDate="2016-09-19" xml:lang="en">A synoptical commentary that can be applied to several places within the edition.</desc>
+    						<gloss versionDate="2016-09-19" xml:lang="de">Themenkommentar</gloss>
+    						<desc versionDate="2016-09-19" xml:lang="de">Stellenübergreifender Kommentar.</desc>
+    					</valItem>
+    					<valItem ident="summary">
+    						<gloss versionDate="2016-02-09" xml:lang="en">Summary</gloss>
+    						<desc versionDate="2016-02-09" xml:lang="en">A summary of the content of the text (only applicable in the <gi>notesStmt</gi>).</desc>
+    						<gloss versionDate="2016-02-09" xml:lang="de">Zusammenfassung</gloss>
+    						<desc versionDate="2016-02-09" xml:lang="de">Eine Zusammenfassung des Texts (nur anwendbar im <gi>notesStmt</gi>).</desc>
+    					</valItem>
+    					<valItem ident="editorial">
+    						<gloss versionDate="2016-02-09" xml:lang="en">General remark</gloss>
+    						<desc versionDate="2016-02-09" xml:lang="en">Some general remark about the file (only applicable in the <gi>notesStmt</gi>).</desc>
+    						<gloss versionDate="2016-02-09" xml:lang="de">Generalkommentar</gloss>
+    						<desc versionDate="2016-02-09" xml:lang="de">Ein Generalkommentar zur vorliegenden Datei (nur anwendbar im <gi>notesStmt</gi>).</desc>
+    					</valItem>
+    					<valItem ident="translation">
+    						<gloss versionDate="2022-09-16" xml:lang="en">translation</gloss>
+    						<desc versionDate="2022-09-16" xml:lang="en">Translation of a specific element content . Linking with <att>corresp</att> is required.</desc>
+    						<gloss versionDate="2022-09-16" xml:lang="de">Übersetzung</gloss>
+    						<desc versionDate="2022-09-16" xml:lang="de">Übersetzung des Inhalts eines spezifischen Dokuments. Verlinkung mit <att>corresp</att> zwingend.</desc>
+    					</valItem>
+    					<!--<valItem ident="incipit">
+                            <desc versionDate="2016-04-23" xml:lang="en">The text incipit of the letter (or other piece of correspondence).</desc>
+                            <gloss versionDate="2016-04-23" xml:lang="de">Incipit</gloss>
+                            <desc versionDate="2016-04-23" xml:lang="de">Das Textincipit des Briefs (oder anderer Korrespondenzmaterialien)</desc>
+                        </valItem>-->
+    				</valList>
+    			</attDef>
+    			<attDef ident="corresp" mode="change">
+    				<desc versionDate="2022-09-16" xml:lang="en">points to the foreign text passage which is translated in this note.</desc>
+    				<desc versionDate="2022-09-16" xml:lang="de">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</desc>
+    				<constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
+    					<constraint>
+    						<sch:rule context="tei:note[@type='translation' and @corresp]">
+    							<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
+    						</sch:rule>
+    					</constraint>
+    				</constraintSpec>
+    			</attDef>
+    			<!--<attDef ident="target" mode="change">
+                    <gloss versionDate="2021-10-25" xml:lang="en">Reference targets</gloss>
+                    <desc versionDate="2021-10-25" xml:lang="en">Takes the URIs (in the form "hendi:A07xxxx") of the topic comments to be linked (only possible in conjunction with <att>type</att>="thematicCom").</desc>
+                    <gloss versionDate="2016-02-08" xml:lang="de">Verweisziele</gloss>
+                    <desc versionDate="2016-02-08" xml:lang="de">Nimmt die URIs (in der Form "hendi:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <att>type</att>="thematicCom")</desc>
+                    <datatype maxOccurs="unbounded">
+                        <rng:ref name="thematicCom.target"/>
+                    </datatype>
+                </attDef>-->
+    			<!-- Interne Kommentare in dieser Form ?! Comment from WeGA -->
+    			<attDef ident="status" mode="add" usage="opt">
+    				<desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
+    				<desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
+    				<valList type="closed">
+    					<valItem ident="restricted">
+    						<desc versionDate="2013-11-11" xml:lang="en">only for internal use.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">nur für den internen Gebrauch.</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="p" mode="change" module="core">
             <attList>
                 <attDef ident="rend" mode="change" usage="opt">
                     <valList type="closed" mode="change">
@@ -2048,42 +2076,19 @@
                 <attRef class="att.global" name="xml:id"/>
             </attList>
         </elementSpec>
-        <elementSpec ident="measure" mode="change" module="core">
-            <attList>
-                <attDef ident="unit" mode="change" usage="req">
-                    <valList type="closed" mode="add">
-                        <valItem ident="folio" mode="add">
-                            <gloss versionDate="2021-11-22" xml:lang="en">folio</gloss>
-                            <desc versionDate="2021-11-22" xml:lang="en">The number of folio.</desc>
-                            <gloss versionDate="2021-11-22" xml:lang="de">Folii</gloss>
-                            <desc versionDate="2021-11-22" xml:lang="de">Die Anzahl der Folii/Blätter.</desc>
-                        </valItem>
-                        <valItem ident="pages" mode="add">
-                            <gloss versionDate="2021-11-22" xml:lang="en">pages</gloss>
-                            <desc versionDate="2021-11-22" xml:lang="en">The number of written pages or pages that contain textual content.</desc>
-                            <gloss versionDate="2021-11-22" xml:lang="de">Seiten</gloss>
-                            <desc versionDate="2021-11-22" xml:lang="de">Die Anzahl der beschriebenen Seiten.</desc>
-                        </valItem>
-                    </valList>
-                </attDef>
-            </attList>
-        </elementSpec>
-        
-        <elementSpec ident="bibl" module="core" mode="change">
-            <classes mode="change">
-                <memberOf key="att.global" mode="delete"/>
-                <memberOf key="att.typed" mode="delete"/>
-                <memberOf key="att.docStatus" mode="delete"/>
-            </classes>
-            <attList>
-                <attDef ident="key" mode="replace" usage="rec">
-                    <datatype>
-                        <dataRef key="hendi.biblio.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-    	
+    	<elementSpec ident="pb" module="core" mode="change">
+    		<desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
+    		<desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
+    		<attList>
+    			<attDef ident="rend" usage="opt">
+    				<desc versionDate="2021-10-18" xml:lang="en"><att>rend</att> is intended as an extension to <att>break</att> and is to be used when, for example, a hyphen is missing at the line break.</desc>
+    				<desc versionDate="2021-10-18" xml:lang="de"><att>rend</att> ist als Erweiterung zu <att>break</att> gedacht und soll verwendet werden, wenn z.B. ein Trennstrich am Zeilenumbruch fehlt.</desc>
+    				<valList type="closed">
+    					<valItem ident="noHyphen"/>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
     	<elementSpec ident="q" mode="change" module="core">
     		<gloss versionDate="2014-07-14" xml:lang="en">quoted</gloss>
     		<desc versionDate="2014-07-14" xml:lang="en">contains material which is distinguished from the surrounding text using quotation marks.</desc>
@@ -2103,7 +2108,6 @@
     			</attDef>
     		</attList>
     	</elementSpec>
-    	
     	<elementSpec ident="quote" mode="change" module="core">
     		<gloss versionDate="2014-07-14" xml:lang="en">quotation</gloss>
     		<desc versionDate="2014-07-14" xml:lang="en">contains a phrase or passage attributed by the narrator or author to some agency external to the text.</desc>
@@ -2124,10 +2128,118 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="rs" mode="change" module="core">
+    		<constraintSpec scheme="schematron" ident="rs-typeNkey" mode="replace">
+    			<desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
+    			<desc versionDate="2021-11-16" xml:lang="de">Warnung vor falscher Kombination von <att>type</att> und <att>key</att> Werten.</desc>
+    			<constraint>
+    				<sch:pattern is-a="node-typeNkey">
+    					<sch:param name="node" value="tei:rs"/>
+    				</sch:pattern>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attRef class="att.global.responsibility" name="cert"/>
+    			<attDef ident="key" mode="replace" usage="opt">
+    				<desc versionDate="2013-11-11" xml:lang="en">provides an externally-defined means of identifying the entity (or entities) being named, using a coded value of some kind.</desc>
+    				<desc versionDate="2013-11-11" xml:lang="de">bietet mittels eines codierten Wertes in einer beliebigen Form ein extern definiertes Mittel zur Identifizierung einer Einheit (oder mehrerer Einheiten).</desc>
+    				<datatype maxOccurs="unbounded">
+    					<dataRef key="hendi.internal.pointer"/>
+    				</datatype>
+    			</attDef>
+    			<attDef ident="type" mode="change" usage="req">
+    				<valList type="closed" mode="change">
+    					<valItem ident="letter" mode="delete"/>
+    					<valItem ident="letters" mode="delete"/>
+    					<valItem ident="postal" mode="add">
+    						<desc versionDate="2021-11-17" xml:lang="en">marks a postal.</desc>
+    						<desc versionDate="2021-11-17" xml:lang="de">markiert eine Postsache.</desc>
+    					</valItem>
+    					<valItem ident="postals" mode="add">
+    						<desc versionDate="2021-11-17" xml:lang="en">marks postals.</desc>
+    						<desc versionDate="2021-11-17" xml:lang="de">markiert mehrere Postsachen.</desc>
+    					</valItem>
+    					<valItem ident="diaryDay" mode="delete"/>
+    					<valItem ident="diaryDays"  mode="delete"/>
+    					<!--<valItem ident="place">
+                            <desc versionDate="2017-08-29" xml:lang="en">marks a place that is not explicitly mentioned.</desc>
+                            <desc versionDate="2017-08-29" xml:lang="de">markiert einen Ort, der nicht explizit genannt wird.</desc>
+                        </valItem>
+                        <valItem ident="places">
+                            <desc versionDate="2017-08-29" xml:lang="en">marks places that are not explicitly mentioned.</desc>
+                            <desc versionDate="2017-08-29" xml:lang="de">markiert Orte, die nicht explizit genannt werden.</desc>
+                        </valItem>-->
+    					<valItem ident="mixed" mode="delete"/>
+    					<valItem ident="addenda" mode="delete"/>
+    					<valItem ident="character" mode="add">
+    						<desc versionDate="2021-11-16" xml:lang="en">marks a character (acting role) which is mentioned by name/title.</desc>
+    						<desc versionDate="2021-11-16" xml:lang="de">markiert einen Charakter (eine Rolle), die namentlich genannt ist.</desc>
+    					</valItem>
+    					<valItem ident="characters" mode="add">
+    						<desc versionDate="2021-12-01" xml:lang="en">marks characters (acting roles) which are mentioned by name/title.</desc>
+    						<desc versionDate="2021-12-01" xml:lang="de">markiert eine Gruppe von Charakteren (Rollen), die namentlich genannt sind.</desc>
+    					</valItem>
+    					<valItem ident="actingRole" mode="add">
+    						<desc versionDate="2021-11-16" xml:lang="en">marks an acting role which is mentioned by name.</desc>
+    						<desc versionDate="2021-11-16" xml:lang="de">markiert eine (theatralische) Rolle, die beim Namen genannten ist.</desc>
+    					</valItem>
+    					<valItem ident="actingRoles" mode="add">
+    						<desc versionDate="2021-12-01" xml:lang="en">marks acting roles which are mentioned by name.</desc>
+    						<desc versionDate="2021-12-01" xml:lang="de">markiert (theatralische) Rollen, die beim Namen genannt sind.</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="resp" module="core" mode="change">
+    		<content>
+    			<dataRef key="hwh_resp.list"/>
+    		</content>
+    	</elementSpec>
+    	<elementSpec ident="term" module="core" mode="change">
+    		<constraintSpec scheme="schematron" ident="controleContentOfTermElements">
+    			<desc xml:lang="de">Kontrolliert das Vokabular, welches als Inhalte für term Elemente in textClass verwendet wird.</desc>
+    			<desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
+    			<constraint>
+    				<sch:rule context="tei:textClass/tei:keywords/tei:term">
+    					<sch:report test="parent::node()/tei:term = 'typoscript'"
+    						role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
+    					<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
+    					<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
+    						role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    	</elementSpec>
+    	<elementSpec ident="title" mode="change" module="core">
+    		<constraintSpec scheme="schematron" ident="report-type-outside-text" mode="add">
+    			<desc versionDate="2021-12-23" xml:lang="en">report the use of a type attribute inside the header section</desc>
+    			<desc versionDate="2021-12-23" xml:lang="de">weist auf die Verwendung des type attributes innerhalb des Headers hin</desc>
+    			<constraint>
+    				<sch:report test=".[@type]/ancestor::tei:teiHeader">Do not use the <sch:emph>type</sch:emph> attribute here!</sch:report>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="type" mode="replace" usage="opt">
+    				<desc versionDate="2021-12-23" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
+    				<desc versionDate="2021-12-23" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</desc>
+    				<valList type="closed" mode="add">
+    					<valItem ident="journal">
+    						<desc versionDate="2013-11-11" xml:lang="en">Title of a journal</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitschrift</desc>
+    					</valItem>
+    					<valItem ident="newspaper">
+    						<desc versionDate="2013-11-11" xml:lang="en">Title of a newspaper</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">Titel einer Zeitung</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-header">
-        <elementSpec ident="handNote" mode="change" module="header">
+    	<elementSpec ident="handNote" mode="change" module="header">
             <desc versionDate="2013-11-11" xml:lang="en">describes a particular style or hand distinguished within a manuscript.</desc>
             <desc versionDate="2013-11-11" xml:lang="de">beschreibt einen bestimmten Stil oder die Hand in einer Handschrift</desc>
             <classes mode="change">
@@ -2260,6 +2372,15 @@
                 </constraint>
             </constraintSpec>
         </elementSpec>
+    	<elementSpec ident="teiHeader" module="header" mode="change">
+    		<constraintSpec scheme="schematron" ident="seriesTitle" mode="change">
+    			<constraint>
+    				<sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+    					<sch:assert test=".=('Henze-Digital, Briefedition')">The series title must be "Henze-Digital, Briefedition".</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    	</elementSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-namesdates">
@@ -2561,22 +2682,6 @@
     </specGrp>
 
     <specGrp xml:id="hendi-textstructure">
-    	<elementSpec ident="TEI" mode="change" module="textstructure">
-    		<classes mode="change">
-    			<memberOf key="att.docStatus" mode="add"/>
-    		</classes>
-    		<attList>
-    			<attDef ident="source" mode="change" usage="req">
-    				<valList type="closed" mode="change">
-    					<valItem ident="HWH" mode="add">
-    						<desc versionDate="2021-10-20" xml:lang="en">persons from the database of the Henze-Digital project (HWH).</desc>
-    						<desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
-    					</valItem>
-    				</valList>
-    			</attDef>
-    		</attList>
-    	</elementSpec>
-        
     	<elementSpec ident="dateline" mode="change" module="textstructure">
             <attList>
                 <attDef ident="rend" mode="change" usage="opt">
@@ -2590,6 +2695,14 @@
                 </attDef>
             </attList>
         </elementSpec>
+    	<elementSpec ident="postscript" mode="change" module="textstructure">
+    		<desc versionDate="2013-11-11" xml:lang="en">contains a postscript, e.g. to a letter.</desc>
+    		<desc versionDate="2013-11-11" xml:lang="de"/>
+    		<classes mode="change">
+<!--    			<memberOf key="att.written" mode="delete"/>-->
+<!--    			<memberOf key="att.global.rendition" mode="add"/>-->
+    		</classes>
+    	</elementSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-textcrit">
@@ -2630,28 +2743,18 @@
     </specGrp>
 
     <specGrp xml:id="hendi-msdescription">
-        <elementSpec ident="physDesc" mode="change" module="msdescription">
-            <gloss versionDate="2021-11-22" xml:lang="en">physical description</gloss>
-            <desc versionDate="2021-11-22" xml:lang="en">contains a full physical description of a source or source part, optionally subdivided using more specialized elements from the model.physDescPart class.</desc>
-            <gloss versionDate="2021-11-22" xml:lang="de">materielle Beschreibung</gloss>
-            <desc versionDate="2021-11-22" xml:lang="de">enthält eine komplette materielle Beschreibung einer Quelle oder Teile einer Quelle, gegebenenfalls unterteilt mit mehr spezifischen Elementen aus der model.physDescPart Klasse.</desc>
-            <content>
-                <sequence>
-                    <elementRef key="p" minOccurs="0"
-                        maxOccurs="unbounded"/>
-                    <elementRef key="objectDesc" minOccurs="0"
-                        maxOccurs="unbounded"/>
-                    <elementRef key="accMat" minOccurs="0"
-                        maxOccurs="unbounded"/>
-                </sequence>
-            </content>
-            <constraintSpec scheme="schematron" ident="empty-physDesc">
-                <constraint>
-                    <sch:assert test="*"><sch:name/> must contain at least one p or objectDesc or accMat element</sch:assert>
-                </constraint>
-            </constraintSpec>
-        </elementSpec>
-        <elementSpec ident="objectType" mode="change" module="msdescription">
+    	<elementSpec ident="dimensions" module="msdescription" mode="change">
+    		<desc versionDate="2022-01-11" xml:lang="en">Indicates the (physical) dimensions of an object.</desc>
+    		<desc versionDate="2022-01-11" xml:lang="de">Gibt die (physicalischen) Abmessungen eines Objektes an.</desc>
+    		<content>
+    			<alternate minOccurs="0"
+    				maxOccurs="unbounded">
+    				<elementRef key="height"/>
+    				<elementRef key="width"/>
+    			</alternate>
+    		</content>
+    	</elementSpec>
+    	<elementSpec ident="objectType" mode="change" module="msdescription">
             <content mode="change">
                 <valList type="closed" mode="add">
                     <valItem ident="Ts" mode="add">
@@ -2698,16 +2801,26 @@
 			</attDef>-->
     		</attList>
     	</elementSpec>
-    	<elementSpec ident="dimensions" module="msdescription" mode="change">
-    		<desc versionDate="2022-01-11" xml:lang="en">Indicates the (physical) dimensions of an object.</desc>
-    		<desc versionDate="2022-01-11" xml:lang="de">Gibt die (physicalischen) Abmessungen eines Objektes an.</desc>
+    	<elementSpec ident="physDesc" mode="change" module="msdescription">
+    		<gloss versionDate="2021-11-22" xml:lang="en">physical description</gloss>
+    		<desc versionDate="2021-11-22" xml:lang="en">contains a full physical description of a source or source part, optionally subdivided using more specialized elements from the model.physDescPart class.</desc>
+    		<gloss versionDate="2021-11-22" xml:lang="de">materielle Beschreibung</gloss>
+    		<desc versionDate="2021-11-22" xml:lang="de">enthält eine komplette materielle Beschreibung einer Quelle oder Teile einer Quelle, gegebenenfalls unterteilt mit mehr spezifischen Elementen aus der model.physDescPart Klasse.</desc>
     		<content>
-    			<alternate minOccurs="0"
-    				maxOccurs="unbounded">
-    				<elementRef key="height"/>
-    				<elementRef key="width"/>
-    			</alternate>
+    			<sequence>
+    				<elementRef key="p" minOccurs="0"
+    					maxOccurs="unbounded"/>
+    				<elementRef key="objectDesc" minOccurs="0"
+    					maxOccurs="unbounded"/>
+    				<elementRef key="accMat" minOccurs="0"
+    					maxOccurs="unbounded"/>
+    			</sequence>
     		</content>
+    		<constraintSpec scheme="schematron" ident="empty-physDesc">
+    			<constraint>
+    				<sch:assert test="*"><sch:name/> must contain at least one p or objectDesc or accMat element</sch:assert>
+    			</constraint>
+    		</constraintSpec>
     	</elementSpec>
     </specGrp>
 
@@ -3034,7 +3147,227 @@
         </elementSpec>
     </specGrp>
 
-	<specGrp xml:id="hendi-target-letters"/>
+	<specGrp xml:id="hendi-target-letters">
+		<elementSpec ident="div" mode="change" module="textstructure">
+			<content>
+				<sequence>
+					<!--                    <elementRef key="p"/>-->
+					<classRef key="model.pLike" minOccurs="0" maxOccurs="unbounded"/>
+					<alternate minOccurs="0" maxOccurs="unbounded">
+						<classRef key="model.divTop"/>
+						<classRef key="model.divBottom"/>
+						<classRef key="model.global"/>
+					</alternate>
+					<sequence minOccurs="0">
+						<alternate>
+							<sequence minOccurs="1" maxOccurs="unbounded">
+								<alternate>
+									<classRef key="model.divLike"/>
+									<classRef key="model.divGenLike"/>
+								</alternate>
+								<classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+							</sequence>
+							<sequence>
+								<sequence minOccurs="1" maxOccurs="unbounded">
+									<classRef key="model.common"/>
+									<classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+								</sequence>
+								<sequence minOccurs="0" maxOccurs="unbounded">
+									<alternate>
+										<classRef key="model.divLike"/>
+										<classRef key="model.divGenLike"/>
+									</alternate>
+									<classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+								</sequence>
+							</sequence>
+						</alternate>
+						<sequence minOccurs="0" maxOccurs="unbounded">
+							<classRef key="model.divBottom"/>
+							<classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
+						</sequence>
+						<elementRef key="p" minOccurs="0" maxOccurs="unbounded"/>
+						<!--                        <classRef key="model.pLike"/>-->
+					</sequence>
+				</sequence>
+			</content>
+			<constraintSpec scheme="schematron" ident="divTypeRow" mode="add">
+				<constraint>
+					<sch:rule context="tei:div[@type='row']">
+						<sch:assert test="tei:div">If type="row" is used the child elements have to be organized with divs.</sch:assert>
+					</sch:rule>
+				</constraint>
+			</constraintSpec>
+			<constraintSpec scheme="schematron" ident="divRotation" mode="add">
+				<constraint>
+					<sch:rule context="tei:div[@rotation]">
+						<sch:assert test="number(@rotation) gt 0 and number(@rotation) lt 361 and not(starts-with(@rotation,'0'))">The value must be between 1 and 360 (without leading zeros).</sch:assert>
+					</sch:rule>
+				</constraint>
+			</constraintSpec>
+			<constraintSpec scheme="schematron" ident="divColSumControl" mode="add">
+				<constraint>
+					<sch:rule context="tei:div[@type='row' and tei:div[contains(@type,'col-')]]">
+						<sch:let name="sumOfCols" value="sum(tei:div[contains(@type,'col-')]/number(substring-after(@type,'col-')))"/>
+						<sch:report test="$sumOfCols &gt; 12">The sum of all cols must not be greater than 12. It's <sch:value-of select="$sumOfCols"/>.</sch:report>
+					</sch:rule>
+				</constraint>
+			</constraintSpec>
+			<attList>
+				<attDef ident="type" mode="change" usage="opt">
+					<desc versionDate="2022-10-26" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
+					<desc versionDate="2022-10-26" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
+					<valList type="closed" mode="add">
+						<valItem ident="writingSession" mode="add">
+							<desc versionDate="2022-10-26" xml:lang="en">identifies the element as a wrapper for a text done in a specific session.</desc>
+							<desc versionDate="2022-10-26" xml:lang="de">Kennzeichnet das Element als einen Wrapper für einen Text der in einer bestimmten Sitzung entstanden ist.</desc>
+						</valItem>
+						<valItem ident="poem" mode="add">
+							<desc versionDate="2022-10-26" xml:lang="en">identifies the element as a wrapper for a poem.</desc>
+							<desc versionDate="2022-10-26" xml:lang="de">Kennzeichnet das Element als einen Wrapper für ein Gedicht.</desc>
+						</valItem>
+						<valItem ident="row" mode="add">
+							<desc versionDate="2022-10-26" xml:lang="en">identifies the element as a wrapper whose child-elements are in a row next to each other.</desc>
+							<desc versionDate="2022-10-26" xml:lang="de">Kennzeichnet das Element als einen Wrapper, dessen Kind-Elemente in einer Reihe nebeneinander stehen.</desc>
+						</valItem>
+						<valItem ident="col" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column).</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte).</desc>
+						</valItem>
+						<valItem ident="col-1" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 1/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 1/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-2" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 2/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 2/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-3" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 3/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 3/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-4" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 4/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 4/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-5" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 5/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 5/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-6" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 6/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 6/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-7" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 7/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 7/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-8" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 8/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 8/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-9" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 9/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 9/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-10" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 10/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 10/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-11" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 11/12 parts.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 11/12 Einheiten.</desc>
+						</valItem>
+						<valItem ident="col-12" mode="add">
+							<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 12/12 parts. This value is identical with <val>col</val>.</desc>
+							<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 12/12 Einheiten. Dieser Wert ist identisch mit <val>col</val>.</desc>
+						</valItem>
+					</valList>
+				</attDef>
+				<attDef ident="n" mode="change" usage="opt">
+					<gloss versionDate="2021-10-19" xml:lang="en">number</gloss>
+					<desc versionDate="2021-10-19" xml:lang="en">gives a number (or other label) for an element, which is not necessarily unique within the document.</desc>
+					<gloss versionDate="2021-10-19" xml:lang="de">Nummer</gloss>
+					<desc versionDate="2021-10-19" xml:lang="de">gibt dem Element eine Nummer (oder eine andere Bezeichnung), die nicht unbedingt eindeutig im Dokument ist.</desc>
+					<datatype>
+						<dataRef key="teidata.count"/>
+					</datatype>
+				</attDef>
+				<attDef ident="rotation" mode="add" usage="opt">
+					<desc versionDate="2022-10-26" xml:lang="en">Zeigt an, dass ein Element gedreht zur Schreibrichtung/grundsätzlichen Ausrichtung des Textes erscheint. Die Drehung wird im Uhrzeigersinn in Grad (0-360) angegeben.</desc>
+					<desc versionDate="2022-10-26" xml:lang="de">Indicates that an element appears rotated to the writing direction/basic alignment of the text. The rotation is indicated clockwise in degrees (0-360).</desc>
+					<datatype>
+						<dataRef name="nonNegativeInteger"/>
+					</datatype>
+				</attDef>
+				<attDef ident="place" mode="change" usage="opt">
+					<desc versionDate="2022-10-26" xml:lang="en">defines the place the element is placed.</desc>
+					<desc versionDate="2022-10-26" xml:lang="de">Definiert den Ort, an dem das Element plaziert ist.</desc>
+					<valList type="closed" mode="replace">
+						<valItem ident="margin.left" mode="add">
+							<gloss versionDate="2022-12-12" xml:lang="en">left margin</gloss>
+							<gloss versionDate="2022-12-12" xml:lang="de">Linker Rand</gloss>
+							<desc versionDate="2022-12-12" xml:lang="en">Margin left from the main content.</desc>
+							<desc versionDate="2022-12-12" xml:lang="de">Rand links vom Haupttext.</desc>
+						</valItem>
+						<valItem ident="margin.right" mode="add">
+							<gloss versionDate="2022-12-12" xml:lang="en">right margin</gloss>
+							<gloss versionDate="2022-12-12" xml:lang="de">Rechter Rand</gloss>
+							<desc versionDate="2022-12-12" xml:lang="en">Margin right from the main content.</desc>
+							<desc versionDate="2022-12-12" xml:lang="de">Rand rechts vom Haupttext.</desc>
+						</valItem>
+						<valItem ident="margin.top" mode="add">
+							<gloss versionDate="2022-12-12" xml:lang="en">top margin</gloss>
+							<gloss versionDate="2022-12-12" xml:lang="de">Oberer Rand</gloss>
+							<desc versionDate="2022-12-12" xml:lang="en">Margin above the main content.</desc>
+							<desc versionDate="2022-12-12" xml:lang="de">Rand oberhalb vom Haupttext.</desc>
+						</valItem>
+						<valItem ident="margin.bottom" mode="add">
+							<gloss versionDate="2022-12-12" xml:lang="en">left margin</gloss>
+							<gloss versionDate="2022-12-12" xml:lang="de">Unterer Rand</gloss>
+							<desc versionDate="2022-12-12" xml:lang="en">Margin below the main content.</desc>
+							<desc versionDate="2022-12-12" xml:lang="de">Rand unterhalb vom Haupttext.</desc>
+						</valItem>
+					</valList>
+				</attDef>
+			</attList>
+			<remarks xml:lang="en" versionDate="2021-10-19">
+				<p>For Henze-Digital the content model was changed. It was necessary to allow text blocs after the closer.</p>
+			</remarks>
+		</elementSpec>
+		
+		<elementSpec ident="text" mode="change" module="textstructure">
+			<!-- <desc versionDate="2013-11-11" xml:lang="en">contains a single text of any kind, whether unitary or composite, for example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus sample.</desc>
+        <desc versionDate="2013-11-11" xml:lang="de">enthält einen einzelnen Text jeglicher Art, ob einheitlich oder zusammengesetzt, beispielsweise ein Gedicht, ein Drama, eine Sammlung von Aufätzen, ein Roman, ein Wörterbuch, oder eine Sammlung.</desc> -->
+			<attList>
+				<attDef ident="type" mode="replace" usage="req">
+					<desc versionDate="2022-07-26" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
+					<desc versionDate="2022-07-26" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
+					<datatype>
+						<rng:ref name="postal.type.list"/>
+					</datatype>
+				</attDef>
+			</attList>
+			<remarks versionDate="2022-04-08" xml:lang="de">
+				<p>Diese Klassifizierung entstand aus den Registern, die als Datenbasis für das Projekt Henze-Digital bereits vorlagen.</p>
+			</remarks>
+		</elementSpec>
+		
+		<elementSpec ident="TEI" mode="change" module="textstructure">
+			<classes mode="change">
+				<memberOf key="att.docStatus" mode="add"/>
+			</classes>
+			<attList>
+				<attDef ident="source" mode="replace" usage="req">
+					<valList type="closed" mode="change">
+						<valItem ident="HenDi" mode="add">
+							<desc versionDate="2021-10-20" xml:lang="en">Based on information from the Henze-Digital project (HenDi).</desc>
+							<desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus Henze-Digital (HenDi).</desc>
+						</valItem>
+					</valList>
+				</attDef>
+			</attList>
+		</elementSpec>
+	</specGrp>
 
 	<specGrp xml:id="hendi-mei-atts">
 		<!-- remove unused classes and datatypes to get rid of annoying schematron complaints 
