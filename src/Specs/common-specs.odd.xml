@@ -2,6 +2,17 @@
 <?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:s="http://www.ascc.net/xml/schematron">
 
+	<specGrp xml:id="hendi-modules">
+		<moduleSpec ident="wega.core.module">
+			<desc xml:lang="de" versionDate="2022-11-08">Modul für WeGA-spezifische Ergänzungen</desc>
+			<desc xml:lang="en" versionDate="2017-11-08">Module for WeGA specific additions</desc>
+		</moduleSpec>
+		<moduleSpec ident="hendi.core.module">
+			<desc xml:lang="de" versionDate="2022-11-08">Modul für HenDi-spezifische Ergänzungen</desc>
+			<desc xml:lang="en" versionDate="2017-11-08">Module for HenDi specific additions</desc>
+		</moduleSpec>
+	</specGrp>
+	
     <specGrp xml:id="hendi-patterns">
 
         <dataSpec ident="hendi.persons.pointer">
@@ -1041,7 +1052,83 @@
     	</classSpec>
     </specGrp>
 
-    <specGrp xml:id="hendi-tei-macros"/>
+    <specGrp xml:id="hendi-tei-macros">
+    	<macroSpec ident="macro.persNameContent" mode="add" module="wega.core.module">
+    		<content>
+    			<rng:interleave>
+    				<rng:oneOrMore>
+    					<rng:text/>
+    				</rng:oneOrMore>
+    				<rng:zeroOrMore>
+    					<rng:ref name="surname"/>
+    				</rng:zeroOrMore>
+    				<rng:zeroOrMore>
+    					<rng:ref name="forename"/>
+    				</rng:zeroOrMore>
+    				<rng:zeroOrMore>
+    					<rng:ref name="nameLink"/>
+    				</rng:zeroOrMore>
+    				<rng:zeroOrMore>
+    					<rng:ref name="genName"/>
+    				</rng:zeroOrMore>
+    				<rng:zeroOrMore>
+    					<rng:ref name="roleName"/>
+    				</rng:zeroOrMore>
+    				<rng:zeroOrMore>
+    					<rng:ref name="addName"/>
+    				</rng:zeroOrMore>
+    			</rng:interleave>
+    		</content>
+    	</macroSpec>
+    	<macroSpec ident="macro.birthDeathContent" mode="add" module="wega.core.module">
+    		<content>
+    			<elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+    			<alternate minOccurs="0" maxOccurs="unbounded">
+    				<elementRef key="placeName"/>
+    				<elementRef key="settlement"/>
+    				<elementRef key="country"/>
+    				<elementRef key="region"/>
+    			</alternate>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="uncertainPlacenames">
+    			<constraint>
+    				<sch:rule context="tei:birth | tei:death">
+    					<sch:report test="count(distinct-values((tei:placeName | tei:settlement | tei:region | tei:country)/local-name())) gt 1">Multiple encodings of places will be regarded as alternatives. If it's really one place, please wrap in a placeName</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    	</macroSpec>
+    	<macroSpec ident="macro.orgContent" mode="add" module="hendi.core.module">
+    		<desc versionDate="2022-12-15" xml:lang="en">provides information about an identifiable organization or corporate body.</desc>
+    		<desc versionDate="2022-12-15" xml:lang="de">enthält Informationen über eine Organisation oder Körperschaft</desc>
+    		<content>
+    			<rng:zeroOrMore>
+    				<rng:ref name="idno"/>
+    			</rng:zeroOrMore>
+    			<rng:oneOrMore>
+    				<rng:ref name="orgName"/>
+    			</rng:oneOrMore>
+    			<rng:zeroOrMore>
+    				<rng:ref name="settlement"/>
+    			</rng:zeroOrMore>
+    			<rng:zeroOrMore>
+    				<rng:ref name="country"/>
+    			</rng:zeroOrMore>
+    			<rng:zeroOrMore>
+    				<rng:ref name="state"/>
+    			</rng:zeroOrMore>
+    			<rng:zeroOrMore>
+    				<rng:ref name="event"/>
+    			</rng:zeroOrMore>
+    			<rng:optional>
+    				<rng:ref name="listBibl"/>
+    			</rng:optional>
+    			<rng:optional>
+    				<rng:ref name="note"/>
+    			</rng:optional>
+    		</content>
+    	</macroSpec>
+    </specGrp>
 
     <specGrp xml:id="hendi-datatypes">
     	<dataSpec ident="hwhdata.textAlignment" mode="add" module="tei">
@@ -1829,6 +1916,11 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="desc" module="core" mode="change">
+    		<content>
+    			<elementRef key="term" minOccurs="1" maxOccurs="unbounded"/>
+    		</content>
+    	</elementSpec>
     	<elementSpec ident="foreign" module="core" mode="change">
     		<desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
     		<desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
@@ -2384,7 +2476,40 @@
     </specGrp>
 
     <specGrp xml:id="hendi-namesdates">
-        <elementSpec ident="name" mode="change" module="core">
+    	<elementSpec ident="bloc" mode="change" module="namesdates">
+    		<attList>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.places.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="country" mode="change" module="namesdates">
+    		<attList>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.places.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="geogName" mode="change" module="namesdates">
+    		<attList>
+    			<attDef ident="type" mode="change">
+    				<valList type="closed" mode="change">
+    					<valItem ident="island" mode="add"/>
+    					<valItem ident="lake" mode="add"/>
+    				</valList>
+    			</attDef>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.places.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="name" mode="change" module="core">
             <constraintSpec scheme="schematron" ident="name-typeNkey" mode="replace">
                 <desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
                 <desc versionDate="2021-11-16" xml:lang="de">Warnung vor falscher Kombination von <att>type</att> und <att>key</att> Werten.</desc>
@@ -2471,7 +2596,126 @@
                 </attDef>
             </attList>
         </elementSpec>
-        <elementSpec ident="persName" mode="change" module="namesdates">
+    	<elementSpec ident="org" mode="change" module="namesdates">
+    		<desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable organization or corporate body.</desc>
+    		<desc versionDate="2021-10-28" xml:lang="de">enthält Informationen über eine Organisation oder Körperschaft</desc>
+    		<classes mode="change">
+    			<memberOf key="att.docStatus" mode="add"/>
+    		</classes>
+    		<content>
+    			<rng:choice>
+    				<!--  Dubletten  -->
+    				<rng:element name="ref">
+    					<rng:attribute name="type">
+    						<rng:choice>
+    							<rng:value>duplicate</rng:value>
+    							<rng:value>deletion</rng:value>
+    						</rng:choice>
+    					</rng:attribute>
+    					<rng:attribute name="target">
+    						<dataRef key="hendi.personsPlus.pointer"/>
+    					</rng:attribute>
+    					<rng:empty/>
+    				</rng:element>
+    				<!-- ordentlicher Eintrag -->
+    				<rng:ref name="macro.orgContent"/>
+    			</rng:choice>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="listorg-org-status">
+    			<constraint>
+    				<sch:rule context="tei:org[not(parent::tei:listOrg)]">
+    					<sch:assert test="@status">@status is missing.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:org[parent::tei:listOrg]">
+    					<sch:report test="@status">@status is only for use at the root element.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="listorg-org-source">
+    			<constraint>
+    				<sch:rule context="tei:org[not(parent::tei:listOrg)]">
+    					<sch:assert test="@source">@source is missing.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:org[parent::tei:listOrg]">
+    					<sch:report test="@source">@source is only for use at the root element.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="source" mode="replace" usage="rec">
+    				<valList type="closed">
+    					<valItem ident="HenDi" mode="add">
+    						<desc versionDate="2021-10-20" xml:lang="en">organizations from the database of
+    							the Henze-Digital project (HWH).</desc>
+    						<desc versionDate="2021-10-20" xml:lang="de">Organisationen aus dem Datenbestand
+    							des Projektes Henze-Digital (HWH).</desc>
+    					</valItem>
+    					<valItem ident="WeGA" mode="add">
+    						<desc versionDate="2022-04-04" xml:lang="en">organizations from the database of
+    							the Carl Maria von Weber Gesamtausgabe (WeGA).</desc>
+    						<desc versionDate="2022-04-04" xml:lang="de">Organisationen aus dem Datenbestand
+    							der Carl Maria von Weber Gesamtausgabe (WeGA).</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    			<attDef ident="xml:id" mode="change" usage="req">
+    				<datatype>
+    					<dataRef key="hendi.orgs.pointer"/>
+    				</datatype>
+    			</attDef>            
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="orgName" mode="change" module="namesdates">
+    		<constraintSpec scheme="schematron" ident="parent-org" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
+    					<sch:report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="parent-org-reg" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
+    					<sch:assert test="@type='reg'">There must exactly be one name with @type='reg'.</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="parent-org-reg" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
+    					<sch:report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="parent-not-org" mode="replace">
+    			<constraint>
+    				<sch:rule context="tei:orgName[not(parent::tei:org)]">
+    					<sch:report test="@type">No @type attribute allowed here.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec ident="orgNameKeyRequirement" scheme="schematron">
+    			<constraint>
+    				<sch:rule context="tei:orgName[not(parent::tei:org)]">
+    					<sch:assert test="@key" role="warning">A <sch:name/> should be used for identification.</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="type" mode="change">
+    				<valList type="closed" mode="change">
+    					<valItem ident="import" mode="add"/>
+    				</valList>
+    			</attDef>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.orgs.pointer"/>
+    				</datatype>
+    			</attDef>
+    			<!--<attRef name="cert" class="att.global.responsibility"/>-->
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="persName" mode="change" module="namesdates">
             <constraintSpec ident="persNameKeyRequirement" scheme="schematron">
                 <constraint>
                     <sch:rule context="tei:persName[not(parent::tei:person)]">
@@ -2496,32 +2740,246 @@
                 <attRef class="att.global.responsibility" name="cert"/>
             </attList>
         </elementSpec>
-        <elementSpec ident="placeName" mode="change" module="namesdates">
+    	<elementSpec ident="person" mode="change" module="namesdates">
+    		<desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source.</desc>
+    		<desc versionDate="2021-10-28" xml:lang="de">liefert Informationen über ein identifizierbares Individuum, beispielsweise ein Teilnehmer einer Sprachinteraktion, oder eine Person, auf die in einer historischen Quelle verwiesen wird.</desc>
+    		<content>
+    			<rng:choice>
+    				<!--  Dubletten  -->
+    				<rng:element name="ref">
+    					<rng:attribute name="type">
+    						<rng:choice>
+    							<rng:value>duplicate</rng:value>
+    							<rng:value>deletion</rng:value>
+    						</rng:choice>
+    					</rng:attribute>
+    					<rng:attribute name="target">
+    						<dataRef key="hendi.personsPlus.pointer"/>
+    					</rng:attribute>
+    					<rng:empty/>
+    				</rng:element>
+    				<!-- ordentlicher Eintrag -->
+    				<rng:group>
+    					<rng:zeroOrMore>
+    						<rng:ref name="idno"/>
+    					</rng:zeroOrMore>
+    					<rng:element name="persName">
+    						<rng:ref name="macro.persNameContent"/>
+    						<rng:optional>
+    							<rng:element name="note">
+    								<rng:ref name="macro.specialPara"/>
+    								<rng:attribute name="type">
+    									<rng:value>comment</rng:value>
+    								</rng:attribute>
+    							</rng:element>
+    						</rng:optional>
+    						<rng:optional>
+    							<rng:element name="note">
+    								<rng:ref name="macro.specialPara"/>
+    								<rng:attribute name="type">
+    									<rng:value>addInfo</rng:value>
+    								</rng:attribute>
+    							</rng:element>
+    						</rng:optional>
+    						<rng:attribute name="type">
+    							<rng:value>reg</rng:value>
+    						</rng:attribute>
+    						<rng:optional>
+    							<rng:attribute name="xml:lang">
+    								<dataRef key="teidata.language"/>
+    							</rng:attribute>
+    						</rng:optional>
+    					</rng:element>
+    					<rng:optional>
+    						<rng:element name="persName">
+    							<rng:ref name="macro.persNameContent"/>
+    							<rng:attribute name="type">
+    								<rng:value>initial</rng:value>
+    							</rng:attribute>
+    							<rng:optional>
+    								<rng:attribute name="xml:lang">
+    									<dataRef key="teidata.language"/>
+    								</rng:attribute>
+    							</rng:optional>
+    						</rng:element>
+    					</rng:optional>
+    					<rng:optional>
+    						<rng:element name="persName">
+    							<rng:ref name="macro.persNameContent"/>
+    							<rng:attribute name="type">
+    								<rng:value>full</rng:value>
+    							</rng:attribute>
+    							<rng:optional>
+    								<rng:attribute name="xml:lang">
+    									<dataRef key="teidata.language"/>
+    								</rng:attribute>
+    							</rng:optional>
+    						</rng:element>
+    					</rng:optional>
+    					<rng:optional>
+    						<rng:element name="persName">
+    							<rng:ref name="macro.persNameContent"/>
+    							<rng:attribute name="type">
+    								<rng:value>real</rng:value>
+    							</rng:attribute>
+    							<rng:optional>
+    								<rng:attribute name="xml:lang">
+    									<dataRef key="teidata.language"/>
+    								</rng:attribute>
+    							</rng:optional>
+    						</rng:element>
+    					</rng:optional>
+    					<rng:zeroOrMore>
+    						<rng:element name="persName">
+    							<rng:ref name="macro.persNameContent"/>
+    							<rng:attribute name="type">
+    								<rng:choice>
+    									<rng:value>alt</rng:value>
+    									<rng:value>pseud</rng:value>
+    								</rng:choice>
+    							</rng:attribute>
+    							<rng:optional>
+    								<rng:attribute name="xml:lang">
+    									<dataRef key="teidata.language"/>
+    								</rng:attribute>
+    							</rng:optional>
+    							<rng:optional>
+    								<rng:attribute name="from">
+    									<rng:choice>
+    										<rng:data type="date"/>
+    										<rng:data type="gYear"/>
+    									</rng:choice>
+    								</rng:attribute>
+    							</rng:optional>
+    							<rng:optional>
+    								<rng:attribute name="n">
+    									<rng:data type="integer"/>
+    								</rng:attribute>
+    							</rng:optional>
+    							<rng:optional>
+    								<rng:attribute name="to">
+    									<rng:choice>
+    										<rng:data type="date"/>
+    										<rng:data type="gYear"/>
+    									</rng:choice>
+    								</rng:attribute>
+    							</rng:optional>
+    							<rng:optional>
+    								<rng:attribute name="subtype">
+    									<rng:choice>
+    										<rng:value>birth</rng:value>
+    										<rng:value>married</rng:value>
+    										<rng:value>role</rng:value>
+    									</rng:choice>
+    								</rng:attribute>
+    							</rng:optional>
+    						</rng:element>
+    					</rng:zeroOrMore>
+    					<rng:optional>
+    						<rng:element name="persName">
+    							<rng:ref name="macro.persNameContent"/>
+    							<rng:attribute name="type">
+    								<rng:value>import</rng:value>
+    							</rng:attribute>
+    						</rng:element>
+    					</rng:optional>
+    					<rng:interleave>
+    						<rng:optional>
+    							<rng:ref name="birth"/>
+    						</rng:optional>
+    						<rng:optional>
+    							<rng:ref name="death"/>
+    						</rng:optional>
+    						<rng:ref name="sex"/>
+    						<rng:zeroOrMore>
+    							<rng:ref name="occupation"/>
+    						</rng:zeroOrMore>
+    						<rng:zeroOrMore>
+    							<rng:ref name="residence"/>
+    						</rng:zeroOrMore>
+    						<rng:zeroOrMore>
+    							<rng:ref name="affiliation"/>
+    						</rng:zeroOrMore>
+    						<rng:zeroOrMore>
+    							<rng:element name="note">
+    								<rng:ref name="macro.specialPara"/>
+    								<rng:attribute name="type">
+    									<rng:choice>
+    										<rng:value>bioSummary</rng:value>
+    										<rng:value>internal</rng:value>
+    									</rng:choice>
+    								</rng:attribute>
+    							</rng:element>
+    						</rng:zeroOrMore>
+    						<rng:zeroOrMore>
+    							<rng:ref name="event"/>
+    						</rng:zeroOrMore>
+    						<rng:optional>
+    							<rng:element name="figure">
+    								<rng:ref name="head"/>
+    								<rng:ref name="graphic"/>
+    								<rng:attribute name="n">
+    									<rng:value>reg</rng:value>
+    								</rng:attribute>
+    							</rng:element>
+    							<rng:zeroOrMore>
+    								<rng:element name="figure">
+    									<rng:ref name="head"/>
+    									<rng:ref name="graphic"/>
+    								</rng:element>
+    							</rng:zeroOrMore>
+    						</rng:optional>
+    					</rng:interleave>
+    				</rng:group>
+    				<!--<rng:oneOrMore>
+                    <rng:ref name="model.personPart"/>
+                    </rng:oneOrMore>-->
+    				<!--<rng:group>
+                    <rng:ref name="model.personHead"/>
+                    <rng:ref name="model.personPart"/>
+                    </rng:group>-->
+    			</rng:choice>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="enforceWhitespace">
+    			<constraint>
+    				<sch:rule context="tei:persName[@type][./*]">
+    					<sch:assert test="every $x in ./*[following-sibling::*] satisfies $x[following-sibling::node()[1] instance of text()]">Child elements of persName should be separated with whitespace.</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="bioSummary-mixed-content">
+    			<constraint>
+    				<sch:rule context="tei:note[@type='bioSummary'][tei:list]">
+    					<sch:report test="text()[matches(., '\S')]">When utilizing tei:list as structural unit you should wrap other text in tei:p.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="source" mode="change" usage="req">
+    				<valList type="closed" mode="change">
+    					<valItem ident="HenDi" mode="add">
+    						<desc versionDate="2021-10-20" xml:lang="en">persons from the database of the Henze-Digital project (HWH).</desc>
+    						<desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
+    					</valItem>
+    					<valItem ident="SchEnd" mode="delete"/>
+    					<valItem ident="MB" mode="delete"/>
+    					<valItem ident="BGA" mode="delete"/>
+    					<valItem ident="LoB" mode="delete"/>
+    					<valItem ident="HoB" mode="delete"/>
+    					<valItem ident="SchTb" mode="delete"/>
+    					<valItem ident="Bach" mode="delete"/>
+    					<valItem ident="Wies" mode="delete"/>
+    				</valList>
+    			</attDef>
+    			<attDef ident="xml:id" mode="change" usage="req">
+    				<datatype>
+    					<dataRef key="hendi.persons.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="placeName" mode="change" module="namesdates">
             <attList>
-                <attDef ident="key" mode="replace" usage="rec">
-                    <datatype>
-                        <dataRef key="hendi.places.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-        <elementSpec ident="settlement" mode="change" module="namesdates">
-            <attList>
-                <attDef ident="type" mode="add" usage="opt">
-                    <datatype>
-                        <dataRef key="teidata.text"/>
-                    </datatype>
-                    <valList mode="add" type="semi">
-                        <valItem ident="city">
-                            <desc versionDate="2021-10-28" xml:lang="en">A city, like Berlin.</desc>
-                            <desc versionDate="2021-10-28" xml:lang="de">Eine Stadt, wie Berlin.</desc>
-                        </valItem>
-                        <valItem ident="venue">
-                            <desc versionDate="2021-10-28" xml:lang="en">A venue, like Beethovensaal.</desc>
-                            <desc versionDate="2021-10-28" xml:lang="de">Ein Aufführungsort/Lokalität, wie Beethovensaal</desc>
-                        </valItem>
-                    </valList>
-                </attDef>
                 <attDef ident="key" mode="replace" usage="rec">
                     <datatype>
                         <dataRef key="hendi.places.pointer"/>
@@ -2538,89 +2996,50 @@
                 </attDef>
             </attList>
         </elementSpec>
-        <elementSpec ident="country" mode="change" module="namesdates">
-            <attList>
-                <attDef ident="key" mode="replace" usage="rec">
-                    <datatype>
-                        <dataRef key="hendi.places.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-        <elementSpec ident="bloc" mode="change" module="namesdates">
-            <attList>
-                <attDef ident="key" mode="replace" usage="rec">
-                    <datatype>
-                        <dataRef key="hendi.places.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-        <elementSpec ident="geogName" mode="change" module="namesdates">
-            <attList>
-                <attDef ident="type" mode="change">
-                    <valList type="closed" mode="change">
-                        <valItem ident="island" mode="add"/>
-                        <valItem ident="lake" mode="add"/>
-                    </valList>
-                </attDef>
-                <attDef ident="key" mode="replace" usage="rec">
-                    <datatype>
-                        <dataRef key="hendi.places.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-        <elementSpec ident="orgName" mode="change" module="namesdates">
-            <constraintSpec scheme="schematron" ident="parent-org" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
-                        <sch:report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="parent-org-reg" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
-                        <sch:assert test="@type='reg'">There must exactly be one name with @type='reg'.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="parent-org-reg" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
-                        <sch:report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="parent-not-org" mode="replace">
-                <constraint>
-                    <sch:rule context="tei:orgName[not(parent::tei:org)]">
-                        <sch:report test="@type">No @type attribute allowed here.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec ident="orgNameKeyRequirement" scheme="schematron">
-                <constraint>
-                    <sch:rule context="tei:orgName[not(parent::tei:org)]">
-                        <sch:assert test="@key" role="warning">A <sch:name/> should be used for identification.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <attList>
-                <attDef ident="type" mode="change">
-                    <valList type="closed" mode="change">
-                        <valItem ident="import" mode="add"/>
-                    </valList>
-                </attDef>
-                <attDef ident="key" mode="replace" usage="rec">
-                    <datatype>
-                        <dataRef key="hendi.orgs.pointer"/>
-                    </datatype>
-                </attDef>
-                <!--<attRef name="cert" class="att.global.responsibility"/>-->
-            </attList>
-        </elementSpec>
+        <elementSpec ident="settlement" mode="change" module="namesdates">
+    		<attList>
+    			<attDef ident="type" mode="add" usage="opt">
+    				<datatype>
+    					<dataRef key="teidata.text"/>
+    				</datatype>
+    				<valList mode="add" type="semi">
+    					<valItem ident="city">
+    						<desc versionDate="2021-10-28" xml:lang="en">A city, like Berlin.</desc>
+    						<desc versionDate="2021-10-28" xml:lang="de">Eine Stadt, wie Berlin.</desc>
+    					</valItem>
+    					<valItem ident="venue">
+    						<desc versionDate="2021-10-28" xml:lang="en">A venue, like Beethovensaal.</desc>
+    						<desc versionDate="2021-10-28" xml:lang="de">Ein Aufführungsort/Lokalität, wie Beethovensaal</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.places.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="state" module="namesdates" mode="change">
+    		<content>
+    			<rng:ref name="desc"/>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="org-states" mode="delete"/>
+    		<attList>
+    			<attDef ident="type" usage="req" mode="replace">
+    				<desc versionDate="2022-01-21" xml:lang="en">classifys the type of specification.</desc>
+    				<desc versionDate="2022-01-21" xml:lang="de">Gibt die Art der Spezifikation an.</desc>
+    				<valList type="closed" mode="add">
+    					<valItem ident="orgType">
+    						<gloss versionDate="2022-01-21" xml:lang="en">organisation type</gloss>
+    						<desc versionDate="2022-01-21" xml:lang="en">The kind an organization or institution is of.</desc>
+    						<gloss versionDate="2022-01-21" xml:lang="de">Organisationstyp</gloss>
+    						<desc versionDate="2022-01-21" xml:lang="de">Die Art der Organisation bzw. Institution.</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-linking"/>
@@ -2906,246 +3325,7 @@
     	</elementSpec>
     </specGrp>
     
-    <specGrp xml:id="hendi-target-persons">
-        <elementSpec ident="person" mode="change" module="namesdates">
-            <desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source.</desc>
-            <desc versionDate="2021-10-28" xml:lang="de">liefert Informationen über ein identifizierbares Individuum, beispielsweise ein Teilnehmer einer Sprachinteraktion, oder eine Person, auf die in einer historischen Quelle verwiesen wird.</desc>
-            <content>
-                <rng:choice>
-                    <!--  Dubletten  -->
-                    <rng:element name="ref">
-                        <rng:attribute name="type">
-                            <rng:choice>
-                                <rng:value>duplicate</rng:value>
-                                <rng:value>deletion</rng:value>
-                            </rng:choice>
-                        </rng:attribute>
-                        <rng:attribute name="target">
-                            <dataRef key="hendi.personsPlus.pointer"/>
-                        </rng:attribute>
-                        <rng:empty/>
-                    </rng:element>
-                    <!-- ordentlicher Eintrag -->
-                    <rng:group>
-                        <rng:zeroOrMore>
-                            <rng:ref name="idno"/>
-                        </rng:zeroOrMore>
-                        <rng:element name="persName">
-                            <rng:ref name="macro.persNameContent"/>
-                            <rng:optional>
-                                <rng:element name="note">
-                                    <rng:ref name="macro.specialPara"/>
-                                    <rng:attribute name="type">
-                                        <rng:value>comment</rng:value>
-                                    </rng:attribute>
-                                </rng:element>
-                            </rng:optional>
-                            <rng:optional>
-                                <rng:element name="note">
-                                    <rng:ref name="macro.specialPara"/>
-                                    <rng:attribute name="type">
-                                        <rng:value>addInfo</rng:value>
-                                    </rng:attribute>
-                                </rng:element>
-                            </rng:optional>
-                            <rng:attribute name="type">
-                                <rng:value>reg</rng:value>
-                            </rng:attribute>
-                            <rng:optional>
-                                <rng:attribute name="xml:lang">
-                                    <dataRef key="teidata.language"/>
-                                </rng:attribute>
-                            </rng:optional>
-                        </rng:element>
-                        <rng:optional>
-                            <rng:element name="persName">
-                                <rng:ref name="macro.persNameContent"/>
-                                <rng:attribute name="type">
-                                    <rng:value>initial</rng:value>
-                                </rng:attribute>
-                                <rng:optional>
-                                    <rng:attribute name="xml:lang">
-                                        <dataRef key="teidata.language"/>
-                                    </rng:attribute>
-                                </rng:optional>
-                            </rng:element>
-                        </rng:optional>
-                        <rng:optional>
-                            <rng:element name="persName">
-                                <rng:ref name="macro.persNameContent"/>
-                                <rng:attribute name="type">
-                                    <rng:value>full</rng:value>
-                                </rng:attribute>
-                                <rng:optional>
-                                    <rng:attribute name="xml:lang">
-                                        <dataRef key="teidata.language"/>
-                                    </rng:attribute>
-                                </rng:optional>
-                            </rng:element>
-                        </rng:optional>
-                        <rng:optional>
-                            <rng:element name="persName">
-                                <rng:ref name="macro.persNameContent"/>
-                                <rng:attribute name="type">
-                                    <rng:value>real</rng:value>
-                                </rng:attribute>
-                                <rng:optional>
-                                    <rng:attribute name="xml:lang">
-                                        <dataRef key="teidata.language"/>
-                                    </rng:attribute>
-                                </rng:optional>
-                            </rng:element>
-                        </rng:optional>
-                        <rng:zeroOrMore>
-                            <rng:element name="persName">
-                                <rng:ref name="macro.persNameContent"/>
-                                <rng:attribute name="type">
-                                    <rng:choice>
-                                        <rng:value>alt</rng:value>
-                                        <rng:value>pseud</rng:value>
-                                    </rng:choice>
-                                </rng:attribute>
-                                <rng:optional>
-                                    <rng:attribute name="xml:lang">
-                                        <dataRef key="teidata.language"/>
-                                    </rng:attribute>
-                                </rng:optional>
-                                <rng:optional>
-                                    <rng:attribute name="from">
-                                        <rng:choice>
-                                            <rng:data type="date"/>
-                                            <rng:data type="gYear"/>
-                                        </rng:choice>
-                                    </rng:attribute>
-                                </rng:optional>
-                                <rng:optional>
-                                    <rng:attribute name="n">
-                                        <rng:data type="integer"/>
-                                    </rng:attribute>
-                                </rng:optional>
-                                <rng:optional>
-                                    <rng:attribute name="to">
-                                        <rng:choice>
-                                            <rng:data type="date"/>
-                                            <rng:data type="gYear"/>
-                                        </rng:choice>
-                                    </rng:attribute>
-                                </rng:optional>
-                                <rng:optional>
-                                    <rng:attribute name="subtype">
-                                        <rng:choice>
-                                            <rng:value>birth</rng:value>
-                                            <rng:value>married</rng:value>
-                                            <rng:value>role</rng:value>
-                                        </rng:choice>
-                                    </rng:attribute>
-                                </rng:optional>
-                            </rng:element>
-                        </rng:zeroOrMore>
-                        <rng:optional>
-                            <rng:element name="persName">
-                                <rng:ref name="macro.persNameContent"/>
-                                <rng:attribute name="type">
-                                    <rng:value>import</rng:value>
-                                </rng:attribute>
-                            </rng:element>
-                        </rng:optional>
-                        <rng:interleave>
-                            <rng:optional>
-                                <rng:ref name="birth"/>
-                            </rng:optional>
-                            <rng:optional>
-                                <rng:ref name="death"/>
-                            </rng:optional>
-                            <rng:ref name="sex"/>
-                            <rng:zeroOrMore>
-                                <rng:ref name="occupation"/>
-                            </rng:zeroOrMore>
-                            <rng:zeroOrMore>
-                                <rng:ref name="residence"/>
-                            </rng:zeroOrMore>
-                            <rng:zeroOrMore>
-                                <rng:ref name="affiliation"/>
-                            </rng:zeroOrMore>
-                            <rng:zeroOrMore>
-                                <rng:element name="note">
-                                    <rng:ref name="macro.specialPara"/>
-                                    <rng:attribute name="type">
-                                        <rng:choice>
-                                            <rng:value>bioSummary</rng:value>
-                                            <rng:value>internal</rng:value>
-                                        </rng:choice>
-                                    </rng:attribute>
-                                </rng:element>
-                            </rng:zeroOrMore>
-                            <rng:zeroOrMore>
-                                <rng:ref name="event"/>
-                            </rng:zeroOrMore>
-                            <rng:optional>
-                                <rng:element name="figure">
-                                    <rng:ref name="head"/>
-                                    <rng:ref name="graphic"/>
-                                    <rng:attribute name="n">
-                                        <rng:value>reg</rng:value>
-                                    </rng:attribute>
-                                </rng:element>
-                                <rng:zeroOrMore>
-                                    <rng:element name="figure">
-                                        <rng:ref name="head"/>
-                                        <rng:ref name="graphic"/>
-                                    </rng:element>
-                                </rng:zeroOrMore>
-                            </rng:optional>
-                        </rng:interleave>
-                    </rng:group>
-                    <!--<rng:oneOrMore>
-                    <rng:ref name="model.personPart"/>
-                    </rng:oneOrMore>-->
-                    <!--<rng:group>
-                    <rng:ref name="model.personHead"/>
-                    <rng:ref name="model.personPart"/>
-                    </rng:group>-->
-                </rng:choice>
-            </content>
-            <constraintSpec scheme="schematron" ident="enforceWhitespace">
-                <constraint>
-                    <sch:rule context="tei:persName[@type][./*]">
-                        <sch:assert test="every $x in ./*[following-sibling::*] satisfies $x[following-sibling::node()[1] instance of text()]">Child elements of persName should be separated with whitespace.</sch:assert>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <constraintSpec scheme="schematron" ident="bioSummary-mixed-content">
-                <constraint>
-                    <sch:rule context="tei:note[@type='bioSummary'][tei:list]">
-                        <sch:report test="text()[matches(., '\S')]">When utilizing tei:list as structural unit you should wrap other text in tei:p.</sch:report>
-                    </sch:rule>
-                </constraint>
-            </constraintSpec>
-            <attList>
-                <attDef ident="source" mode="change" usage="req">
-                    <valList type="closed" mode="change">
-                        <valItem ident="HWH" mode="add">
-                            <desc versionDate="2021-10-20" xml:lang="en">persons from the database of the Henze-Digital project (HWH).</desc>
-                            <desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
-                        </valItem>
-                        <valItem ident="SchEnd" mode="delete"/>
-                        <valItem ident="MB" mode="delete"/>
-                        <valItem ident="BGA" mode="delete"/>
-                        <valItem ident="LoB" mode="delete"/>
-                        <valItem ident="HoB" mode="delete"/>
-                        <valItem ident="SchTb" mode="delete"/>
-                        <valItem ident="Bach" mode="delete"/>
-                        <valItem ident="Wies" mode="delete"/>
-                    </valList>
-                </attDef>
-                <attDef ident="xml:id" mode="change" usage="req">
-                    <datatype>
-                        <dataRef key="hendi.persons.pointer"/>
-                    </datatype>
-                </attDef>
-            </attList>
-        </elementSpec>
-    </specGrp>
+    <specGrp xml:id="hendi-target-persons"/>
 
 	<specGrp xml:id="hendi-target-letters">
 		<elementSpec ident="div" mode="change" module="textstructure">
@@ -3369,6 +3549,8 @@
 		</elementSpec>
 	</specGrp>
 
+	<specGrp xml:id="hendi-target-orgs"/>
+
 	<specGrp xml:id="hendi-mei-atts">
 		<!-- remove unused classes and datatypes to get rid of annoying schematron complaints 
         like: "The child axis starting at an attribute node will never select anything" -->
@@ -3490,7 +3672,7 @@
 	            </attDef>
 	            <attDef ident="source" usage="req" mode="add">
 	                <valList type="closed" mode="add">
-	                    <valItem ident="HWH" mode="add">
+	                    <valItem ident="HenDi" mode="add">
 	                        <desc versionDate="2021-10-20" xml:lang="en">works from the database of the Henze-Digital project (HWH).</desc>
 	                        <desc versionDate="2021-10-20" xml:lang="de">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
 	                    </valItem>
@@ -3613,7 +3795,7 @@
 	            </attDef>
 	            <attDef ident="source" usage="rec" mode="add">
 	                <valList type="closed" mode="change">
-	                    <valItem ident="HWH" mode="add">
+	                    <valItem ident="HenDi" mode="add">
 	                        <desc versionDate="2021-10-20" xml:lang="en">works from the database of the Henze-Digital project (HWH).</desc>
 	                        <desc versionDate="2021-10-20" xml:lang="de">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
 	                    </valItem>
