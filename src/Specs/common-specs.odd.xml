@@ -654,7 +654,7 @@
 
     <specGrp xml:id="hendi-common-atts">
         <!-- common macros for TEI and MEI -->
-        <macroSpec ident="hendi.data.temporal.iso" mode="add">
+    	<macroSpec ident="hendi.data.temporal.iso" mode="add" module="hendi.core.module">
             <desc versionDate="2014-04-22" xml:lang="en">A replacement for the TEI macro data.temporal.iso which allows only date (YYYY-MM-DD) and gYear (YYYY).</desc>
             <desc versionDate="2014-04-22" xml:lang="de">Henze-Digital-Ersatz für das TEI Makro data.temporal.iso mit der Einschränkung auf date (YYYY-MM-DD) und gYear (YYYY).</desc>
             <content>
@@ -666,7 +666,7 @@
             </content>
         </macroSpec>
 
-        <dataSpec ident="hendi.place.type" mode="add">
+    	<dataSpec ident="hendi.place.type" mode="add" module="hendi.core.module">
             <desc versionDate="2020-12-02" xml:lang="en">Geschlossene Liste von Werten für Henze-Digital Ortstypen, genutzt von tei:placeName und mei:geogName</desc>
             <desc versionDate="2020-12-02" xml:lang="de">Closed list of values for Henze-Digital place types, used by tei:placeName and mei:geogName</desc>
             <content>
@@ -715,7 +715,7 @@
             </content>
         </dataSpec>
 
-        <classSpec type="atts" ident="att.hendi.rend" mode="add">
+    	<classSpec type="atts" ident="att.hendi.rend" mode="add" module="hendi.core.module">
             <desc versionDate="2021-10-27" xml:lang="en">provides a common @rend and @n attribute for the encoding with MEI and TEI.</desc>
             <desc versionDate="2021-10-27" xml:lang="de">Stellt ein generisches @rend- und @n-Attribut zur Verwendung in MEI und TEI Schemata zu Verfügung.</desc>
             <constraintSpec scheme="schematron" ident="underline-n" mode="replace">
@@ -792,7 +792,7 @@
             </attList>
         </classSpec>
     	
-    	<classSpec type="atts" ident="att.hendi.quotation" mode="add">
+    	<classSpec type="atts" ident="att.hendi.quotation" mode="add" module="hendi.core.module">
     		<desc versionDate="2022-05-18" xml:lang="en">provides a common @rend attribute for the encoding of quotation marks.</desc>
     		<desc versionDate="2022-05-18" xml:lang="de">Stellt ein generisches @rend-Attribut zur Kodierung von anführungszeichen zu Verfügung.</desc>
     		<attList>
@@ -825,7 +825,7 @@
     		</attList>
     	</classSpec>
     
-    	<classSpec type="atts" ident="att.roles.marc">
+    	<classSpec type="atts" ident="att.roles.marc" mode="add" module="hendi.core.module">
     		<desc xml:lang="de" versionDate="2022-08-04">Eine Klasse für Attribute, die Rollen nach Vorbild der MARC-relators definieren.</desc>
     		<attList>
     			<attDef ident="role" usage="rec">
@@ -835,6 +835,7 @@
     			</attDef>
     		</attList>
     	</classSpec>
+    
     </specGrp>
 
     <specGrp xml:id="hendi-tei-atts">
@@ -1806,6 +1807,15 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="author" mode="change" module="core">
+    		<attList>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.persons.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
     	<elementSpec ident="bibl" module="core" mode="change">
     		<classes mode="change">
     			<memberOf key="att.global" mode="delete"/>
@@ -1817,6 +1827,80 @@
     				<datatype>
     					<dataRef key="hendi.biblio.pointer"/>
     				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	<elementSpec ident="biblStruct" mode="change" module="core">
+    		<gloss versionDate="2021-12-16" xml:lang="en">structured bibliographic citation</gloss>
+    		<desc versionDate="2021-12-16" xml:lang="en">contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order.</desc>
+    		<gloss versionDate="2021-12-16" xml:lang="de">strukturierte bibliographische Angaben</gloss>
+    		<desc versionDate="2021-12-16" xml:lang="de">enthält ein strukturiertes bibliographisches Zitat, in dem nur bibliographische Unterelemente erscheinen, die in einer bestimmten Reihenfolge geordnet sind.</desc>
+    		<classes mode="change">
+    			<memberOf key="att.docStatus" mode="add"/>
+    		</classes>
+    		<content>
+    			<rng:choice>
+    				<!--  Dubletten  -->
+    				<rng:element name="ref">
+    					<rng:attribute name="type">
+    						<rng:choice>
+    							<rng:value>duplicate</rng:value>
+    							<rng:value>deletion</rng:value>
+    						</rng:choice>
+    					</rng:attribute>
+    					<rng:attribute name="target">
+    						<dataRef key="hendi.biblio.pointer"/>
+    					</rng:attribute>
+    					<rng:empty/>
+    				</rng:element>
+    				<!-- ordentlicher Eintrag -->
+    				<rng:group>
+    					<rng:choice>
+    						<rng:group>
+    							<rng:zeroOrMore>
+    								<rng:ref name="analytic"/>
+    							</rng:zeroOrMore>
+    							<rng:oneOrMore>
+    								<rng:ref name="monogr"/>
+    								<rng:zeroOrMore>
+    									<rng:ref name="series"/>
+    								</rng:zeroOrMore>
+    							</rng:oneOrMore>
+    						</rng:group>
+    						<rng:ref name="series"/>
+    					</rng:choice>
+    					<rng:interleave>
+    						<rng:optional>
+    							<rng:ref name="keywords"/>
+    						</rng:optional>
+    						<rng:optional>
+    							<rng:ref name="note"/>
+    						</rng:optional>
+    						<rng:zeroOrMore>
+    							<rng:ref name="idno"/>
+    						</rng:zeroOrMore>
+    					</rng:interleave>
+    				</rng:group>
+    			</rng:choice>
+    		</content>
+    		<attList>
+    			<attDef ident="xml:id" mode="replace" usage="req">
+    				<datatype>
+    					<dataRef key="hendi.biblio.pointer"/>
+    				</datatype>
+    			</attDef>
+    			<attDef ident="type" mode="change" usage="req">
+    				<datatype maxOccurs="1">
+    					<dataRef key="hendi.biblio.types"/>
+    				</datatype>
+    			</attDef>
+    			<attDef ident="source" mode="replace" usage="req">
+    				<valList type="closed" mode="replace">
+    					<valItem ident="HWH" mode="add">
+    						<desc versionDate="2021-12-16" xml:lang="en">bibliographic items from the database of the Henze-Digital project (HWH).</desc>
+    						<desc versionDate="2021-12-16" xml:lang="de">Bibliographica aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
+    					</valItem>
+    				</valList>
     			</attDef>
     		</attList>
     	</elementSpec>
@@ -1920,6 +2004,15 @@
     		<content>
     			<elementRef key="term" minOccurs="1" maxOccurs="unbounded"/>
     		</content>
+    	</elementSpec>
+    	<elementSpec ident="editor" mode="change" module="core">
+    		<attList>
+    			<attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
+    					<dataRef key="hendi.persons.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
     	</elementSpec>
     	<elementSpec ident="foreign" module="core" mode="change">
     		<desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
@@ -2030,6 +2123,10 @@
     		</attList>
     	</elementSpec>
     	<elementSpec ident="note" mode="change" module="core">
+    		<classes>
+    			<memberOf key="att.anchoring" mode="delete"/>
+    			<memberOf key="att.global.responsibility" mode="add"/>
+    		</classes>
     		<constraintSpec scheme="schematron" ident="note-in-text" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[not(parent::tei:org or parent::tei:place or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
@@ -2287,21 +2384,6 @@
     		<content>
     			<dataRef key="hwh_resp.list"/>
     		</content>
-    	</elementSpec>
-    	<elementSpec ident="term" module="core" mode="change">
-    		<constraintSpec scheme="schematron" ident="controleContentOfTermElements">
-    			<desc xml:lang="de">Kontrolliert das Vokabular, welches als Inhalte für term Elemente in textClass verwendet wird.</desc>
-    			<desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
-    			<constraint>
-    				<sch:rule context="tei:textClass/tei:keywords/tei:term">
-    					<sch:report test="parent::node()/tei:term = 'typoscript'"
-    						role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
-    					<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
-    					<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
-    						role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
-    				</sch:rule>
-    			</constraint>
-    		</constraintSpec>
     	</elementSpec>
     	<elementSpec ident="title" mode="change" module="core">
     		<constraintSpec scheme="schematron" ident="report-type-outside-text" mode="add">
@@ -3058,7 +3140,6 @@
     			</attDef>
     		</attList>
     	</elementSpec>
-    	
     	<elementSpec ident="placeName" mode="change" module="namesdates">
             <attList>
                 <attDef ident="key" mode="replace" usage="rec">
@@ -3595,7 +3676,36 @@
 				<p>For Henze-Digital the content model was changed. It was necessary to allow text blocs after the closer.</p>
 			</remarks>
 		</elementSpec>
-		
+		<elementSpec ident="TEI" mode="change" module="textstructure">
+			<classes mode="change">
+				<memberOf key="att.docStatus" mode="add"/>
+			</classes>
+			<attList>
+				<attDef ident="source" mode="replace" usage="req">
+					<valList type="closed" mode="change">
+						<valItem ident="HenDi" mode="add">
+							<desc versionDate="2021-10-20" xml:lang="en">Based on information from the Henze-Digital project (HenDi).</desc>
+							<desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus Henze-Digital (HenDi).</desc>
+						</valItem>
+					</valList>
+				</attDef>
+			</attList>
+		</elementSpec>
+		<elementSpec ident="term" module="core" mode="change">
+			<constraintSpec scheme="schematron" ident="controleContentOfTermElements">
+				<desc xml:lang="de">Kontrolliert das Vokabular, welches als Inhalte für term Elemente in textClass verwendet wird.</desc>
+				<desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
+				<constraint>
+					<sch:rule context="tei:textClass/tei:keywords/tei:term">
+						<sch:report test="parent::node()/tei:term = 'typoscript'"
+							role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
+						<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
+						<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
+							role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
+					</sch:rule>
+				</constraint>
+			</constraintSpec>
+		</elementSpec>
 		<elementSpec ident="text" mode="change" module="textstructure">
 			<!-- <desc versionDate="2013-11-11" xml:lang="en">contains a single text of any kind, whether unitary or composite, for example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus sample.</desc>
         <desc versionDate="2013-11-11" xml:lang="de">enthält einen einzelnen Text jeglicher Art, ob einheitlich oder zusammengesetzt, beispielsweise ein Gedicht, ein Drama, eine Sammlung von Aufätzen, ein Roman, ein Wörterbuch, oder eine Sammlung.</desc> -->
@@ -3612,27 +3722,13 @@
 				<p>Diese Klassifizierung entstand aus den Registern, die als Datenbasis für das Projekt Henze-Digital bereits vorlagen.</p>
 			</remarks>
 		</elementSpec>
-		
-		<elementSpec ident="TEI" mode="change" module="textstructure">
-			<classes mode="change">
-				<memberOf key="att.docStatus" mode="add"/>
-			</classes>
-			<attList>
-				<attDef ident="source" mode="replace" usage="req">
-					<valList type="closed" mode="change">
-						<valItem ident="HenDi" mode="add">
-							<desc versionDate="2021-10-20" xml:lang="en">Based on information from the Henze-Digital project (HenDi).</desc>
-							<desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus Henze-Digital (HenDi).</desc>
-						</valItem>
-					</valList>
-				</attDef>
-			</attList>
-		</elementSpec>
 	</specGrp>
 
 	<specGrp xml:id="hendi-target-orgs"/>
 	
 	<specGrp xml:id="hendi-target-places"/>
+	
+	<specGrp xml:id="hendi-target-biblio"/>
 
 	<specGrp xml:id="hendi-mei-atts">
 		<!-- remove unused classes and datatypes to get rid of annoying schematron complaints 
