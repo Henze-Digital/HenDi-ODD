@@ -2978,6 +2978,87 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="place" mode="change" module="namesdates">
+    		<desc versionDate="2021-10-28" xml:lang="en">contains data about a geographic location.</desc>
+    		<desc versionDate="2021-10-28" xml:lang="de">enthält Daten eines geographischen Ortes.</desc>
+    		<classes mode="change">
+    			<memberOf key="att.docStatus" mode="add"/>
+    		</classes>
+    		<content>
+    			<rng:choice>
+    				<rng:element name="ref">
+    					<rng:attribute name="type">
+    						<rng:choice>
+    							<rng:value>duplicate</rng:value>
+    							<rng:value>deletion</rng:value>
+    						</rng:choice>
+    					</rng:attribute>
+    					<rng:attribute name="target">
+    						<dataRef key="hendi.places.pointer"/>
+    					</rng:attribute>
+    					<rng:empty/>
+    				</rng:element>
+    				<rng:group>
+    					<rng:zeroOrMore>
+    						<rng:ref name="idno"/>
+    					</rng:zeroOrMore>
+    					<rng:oneOrMore>
+    						<rng:ref name="placeName"/>
+    					</rng:oneOrMore>
+    					<rng:optional>
+    						<rng:ref name="location"/>
+    					</rng:optional>
+    					<rng:zeroOrMore>
+    						<rng:ref name="note"/>
+    					</rng:zeroOrMore>
+    				</rng:group>
+    			</rng:choice>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="listorg-place-status">
+    			<constraint>
+    				<sch:rule context="tei:place[not(parent::tei:listPlace)]">
+    					<sch:assert test="@status">@status is missing.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:place[parent::tei:listPlace]">
+    					<sch:report test="@status">@status is only for use at the root element.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="listorg-place-source">
+    			<constraint>
+    				<sch:rule context="tei:place[not(parent::tei:listPlace)]">
+    					<sch:assert test="@source">@source is missing.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:place[parent::tei:listPlace]">
+    					<sch:report test="@source">@source is only for use at the root element.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
+    			<attDef ident="source" mode="change" usage="rec">
+    				<valList type="closed">
+    					<valItem ident="HWH" mode="add">
+    						<desc versionDate="2021-10-20" xml:lang="en">places from the database of
+    							the Henze-Digital project (HWH).</desc>
+    						<desc versionDate="2021-10-20" xml:lang="de">Orte aus dem Datenbestand
+    							des Projektes Henze-Digital (HWH).</desc>
+    					</valItem>
+    					<valItem ident="WeGA" mode="add">
+    						<desc versionDate="2021-11-24" xml:lang="en">places from the database of
+    							the Weber-Gesamtausgabe (WeGA).</desc>
+    						<desc versionDate="2021-11-24" xml:lang="de">Orte aus dem Datenbestand
+    							der Weber-Gesamtausgabe (WeGA).</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    			<attDef ident="xml:id" mode="change" usage="req">
+    				<datatype>
+    					<dataRef key="hendi.places.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
+    	
     	<elementSpec ident="placeName" mode="change" module="namesdates">
             <attList>
                 <attDef ident="key" mode="replace" usage="rec">
@@ -3550,6 +3631,8 @@
 	</specGrp>
 
 	<specGrp xml:id="hendi-target-orgs"/>
+	
+	<specGrp xml:id="hendi-target-places"/>
 
 	<specGrp xml:id="hendi-mei-atts">
 		<!-- remove unused classes and datatypes to get rid of annoying schematron complaints 
