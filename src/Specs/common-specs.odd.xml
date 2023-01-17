@@ -2012,7 +2012,10 @@
     	</elementSpec>
     	<elementSpec ident="desc" module="core" mode="change">
     		<content>
-    			<elementRef key="term" minOccurs="1" maxOccurs="unbounded"/>
+                <alternate minOccurs="0" maxOccurs="unbounded">
+    	            <textNode/>
+                    <elementRef key="term"/>
+    	        </alternate>
     		</content>
     	</elementSpec>
     	<elementSpec ident="editor" mode="change" module="core">
@@ -2136,6 +2139,7 @@
     		<classes>
     			<memberOf key="att.anchoring" mode="delete"/>
     			<memberOf key="att.global.responsibility" mode="add"/>
+    			<memberOf key="model.global" mode="add"/>
     		</classes>
     		<constraintSpec scheme="schematron" ident="note-in-text" mode="replace">
     			<constraint>
@@ -2221,27 +2225,29 @@
                         </valItem>-->
     				</valList>
     			</attDef>
-    			<attDef ident="corresp" mode="change">
+    			<attDef ident="corresp" mode="add" usage="opt">
     				<desc versionDate="2022-09-16" xml:lang="en">points to the foreign text passage which is translated in this note.</desc>
     				<desc versionDate="2022-09-16" xml:lang="de">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</desc>
-    				<constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
+    			    <datatype>
+    			        <dataRef key="teidata.pointer"/>
+    			    </datatype>
+    			    <constraintSpec scheme="schematron" ident="translation-note-ref" mode="add">
     					<constraint>
     						<sch:rule context="tei:note[@type='translation' and @corresp]">
     							<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
     						</sch:rule>
     					</constraint>
     				</constraintSpec>
+    			    
     			</attDef>
-    			<!--<attDef ident="target" mode="change">
-                    <gloss versionDate="2021-10-25" xml:lang="en">Reference targets</gloss>
-                    <desc versionDate="2021-10-25" xml:lang="en">Takes the URIs (in the form "hendi:A07xxxx") of the topic comments to be linked (only possible in conjunction with <att>type</att>="thematicCom").</desc>
-                    <gloss versionDate="2016-02-08" xml:lang="de">Verweisziele</gloss>
-                    <desc versionDate="2016-02-08" xml:lang="de">Nimmt die URIs (in der Form "hendi:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <att>type</att>="thematicCom")</desc>
-                    <datatype maxOccurs="unbounded">
-                        <rng:ref name="thematicCom.target"/>
-                    </datatype>
-                </attDef>-->
-    			<!-- Interne Kommentare in dieser Form ?! Comment from WeGA -->
+    		    <attDef ident="xml:lang" usage="rec" mode="add">
+    		        <desc versionDate="2022-01-17" xml:lang="en">The language used in the following sibling.</desc>
+    		        <desc versionDate="2022-01-17" xml:lang="de">Die im Foglenden genutzte Sprache.</desc>
+    		        <datatype>
+    		            <dataRef key="teidata.language"/>
+    		        </datatype>
+    		    </attDef>
+    		    <!-- Interne Kommentare in dieser Form ?! Comment from WeGA -->
     			<attDef ident="status" mode="add" usage="opt">
     				<desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
     				<desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
