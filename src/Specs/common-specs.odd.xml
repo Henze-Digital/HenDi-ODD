@@ -1399,11 +1399,12 @@
             </constraint>
         </constraintSpec>
         <constraintSpec scheme="schematron" ident="elementStartsWithWhitespace" mode="replace">
-            <desc versionDate="2014-03-05" xml:lang="en">warnings for whitespace at the beginning of an element.</desc>
-            <desc versionDate="2014-03-05" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
+            <desc versionDate="2023-01-17" xml:lang="en">warnings for whitespace at the beginning of an element if.</desc>
+            <desc versionDate="2023-01-17" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
             <constraint>
                 <sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/></sch:report>
+                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
+                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
                 </sch:rule>
             </constraint>
         </constraintSpec>
@@ -1700,6 +1701,7 @@
     			</sch:rule>
     		</constraint>
     	</constraintSpec>
+        <constraintSpec scheme="schematron" ident="report-leading-zeros" mode="delete"/>
     </specGrp>
 
     <specGrp xml:id="hendi-styleguides">
