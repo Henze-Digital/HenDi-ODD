@@ -3524,7 +3524,10 @@
 
 	<specGrp xml:id="hendi-target-letters">
 		<elementSpec ident="div" mode="change" module="textstructure">
-			<content>
+		    <classes>
+		        <memberOf key="model.global" mode="add"/>
+		    </classes>
+		    <content>
 				<sequence>
 					<!--                    <elementRef key="p"/>-->
 					<classRef key="model.pLike" minOccurs="0" maxOccurs="unbounded"/>
@@ -3565,7 +3568,15 @@
 					</sequence>
 				</sequence>
 			</content>
-			<constraintSpec scheme="schematron" ident="divTypeRow" mode="add">
+		    <constraintSpec scheme="schematron" ident="divParentNotDiv" mode="add">
+		        <constraint>
+		            <sch:rule context="tei:div[not(parent::tei:div) and not(parent::tei:body)]">
+		                <sch:assert test="@type='row'">If div is not a direkt child of div then type="row" is required.</sch:assert>
+		            </sch:rule>
+		        </constraint>
+		    </constraintSpec>
+		    
+		    <constraintSpec scheme="schematron" ident="divTypeRow" mode="add">
 				<constraint>
 					<sch:rule context="tei:div[@type='row']">
 						<sch:assert test="tei:div">If type="row" is used the child elements have to be organized with divs.</sch:assert>
