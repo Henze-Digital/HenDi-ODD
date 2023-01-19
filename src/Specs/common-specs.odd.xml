@@ -1894,10 +1894,20 @@
     				</rng:group>
     			</rng:choice>
     		</content>
-    	    <constraintSpec scheme="schematron" ident="biblStructIDRequirement" mode="add">
+    	    <constraintSpec scheme="schematron" ident="biblStructAttReqId" mode="add">
     	        <constraint>
     	            <sch:rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
     	                <sch:assert test="@xml:id">@xml:id is required, if biblStruct is the root element.</sch:assert>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
+    	    <constraintSpec scheme="schematron" ident="biblStructAttReqSource" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
+    	                <sch:assert test="@source">@source is required, if biblStruct is the root element.</sch:assert>
+    	            </sch:rule>
+    	            <sch:rule context="tei:biblStruct[ancestor::tei:TEI/@source]">
+    	                <sch:report test="@source">@source is permitted if the root element already uses @source.</sch:report>
     	            </sch:rule>
     	        </constraint>
     	    </constraintSpec>
@@ -1907,12 +1917,12 @@
     					<dataRef key="hendi.biblio.pointer"/>
     				</datatype>
     			</attDef>
-    			<attDef ident="type" mode="change" usage="req">
+    			<attDef ident="type" mode="change" usage="rec">
     				<datatype maxOccurs="1">
     					<dataRef key="hendi.biblio.types"/>
     				</datatype>
     			</attDef>
-    			<attDef ident="source" mode="replace" usage="req">
+    			<attDef ident="source" mode="replace" usage="rec">
     				<valList type="closed" mode="replace">
     					<valItem ident="HenDi" mode="add">
     						<desc versionDate="2021-12-16" xml:lang="en">bibliographic items from the database of the Henze-Digital project (HWH).</desc>
