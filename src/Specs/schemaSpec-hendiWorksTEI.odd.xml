@@ -36,80 +36,13 @@
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-namesdates"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-patterns"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-styleguides"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-worksTEI"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-tei-atts"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-tei-macros"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-textcrit"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-textstructure"/>
     <specGrpRef target="../Specs/common-specs.odd.xml#hendi-transcr"/>
     
-    <elementSpec ident="TEI" mode="change" module="textstructure">
-        <gloss versionDate="2013-11-11" xml:lang="en">TEI document</gloss>
-        <desc versionDate="2013-11-11" xml:lang="en">contains a single TEI-conformant document, comprising a TEI header and a text, either in isolation or as part of a <gi>teiCorpus</gi> element.</desc>
-        <gloss versionDate="2013-11-11" xml:lang="de">TEI Dokument</gloss>
-        <desc versionDate="2013-11-11" xml:lang="de">enthält ein einzelnes TEI-konformes Dokument, TEI header und text einschließend, entweder einzeln oder als Teile des <gi>teiCorpus</gi> Elements.</desc>
-    	<classes mode="change">
-    		<memberOf key="att.docStatus" mode="add"/>
-            <memberOf key="att.global" mode="delete"/>
-        </classes>
-        <content>
-            <rng:choice>
-                <!--   Ordentlicher Eintrag   -->
-                <rng:group>
-                    <rng:ref name="teiHeader"/>
-                    <rng:choice>
-                        <rng:group>
-                            <rng:oneOrMore>
-                                <rng:ref name="model.resource"/>
-                            </rng:oneOrMore>
-                            <rng:optional>
-                                <rng:ref name="text"/>
-                            </rng:optional>
-                        </rng:group>
-                        <rng:ref name="text"/>
-                    </rng:choice>
-                </rng:group>
-                <!--  Dubletten  -->
-                <rng:element name="ref">
-                    <rng:attribute name="type">
-                        <rng:value>duplicate</rng:value>
-                    </rng:attribute>
-                    <rng:attribute name="target">
-                        <rng:ref name="hendi.works.pointer"/>
-                    </rng:attribute>
-                    <rng:empty/>
-                </rng:element>
-            </rng:choice>
-        </content>
-        <attList>
-            <attDef ident="source" usage="req" mode="add">
-                <valList type="closed" mode="change">
-                    <valItem ident="HWH" mode="add">
-                        <desc versionDate="2021-10-20" xml:lang="en">persons from the database of the Henze-Digital project (HWH).</desc>
-                        <desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
-                    </valItem>
-                </valList>
-            </attDef>
-            <attDef ident="xml:id" mode="change" usage="req">
-                <gloss versionDate="2022-01-24" xml:lang="en">identifier</gloss>
-                <desc versionDate="2022-01-24" xml:lang="en">provides a unique identifier for the element bearing the attribute.</desc>
-                <gloss versionDate="2022-01-24" xml:lang="de">Bezeichner</gloss>
-                <desc versionDate="2022-01-24" xml:lang="de">liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</desc>
-                <datatype>
-                    <dataRef key="hendi.works.pointer"/>
-                </datatype>
-            </attDef>
-        </attList>
-    </elementSpec>
-    
-    
-    <!--<elementSpec ident="sourceDesc" module="header" mode="change">
-        <content>
-<!-\-            <alternate>-\->
-                <!-\-<elementRef key="biblStruct" minOccurs="1" maxOccurs="1"/>-\->
-                <elementRef key="listEvent" minOccurs="0" maxOccurs="1"/>
-            <!-\-</alternate>-\->
-        </content>
-    </elementSpec>-->
     
     <elementSpec ident="listEvent" module="namesdates" mode="change">
         <content>
