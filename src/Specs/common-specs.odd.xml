@@ -1476,7 +1476,7 @@
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                    	<sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe"> 
+                        <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe"> 
                             <sch:assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hendi-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>
@@ -1691,6 +1691,18 @@
     		</constraint>
     	</constraintSpec>
         <constraintSpec scheme="schematron" ident="report-leading-zeros" mode="delete"/>
+        <constraintSpec scheme="schematron" ident="seriesTitleRequirements" mode="change">
+            <constraint>
+                <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+                    <sch:let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+                    <sch:let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+                    <sch:let name="seriesTitleA02" value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+                    <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<sch:value-of select="$seriesTitleA04"/>".</sch:report>
+                    <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<sch:value-of select="$seriesTitleA05"/>".</sch:report>
+                    <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<sch:value-of select="$seriesTitleA02"/>".</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-styleguides">
@@ -1882,8 +1894,15 @@
     				</rng:group>
     			</rng:choice>
     		</content>
-    		<attList>
-    			<attDef ident="xml:id" mode="replace" usage="req">
+    	    <constraintSpec scheme="schematron" ident="biblStructIDRequirement" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
+    	                <sch:assert test="@xml:id">@xml:id is required, if biblStruct is the root element.</sch:assert>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
+    	    <attList>
+    			<attDef ident="xml:id" mode="replace" usage="rec">
     				<datatype>
     					<dataRef key="hendi.biblio.pointer"/>
     				</datatype>
@@ -2413,6 +2432,11 @@
     					</valItem>
     				</valList>
     			</attDef>
+    		    <attDef ident="xml:lang" mode="add" usage="opt">
+    		        <datatype>
+    		            <dataRef key="teidata.language"/>
+    		        </datatype>
+    		    </attDef>
     		</attList>
     	</elementSpec>
     </specGrp>
@@ -2553,14 +2577,15 @@
             </constraintSpec>
         </elementSpec>
     	<elementSpec ident="teiHeader" module="header" mode="change">
-    		<constraintSpec scheme="schematron" ident="seriesTitle" mode="change">
-    			<constraint>
-    				<sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
-    				    <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = 'Henze-Digital, Briefedition')">The correct series title for postals is "Henze-Digital, Briefedition".</sch:report>
-    				    <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = 'Aktuelle Nachrichten von Henze-Digital')">The scorrect eries title for News is "Aktuelle Nachrichten von Henze-Digital".</sch:report>
-    				</sch:rule>
-    			</constraint>
-    		</constraintSpec>
+    	    <content>
+    	        <sequence>
+    	            <elementRef key="fileDesc"/>
+    	            <elementRef key="encodingDesc"/>
+    	            <elementRef key="profileDesc"/>
+    	            <elementRef key="revisionDesc"/>
+    	        </sequence>
+    	    </content>
+    	    <constraintSpec scheme="schematron" ident="seriesTitle" mode="delete"/>
     	</elementSpec>
     </specGrp>
 
@@ -3291,25 +3316,6 @@
                 </attDef>
             </attList>
         </elementSpec>
-    	<elementSpec ident="postscript" mode="change" module="textstructure">
-    		<desc versionDate="2013-11-11" xml:lang="en">contains a postscript, e.g. to a letter.</desc>
-    		<desc versionDate="2013-11-11" xml:lang="de"/>
-    		<classes mode="change">
-<!--    			<memberOf key="att.written" mode="delete"/>-->
-<!--    			<memberOf key="att.global.rendition" mode="add"/>-->
-    		</classes>
-    	    <attList>
-    	        <attDef ident="rend" mode="add" usage="opt">
-    	            <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
-    	            <desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
-    	            <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
-    	            <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
-    	            <datatype minOccurs="1" maxOccurs="2">
-    	                <dataRef key="hwhdata.position"/>
-    	            </datatype>
-    	        </attDef>
-    	    </attList>
-    	</elementSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-textcrit">
@@ -3513,8 +3519,7 @@
     	</elementSpec>
     </specGrp>
     
-    <specGrp xml:id="hendi-target-persons"/>
-
+    <specGrp xml:id="hendi-target-biblio"/>
 	<specGrp xml:id="hendi-target-letters">
 		<elementSpec ident="div" mode="change" module="textstructure">
 		    <classes>
@@ -3726,6 +3731,15 @@
 						</valItem>
 					</valList>
 				</attDef>
+			    <attDef ident="xml:id" mode="change" usage="req">
+			        <gloss versionDate="2013-11-11" xml:lang="en">identifier</gloss>
+			        <desc versionDate="2013-11-11" xml:lang="en">provides a unique identifier for the element bearing the attribute.</desc>
+			        <gloss versionDate="2013-11-11" xml:lang="de">Bezeichner</gloss>
+			        <desc versionDate="2013-11-11" xml:lang="de">liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</desc>
+			        <datatype>
+			            <dataRef key="hendi.letters.pointer"/>
+			        </datatype>
+			    </attDef>
 			</attList>
 		</elementSpec>
 		<elementSpec ident="term" module="core" mode="change">
@@ -3759,14 +3773,132 @@
 				<p>Diese Klassifizierung entstand aus den Registern, die als Datenbasis für das Projekt Henze-Digital bereits vorlagen.</p>
 			</remarks>
 		</elementSpec>
+	    <elementSpec ident="postscript" mode="change" module="textstructure">
+	        <desc versionDate="2013-11-11" xml:lang="en">contains a postscript, e.g. to a letter.</desc>
+	        <desc versionDate="2013-11-11" xml:lang="de"/>
+	        <classes mode="change">
+	            <!--    			<memberOf key="att.written" mode="delete"/>-->
+	            <!--    			<memberOf key="att.global.rendition" mode="add"/>-->
+	        </classes>
+	        <attList>
+	            <attDef ident="rend" mode="add" usage="opt">
+	                <gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
+	                <desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
+	                <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
+	                <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
+	                <datatype minOccurs="1" maxOccurs="2">
+	                    <dataRef key="hwhdata.position"/>
+	                </datatype>
+	            </attDef>
+	        </attList>
+	    </elementSpec>
 	</specGrp>
-
 	<specGrp xml:id="hendi-target-orgs"/>
-	
+    <specGrp xml:id="hendi-target-persons"/>
 	<specGrp xml:id="hendi-target-places"/>
-	
-	<specGrp xml:id="hendi-target-biblio"/>
 
+    <specGrp xml:id="hendi-target-var">
+        <elementSpec ident="TEI" mode="change" module="textstructure">
+            <classes mode="change">
+                <memberOf key="att.docStatus" mode="add"/>
+            </classes>
+            <attList>
+                <attDef ident="source" mode="add" usage="rec">
+                    <valList type="closed">
+                        <valItem ident="HenDi" mode="add">
+                            <desc versionDate="2021-10-20" xml:lang="en">organizations from the database of
+                                the Henze-Digital project (HenDi).</desc>
+                            <desc versionDate="2021-10-20" xml:lang="de">Organisationen aus dem Datenbestand
+                                des Projektes Henze-Digital (HenDi).</desc>
+                        </valItem>
+                    </valList>
+                </attDef>
+                <attDef ident="xml:id" mode="change" usage="req">
+                    <gloss versionDate="2013-11-11" xml:lang="en">identifier</gloss>
+                    <desc versionDate="2013-11-11" xml:lang="en">provides a unique identifier for the element bearing the attribute.</desc>
+                    <gloss versionDate="2013-11-11" xml:lang="de">Bezeichner</gloss>
+                    <desc versionDate="2013-11-11" xml:lang="de">liefert einen eindeutigen Bezeichner für das Element mit dem Attribut.</desc>
+                    <datatype>
+                        <dataRef key="hendi.varOrAddenda.pointer"/>
+                    </datatype>
+                </attDef>
+            </attList>
+        </elementSpec>
+        
+        <constraintSpec scheme="schematron" ident="titleLangRequirement">
+            <constraint>
+                <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+                    <sch:assert test="@xml:lang" role="error">The language must be specified.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        
+    </specGrp>
+    <specGrp xml:id="hendi-target-writings">
+        <elementSpec ident="TEI" mode="change" module="textstructure">
+            <classes mode="change">
+                <memberOf key="att.docStatus" mode="add"/>
+            </classes>
+            <content>
+                <rng:choice>
+                    <!--   Ordentlicher Eintrag   -->
+                    <rng:group>
+                        <rng:ref name="teiHeader"/>
+                        <rng:choice>
+                            <rng:group>
+                                <rng:oneOrMore>
+                                    <rng:ref name="model.resource"/>
+                                </rng:oneOrMore>
+                                <rng:optional>
+                                    <rng:ref name="text"/>
+                                </rng:optional>
+                            </rng:group>
+                            <rng:ref name="text"/>
+                        </rng:choice>
+                    </rng:group>
+                    <!--  Dubletten  -->
+                    <rng:element name="ref">
+                        <rng:attribute name="type">
+                            <rng:value>duplicate</rng:value>
+                        </rng:attribute>
+                        <rng:attribute name="target">
+                            <alternate>
+                                <dataRef key="hendi.writings.pointer"/>
+                                <dataRef key="hendi.letters.pointer"/>
+                                <dataRef key="hendi.documents.pointer"/>
+                            </alternate>
+                        </rng:attribute>
+                        <rng:empty/>
+                    </rng:element>
+                </rng:choice>
+            </content>
+            <attList>
+                <attDef ident="xml:id" mode="change" usage="req">
+                    <datatype>
+                        <dataRef key="hendi.writings.pointer"/>
+                    </datatype>
+                </attDef>
+            </attList>
+        </elementSpec>
+        <elementSpec ident="text" mode="change" module="textstructure">
+            <attList>
+                <attDef ident="type" mode="change" usage="req">
+                    <desc versionDate="2023-01-19" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
+                    <desc versionDate="2023-01-19" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
+                    <valList type="closed" mode="change">
+                        <valItem ident="other" mode="add">
+                            <desc versionDate="2023-01-19" xml:lang="en">a category for all unclassified texts</desc>
+                            <desc versionDate="2023-01-19" xml:lang="de">Kategorie für nicht klassifizerte Texte</desc>
+                        </valItem>
+                        <valItem ident="literature" mode="delete"/>
+                    </valList>
+                </attDef>
+            </attList>
+        </elementSpec>
+    </specGrp>
+    <specGrp xml:id="hendi-target-worksTEI">
+    
+    </specGrp>
 	<specGrp xml:id="hendi-mei-atts">
 		<!-- remove unused classes and datatypes to get rid of annoying schematron complaints 
         like: "The child axis starting at an attribute node will never select anything" -->
