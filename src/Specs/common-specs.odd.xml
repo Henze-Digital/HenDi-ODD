@@ -1636,7 +1636,9 @@
         <constraintSpec scheme="schematron" ident="importName">
         <constraint>
             <sch:rule context="tei:persName | tei:orgName | tei:placeName">
-                <sch:report test="@type='import'" role="info">This element should be deleted after checking this record.</sch:report>
+                <sch:report test="(@type='import') and parent::node()/@status[.='proposed']" role="info">This element should be deleted after checking this record.</sch:report>
+                <sch:report test="(@type='import') and parent::node()/@status[.='candidate']" role="warning">This element should be deleted after checking this record.</sch:report>
+                <sch:report test="(@type='import') and parent::node()/@status[.='approved']" role="error">This element has to be deleted before publishing!</sch:report>
             </sch:rule>
         </constraint>
         </constraintSpec>
