@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2023-01-12T11:37:11Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2023-01-19T14:08:21Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -391,18 +391,31 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <report test="count(distinct-values(tei:biblScope/@type)) ne count(tei:biblScope/@type)">duplicate value for biblScope</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-relatedItem-relatedItem-type-within-notesStmt-65">
+   <pattern id="schematron-constraint-hendiWorksTEI-biblStruct-biblStructAttReqId-65">
+      <rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
+         <assert test="@xml:id">@xml:id is required, if biblStruct is the root element.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiWorksTEI-biblStruct-biblStructAttReqSource-66">
+      <rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
+         <assert test="@source">@source is required, if biblStruct is the root element.</assert>
+      </rule>
+      <rule context="tei:biblStruct[ancestor::tei:TEI/@source]">
+         <report test="@source">@source is permitted if the root element already uses @source.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiWorksTEI-relatedItem-relatedItem-type-within-notesStmt-67">
       <rule context="tei:relatedItem">
          <report test="@type and not(parent::tei:notesStmt)">The @type attribute on <name/> must only be used within the notesStmt.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-relatedItem-relatedItem-target-within-notesStmt-66">
+   <pattern id="schematron-constraint-hendiWorksTEI-relatedItem-relatedItem-target-within-notesStmt-68">
       <rule context="tei:relatedItem[parent::tei:notesStmt]">
          <assert test="@target and @type">Within the notesStmt you must supply both the @target and the @type attribute on <name/>.</assert>
          <assert test="starts-with(@target, 'wega:')">Within the notesStmt, pointers to WeGA resources with the @target attribute must be prefixed with 'wega:'.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-relatedItem-targetorcontent1-67">
+   <pattern id="schematron-constraint-hendiWorksTEI-relatedItem-targetorcontent1-69">
       <rule context="tei:relatedItem">
          <report test="@target and count( child::* ) &gt; 0">
 If the @target attribute on <name/> is used, the
@@ -411,35 +424,24 @@ relatedItem element must be empty</report>
         or a child element to indicate the related bibliographic item</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-l-abstractModel-structure-l-in-l-68">
+   <pattern id="schematron-constraint-hendiWorksTEI-l-abstractModel-structure-l-in-l-70">
       <rule context="tei:l">
          <report test="ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]">
         Abstract model violation: Lines may not contain lines or lg elements.
       </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-lg-atleast1oflggapl-69">
+   <pattern id="schematron-constraint-hendiWorksTEI-lg-atleast1oflggapl-71">
       <rule context="tei:lg">
          <assert test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element
         must contain at least one child l, lg, or gap element.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-lg-abstractModel-structure-lg-in-l-70">
+   <pattern id="schematron-constraint-hendiWorksTEI-lg-abstractModel-structure-lg-in-l-72">
       <rule context="tei:lg">
          <report test="ancestor::tei:l[not(.//tei:note//tei:lg[. = current()])]">
         Abstract model violation: Lines may not contain line groups.
       </report>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-teiHeader-seriesTitle-71">
-      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
-         <assert test=".=('Henze-Digital, Briefedition')">The series title must be "Henze-Digital, Briefedition".</assert>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-teiHeader-seriesTitle-72">
-      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
-         <assert test=".='Henze-Digital, literarische Werke, Digitale Edition'">The series title must be 
-                        "Henze-Digital, literarische Werke, Digitale Edition".</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-idno-types-match-external-identifiers-73">
@@ -508,7 +510,7 @@ relatedItem element must be empty</report>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-orgName-orgNameKeyRequirement-85">
       <rule context="tei:orgName[not(parent::tei:org)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-orgName-parent-org-86">
@@ -538,7 +540,7 @@ relatedItem element must be empty</report>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-persName-persNameKeyRequirement-91">
       <rule context="tei:persName[not(parent::tei:person)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-persName-persNameTypes-92">
@@ -666,8 +668,10 @@ relatedItem element must be empty</report>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-elementStartsWithWhitespace-113">
       <rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <name/>
-         </report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-untrimmedAttributeValues-114">
@@ -728,7 +732,7 @@ relatedItem element must be empty</report>
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
+         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
             <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
@@ -855,7 +859,12 @@ relatedItem element must be empty</report>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-importName-125">
       <rule context="tei:persName | tei:orgName | tei:placeName">
-         <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='proposed']"
+                 role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='candidate']"
+                 role="warning">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='approved']"
+                 role="error">This element has to be deleted before publishing!</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiWorksTEI-quotation-rend-values-126">
@@ -884,7 +893,18 @@ relatedItem element must be empty</report>
          <report test=".[following::lb]">A lb-element right after a pb-element is senseless.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiWorksTEI-styleguide-document-node-content-131">
+   <pattern id="schematron-constraint-hendiWorksTEI-seriesTitleRequirements-131">
+      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+         <let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+         <let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+         <let name="seriesTitleA02"
+              value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<value-of select="$seriesTitleA04"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<value-of select="$seriesTitleA05"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<value-of select="$seriesTitleA02"/>".</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiWorksTEI-styleguide-document-node-content-132">
       <rule context="document-node()">
          <report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</report>
          <report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</report>
