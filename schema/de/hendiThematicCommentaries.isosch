@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2023-01-12T11:34:05Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2023-01-19T14:05:20Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -328,19 +328,22 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiThematicCommentaries-title-report-leading-zeros-54">
-      <rule context="tei:title">
-         <report test="matches(., '\s0\d+\.')">please do not prefix numbers with a zero</report>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-hendiThematicCommentaries-title-report-quotation-marks-55">
+   <pattern id="schematron-constraint-hendiThematicCommentaries-title-report-quotation-marks-54">
       <rule context="tei:title">
          <report test="matches(., '&#34;“„')">please replace literal quotation marks with q-tags</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiThematicCommentaries-teiHeader-seriesTitle-56">
-      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
-         <assert test=".=('Henze-Digital, Briefedition')">The series title must be "Henze-Digital, Briefedition".</assert>
+   <pattern id="schematron-constraint-hendiThematicCommentaries-biblStruct-biblStructAttReqId-55">
+      <rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
+         <assert test="@xml:id">@xml:id is required, if biblStruct is the root element.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiThematicCommentaries-biblStruct-biblStructAttReqSource-56">
+      <rule context="tei:biblStruct[not(ancestor::tei:TEI)]">
+         <assert test="@source">@source is required, if biblStruct is the root element.</assert>
+      </rule>
+      <rule context="tei:biblStruct[ancestor::tei:TEI/@source]">
+         <report test="@source">@source is permitted if the root element already uses @source.</report>
       </rule>
    </pattern>
    <pattern id="isoschematron-constraint-hendiThematicCommentaries-teiHeader-seriesTitle-57">
@@ -396,7 +399,7 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-orgName-orgNameKeyRequirement-68">
       <rule context="tei:orgName[not(parent::tei:org)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-orgName-parent-org-69">
@@ -426,7 +429,7 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-persName-persNameKeyRequirement-74">
       <rule context="tei:persName[not(parent::tei:person)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-persName-persNameTypes-75">
@@ -506,8 +509,10 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-elementStartsWithWhitespace-86">
       <rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <name/>
-         </report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-untrimmedAttributeValues-87">
@@ -568,7 +573,7 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
+         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
             <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
@@ -695,7 +700,12 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-importName-98">
       <rule context="tei:persName | tei:orgName | tei:placeName">
-         <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='proposed']"
+                 role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='candidate']"
+                 role="warning">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='approved']"
+                 role="error">This element has to be deleted before publishing!</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiThematicCommentaries-quotation-rend-values-99">
@@ -722,6 +732,17 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
    <pattern id="schematron-constraint-hendiThematicCommentaries-reportLBfollowsPB-103">
       <rule context="tei:pb">
          <report test=".[following::lb]">A lb-element right after a pb-element is senseless.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiThematicCommentaries-seriesTitleRequirements-104">
+      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+         <let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+         <let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+         <let name="seriesTitleA02"
+              value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<value-of select="$seriesTitleA04"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<value-of select="$seriesTitleA05"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<value-of select="$seriesTitleA02"/>".</report>
       </rule>
    </pattern>
 </schema>
