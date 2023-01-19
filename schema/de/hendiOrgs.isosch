@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2023-01-12T11:31:06Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2023-01-19T14:02:23Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -321,24 +321,19 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-title-report-leading-zeros-53">
-      <rule context="tei:title">
-         <report test="matches(., '\s0\d+\.')">please do not prefix numbers with a zero</report>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-title-report-quotation-marks-54">
+   <pattern id="schematron-constraint-hendiOrgs-title-report-quotation-marks-53">
       <rule context="tei:title">
          <report test="matches(., '&#34;“„')">please replace literal quotation marks with q-tags</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-l-abstractModel-structure-l-in-l-55">
+   <pattern id="schematron-constraint-hendiOrgs-l-abstractModel-structure-l-in-l-54">
       <rule context="tei:l">
          <report test="ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]">
         Abstract model violation: Lines may not contain lines or lg elements.
       </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-idno-types-match-external-identifiers-56">
+   <pattern id="schematron-constraint-hendiOrgs-idno-types-match-external-identifiers-55">
       <rule context="tei:idno[@type='gnd']">
          <assert test="matches(., '^1[01]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]$')">That doesn't look like a valid GND ID.</assert>
       </rule>
@@ -349,7 +344,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <assert test="matches(., '^[1-9][0-9]{0,8}$')">That doesn't look like a valid Geonames ID.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-idno-match-external-identifiers-57">
+   <pattern id="schematron-constraint-hendiOrgs-idno-match-external-identifiers-56">
       <rule context="tei:idno[parent::tei:place]">
          <report test="@type=('bd')">Bach IDs are not meant for places.</report>
          <report test="@type=('gnd')" role="info">There are less GND Identifier for places. Have you tried http://www.geonames.org/ ?</report>
@@ -358,52 +353,52 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <report test="@type=('geonames')">Geonames IDs are not meant for persons.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-seg-activeOrPassivePerformance-58">
+   <pattern id="schematron-constraint-hendiOrgs-seg-activeOrPassivePerformance-57">
       <rule context="tei:seg">
          <report test="./@subtype = ('active', 'passive') and not(./@type = 'performance')">if @subtype contains 'active' or 'passive' @type has to be 'performance'</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-seg-AddresseeOrSenderCorrespondence-59">
+   <pattern id="schematron-constraint-hendiOrgs-seg-AddresseeOrSenderCorrespondence-58">
       <rule context="tei:seg">
          <report test="./@subtype = ('sender', 'addressee') and not(./@type = 'correspondence')">if @subtype contains 'sender' or 'addressee' @type has to be 'correspondence'</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-orgName-orgNameKeyRequirement-60">
+   <pattern id="schematron-constraint-hendiOrgs-orgName-orgNameKeyRequirement-59">
       <rule context="tei:orgName[not(parent::tei:org)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-61">
+   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-60">
       <rule context="tei:orgName[parent::tei:org and not(ancestor::tei:listOrg)]">
          <report test="@key or not(@type)">It is required to give the type ('alt' or 'reg') of the name while @key is forbiden here.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-reg-62">
+   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-reg-61">
       <rule context="tei:orgName[parent::tei:org and not(preceding::tei:orgName) and not(ancestor::tei:listOrg)]">
          <assert test="@type='reg'">There must exactly be one name with @type='reg'.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-reg-63">
+   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-reg-62">
       <rule context="tei:orgName[parent::tei:org and preceding::tei:orgName and not(ancestor::tei:listOrg)]">
          <report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-not-org-64">
+   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-not-org-63">
       <rule context="tei:orgName[not(parent::tei:org)]">
          <report test="@type">No @type attribute allowed here.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-reg2-65">
+   <pattern id="schematron-constraint-hendiOrgs-orgName-parent-org-reg2-64">
       <rule context="tei:orgName[parent::tei:org and preceding::tei:orgName]">
          <report test="@type='reg'">Only the first name can be of @type='reg'. Following names are supposed to be alternative names, @type='alt'.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-persName-persNameKeyRequirement-66">
+   <pattern id="schematron-constraint-hendiOrgs-persName-persNameKeyRequirement-65">
       <rule context="tei:persName[not(parent::tei:person)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-persName-persNameTypes-67">
+   <pattern id="schematron-constraint-hendiOrgs-persName-persNameTypes-66">
       <rule context="tei:persName[@type='alt' and @subtype='married']">
          <report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) &gt; 1 and not(@n)"
                  role="error">If there are more than one name of marriage, please add @n to differ.</report>
@@ -411,12 +406,12 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                  role="warning">If there is only one name of marriage, it is obsolete to use @n.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-event-org-events-68">
+   <pattern id="schematron-constraint-hendiOrgs-event-org-events-67">
       <rule context="tei:event">
          <assert test="tei:label=('Beginn der Tätigkeit', 'Einstellung der Tätigkeit')">label for event should be 'Beginn der Tätigkeit' or 'Einstellung der Tätigkeit'.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-org-listorg-org-status-69">
+   <pattern id="schematron-constraint-hendiOrgs-org-listorg-org-status-68">
       <rule context="tei:org[not(parent::tei:listOrg)]">
          <assert test="@status">@status is missing.</assert>
       </rule>
@@ -424,7 +419,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <report test="@status">@status is only for use at the root element.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-org-listorg-org-source-70">
+   <pattern id="schematron-constraint-hendiOrgs-org-listorg-org-source-69">
       <rule context="tei:org[not(parent::tei:listOrg)]">
          <assert test="@source">@source is missing.</assert>
       </rule>
@@ -432,45 +427,47 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <report test="@source">@source is only for use at the root element.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-subst-substContents1-71">
+   <pattern id="schematron-constraint-hendiOrgs-subst-substContents1-70">
       <rule context="tei:subst">
          <assert test="child::tei:add and (child::tei:del or child::tei:surplus)">
             <name/> must have at least one child add and at least one child del or surplus</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-att.hendi.rend-underline-n-72">
+   <pattern id="schematron-constraint-hendiOrgs-att.hendi.rend-underline-n-71">
       <rule context="*:hi[@n] | *:rend[@n]">
          <report test="@rend ne 'underline'">The @n-attribute is only supported in combination with @rend='underline'</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-whitespaceOnlyContent-73">
+   <pattern id="schematron-constraint-hendiOrgs-whitespaceOnlyContent-72">
       <rule context="tei:surname | tei:forename | tei:persName | mei:persName | tei:orgName | mei:corpName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <report test="normalize-space(.) = ''">
             <name/> has whitespace only content</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-elementStartsWithWhitespace-74">
+   <pattern id="schematron-constraint-hendiOrgs-elementStartsWithWhitespace-73">
       <rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <name/>
-         </report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-untrimmedAttributeValues-75">
+   <pattern id="schematron-constraint-hendiOrgs-untrimmedAttributeValues-74">
       <rule context="*">
          <report test="some $i in @* satisfies string-length(normalize-unicode(normalize-space(replace($i, ' | | | ', ' ')))) ne string-length($i)">There is some whitespace here at the beginning or end of some attribute value.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-hendiTargets-76">
+   <pattern id="schematron-constraint-hendiOrgs-hendiTargets-75">
       <rule context="*[starts-with(@target, 'hendi:')]">
          <assert test="matches(@target, '^hendi:A\d{2}[0-9A-F]{5}(#.+)?(\s+hendi:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hendi:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-emojiCheck-77">
+   <pattern id="schematron-constraint-hendiOrgs-emojiCheck-76">
       <rule context="*[some $i in text() satisfies normalize-space($i) ne '']">
          <report test="matches(.,                         '[⌚-⌛]|[⏩-⏬]|[⏰]|[⏳]|[◽-◾]|[☔-☕]|[♈-♓]|[♿]|[⚓]|[⚡]|[⚪-⚫]|[⚽-⚾]|[⛄-⛅]|[⛎]|[⛔]|[⛪]|[⛲-⛳]|[⛵]|[⛺]|[⛽]|[✅]|[✊-✋]|[✨]|[❌]|[❎]|[❓-❕]|[❗]|[➕-➗]|[➰]|[➿]|[⬛-⬜]|[⭐]|[⭕]|[🀄]|[🃏]|[🆎]|[🆑-🆚]|[🇦-🇿]|[🈁]|[🈚]|[🈯]|[🈲-🈶]|[🈸-🈺]|[🉐-🉑]|[🌀-🌠]|[🌭-🌯]|[🌰-🌵]|[🌷-🍼]|[🍾-🍿]|[🎀-🎓]|[🎠-🏄]|[🏅]|[🏆-🏊]|[🏏-🏓]|[🏠-🏰]|[🏴]|[🏸-🏿]|[🐀-🐾]|[👀]|[👂-📷]|[📸]|[📹-📼]|[📿]|[🔀-🔽]|[🕋-🕎]|[🕐-🕧]|[🕺]|[🖕-🖖]|[🖤]|[🗻-🗿]|[😀]|[😁-😐]|[😑]|[😒-😔]|[😕]|[😖]|[😗]|[😘]|[😙]|[😚]|[😛]|[😜-😞]|[😟]|[😠-😥]|[😦-😧]|[😨-😫]|[😬]|[😭]|[😮-😯]|[😰-😳]|[😴]|[😵-🙀]|[🙁-🙂]|[🙃-🙄]|[🙅-🙏]|[🚀-🛅]|[🛌]|[🛐]|[🛑-🛒]|[🛕]|[🛫-🛬]|[🛴-🛶]|[🛷-🛸]|[🛹]|[🛺]|[🟠-🟫]|[🤍-🤏]|[🤐-🤘]|[🤙-🤞]|[🤟]|[🤠-🤧]|[🤨-🤯]|[🤰]|[🤱-🤲]|[🤳-🤺]|[🤼-🤾]|[🤿]|[🥀-🥅]|[🥇-🥋]|[🥌]|[🥍-🥏]|[🥐-🥞]|[🥟-🥫]|[🥬-🥰]|[🥱]|[🥳-🥶]|[🥺]|[🥻]|[🥼-🥿]|[🦀-🦄]|[🦅-🦑]|[🦒-🦗]|[🦘-🦢]|[🦥-🦪]|[🦮-🦯]|[🦰-🦹]|[🦺-🦿]|[🧀]|[🧁-🧂]|[🧃-🧊]|[🧍-🧏]|[🧐-🧦]|[🧧-🧿]|[🩰-🩳]|[🩸-🩺]|[🪀-🪂]|[🪐-🪕]')">Text contains characters with Emoji presentation as default.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-sourceMustResolve-78">
+   <pattern id="schematron-constraint-hendiOrgs-sourceMustResolve-77">
       <rule context="*[starts-with(@source, '#')]">
          <let name="source" value="@source"/>
          <assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</assert>
@@ -513,7 +510,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
+         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
             <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
@@ -551,23 +548,23 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          </rule>
       </pattern>
    </schema>
-   <pattern id="schematron-constraint-hendiOrgs-addWithoutPlace-81">
+   <pattern id="schematron-constraint-hendiOrgs-addWithoutPlace-80">
       <rule context="tei:add[not(parent::tei:subst)]">
          <assert test="@place">Missing @place, because this is no substitution here.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-nameTypeRequirement-82">
+   <pattern id="schematron-constraint-hendiOrgs-nameTypeRequirement-81">
       <rule context="tei:name[not(ancestor::tei:teiHeader)]">
          <assert test="@type">@type is required at <name/>.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-lbInsideAddress-83">
+   <pattern id="schematron-constraint-hendiOrgs-lbInsideAddress-82">
       <rule context="tei:lb">
          <report test="parent::tei:address" role="info">Does <name/> mark a new line inside the address? If yes, please use &lt;addrLine&gt; instead of <name/>
          </report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-renditionWithPosition-84">
+   <pattern id="schematron-constraint-hendiOrgs-renditionWithPosition-83">
       <rule context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
          <assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</assert>
       </rule>
@@ -638,12 +635,17 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <assert test="count(distinct-values(for $i in tokenize(@key, '\s+') return substring($i, 1, 3))) gt 1">A type value of 'mixed' must have keys referring to different document types</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-importName-86">
+   <pattern id="schematron-constraint-hendiOrgs-importName-85">
       <rule context="tei:persName | tei:orgName | tei:placeName">
-         <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='proposed']"
+                 role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='candidate']"
+                 role="warning">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='approved']"
+                 role="error">This element has to be deleted before publishing!</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-quotation-rend-values-87">
+   <pattern id="schematron-constraint-hendiOrgs-quotation-rend-values-86">
       <rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend">
          <report test="contains(.,'none')">The value 'none' is not allowed at <value-of select="node-name()"/>.</report>
       </rule>
@@ -654,19 +656,30 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <value-of select="node-name()"/>.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-quotation-rend-attributes-88">
+   <pattern id="schematron-constraint-hendiOrgs-quotation-rend-attributes-87">
       <rule context="*:q[@rend] | *:quote[@rend] | *:q[@rendLeft] | *:quote[@rendLeft] | *:q[@rendRight] | *:quote[@rendRight]">
          <report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-rendIfBreakNo-90">
+   <pattern id="schematron-constraint-hendiOrgs-rendIfBreakNo-89">
       <rule context="tei:lb | tei:pb">
          <assert test="not(@*) or @n or @break or (@break and @rend)">@rend is only allowed if @break is used.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiOrgs-reportLBfollowsPB-91">
+   <pattern id="schematron-constraint-hendiOrgs-reportLBfollowsPB-90">
       <rule context="tei:pb">
          <report test=".[following::lb]">A lb-element right after a pb-element is senseless.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiOrgs-seriesTitleRequirements-91">
+      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+         <let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+         <let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+         <let name="seriesTitleA02"
+              value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<value-of select="$seriesTitleA04"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<value-of select="$seriesTitleA05"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<value-of select="$seriesTitleA02"/>".</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiOrgs-styleguide-document-node-content-92">
