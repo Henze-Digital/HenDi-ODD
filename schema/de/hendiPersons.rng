@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2022-12-13T08:00:02Z. .
+Schema generated from ODD source 2023-01-19T14:03:18Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -51,9 +51,11 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
    <define name="staffSignatures.list">
       <choice>
          <value>AT</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Antje Tumat</a:documentation>
+         <value>CC</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Christian Camino</a:documentation>
          <value>DR</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dennis Ried</a:documentation>
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Antje Tumat</a:documentation>
          <value>EM</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Elena Minetti</a:documentation>
          <value>IC</value>
@@ -84,32 +86,32 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </data>
    </define>
    <define name="macro.persNameContent">
-      <interleave>
-         <oneOrMore>
+      <zeroOrMore>
+         <choice>
             <text/>
-         </oneOrMore>
-         <zeroOrMore>
-            <ref name="name"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="surname"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="forename"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="nameLink"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="genName"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="roleName"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="addName"/>
-         </zeroOrMore>
-      </interleave>
+            <zeroOrMore>
+               <ref name="surname"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="forename"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="nameLink"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="genName"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="roleName"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="addName"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="name"/>
+            </zeroOrMore>
+         </choice>
+      </zeroOrMore>
    </define>
    <define name="macro.birthDeathContent">
       <zeroOrMore>
@@ -576,9 +578,11 @@ Beispielwerte sind etwa: 1] all; 2] most; 3] range</a:documentation>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(responsible party) indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</a:documentation>
             <choice>
                <value>AT</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Antje Tumat</a:documentation>
+               <value>CC</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Christian Camino</a:documentation>
                <value>DR</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dennis Ried</a:documentation>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Antje Tumat</a:documentation>
                <value>EM</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Elena Minetti</a:documentation>
                <value>IC</value>
@@ -642,14 +646,6 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
    </define>
    <define name="att.global.rendition.attributes">
       <ref name="att.global.rendition.attribute.rend"/>
-   </define>
-   <define name="att.global.rendition.attribute.rendition">
-      <optional>
-         <attribute name="rendition">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <text/>
-         </attribute>
-      </optional>
    </define>
    <define name="att.global.rendition.attribute.rend">
       <optional>
@@ -890,32 +886,6 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
                 xmlns:xi="http://www.w3.org/2001/XInclude"
                 context="tei:*[@subtype]">
          <sch:assert test="@type">The <sch:name/> element should not be categorized in detail with @subtype unless also categorized in general with @type</sch:assert>
-      </sch:rule>
-   </pattern>
-   <define name="att.pointing.attribute.evaluate">
-      <optional>
-         <attribute name="evaluate">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <text/>
-         </attribute>
-      </optional>
-   </define>
-   <define name="att.pointing.attribute.targetLang">
-      <optional>
-         <attribute name="targetLang">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <text/>
-         </attribute>
-      </optional>
-   </define>
-   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-att.pointing-targetLang-constraint-rule-10">
-      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:xi="http://www.w3.org/2001/XInclude"
-                context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
-         <sch:assert test="@target">@targetLang should only be used on <sch:name/> if @target is specified.</sch:assert>
       </sch:rule>
    </pattern>
    <define name="model.nameLike.agent">
@@ -1270,9 +1240,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
       </choice>
    </define>
    <define name="model.noteLike">
-      <choice>
-         <ref name="note"/>
-      </choice>
+      <notAllowed/>
    </define>
    <define name="model.lLike">
       <notAllowed/>
@@ -1553,6 +1521,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
          <ref name="model.milestoneLike"/>
          <ref name="model.noteLike"/>
          <ref name="model.global.edit"/>
+         <ref name="note"/>
       </choice>
    </define>
    <define name="model.pPart.data">
@@ -1653,7 +1622,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-p-extent-only-once-constraint-rule-11">
+                  id="hendiPersons-p-extent-only-once-constraint-rule-10">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -1665,7 +1634,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-p-extent-regex-constraint-rule-12">
+                  id="hendiPersons-p-extent-regex-constraint-rule-11">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -1749,7 +1718,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
       <element name="hi">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(hervorgehoben) markiert ein Wort oder eine Phrase als grafisch deutlich vom umgebenden Text abgehoben, aus Gründen über die keine Angaben gemacht werden können. [3.3.2.2. Emphatic Words and Phrases 3.3.2. Emphasis, Foreign Words, and Unusual Language]</a:documentation>
          <ref name="macro.paraContent"/>
-         <ref name="att.hwh.rend.attributes"/>
+         <ref name="att.hendi.rend.attributes"/>
          <ref name="att.written.attributes"/>
          <optional>
             <attribute name="color">
@@ -1806,7 +1775,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Zitat) enthält Text, der vom Autor (des umgebenden Texts) einer anderen Autorität zugeschrieben wird. [3.3.3. Quotation 4.3.1. Grouped Texts]</a:documentation>
          <ref name="macro.specialPara"/>
          <ref name="att.global.source.attributes"/>
-         <ref name="att.hwh.quotation.attributes"/>
+         <ref name="att.hendi.quotation.attributes"/>
          <ref name="att.notated.attributes"/>
          <optional>
             <attribute name="rend">
@@ -1848,7 +1817,7 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
       <element name="q">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(in Anführungszeichen gesetzt) enthält Text, der in Anführungszeichen gesetzt ist. [3.3.3. Quotation]</a:documentation>
          <ref name="macro.specialPara"/>
-         <ref name="att.hwh.quotation.attributes"/>
+         <ref name="att.hendi.quotation.attributes"/>
          <ref name="att.ascribed.directed.attributes"/>
          <optional>
             <attribute name="rend">
@@ -1949,6 +1918,8 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </group>
             <empty/>
          </choice>
+         <ref name="att.global.responsibility.attributes"/>
+         <empty/>
       </element>
    </define>
    <define name="add">
@@ -2017,7 +1988,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-del-rend-rendAtDel-constraint-rule-13">
+                  id="hendiPersons-del-rend-rendAtDel-constraint-rule-12">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2152,6 +2123,18 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
          <oneOrMore>
             <ref name="addrLine"/>
          </oneOrMore>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>sender</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Absender) </a:documentation>
+                  <value>receiver</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Empfänger) </a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
       </element>
    </define>
    <define name="addrLine">
@@ -2161,7 +2144,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             <ref name="macro.phraseSeq"/>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-addrLine-addrLineStreet-constraint-rule-14">
+                  id="hendiPersons-addrLine-addrLineStreet-constraint-rule-13">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2242,7 +2225,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-date-types-for-corresp-action-constraint-rule-15">
+                  id="hendiPersons-date-date-types-for-corresp-action-constraint-rule-14">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2255,7 +2238,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics2-constraint-rule-16">
+                  id="hendiPersons-date-dateHeuristics2-constraint-rule-15">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2318,7 +2301,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics5-constraint-assert-10">
+                  id="hendiPersons-date-dateHeuristics5-constraint-assert-9">
             <rule context="tei:date">
                <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -2330,7 +2313,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-dateHeuristics6-constraint-rule-20">
+                  id="hendiPersons-date-dateHeuristics6-constraint-rule-19">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2351,7 +2334,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-date-julian-before-1582-constraint-rule-22">
+                  id="hendiPersons-date-julian-before-1582-constraint-rule-21">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2484,7 +2467,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-list-gloss-list-must-have-labels-constraint-rule-23">
+                  id="hendiPersons-list-gloss-list-must-have-labels-constraint-rule-22">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -2553,7 +2536,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Anmerkung) enthält eine Notiz oder eine Anmerkung/Annotation. [3.9.1. Notes and Simple Annotation 2.2.6. The Notes Statement 3.12.2.8. Notes and Statement of Language 9.3.5.4. Notes within Entries]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-translation-notes-corresp-constraint-rule-24">
+                  id="hendiPersons-note-translation-notes-corresp-constraint-rule-23">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2567,7 +2550,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-note-in-text-constraint-rule-25">
+                  id="hendiPersons-note-note-in-text-constraint-rule-24">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2581,7 +2564,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-notesStmt-notes-constraint-rule-26">
+                  id="hendiPersons-note-notesStmt-notes-constraint-rule-25">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2594,7 +2577,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-text-notes-constraint-rule-27">
+                  id="hendiPersons-note-text-notes-constraint-rule-26">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -2607,7 +2590,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-thematicCom-target-constraint-rule-28">
+                  id="hendiPersons-note-thematicCom-target-constraint-rule-27">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2619,7 +2602,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-thematicCom-must-be-empty-constraint-rule-29">
+                  id="hendiPersons-note-thematicCom-must-be-empty-constraint-rule-28">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2631,7 +2614,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-structured-content-notes-constraint-rule-30">
+                  id="hendiPersons-note-structured-content-notes-constraint-rule-29">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2643,7 +2626,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiPersons-note-initial-uppercase-commentaries-constraint-rule-31">
+                  id="hendiPersons-note-initial-uppercase-commentaries-constraint-rule-30">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -2654,28 +2637,10 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
                <sch:assert test="matches(replace(normalize-unicode(normalize-space(.), 'NFKD'),  '[\p{M}]', ''), '^[A-Z0-9]')">Commentary notes must start with an upper case letter.</sch:assert>
             </sch:rule>
          </pattern>
-         <ref name="att.global.attribute.xmlid"/>
-         <ref name="att.global.attribute.n"/>
-         <ref name="att.global.attribute.xmllang"/>
-         <ref name="att.global.rendition.attribute.rendition"/>
-         <ref name="att.global.rendition.attribute.rend"/>
-         <ref name="att.global.facs.attribute.facs"/>
-         <ref name="att.global.change.attribute.change"/>
-         <ref name="att.pointing.attribute.evaluate"/>
-         <ref name="att.pointing.attribute.targetLang"/>
-         <ref name="att.written.attributes"/>
          <optional>
             <attribute name="resp">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(verantwortliche Institution) indiziert die verantwortliche Institution, die für die Intervention oder Interpretation verantwortlich ist, wie zum Beispiel ein Editor oder ein Umkodierer.</a:documentation>
                <ref name="staffSignatures.list"/>
-            </attribute>
-         </optional>
-         <optional>
-            <attribute name="target">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Verweisziele) Nimmt die URIs (in der Form "wega:A07xxxx") der zu verknüpfenden Themenkommentare auf (nur möglich in Verbindung mit <code xmlns="http://www.w3.org/1999/xhtml">@type</code>="thematicCom")</a:documentation>
-               <list>
-                  <rng:empty xmlns:rng="http://relaxng.org/ns/structure/1.0"/>
-               </list>
             </attribute>
          </optional>
          <optional>
@@ -2698,6 +2663,56 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Generalkommentar) Ein Generalkommentar zur vorliegenden Datei (nur anwendbar im <code xmlns="http://www.w3.org/1999/xhtml">&lt;notesStmt&gt;</code>).</a:documentation>
                   <value>translation</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Übersetzung) Übersetzung des Inhalts eines spezifischen Dokuments. Verlinkung mit <code xmlns="http://www.w3.org/1999/xhtml">@corresp</code> zwingend.</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="corresp">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">zeigt auf die anderssprachige Passage, die in dieser Anmerkung übersetzt wird</a:documentation>
+               <data type="anyURI">
+                  <param name="pattern">\S+</param>
+               </data>
+            </attribute>
+         </optional>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiPersons-note-corresp-translation-note-ref-constraint-rule-31">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:note[@type='translation' and @corresp]">
+               <sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <optional>
+            <attribute name="xml:lang">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Die im Foglenden genutzte Sprache.</a:documentation>
+               <choice>
+                  <value>en</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Englisch</a:documentation>
+                  <value>da</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dänisch</a:documentation>
+                  <value>de</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Deutsch</a:documentation>
+                  <value>fr</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Französisch</a:documentation>
+                  <value>es</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Spanisch</a:documentation>
+                  <value>it</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Italienisch</a:documentation>
+                  <value>la</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Latein</a:documentation>
+                  <value>el</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Griechisch (modern)</a:documentation>
+                  <value>no</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Norwegisch</a:documentation>
+                  <value>ru</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Russisch</a:documentation>
+                  <value>noRecord</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Nicht erfasst</a:documentation>
                </choice>
             </attribute>
          </optional>
@@ -2895,7 +2910,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:orgName[not(parent::tei:org)]">
-               <sch:assert test="@key" role="warning">A <sch:name/> should be used for identification.</sch:assert>
+               <sch:assert test="@key" role="info">@key should be used for identification.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -3001,7 +3016,7 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
                       xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:persName[not(parent::tei:person)]">
-               <sch:assert test="@key" role="warning">A <sch:name/> should be used for identification.</sch:assert>
+               <sch:assert test="@key" role="info">@key should be used for identification.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -3666,7 +3681,6 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                            <choice>
                               <value>birth</value>
                               <value>married</value>
-                              <value>nick</value>
                               <value>role</value>
                            </choice>
                         </attribute>
@@ -3731,7 +3745,11 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiPersons-person-enforceWhitespace-constraint-rule-45">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:persName[@type][./*]">
                <sch:assert test="every $x in ./*[following-sibling::*] satisfies $x[following-sibling::node()[1] instance of text()]">Child elements of persName should be separated with whitespace.</sch:assert>
@@ -3740,7 +3758,11 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiPersons-person-bioSummary-mixed-content-constraint-rule-46">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:note[@type='bioSummary'][tei:list]">
                <sch:report test="text()[matches(., '\S')]">When utilizing tei:list as structural unit you should wrap other text in tei:p.</sch:report>
@@ -3802,7 +3824,7 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
             <choice>
                <value>WeGA</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Personen aus dem Datenbestand der Carl-Maria-von-Weber-Gesamtausgabe (WeGA).</a:documentation>
-               <value>HWH</value>
+               <value>HenDi</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
             </choice>
          </attribute>
@@ -4097,11 +4119,11 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <empty/>
       </element>
    </define>
-   <define name="att.hwh.rend.attributes">
-      <ref name="att.hwh.rend.attribute.rend"/>
-      <ref name="att.hwh.rend.attribute.n"/>
+   <define name="att.hendi.rend.attributes">
+      <ref name="att.hendi.rend.attribute.rend"/>
+      <ref name="att.hendi.rend.attribute.n"/>
    </define>
-   <define name="att.hwh.rend.attribute.rend">
+   <define name="att.hendi.rend.attribute.rend">
       <attribute name="rend">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(graphische Darstellung) gibt an, wie das fragliche Element in der Vorlage graphisch dargestellt ist.</a:documentation>
          <choice>
@@ -4130,7 +4152,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          </choice>
       </attribute>
    </define>
-   <define name="att.hwh.rend.attribute.n">
+   <define name="att.hendi.rend.attribute.n">
       <optional>
          <attribute name="n">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Zahl) gibt die Anzahl der Unterstreichungen an (d.h., @n kann nur in Kombination mit hi@rend='underline' auftreten).</a:documentation>
@@ -4139,7 +4161,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-att.hwh.rend-underline-n-constraint-rule-50">
+            id="hendiPersons-att.hendi.rend-underline-n-constraint-rule-50">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4151,12 +4173,12 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <sch:report test="@rend ne 'underline'">The @n-attribute is only supported in combination with @rend='underline'</sch:report>
       </sch:rule>
    </pattern>
-   <define name="att.hwh.quotation.attributes">
-      <ref name="att.hwh.quotation.attribute.rendRight"/>
-      <ref name="att.hwh.quotation.attribute.rendLeft"/>
-      <ref name="att.hwh.quotation.attribute.xmllang"/>
+   <define name="att.hendi.quotation.attributes">
+      <ref name="att.hendi.quotation.attribute.rendRight"/>
+      <ref name="att.hendi.quotation.attribute.rendLeft"/>
+      <ref name="att.hendi.quotation.attribute.xmllang"/>
    </define>
-   <define name="att.hwh.quotation.attribute.rendRight">
+   <define name="att.hendi.quotation.attribute.rendRight">
       <optional>
          <attribute name="rendRight">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(graphische Darstellung (rechts)) gibt an, wie das fragliche Element in der Vorlage am Ende einer Phrase graphisch dargestellt ist.</a:documentation>
@@ -4191,7 +4213,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          </attribute>
       </optional>
    </define>
-   <define name="att.hwh.quotation.attribute.rendLeft">
+   <define name="att.hendi.quotation.attribute.rendLeft">
       <optional>
          <attribute name="rendLeft">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(graphische Darstellung (links)) gibt an, wie das fragliche Element in der Vorlage zu Beginn einer Phrase graphisch dargestellt ist.</a:documentation>
@@ -4226,7 +4248,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          </attribute>
       </optional>
    </define>
-   <define name="att.hwh.quotation.attribute.xmllang">
+   <define name="att.hendi.quotation.attribute.xmllang">
       <optional>
          <attribute name="xml:lang">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Sprache) gibt an, welcher Sprache die Anführungszeichen entnommen sind.</a:documentation>
@@ -4255,7 +4277,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                context="tei:surname | tei:forename | tei:persName | tei:orgName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
+                context="tei:surname | tei:forename | tei:persName | mei:persName | tei:orgName | mei:corpName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <sch:report test="normalize-space(.) = ''">
             <sch:name/> has whitespace only content</sch:report>
       </sch:rule>
@@ -4270,8 +4292,10 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/>
-         </sch:report>
+         <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
+                     role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
+         <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
+                     role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -4288,7 +4312,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-hwhTargets-constraint-rule-54">
+            id="hendiPersons-hendiTargets-constraint-rule-54">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -4296,8 +4320,8 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                context="*[starts-with(@target, 'hwh:')]">
-         <sch:assert test="matches(@target, '^hwh:A\d{2}[0-9A-F]{5}(#.+)?(\s+hwh:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hwh:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</sch:assert>
+                context="*[starts-with(@target, 'hendi:')]">
+         <sch:assert test="matches(@target, '^hendi:A\d{2}[0-9A-F]{5}(#.+)?(\s+hendi:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hendi:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</sch:assert>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -4336,17 +4360,17 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                queryBinding="xslt2">
-      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
-      <xsl:function name="hwh-xsl:int2hex">
+      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+      <xsl:function name="hendi-xsl:int2hex">
          <xsl:param name="number" as="xs:int"/>
          <xsl:variable name="chars"
                        select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
          <xsl:variable name="div" select="$number div 16"/>
          <xsl:variable name="count" select="floor($div)"/>
          <xsl:variable name="remainder" select="($div - $count) * 16"/>
-         <xsl:value-of select="concat(if($count gt 15) then hwh-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
+         <xsl:value-of select="concat(if($count gt 15) then hendi-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
       </xsl:function>
-      <xsl:function name="hwh-xsl:compute-check-digit">
+      <xsl:function name="hendi-xsl:compute-check-digit">
          <xsl:param name="id" as="xs:string"/>
          <xsl:variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
          <xsl:variable name="str2codepts" select="string-to-codepoints($id)"/>
@@ -4359,19 +4383,20 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <xsl:variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
          <xsl:variable name="sum"
                        select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
-         <xsl:value-of select="hwh-xsl:int2hex(xs:int($sum mod 16))"/>
+         <xsl:value-of select="hendi-xsl:int2hex(xs:int($sum mod 16))"/>
       </xsl:function>
-      <xsl:function name="hwh-xsl:checkIdByCheckDigit">
+      <xsl:function name="hendi-xsl:checkIdByCheckDigit">
          <xsl:param name="str" as="xs:string"/>
          <xsl:variable name="idStr" select="substring($str, 1, 7)"/>
          <xsl:variable name="idCheckDigit" select="substring($str, 8, 1)"/>
-         <xsl:variable name="computedCheckDigit" select="hwh-xsl:compute-check-digit($idStr)"/>
+         <xsl:variable name="computedCheckDigit"
+                       select="hendi-xsl:compute-check-digit($idStr)"/>
          <xsl:variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
          <xsl:value-of select="$check"/>
       </xsl:function>
       <sch:pattern id="idCheckDigit">
-         <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
-            <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
+         <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
+            <sch:assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hendi-xsl:compute-check-digit(.)"/>.</sch:assert>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
@@ -4384,7 +4409,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                queryBinding="xslt2">
-      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
       <sch:ns uri="http://www.functx.com" prefix="functx"/>
       <xsl:function name="functx:escape-for-regex" as="xs:string">
          <xsl:param name="arg" as="xs:string?"/>
@@ -4556,7 +4581,12 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 context="tei:persName | tei:orgName | tei:placeName">
-         <sch:report test="@type='import'" role="info">This element should be deleted after checking this record.</sch:report>
+         <sch:report test="(@type='import') and parent::node()/@status[.='proposed']"
+                     role="info">This element should be deleted after checking this record.</sch:report>
+         <sch:report test="(@type='import') and parent::node()/@status[.='candidate']"
+                     role="warning">This element should be deleted after checking this record.</sch:report>
+         <sch:report test="(@type='import') and parent::node()/@status[.='approved']"
+                     role="error">This element has to be deleted before publishing!</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -4605,8 +4635,62 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <sch:report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</sch:report>
       </sch:rule>
    </pattern>
+   <sch:ns xmlns="http://www.tei-c.org/ns/1.0"
+           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+           xmlns:mei="http://www.music-encoding.org/ns/mei"
+           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+           xmlns:s="http://www.ascc.net/xml/schematron"
+           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+           prefix="mei"
+           uri="http://www.music-encoding.org/ns/mei"/>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-styleguide-document-node-content-constraint-rule-89">
+            id="hendiPersons-rendIfBreakNo-constraint-rule-89">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:lb | tei:pb">
+         <sch:assert test="not(@*) or @n or @break or (@break and @rend)">@rend is only allowed if @break is used.</sch:assert>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiPersons-reportLBfollowsPB-constraint-rule-90">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:pb">
+         <sch:report test=".[following::lb]">A lb-element right after a pb-element is senseless.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiPersons-seriesTitleRequirements-constraint-rule-91">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+         <sch:let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+         <sch:let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+         <sch:let name="seriesTitleA02"
+                  value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<sch:value-of select="$seriesTitleA04"/>".</sch:report>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<sch:value-of select="$seriesTitleA05"/>".</sch:report>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<sch:value-of select="$seriesTitleA02"/>".</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiPersons-styleguide-document-node-content-constraint-rule-92">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2022-12-13T07:57:59Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2023-01-19T14:01:27Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
    <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
    <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
    <ns prefix="rng" uri="http://relaxng.org/ns/structure/1.0"/>
-   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
-   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
    <ns uri="http://www.functx.com" prefix="functx"/>
+   <ns prefix="mei" uri="http://www.music-encoding.org/ns/mei"/>
    <!-- ********************* -->
    <!-- namespaces, implicit: -->
    <!-- ********************* -->
@@ -263,17 +264,22 @@
          <assert test="ancestor::tei:biblStruct">The full-attribute on author may only be applied within biblStruct.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiNews-author-sameAs-sameAs-reference-44">
+   <pattern id="schematron-constraint-hendiNews-author-sameAs-reference-44">
       <rule context="tei:author[@sameAs]">
          <assert test="id(substring(@sameAs,2)) or starts-with(@sameAs, 'wega:')">There must be an element with the xml:id = "<value-of select="substring(@sameAs,2)"/>" which is the target of this @sameAs.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiNews-title-report-type-outside-text-45">
+   <pattern id="schematron-constraint-hendiNews-author-sameAs-sameAs-reference-45">
+      <rule context="tei:author[@sameAs]">
+         <assert test="id(substring(@sameAs,2)) or starts-with(@sameAs, 'wega:')">There must be an element with the xml:id = "<value-of select="substring(@sameAs,2)"/>" which is the target of this @sameAs.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiNews-title-report-type-outside-text-46">
       <rule context="tei:title">
          <report test=".[@type]/ancestor::tei:teiHeader">Do not use the <emph>type</emph> attribute here!</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiNews-title-duplicate-title-46">
+   <pattern id="schematron-constraint-hendiNews-title-duplicate-title-47">
       <rule context="tei:title[following-sibling::tei:title]">
          <let name="level" value="@level"/>
          <let name="type" value="string(@type)"/>
@@ -281,15 +287,10 @@
          <report test="following-sibling::tei:title[@level = $level][string(@xml:lang) = $lang][string(@type) = $type]">Following title without differing @type or xml:lang attribute</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiNews-title-punctuation-mark-47">
+   <pattern id="schematron-constraint-hendiNews-title-punctuation-mark-48">
       <rule context="tei:title">
          <report test="matches(normalize-space(self::tei:title), '[\.,;]$') and not(matches(normalize-space(self::tei:title), '((\p{Lu})|(\setc)|(\sal)|([\s\.]a)|(\sBl)|(\sAufl))\.$'))">Found a non-valid punctuation mark at the end of <name/>
          </report>
-      </rule>
-   </pattern>
-   <pattern id="schematron-constraint-hendiNews-title-report-leading-zeros-48">
-      <rule context="tei:title">
-         <report test="matches(., '\s0\d+\.')">please do not prefix numbers with a zero</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-title-report-quotation-marks-49">
@@ -313,7 +314,7 @@
    </pattern>
    <pattern id="schematron-constraint-hendiNews-orgName-orgNameKeyRequirement-54">
       <rule context="tei:orgName[not(parent::tei:org)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-orgName-parent-org-55">
@@ -343,7 +344,7 @@
    </pattern>
    <pattern id="schematron-constraint-hendiNews-persName-persNameKeyRequirement-60">
       <rule context="tei:persName[not(parent::tei:person)]">
-         <assert test="@key" role="warning">A <name/> should be used for identification.</assert>
+         <assert test="@key" role="info">@key should be used for identification.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-persName-persNameTypes-61">
@@ -387,15 +388,17 @@
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-whitespaceOnlyContent-66">
-      <rule context="tei:surname | tei:forename | tei:persName | tei:orgName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
+      <rule context="tei:surname | tei:forename | tei:persName | mei:persName | tei:orgName | mei:corpName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <report test="normalize-space(.) = ''">
             <name/> has whitespace only content</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-elementStartsWithWhitespace-67">
       <rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <name/>
-         </report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
+                 role="warning">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-untrimmedAttributeValues-68">
@@ -403,9 +406,9 @@
          <report test="some $i in @* satisfies string-length(normalize-unicode(normalize-space(replace($i, ' | | | ', ' ')))) ne string-length($i)">There is some whitespace here at the beginning or end of some attribute value.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiNews-hwhTargets-69">
-      <rule context="*[starts-with(@target, 'hwh:')]">
-         <assert test="matches(@target, '^hwh:A\d{2}[0-9A-F]{5}(#.+)?(\s+hwh:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hwh:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</assert>
+   <pattern id="schematron-constraint-hendiNews-hendiTargets-69">
+      <rule context="*[starts-with(@target, 'hendi:')]">
+         <assert test="matches(@target, '^hendi:A\d{2}[0-9A-F]{5}(#.+)?(\s+hendi:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hendi:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-emojiCheck-70">
@@ -420,17 +423,17 @@
       </rule>
    </pattern>
    <schema queryBinding="xslt2">
-      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hwh-xsl:int2hex">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:int2hex">
          <param name="number" as="xs:int"/>
          <variable name="chars"
                    select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
          <variable name="div" select="$number div 16"/>
          <variable name="count" select="floor($div)"/>
          <variable name="remainder" select="($div - $count) * 16"/>
-         <value-of select="concat(if($count gt 15) then hwh-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
+         <value-of select="concat(if($count gt 15) then hendi-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
       </function>
       <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="hwh-xsl:compute-check-digit">
+                name="hendi-xsl:compute-check-digit">
          <param name="id" as="xs:string"/>
          <variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
          <variable name="str2codepts" select="string-to-codepoints($id)"/>
@@ -443,20 +446,21 @@
          <variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
          <variable name="sum"
                    select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
-         <value-of select="hwh-xsl:int2hex(xs:int($sum mod 16))"/>
+         <value-of select="hendi-xsl:int2hex(xs:int($sum mod 16))"/>
       </function>
       <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="hwh-xsl:checkIdByCheckDigit">
+                name="hendi-xsl:checkIdByCheckDigit">
          <param name="str" as="xs:string"/>
          <variable name="idStr" select="substring($str, 1, 7)"/>
          <variable name="idCheckDigit" select="substring($str, 8, 1)"/>
-         <variable name="computedCheckDigit" select="hwh-xsl:compute-check-digit($idStr)"/>
+         <variable name="computedCheckDigit"
+                   select="hendi-xsl:compute-check-digit($idStr)"/>
          <variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
          <value-of select="$check"/>
       </function>
       <pattern id="idCheckDigit">
-         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
-            <assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hwh-xsl:compute-check-digit(.)"/>.</assert>
+         <rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
+            <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
    </schema>
@@ -582,7 +586,12 @@
    </pattern>
    <pattern id="schematron-constraint-hendiNews-importName-79">
       <rule context="tei:persName | tei:orgName | tei:placeName">
-         <report test="@type='import'" role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='proposed']"
+                 role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='candidate']"
+                 role="warning">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='approved']"
+                 role="error">This element has to be deleted before publishing!</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiNews-quotation-rend-values-80">
@@ -601,7 +610,28 @@
          <report test="(@rend and @rendLeft) or (@rend and @rendLeft)">The attribute rend is not allowed if rendLeft or rendRight is used.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-hendiNews-att.hwh.rend-underline-n-82">
+   <pattern id="schematron-constraint-hendiNews-rendIfBreakNo-83">
+      <rule context="tei:lb | tei:pb">
+         <assert test="not(@*) or @n or @break or (@break and @rend)">@rend is only allowed if @break is used.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiNews-reportLBfollowsPB-84">
+      <rule context="tei:pb">
+         <report test=".[following::lb]">A lb-element right after a pb-element is senseless.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiNews-seriesTitleRequirements-85">
+      <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+         <let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+         <let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+         <let name="seriesTitleA02"
+              value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<value-of select="$seriesTitleA04"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<value-of select="$seriesTitleA05"/>".</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<value-of select="$seriesTitleA02"/>".</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiNews-att.hendi.rend-underline-n-86">
       <rule context="*:hi[@n] | *:rend[@n]">
          <report test="@rend ne 'underline'">The @n-attribute is only supported in combination with @rend='underline'</report>
       </rule>

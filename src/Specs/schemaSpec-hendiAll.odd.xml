@@ -1,160 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-<schemaSpec ident="hendiAll" xml:lang="en" start="TEI biblStruct person ab" source="../../submodules/WeGA-ODD/compiled-ODD/guidelines-de-wega_all.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0"
-	xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+<schemaSpec ident="hendiAll" xml:lang="en" start="TEI biblStruct org person place" source="../../submodules/WeGA-ODD/compiled-ODD/guidelines-de-wega_all.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0"	xmlns:sch="http://purl.oclc.org/dsdl/schematron">
 	<desc>This is the customization for the superset schema at Henze-Digital</desc>
-    <moduleRef key="tei"/>
-    <moduleRef key="core"/>
-    <moduleRef key="figures"/>
-    <moduleRef key="gaiji"/>
+	
+	<!-- TEI components -->
+	<moduleRef key="core"/>
+	<elementRef key="foreign" source="tei:4.3.0"/>
+	<elementRef key="measure" source="tei:4.3.0"/>
+	<classRef key="att.measurement" source="tei:4.3.0"/>
+	<elementRef key="name" source="tei:4.3.0"/>
+	<elementRef key="num" source="tei:4.3.0"/>
+	<elementRef key="term" source="tei:4.3.0"/>
+	
+	<moduleRef key="figures"/>
+	<moduleRef key="gaiji"/>
     <moduleRef key="header"/>
+	<elementRef key="extent" source="tei:4.3.0"/>
+	<elementRef key="textClass" source="tei:4.3.0"/>
+	<elementRef key="keywords" source="tei:4.3.0"/>
+	
     <moduleRef key="linking"/>
-    <moduleRef key="msdescription"/>
-    <moduleRef key="namesdates"/>
-    <moduleRef key="tagdocs"/>
+	<moduleRef key="msdescription" source="tei:4.3.0" except="additions bindingDesc decoDesc sealDesc"/>
+    
+	<moduleRef key="namesdates"/>
+	<elementRef key="bloc" source="tei:4.3.0"/>
+	<elementRef key="district" source="tei:4.3.0"/>
+	<elementRef key="note" source="tei:4.3.0"/>
+	<classRef key="att.datable.custom" source="tei:4.3.0"/>
+	<classRef key="macro.specialPara" source="tei:4.3.0"/>
+	
+	<moduleRef key="tagdocs"/>
+	<moduleRef key="tei"/>
     <moduleRef key="textcrit"/>
     <moduleRef key="textstructure"/>
     <moduleRef key="transcr"/>
+	<elementRef key="fw" source="tei:4.3.0"/>
 	
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-classes"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-atts"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-constraints"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-core"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-element-additions"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-figures"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-gaiji"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-header"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-linking"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-namesdates"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-msdescription"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-styleguides"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-atts"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-macros"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-transcr"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textcrit"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textstructure"/>
-    
-    <elementSpec ident="TEI" mode="change" module="textstructure">
-    	<classes mode="change">
-    		<memberOf key="att.docStatus" mode="add"/>
-    	</classes>
-    	<content>
-            <alternate>
-                <elementRef key="ref"/>
-                <sequence>
-                    <elementRef key="teiHeader" minOccurs="0"/>
-                    <classRef key="model.resource" minOccurs="0" maxOccurs="unbounded"/>
-                </sequence>
-            </alternate>
-        </content>
-    </elementSpec>
-    
-    <elementSpec ident="address" mode="change" module="core">
-        <classes mode="change">
-            <memberOf key="model.divTop" mode="add"/>
-        </classes>
-    </elementSpec>
-    
-    <elementSpec ident="biblStruct" mode="change" module="core">
-        <content>
-            <alternate>
-                <elementRef key="ref"/>
-                <sequence>
-                    <elementRef key="analytic" minOccurs="0" maxOccurs="unbounded"/>      
-                    <sequence minOccurs="1" maxOccurs="unbounded">
-                        <elementRef key="monogr"/>
-                        <elementRef key="series" minOccurs="0" maxOccurs="unbounded"/>
-                    </sequence>
-                    <alternate minOccurs="0" maxOccurs="unbounded">
-                        <elementRef key="keywords"/>
-                        <classRef key="model.noteLike"/>
-                        <classRef key="model.ptrLike"/>
-                        <elementRef key="relatedItem"/>
-                        <elementRef key="citedRange"/>
-                    </alternate>
-                </sequence>
-            </alternate>
-        </content>
-    </elementSpec>
-    
-    
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-biblStruct"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-classes"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-common-atts"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-common-constraints"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-core"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-datatypes"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-element-additions"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-figures"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-gaiji"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-header"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-linking"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-lists"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-msdescription"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-nameLikeEntities"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-namesdates"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-patterns"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-styleguides"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-tei-atts"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-tei-macros"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-textcrit"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-textstructure"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-transcr"/>
 	
-	<elementSpec ident="org" mode="change" module="namesdates">
-		<desc versionDate="2021-10-28" xml:lang="en">provides information about an identifiable organization or corporate body.</desc>
-		<desc versionDate="2021-10-28" xml:lang="de">enthält Informationen über eine Organisation oder Körperschaft</desc>
-		<classes mode="change">
-			<memberOf key="att.docStatus" mode="add"/>
-		</classes>
-		<content>
-			<rng:choice>
-				<!--  Dubletten  -->
-				<rng:element name="ref">
-					<rng:attribute name="type">
-						<rng:choice>
-							<rng:value>duplicate</rng:value>
-							<rng:value>deletion</rng:value>
-						</rng:choice>
-					</rng:attribute>
-					<rng:attribute name="target">
-						<dataRef key="hwh.personsPlus.pointer"/>
-					</rng:attribute>
-					<rng:empty/>
-				</rng:element>
-				<!-- ordentlicher Eintrag -->
-				<rng:ref name="macro.orgContent"/>
-			</rng:choice>
-		</content>
-		<constraintSpec scheme="schematron" ident="listorg-org-status">
-			<constraint>
-				<sch:rule context="tei:org[not(parent::tei:listOrg)]">
-					<sch:assert test="@status">@status is missing.</sch:assert>
-				</sch:rule>
-				<sch:rule context="tei:org[parent::tei:listOrg]">
-					<sch:report test="@status">@status is only for use at the root element.</sch:report>
-				</sch:rule>
-			</constraint>
-		</constraintSpec>
-		<constraintSpec scheme="schematron" ident="listorg-org-source">
-			<constraint>
-				<sch:rule context="tei:org[not(parent::tei:listOrg)]">
-					<sch:assert test="@source">@source is missing.</sch:assert>
-				</sch:rule>
-				<sch:rule context="tei:org[parent::tei:listOrg]">
-					<sch:report test="@source">@source is only for use at the root element.</sch:report>
-				</sch:rule>
-			</constraint>
-		</constraintSpec>
-		<attList>
-			<!--<attDef ident="status" usage="rec" mode="add">
-				<datatype>
-					<dataRef key="hwh_docStatus.list"/>
-				</datatype>
-			</attDef>-->
-			<attDef ident="source" mode="change" usage="rec">
-				<valList type="closed" mode="change">
-					<valItem ident="HWH" mode="add">
-						<desc versionDate="2021-10-20" xml:lang="en">organizations from the database of
-							the Henze-Digital project (HWH).</desc>
-						<desc versionDate="2021-10-20" xml:lang="de">Organisationen aus dem Datenbestand
-							des Projektes Henze-Digital (HWH).</desc>
-					</valItem>
-					<valItem ident="WeGA" mode="add">
-						<desc versionDate="2022-04-04" xml:lang="en">organizations from the database of
-							the Carl Maria von Weber Gesamtausgabe (WeGA).</desc>
-						<desc versionDate="2022-04-04" xml:lang="de">Organisationen aus dem Datenbestand
-							der Carl Maria von Weber Gesamtausgabe (WeGA).</desc>
-					</valItem>
-				</valList>
-			</attDef>
-			<attDef ident="xml:id" mode="change" usage="req">
-				<datatype>
-					<dataRef key="hwh.orgs.pointer"/>
-				</datatype>
-			</attDef>            
-		</attList>
-	</elementSpec>
-
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-modules"/>
+	
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-biblio"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-letters"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-orgs"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-persons"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-places"/>
+	
+	
 </schemaSpec>

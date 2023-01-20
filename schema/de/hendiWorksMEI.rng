@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.music-encoding.org/ns/mei"><!--
-Schema generated from ODD source 2022-12-13T08:04:01Z. .
+Schema generated from ODD source 2023-01-19T14:07:20Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding works at Henze-Digital 
@@ -90,7 +90,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
       </choice>
    </define>
    <define name="data.ISODATE">
-      <ref name="hwh.data.temporal.iso"/>
+      <ref name="hendi.data.temporal.iso"/>
    </define>
    <define name="data.KEYFIFTHS">
       <data type="token">
@@ -404,6 +404,9 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <ref name="seriesStmt"/>
       </zeroOrMore>
    </define>
+   <define name="macro.musicPart">
+      <ref name="body"/>
+   </define>
    <define name="macro.struc-unstrucContent">
       <choice>
          <group>
@@ -422,7 +425,12 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          </zeroOrMore>
       </choice>
    </define>
-   <define name="hwh.works.pointer">
+   <define name="hendi.persons.pointer">
+      <data type="string">
+         <param name="pattern">A00[0-9A-F]{5}</param>
+      </data>
+   </define>
+   <define name="hendi.works.pointer">
       <data type="string">
          <param name="pattern">A02[0-9A-F]{5}</param>
       </data>
@@ -472,12 +480,16 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Film producer) A producer responsible for most of the business aspects of a film.</a:documentation>
          <value>itr</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Instrumentalist) A performer contributing to a resource by playing a musical instrument.</a:documentation>
+         <value>lbt</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Librettist) An author of a libretto of an opera or other stage work, or an oratorio.</a:documentation>
          <value>lyr</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Lyricist) Use for a person or organization who is a writer of the text of a song.</a:documentation>
          <value>mcp</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Music copyist) A person who transcribes or copies musical notation.</a:documentation>
+         <value>mus</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Musician) A person or organization who performs music or contributes to the musical content of a work when it is not possible or desirable to identify the function more precisely.</a:documentation>
          <value>msd</value>
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Musical director) A person who coordinates the activities of the composer, the sound editor, and sound mixers for a moving image production or for a musical or dramatic presentation or entertainment</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Musical director) A person who coordinates the activities of the composer, the sound editor, and sound mixers for a moving image production or for a musical or dramatic presentation or entertainment.</a:documentation>
          <value>pdr</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Project director) A person or organization with primary responsibility for all essential aspects of a project, has overall responsibility for managing projects, or provides overall direction to a project manager.</a:documentation>
          <value>pmn</value>
@@ -500,7 +512,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Videographer) A person in charge of a video production, e.g. the video recording of a stage production as opposed to a commercial motion picture. The videographer may be the camera operator or may supervise one or more camera operators. Do not confuse with cinematographer.</a:documentation>
       </choice>
    </define>
-   <define name="hwh.data.temporal.iso">
+   <define name="hendi.data.temporal.iso">
       <choice>
          <data type="date"/>
          <data type="gYear"/>
@@ -959,6 +971,21 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiWorksMEI-manifestation-id-check-constraint-rule-2">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="mei:manifestation">
+               <sch:assert test="@xml:id or ancestor::mei:manifestation">
+							Am Wurzelelement muss eine XML-ID angegeben sein.
+						</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-manifestation-id-check-constraint-rule-3">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -969,7 +996,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-manifestation-check_singleton-constraint-rule-3">
+                  id="hendiWorksMEI-manifestation-check_singleton-constraint-rule-4">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1073,9 +1100,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <ref name="model.incipLike"/>
       </choice>
    </define>
-   <define name="model.workLike">
-      <notAllowed/>
-   </define>
    <define name="componentList">
       <element name="componentList">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Container for intellectual or physical component parts of a bibliographic entity.</a:documentation>
@@ -1101,7 +1125,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             </choice>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-componentList-checkComponentList-constraint-rule-4">
+                  id="hendiWorksMEI-componentList-checkComponentList-constraint-rule-5">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1113,7 +1137,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-componentList-checkComponents-constraint-rule-5">
+                  id="hendiWorksMEI-componentList-checkComponents-constraint-rule-6">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1135,7 +1159,40 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(alternative identifier) – May contain a bibliographic identifier that does not fit within the meiHead element's id attribute, for example because the identifier does not fit the definition of an XML id or because multiple identifiers are needed.</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-altId-types-match-external-identifiers-constraint-rule-6">
+                  id="hendiWorksMEI-altId-types-match-external-identifiers-constraint-rule-7">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="mei:altId[@type='gnd']">
+               <sch:assert test="matches(., '^1[01]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]$')">That doesn't look like a valid GND ID.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="mei:altId[@type='wikidata']">
+               <sch:assert test="matches(., '^Q[1-9]\d*$')">That doesn't look like a valid Wikidata ID.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="mei:altId[@type='dracor.einakter']">
+               <sch:assert test="matches(., '^ein[0-9]{6}$')">That doesn't look like a valid DraCor Einakter ID.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-altId-types-match-external-identifiers-constraint-rule-10">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1214,7 +1271,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <ref name="model.dateLike"/>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-change-check_change-constraint-rule-9">
+                  id="hendiWorksMEI-change-check_change-constraint-rule-13">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1342,7 +1399,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <ref name="hand"/>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-handList-checkHandListLabels-constraint-rule-10">
+                  id="hendiWorksMEI-handList-checkHandListLabels-constraint-rule-14">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1372,7 +1429,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-history-history_restriction-constraint-rule-11">
+                  id="hendiWorksMEI-history-history_restriction-constraint-rule-15">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -1391,416 +1448,8 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
    <define name="language">
       <element name="language" ns="http://www.music-encoding.org/ns/mei">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Description of a language used in the document.</a:documentation>
-         <choice>
-            <value>aa</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Danakil-Sprache</a:documentation>
-            <value>ab</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Abchasisch</a:documentation>
-            <value>ae</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Avestisch</a:documentation>
-            <value>af</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Afrikaans</a:documentation>
-            <value>ak</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Akan-Sprache</a:documentation>
-            <value>am</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Amharisch</a:documentation>
-            <value>an</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Aragonesisch</a:documentation>
-            <value>ar</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Arabisch</a:documentation>
-            <value>as</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Assamesisch</a:documentation>
-            <value>av</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Awarisch</a:documentation>
-            <value>ay</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Aymará-Sprache</a:documentation>
-            <value>az</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Aserbeidschanisch</a:documentation>
-            <value>ba</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Baschkirisch</a:documentation>
-            <value>be</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Weißrussisch</a:documentation>
-            <value>bg</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bulgarisch</a:documentation>
-            <value>bh</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bihari (Andere)</a:documentation>
-            <value>bi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Beach-la-mar</a:documentation>
-            <value>bm</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bambara-Sprache</a:documentation>
-            <value>bn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bengali</a:documentation>
-            <value>bo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tibetisch</a:documentation>
-            <value>bo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tibetisch</a:documentation>
-            <value>br</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bretonisch</a:documentation>
-            <value>bs</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bosnisch</a:documentation>
-            <value>ca</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"catalan</a:documentation>
-            <value>ce</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tschetschenisch</a:documentation>
-            <value>ch</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Chamorro-Sprache</a:documentation>
-            <value>co</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Korsisch</a:documentation>
-            <value>cr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Cree-Sprache</a:documentation>
-            <value>cs</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tschechisch</a:documentation>
-            <value>cs</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tschechisch</a:documentation>
-            <value>cu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Church Slavonic</a:documentation>
-            <value>cv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tschuwaschisch</a:documentation>
-            <value>cy</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kymrisch</a:documentation>
-            <value>cy</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kymrisch</a:documentation>
-            <value>da</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dänisch</a:documentation>
-            <value>de</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Deutsch</a:documentation>
-            <value>de</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Deutsch</a:documentation>
-            <value>dv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Maldivian"</a:documentation>
-            <value>dz</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dzongkha</a:documentation>
-            <value>ee</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ewe-Sprache</a:documentation>
-            <value>el</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Neugriechisch</a:documentation>
-            <value>el</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Neugriechisch</a:documentation>
-            <value>en</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Englisch</a:documentation>
-            <value>eo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Esperanto</a:documentation>
-            <value>es</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"espagnol</a:documentation>
-            <value>et</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Estnisch</a:documentation>
-            <value>eu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Baskisch</a:documentation>
-            <value>eu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Baskisch</a:documentation>
-            <value>fa</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Persisch</a:documentation>
-            <value>fa</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Persisch</a:documentation>
-            <value>ff</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ful</a:documentation>
-            <value>fi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Finnisch</a:documentation>
-            <value>fj</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Fidschi-Sprache</a:documentation>
-            <value>fo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Färöisch</a:documentation>
-            <value>fr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Französisch</a:documentation>
-            <value>fr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Französisch</a:documentation>
-            <value>fy</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Friesisch</a:documentation>
-            <value>ga</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Irisch</a:documentation>
-            <value>gd</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"gaélique</a:documentation>
-            <value>gl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Galicisch</a:documentation>
-            <value>gn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Guaraní-Sprache</a:documentation>
-            <value>gu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gujarati-Sprache</a:documentation>
-            <value>gv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">mannois"</a:documentation>
-            <value>ha</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Haussa-Sprache</a:documentation>
-            <value>he</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Hebräisch</a:documentation>
-            <value>hi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Hindi</a:documentation>
-            <value>ho</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Hiri-Motu</a:documentation>
-            <value>hr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kroatisch</a:documentation>
-            <value>ht</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"haïtien</a:documentation>
-            <value>hu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ungarisch</a:documentation>
-            <value>hy</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Armenisch</a:documentation>
-            <value>hy</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Armenisch</a:documentation>
-            <value>hz</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Herero-Sprache</a:documentation>
-            <value>ia</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Interlingua</a:documentation>
-            <value>id</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Bahasa Indonesia</a:documentation>
-            <value>ie</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">interlingue</a:documentation>
-            <value>ig</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ibo-Sprache</a:documentation>
-            <value>ii</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">yi de Sichuan</a:documentation>
-            <value>ik</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Inupik</a:documentation>
-            <value>io</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ido</a:documentation>
-            <value>is</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Isländisch</a:documentation>
-            <value>is</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Isländisch</a:documentation>
-            <value>it</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Italienisch</a:documentation>
-            <value>iu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Inuktitut</a:documentation>
-            <value>ja</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Japanisch</a:documentation>
-            <value>jv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Javanisch</a:documentation>
-            <value>ka</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Georgisch</a:documentation>
-            <value>ka</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Georgisch</a:documentation>
-            <value>kg</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kongo-Sprache</a:documentation>
-            <value>ki</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">kikuyu</a:documentation>
-            <value>kj</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"kuanyama</a:documentation>
-            <value>kk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kasachisch</a:documentation>
-            <value>kl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">groenlandais</a:documentation>
-            <value>km</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kambodschanisch</a:documentation>
-            <value>kn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kannada</a:documentation>
-            <value>ko</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Koreanisch</a:documentation>
-            <value>kr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kanuri-Sprache</a:documentation>
-            <value>ks</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kaschmiri</a:documentation>
-            <value>ku</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kurdisch</a:documentation>
-            <value>kv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Komi-Sprache</a:documentation>
-            <value>kw</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Kornisch</a:documentation>
-            <value>ky</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">kirghiz</a:documentation>
-            <value>la</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Latein</a:documentation>
-            <value>lb</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">luxembourgeois</a:documentation>
-            <value>lg</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ganda-Sprache</a:documentation>
-            <value>li</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Limburgish"</a:documentation>
-            <value>ln</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Lingala</a:documentation>
-            <value>lo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Laotisch</a:documentation>
-            <value>lt</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Litauisch</a:documentation>
-            <value>lu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Luba-Katanga-Sprache</a:documentation>
-            <value>lv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Lettisch</a:documentation>
-            <value>mg</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Malagassi-Sprache</a:documentation>
-            <value>mh</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Marschallesisch</a:documentation>
-            <value>mi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Maori-Sprache</a:documentation>
-            <value>mi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Maori-Sprache</a:documentation>
-            <value>mk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Makedonisch</a:documentation>
-            <value>mk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Makedonisch</a:documentation>
-            <value>ml</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Malayalam</a:documentation>
-            <value>mn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Mongolisch</a:documentation>
-            <value>mr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Marathi</a:documentation>
-            <value>ms</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Malaiisch</a:documentation>
-            <value>ms</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Malaiisch</a:documentation>
-            <value>mt</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Maltesisch</a:documentation>
-            <value>my</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Birmanisch</a:documentation>
-            <value>my</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Birmanisch</a:documentation>
-            <value>na</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Nauruanisch</a:documentation>
-            <value>nb</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">norvégien bokmål</a:documentation>
-            <value>nd</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">ndébélé du Nord</a:documentation>
-            <value>ne</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Nepali</a:documentation>
-            <value>ng</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ndonga</a:documentation>
-            <value>nl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"néerlandais</a:documentation>
-            <value>nl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"néerlandais</a:documentation>
-            <value>nn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"norvégien nynorsk</a:documentation>
-            <value>no</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Norwegisch</a:documentation>
-            <value>nr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">ndébélé du Sud</a:documentation>
-            <value>nv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">navaho</a:documentation>
-            <value>ny</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Nyanja"</a:documentation>
-            <value>oc</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Okzitanisch</a:documentation>
-            <value>oj</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ojibwa-Sprache</a:documentation>
-            <value>om</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Galla-Sprache</a:documentation>
-            <value>or</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Oriya-Sprache</a:documentation>
-            <value>os</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">ossète</a:documentation>
-            <value>pa</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">pendjabi</a:documentation>
-            <value>pi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Pali</a:documentation>
-            <value>pl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Polnisch</a:documentation>
-            <value>ps</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">pachto</a:documentation>
-            <value>pt</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Portugiesisch</a:documentation>
-            <value>qu</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Quechua-Sprache</a:documentation>
-            <value>rm</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Rätoromanisch</a:documentation>
-            <value>rn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Rundi-Sprache</a:documentation>
-            <value>ro</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Moldovan"</a:documentation>
-            <value>ro</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Moldovan"</a:documentation>
-            <value>ru</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Russisch</a:documentation>
-            <value>rw</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Rwanda-Sprache</a:documentation>
-            <value>sa</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sanskrit</a:documentation>
-            <value>sc</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sardisch</a:documentation>
-            <value>sd</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sindhi-Sprache</a:documentation>
-            <value>se</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Nordsaamisch</a:documentation>
-            <value>sg</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sango-Sprache</a:documentation>
-            <value>si</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">singhalais</a:documentation>
-            <value>sk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Slowakisch</a:documentation>
-            <value>sk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Slowakisch</a:documentation>
-            <value>sl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Slowenisch</a:documentation>
-            <value>sm</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Samoanisch</a:documentation>
-            <value>sn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Schona-Sprache</a:documentation>
-            <value>so</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Somali</a:documentation>
-            <value>sq</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Albanisch</a:documentation>
-            <value>sq</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Albanisch</a:documentation>
-            <value>sr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Serbisch</a:documentation>
-            <value>ss</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Swasi-Sprache</a:documentation>
-            <value>st</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Süd-Sotho-Sprache</a:documentation>
-            <value>su</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Sundanesisch</a:documentation>
-            <value>sv</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Schwedisch</a:documentation>
-            <value>sw</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Swahili</a:documentation>
-            <value>ta</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tamil</a:documentation>
-            <value>te</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Telugu-Sprache</a:documentation>
-            <value>tg</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tadschikisch</a:documentation>
-            <value>th</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Thailändisch</a:documentation>
-            <value>ti</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tigrinja-Sprache</a:documentation>
-            <value>tk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Turkmenisch</a:documentation>
-            <value>tl</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tagalog</a:documentation>
-            <value>tn</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tswana-Sprache</a:documentation>
-            <value>to</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tongaisch</a:documentation>
-            <value>tr</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Türkisch</a:documentation>
-            <value>ts</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tsonga-Sprache</a:documentation>
-            <value>tt</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tatarisch</a:documentation>
-            <value>tw</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Twi-Sprache</a:documentation>
-            <value>ty</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Tahitisch</a:documentation>
-            <value>ug</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">ouïgour</a:documentation>
-            <value>uk</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ukrainisch</a:documentation>
-            <value>ur</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Urdu</a:documentation>
-            <value>uz</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Usbekisch</a:documentation>
-            <value>ve</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Venda-Sprache</a:documentation>
-            <value>vi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Vietnamesisch</a:documentation>
-            <value>vo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Volapük</a:documentation>
-            <value>wa</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Wallonisch</a:documentation>
-            <value>wo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Wolof-Sprache</a:documentation>
-            <value>xh</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Xhosa-Sprache</a:documentation>
-            <value>yi</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Jiddisch</a:documentation>
-            <value>yo</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Yoruba-Sprache</a:documentation>
-            <value>za</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">"zhuang</a:documentation>
-            <value>zh</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Chinesisch</a:documentation>
-            <value>zh</value>
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Chinesisch</a:documentation>
-         </choice>
+         <empty/>
          <ref name="att.common.attributes"/>
-         <ref name="att.canonical.attribute.codedval"/>
          <ref name="att.bibl.attributes"/>
          <ref name="att.lang.attributes"/>
          <optional>
@@ -1819,6 +1468,59 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                   <value>https://www.loc.gov/standards/iso639-2/php/code_list.php</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">URL zur Definition des verwendeten Standards.</a:documentation>
                </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="codedval">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">A value that represents or identifies other data. Often, it is a primary key in the database or a unique value in the coded list identified by the <code xmlns="http://www.w3.org/1999/xhtml">@auth</code> or <code xmlns="http://www.w3.org/1999/xhtml">@auth.uri</code> attributes.</a:documentation>
+               <list>
+                  <oneOrMore>
+                     <choice>
+                        <value>de</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Deutsch</a:documentation>
+                        <value>en</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Englisch</a:documentation>
+                        <value>eo</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Esperanto</a:documentation>
+                        <value>es</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">espagnol</a:documentation>
+                        <value>eu</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Baskisch</a:documentation>
+                        <value>fr</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Französisch</a:documentation>
+                        <value>he</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Hebräisch</a:documentation>
+                        <value>hu</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ungarisch</a:documentation>
+                        <value>it</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Italienisch</a:documentation>
+                        <value>ja</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Japanisch</a:documentation>
+                        <value>ko</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Koreanisch</a:documentation>
+                        <value>la</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Latein</a:documentation>
+                        <value>lb</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">luxembourgeois</a:documentation>
+                        <value>nl</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">néerlandais</a:documentation>
+                        <value>no</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Norwegisch</a:documentation>
+                        <value>pt</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Portugiesisch</a:documentation>
+                        <value>ru</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Russisch</a:documentation>
+                        <value>sv</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Schwedisch</a:documentation>
+                        <value>yi</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Jiddisch</a:documentation>
+                        <value>za</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">zhuang</a:documentation>
+                        <value>zh</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Chinesisch</a:documentation>
+                     </choice>
+                  </oneOrMore>
+               </list>
             </attribute>
          </optional>
          <empty/>
@@ -1848,7 +1550,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
          <ref name="workList"/>
          <ref name="revisionDesc"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-meiHead-check_meiHead_type-constraint-rule-12">
+                  id="hendiWorksMEI-meiHead-check_meiHead_type-constraint-rule-16">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -2153,7 +1855,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <ref name="term"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-termList-checkTermListLabels-constraint-rule-15">
+                  id="hendiWorksMEI-termList-checkTermListLabels-constraint-rule-19">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -2180,7 +1882,20 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <ref name="respStmt"/>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-titleStmt-multiple-same-language-titles-constraint-rule-16">
+                  id="hendiWorksMEI-titleStmt-multiple-same-language-titles-constraint-rule-20">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="mei:titleStmt[not(@analog)]">
+               <sch:report test="some $title in mei:title[not(@type)] satisfies ($title/string(@xml:lang) = $title/following-sibling::mei:title[not(@type)]/string(@xml:lang))">Multiple title with the same xml:lang detected</sch:report>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-titleStmt-multiple-same-language-titles-constraint-rule-21">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -2275,97 +1990,75 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                   </choice>
                </attribute>
                <attribute name="target">
-                  <ref name="hwh.works.pointer"/>
+                  <ref name="hendi.works.pointer"/>
                </attribute>
                <empty/>
             </element>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-work-lyrAndLibrPresent-constraint-rule-17">
+                  id="hendiWorksMEI-work-lyrAndLibrPresent-constraint-rule-22">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="mei:work | mei:expression">
                <sch:report test="mei:lyricist and mei:librettist" role="info">This work has a lyricist AND a librettist.</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-work-mei-work-status-constraint-rule-18">
+                  id="hendiWorksMEI-work-mei-work-status-constraint-rule-23">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="mei:mei|mei:work[not(parent::mei:componentList) and not(parent::mei:workList)]">
                <sch:assert test="@status">@status is missing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="mei:work[parent::mei:componentList or parent::mei:workList]">
                <sch:report test="@status">@status is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-work-mei-work-source-constraint-rule-20">
+                  id="hendiWorksMEI-work-mei-work-source-constraint-rule-25">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="mei:mei|mei:work[not(parent::mei:componentList) and not(parent::mei:workList)]">
                <sch:assert test="@source">@source is missing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="mei:work[parent::mei:componentList or parent::mei:workList]">
                <sch:report test="@source">@source is only for use at the root element.</sch:report>
             </sch:rule>
          </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-work-mei-work-type-constraint-rule-22">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="mei:work[not(parent::mei:componentList)]">
-               <sch:assert test="@type" role="error">@type is missing, please specify.</sch:assert>
-            </sch:rule>
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="mei:work[parent::mei:componentList]">
-               <sch:assert test="@type" role="warning">@type is missing, a specification is recommented.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-work-mei-work-subtype-constraint-rule-24">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="mei:work">
-               <sch:report test="@type[. != 'music'] and @subtype" role="error">@subtype is only for specifying @type='music'.</sch:report>
-            </sch:rule>
-         </pattern>
-         <optional>
-            <attribute name="type">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Designation which characterizes the element in some sense, using any convenient classification scheme or typology that employs single-token labels.</a:documentation>
-               <list>
-                  <oneOrMore>
-                     <choice>
-                        <value>music</value>
-                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Musikalisches Werk</a:documentation>
-                        <value>film</value>
-                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Filmisches Werk</a:documentation>
-                     </choice>
-                  </oneOrMore>
-               </list>
-            </attribute>
-         </optional>
+         <ref name="att.common.attributes"/>
+         <ref name="att.authorized.attributes"/>
+         <ref name="att.bibl.attributes"/>
+         <ref name="att.pointing.attributes"/>
+         <ref name="att.targetEval.attributes"/>
          <optional>
             <attribute name="status">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -2380,21 +2073,8 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
             <attribute name="source">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                <choice>
-                  <value>HWH</value>
+                  <value>HenDi</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
-               </choice>
-            </attribute>
-         </optional>
-         <optional>
-            <attribute name="subtype">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <choice>
-                  <value>cd</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Musikalisches Werk (CD)</a:documentation>
-                  <value>lp</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Musikalisches Werk (LP)</a:documentation>
-                  <value>tape</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Musikalisches Werk (Kassette)</a:documentation>
                </choice>
             </attribute>
          </optional>
@@ -2496,6 +2176,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
    </define>
    <define name="model.nameLike.agent">
       <choice>
+         <ref name="corpName"/>
          <ref name="country"/>
          <ref name="persName"/>
          <ref name="region"/>
@@ -2504,6 +2185,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
    </define>
    <define name="model.nameLike.agent_alternation">
       <choice>
+         <ref name="corpName"/>
          <ref name="country"/>
          <ref name="persName"/>
          <ref name="region"/>
@@ -2511,12 +2193,16 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
       </choice>
    </define>
    <define name="model.nameLike.agent_sequence">
+      <ref name="corpName"/>
       <ref name="country"/>
       <ref name="persName"/>
       <ref name="region"/>
       <ref name="settlement"/>
    </define>
    <define name="model.nameLike.agent_sequenceOptional">
+      <optional>
+         <ref name="corpName"/>
+      </optional>
       <optional>
          <ref name="country"/>
       </optional>
@@ -2532,6 +2218,9 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
    </define>
    <define name="model.nameLike.agent_sequenceOptionalRepeatable">
       <zeroOrMore>
+         <ref name="corpName"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="country"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -2545,6 +2234,9 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
       </zeroOrMore>
    </define>
    <define name="model.nameLike.agent_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="corpName"/>
+      </oneOrMore>
       <oneOrMore>
          <ref name="country"/>
       </oneOrMore>
@@ -2658,17 +2350,21 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                <ref name="model.transcriptionLike"/>
             </choice>
          </zeroOrMore>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-corpName-corpname-role-contributor-constraint-rule-25">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="mei:corpName[ancestor::mei:contributor]">
-               <sch:assert test="@role">The role of the entity must be specified.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <ref name="att.roles.marc.attributes"/>
+         <optional>
+            <attribute name="codedval">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">A value that represents or identifies other data. Often, it is a primary key in the database or a unique value in the coded list identified by the <code xmlns="http://www.w3.org/1999/xhtml">@auth</code> or <code xmlns="http://www.w3.org/1999/xhtml">@auth.uri</code> attributes.</a:documentation>
+               <data type="string">
+                  <param name="pattern">A08[0-9A-F]{5}</param>
+               </data>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="role">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Die Rolle oder Beziehung der Person mit dem Text/der Partitur. Werte werden von der <a xmlns="http://www.w3.org/1999/xhtml"
+                     href="http://www.loc.gov/marc/relators/relaterm.html">MARC Code List for Relators</a> genommen.</a:documentation>
+               <ref name="marcRelator.list"/>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -2746,31 +2442,10 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
                <ref name="model.persNamePart"/>
             </choice>
          </zeroOrMore>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-persName-persname-role-values-respstmt-constraint-rule-26">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="mei:persName[ancestor::mei:titleStmt]">
-               <sch:let name="legalValues"
-                        value="'(arr)|(aut)|(cmp)|(edt)|(editorial_assistant)|(dte)|(lbt)|(lyr)|(trc)|(trl)'"/>
-               <sch:assert test="matches(@role, $legalValues)">On this level only following roles are allowed: <sch:value-of select="$legalValues"/>.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-persName-persname-role-contributor-constraint-rule-27">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="mei:persName[ancestor::mei:contributor]">
-               <sch:assert test="@role">The role of the entity must be specified.</sch:assert>
-            </sch:rule>
-         </pattern>
          <optional>
             <attribute name="codedval">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Die WeGA ID der jeweiligen Person, z.B. "A002068" für Carl Maria von Weber</a:documentation>
+               <ref name="hendi.persons.pointer"/>
             </attribute>
          </optional>
          <optional>
@@ -2982,7 +2657,7 @@ Empfohlene Werte sind: 1] gnd (Gemeinsame Normdatei); 2] JV (Jähns-Verzeichnis)
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiWorksMEI-att.cleffing.log-clef_shape_requires_clef_line-constraint-rule-28">
+            id="hendiWorksMEI-att.cleffing.log-clef_shape_requires_clef_line-constraint-rule-27">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4618,7 +4293,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </oneOrMore>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-annot-Check_annot_data-constraint-rule-30">
+                  id="hendiWorksMEI-annot-Check_annot_data-constraint-rule-29">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4634,11 +4309,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             <list>
                <oneOrMore>
                   <choice>
-                     <value>Kurzbeschreibung</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                      <value>Anmerkungen</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-                     <value>no-ordinary-record</value>
                      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                      <value>Verweise</value>
                      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -4648,6 +4319,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
                </oneOrMore>
             </list>
          </attribute>
+         <ref name="att.id.attribute.xmlid"/>
          <empty/>
       </element>
    </define>
@@ -4661,11 +4333,29 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </choice>
          </optional>
          <ref name="date"/>
-         <optional>
-            <choice>
-               <ref name="country"/>
-            </choice>
-         </optional>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-creation-check_creationDateHasText-constraint-assert-26">
+            <rule context="mei:creation">
+               <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:s="http://www.ascc.net/xml/schematron"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="mei:date/text()">The creation date should have human readable text as content.</sch:assert>
+            </rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-creation-check_creationDateHasText-constraint-assert-27">
+            <rule context="mei:creation">
+               <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="mei:date/text()">The creation date should have human readable text as content.</sch:assert>
+            </rule>
+         </pattern>
          <ref name="att.common.attributes"/>
          <ref name="att.bibl.attributes"/>
          <ref name="att.datable.attributes"/>
@@ -4686,6 +4376,58 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
                   id="hendiWorksMEI-date-dateHeuristics1-constraint-report-6">
             <rule context="mei:date">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:s="http://www.ascc.net/xml/schematron"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="(@notbefore gt @notafter) and not(starts-with(@notbefore, '-'))">value of notBefore greater than notAfter</sch:report>
+            </rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-date-dateHeuristics3-constraint-report-7">
+            <rule context="mei:date">
+               <sch:report xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:s="http://www.ascc.net/xml/schematron"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="(@startdate or @enddate) and (@isodate or @notafter or @notbefore)">cooccurence of date and duration attributes</sch:report>
+            </rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-date-dateHeuristics4-constraint-report-8">
+            <rule context="mei:date">
+               <sch:report xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:s="http://www.ascc.net/xml/schematron"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="@isodate and (@notafter or @notbefore)">cooccurence of exact and uncertain date attributes</sch:report>
+            </rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-date-dateHeuristics5-constraint-assert-28">
+            <rule context="mei:date">
+               <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:s="http://www.ascc.net/xml/schematron"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="@isodate or @notbefore or @notafter or @startdate or @enddate or @cert='unknown' or matches(., '0000|o\.J\.|unknown')">mei:date benötigt ein Attribut @isodate, @notbefore o.ä.</sch:assert>
+            </rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-date-dateHeuristics1-constraint-report-9">
+            <rule context="mei:date">
+               <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
                            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4693,7 +4435,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-date-dateHeuristics3-constraint-report-7">
+                  id="hendiWorksMEI-date-dateHeuristics3-constraint-report-10">
             <rule context="mei:date">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -4703,7 +4445,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-date-dateHeuristics4-constraint-report-8">
+                  id="hendiWorksMEI-date-dateHeuristics4-constraint-report-11">
             <rule context="mei:date">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -4713,7 +4455,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-date-dateHeuristics5-constraint-assert-27">
+                  id="hendiWorksMEI-date-dateHeuristics5-constraint-assert-29">
             <rule context="mei:date">
                <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -4733,7 +4475,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Information about the physical size of an entity; usually includes numerical data.</a:documentation>
          <ref name="macro.struc-unstrucContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-dimensions-check_dimensions-constraint-rule-31">
+                  id="hendiWorksMEI-dimensions-check_dimensions-constraint-rule-30">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4776,31 +4518,33 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
    <define name="event">
       <element name="event" ns="http://www.music-encoding.org/ns/mei">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Enthält Informationen ein Ereignis betreffend.</a:documentation>
-         <zeroOrMore>
-            <ref name="date"/>
-         </zeroOrMore>
          <interleave>
             <zeroOrMore>
-               <ref name="geogName"/>
+               <ref name="date"/>
+            </zeroOrMore>
+            <interleave>
+               <zeroOrMore>
+                  <ref name="geogName"/>
+               </zeroOrMore>
+               <zeroOrMore>
+                  <ref name="settlement"/>
+               </zeroOrMore>
+            </interleave>
+            <interleave>
+               <zeroOrMore>
+                  <ref name="persName"/>
+               </zeroOrMore>
+               <zeroOrMore>
+                  <ref name="corpName"/>
+               </zeroOrMore>
+            </interleave>
+            <zeroOrMore>
+               <ref name="model.pLike"/>
             </zeroOrMore>
             <zeroOrMore>
-               <ref name="settlement"/>
+               <ref name="biblList"/>
             </zeroOrMore>
          </interleave>
-         <interleave>
-            <zeroOrMore>
-               <ref name="persName"/>
-            </zeroOrMore>
-            <zeroOrMore>
-               <ref name="corpName"/>
-            </zeroOrMore>
-         </interleave>
-         <zeroOrMore>
-            <ref name="model.pLike"/>
-         </zeroOrMore>
-         <zeroOrMore>
-            <ref name="biblList"/>
-         </zeroOrMore>
          <ref name="att.basic.attribute.xmlbase"/>
          <ref name="att.id.attribute.xmlid"/>
          <ref name="att.labelled.attribute.label"/>
@@ -4964,7 +4708,10 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
       <element name="mei" ns="http://www.music-encoding.org/ns/mei">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">enthält ein einzelenes MEI-konformes Dokument, dass aus einem MEI header und muskialischem Text, entweder alleinstehend oder als Teil eines meiCorpus Elements, besteht.</a:documentation>
          <choice>
-            <ref name="meiHead"/>
+            <group>
+               <ref name="meiHead"/>
+               <ref name="music"/>
+            </group>
             <element name="ref">
                <attribute name="type">
                   <choice>
@@ -4973,13 +4720,13 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
                   </choice>
                </attribute>
                <attribute name="target">
-                  <ref name="hwh.works.pointer"/>
+                  <ref name="hendi.works.pointer"/>
                </attribute>
                <empty/>
             </element>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-mei-Check_staff-constraint-rule-32">
+                  id="hendiWorksMEI-mei-Check_staff-constraint-rule-31">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4993,7 +4740,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <ref name="att.meiVersion.attributes"/>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <ref name="hwh.works.pointer"/>
+            <ref name="hendi.works.pointer"/>
          </attribute>
          <attribute name="status">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -5006,11 +4753,17 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <attribute name="source">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <choice>
-               <value>HWH</value>
+               <value>HenDi</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Werke aus dem Datenbestand des Projektes Henze-Digital (HWH).</a:documentation>
             </choice>
          </attribute>
          <empty/>
+      </element>
+   </define>
+   <define name="music">
+      <element name="music" ns="http://www.music-encoding.org/ns/mei">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Enthält einen einzelnen musikalischen Text jeglicher Art, sei er einheitlich oder zusammengesetzt, z. B. eine Etüde, eine Oper, einen Liederzyklus, eine Sinfonie oder eine Anthologie von Klaviersolos.</a:documentation>
+         <ref name="macro.musicPart"/>
       </element>
    </define>
    <define name="p">
@@ -5085,7 +4838,7 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Describes a relationship or linkage amongst entities.</a:documentation>
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-relation-FRBR_relation-constraint-rule-33">
+                  id="hendiWorksMEI-relation-FRBR_relation-constraint-rule-32">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5118,6 +4871,9 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
          <optional>
             <attribute name="target">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Identifies passive participants in a relationship; that is, the entities pointed "to".</a:documentation>
+               <data type="string">
+                  <param name="pattern">hendi:A02[0-9A-F]{5}</param>
+               </data>
             </attribute>
          </optional>
          <attribute name="rel">
@@ -5253,7 +5009,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-section-Check_sectionexpansion-constraint-rule-34">
+                  id="hendiWorksMEI-section-Check_sectionexpansion-constraint-rule-33">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5287,7 +5043,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_staffDefn-constraint-rule-35">
+                  id="hendiWorksMEI-staffDef-Check_staffDefn-constraint-rule-34">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5304,7 +5060,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_ancestor_staff-constraint-rule-36">
+                  id="hendiWorksMEI-staffDef-Check_ancestor_staff-constraint-rule-35">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5317,7 +5073,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_ancestor_staff_lines-constraint-rule-37">
+                  id="hendiWorksMEI-staffDef-Check_ancestor_staff_lines-constraint-rule-36">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5331,7 +5087,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_clef_position_staffDef-constraint-rule-38">
+                  id="hendiWorksMEI-staffDef-Check_clef_position_staffDef-constraint-rule-37">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5343,7 +5099,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_clef_position_staffDef_nolines-constraint-rule-39">
+                  id="hendiWorksMEI-staffDef-Check_clef_position_staffDef_nolines-constraint-rule-38">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5358,7 +5114,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_tab_strings_lines-constraint-rule-40">
+                  id="hendiWorksMEI-staffDef-Check_tab_strings_lines-constraint-rule-39">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5372,7 +5128,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffDef-Check_tab_strings_nolines-constraint-rule-41">
+                  id="hendiWorksMEI-staffDef-Check_tab_strings_nolines-constraint-rule-40">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5456,7 +5212,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-staffGrp-Check_staffGrp_unique_staff_n_values-constraint-rule-46">
+                  id="hendiWorksMEI-staffGrp-Check_staffGrp_unique_staff_n_values-constraint-rule-45">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5486,7 +5242,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-term-Check_term_dataTarget-constraint-rule-47">
+                  id="hendiWorksMEI-term-Check_term_dataTarget-constraint-rule-46">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5517,10 +5273,39 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-title-work-titles-work-constraint-rule-48">
+                  id="hendiWorksMEI-title-work-subtitles-map-xmllang-constraint-rule-47">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="mei:title[@type='sub'][parent::mei:titleStmt]">
+               <sch:assert test="string(@xml:lang) = preceding-sibling::mei:title/string(@xml:lang)">Make sure that this subtitle has a proper xml:lang attribute matching a preceding title's xml:lang</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-title-type-or-codedval-constraint-report-12">
+            <rule context="mei:title">
+               <sch:report xmlns="http://www.tei-c.org/ns/1.0"
+                           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                           xmlns:mei="http://www.music-encoding.org/ns/mei"
+                           xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                           xmlns:s="http://www.ascc.net/xml/schematron"
+                           xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="@codedval and @type">type and codedval attribute found! A title should either refer to an entity by the codedval attribute or be further refined by the type attribute</sch:report>
+            </rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiWorksMEI-title-work-titles-work-constraint-rule-48">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="mei:title[parent::mei:work]">
                <sch:report test="@type">The attribute type is not recommended for titles on work level.</sch:report>
@@ -5537,7 +5322,7 @@ Empfohlene Werte sind: 1] isAssociatedWith</a:documentation>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiWorksMEI-title-type-or-codedval-constraint-report-10">
+                  id="hendiWorksMEI-title-type-or-codedval-constraint-report-14">
             <rule context="mei:title">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -5938,6 +5723,11 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
          <empty/>
       </element>
    </define>
+   <define name="model.workLike">
+      <choice>
+         <ref name="work"/>
+      </choice>
+   </define>
    <define name="composer">
       <element name="composer">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The name of the creator of the intellectual content of a musical work.</a:documentation>
@@ -6003,14 +5793,14 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
       </element>
    </define>
    <define name="contributor">
-      <element name="contributor" ns="http://www.music-encoding.org/ns/mei">
+      <element name="contributor">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Names of individuals, institutions, or organizations responsible for contributions to the intellectual content of a work, where the specialized elements for authors, editors, etc. do not suffice or do not apply.</a:documentation>
-         <oneOrMore>
+         <zeroOrMore>
             <choice>
-               <ref name="persName"/>
-               <ref name="corpName"/>
+               <text/>
+               <ref name="model.textPhraseLike.limited"/>
             </choice>
-         </oneOrMore>
+         </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiWorksMEI-contributor-check_contributor_role-constraint-rule-51">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
@@ -6269,8 +6059,7 @@ Empfohlene Werte sind: 1] spoken; 2] thought; 3] written; 4] soCalled; 5] foreig
          </mixed>
          <ref name="att.lang.attributes"/>
          <attribute name="type">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Characterizes this title component in some sense, using any convenient classification scheme or typology that employs single-token labels.
-Empfohlene Werte sind: 1] alternative; 2] arrangement; 3] carrier; 4] date; 5] desc; 6] form; 7] key; 8] language; 9] main; 10] name; 11] number; 12] perfmedium; 13] subordinate; 14] translated; 15] version</a:documentation>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Characterizes this title component in some sense, using any convenient classification scheme or typology that employs single-token labels.</a:documentation>
             <choice>
                <value>alternative</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Alternate title by which the item is also known.</a:documentation>
@@ -6281,7 +6070,7 @@ Empfohlene Werte sind: 1] alternative; 2] arrangement; 3] carrier; 4] date; 5] d
                <value>date</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Publication/creation date(s) of work. Analogous to MARC 240 subfield f.</a:documentation>
                <value>desc</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Descriptive paraphrase of the work.</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(beschreibend) Markiert einen beschreibenden Teil des Titels. (z.B. für Männerchor)</a:documentation>
                <value>form</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Form subheading. Analogous to MARC 240 subfield k.</a:documentation>
                <value>key</value>
@@ -6289,20 +6078,19 @@ Empfohlene Werte sind: 1] alternative; 2] arrangement; 3] carrier; 4] date; 5] d
                <value>language</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Language of a work. Analogous to MARC 240 subfield l (el).</a:documentation>
                <value>main</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Main title.</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(haupt) Markiert einen (Haupt-)Titel.</a:documentation>
                <value>name</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Name of a part or section of a work. Analogous to MARC 240 subfield p.</a:documentation>
                <value>number</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Standard number designation of a work or of a part or section of a work. Analogous to MARC 240 subfield n.</a:documentation>
                <value>perfmedium</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Performance medium. Analogous to MARC 240 subfield m.</a:documentation>
-               <value>subordinate</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Subtitle.</a:documentation>
                <value>translated</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Translated form of title.</a:documentation>
                <value>version</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Version. Analogous to MARC 240 subfield s.</a:documentation>
-               <data type="NMTOKENS"/>
+               <value>sub</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(untergeordnet) Markiert einen Untertitel.</a:documentation>
             </choice>
          </attribute>
          <empty/>
@@ -6384,82 +6172,6 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
          <empty/>
       </element>
    </define>
-   <define name="att.roles.marc.attributes">
-      <ref name="att.roles.marc.attribute.role"/>
-   </define>
-   <define name="att.roles.marc.attribute.role">
-      <optional>
-         <attribute name="role">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>act</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Schauspieler/Darsteller) Ein Darsteller, der zum Ausdruck eines Werks beiträgt, indem er als Darsteller oder Spieler in einer musikalischen oder dramatischen Aufführung usw. auftritt.</a:documentation>
-               <value>ard</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Künstlerische Leitung/Inszenierung) Eine Person, die für die Kontrolle der Entwicklung des künstlerischen Stils einer gesamten Produktion verantwortlich ist, einschließlich der Auswahl der zu präsentierenden Werke und der Auswahl des leitenden Produktionspersonals.</a:documentation>
-               <value>arr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Arranger) A person, family, or organization contributing to a musical work by rewriting the composition for a medium of performance different from that for which the work was originally intended, or modifying the work for the same medium of performance, etc., such that the musical substance of the original composition remains essentially unchanged. For extensive modification that effectively results in the creation of a new musical work, see composer.</a:documentation>
-               <value>aus</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Screenwriter) An author of a screenplay, script, or scene.</a:documentation>
-               <value>aut</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Author) Use for a person or organization chiefly responsible for the intellectual or artistic content of a work, usually printed text. This term may also be used when more than one person or body bears such responsibility.</a:documentation>
-               <value>chr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Choreographer) A person responsible for creating or contributing to a work of movement.</a:documentation>
-               <value>cmp</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Komponist) Bezeichnung für eine Person oder Organisation, die ein musikalisches Werk schafft, in der Regel ein Musikstück in handschriftlicher oder gedruckter Form.</a:documentation>
-               <value>cnd</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Conductor) A performer contributing to a musical resource by leading a performing group (orchestra, chorus, opera, etc.) in a musical or dramatic presentation, etc.</a:documentation>
-               <value>cst</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Costume designer) A person, family, or organization that designs the costumes for a moving image production or for a musical or dramatic presentation or entertainment.</a:documentation>
-               <value>drt</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Director) A person responsible for the general management and supervision of a filmed performance, a radio or television program, etc.</a:documentation>
-               <value>dte</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Dedicatee) Use for a person or organization to whom a book, manuscript, etc., is dedicated (not the recipient of a gift).</a:documentation>
-               <value>editorial_assistant</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Editorial Assistant) Use for a person who assisted in editing the text/score.</a:documentation>
-               <value>edt</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Editor) Use for a person or organization who prepares for publication a work not primarily his/her own, such as by elucidating text, adding introductory or other critical matter, or technically directing an editorial staff.</a:documentation>
-               <value>egr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Engraver) A person or organization who cuts letters, figures, etc. on a surface, such as a wooden or metal plate used for printing.</a:documentation>
-               <value>egr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Engraver) A person or organization who cuts letters, figures, etc. on a surface, such as a wooden or metal plate used for printing.</a:documentation>
-               <value>flm</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Film editor) A person who, following the script and in creative cooperation with the Director, selects, arranges, and assembles the filmed material, controls the synchronization of picture and sound, and participates in other post-production tasks such as sound mixing and visual effects processing. Today, picture editing is often performed digitally.</a:documentation>
-               <value>fmd</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Film director) A director responsible for the general management and supervision of a filmed performance.</a:documentation>
-               <value>fmp</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Film producer) A producer responsible for most of the business aspects of a film.</a:documentation>
-               <value>itr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Instrumentalist) A performer contributing to a resource by playing a musical instrument.</a:documentation>
-               <value>lyr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Lyricist) Use for a person or organization who is a writer of the text of a song.</a:documentation>
-               <value>mcp</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Music copyist) A person who transcribes or copies musical notation.</a:documentation>
-               <value>msd</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Musical director) A person who coordinates the activities of the composer, the sound editor, and sound mixers for a moving image production or for a musical or dramatic presentation or entertainment</a:documentation>
-               <value>pdr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Project director) A person or organization with primary responsibility for all essential aspects of a project, has overall responsibility for managing projects, or provides overall direction to a project manager.</a:documentation>
-               <value>pmn</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Production manager) A person responsible for all technical and business matters in a production.</a:documentation>
-               <value>prn</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Production company) An organization that is responsible for financial, technical, and organizational management of a production for stage, screen, audio recording, television, webcast, etc.</a:documentation>
-               <value>pro</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Producer) A person, family, or organization responsible for most of the business aspects of a production for screen, audio recording, television, webcast, etc. The producer is generally responsible for fund raising, managing the production, hiring key personnel, arranging for distributors, etc.</a:documentation>
-               <value>scr</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Scribe) A person who is an amanuensis and for a writer of manuscripts proper.</a:documentation>
-               <value>sng</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Singer) A performer contributing to a resource by using his/her/their voice, with or without instrumental accompaniment, to produce music. A singer's performance may or may not include actual words.</a:documentation>
-               <value>std</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Set designer) A person who translates the rough sketches of the art director into actual architectural structures for a theatrical presentation, entertainment, motion picture, etc. Set designers draw the detailed guides and specifications for building the set</a:documentation>
-               <value>trc</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Transcriber) A person, family, or organization contributing to a resource by changing it from one system of notation to another. For a work transcribed for a different instrument or performing group, see Arranger [arr]. For makers of pen-facsimiles, use Facsimilist [fac]</a:documentation>
-               <value>trl</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Translator) Use for a person or organization who renders a text from one language into another, or from an older form of a language into the modern form.</a:documentation>
-               <value>vdg</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Videographer) A person in charge of a video production, e.g. the video recording of a stage production as opposed to a commercial motion picture. The videographer may be the camera operator or may supervise one or more camera operators. Do not confuse with cinematographer.</a:documentation>
-            </choice>
-         </attribute>
-      </optional>
-   </define>
    <start>
       <choice>
          <ref name="mei"/>
@@ -6488,7 +6200,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                context="tei:surname | tei:forename | tei:persName | tei:orgName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
+                context="tei:surname | tei:forename | tei:persName | mei:persName | tei:orgName | mei:corpName | tei:author[not(@sameAs)] | tei:occupation | tei:settlement | tei:country | tei:region | tei:rs | tei:workName | tei:characterName | tei:hi[not(.//tei:gap)] | tei:head | tei:note[not(@type=('thematicCom'))] | tei:placeName | tei:title | tei:seg | tei:item[not(@* or *)] | tei:term">
          <sch:report test="normalize-space(.) = ''">
             <sch:name/> has whitespace only content</sch:report>
       </sch:rule>
@@ -6503,8 +6215,10 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <sch:report test="matches(.,'^\s') and (node()[1] = text()[1])">whitespace at the beginning of element <sch:name/>
-         </sch:report>
+         <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
+                     role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
+         <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
+                     role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6521,7 +6235,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiWorksMEI-hwhTargets-constraint-rule-58">
+            id="hendiWorksMEI-hendiTargets-constraint-rule-58">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -6529,8 +6243,8 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                context="*[starts-with(@target, 'hwh:')]">
-         <sch:assert test="matches(@target, '^hwh:A\d{2}[0-9A-F]{5}(#.+)?(\s+hwh:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hwh:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</sch:assert>
+                context="*[starts-with(@target, 'hendi:')]">
+         <sch:assert test="matches(@target, '^hendi:A\d{2}[0-9A-F]{5}(#.+)?(\s+hendi:A\d{2}[0-9A-F]{5}(#.+)?)*$')">"hwh"-prefixed URIs must follow the pattern "hendi:A\d{2}[0-9A-F]{5}" (i.e. without any file extension)</sch:assert>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6569,17 +6283,17 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                queryBinding="xslt2">
-      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
-      <xsl:function name="hwh-xsl:int2hex">
+      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+      <xsl:function name="hendi-xsl:int2hex">
          <xsl:param name="number" as="xs:int"/>
          <xsl:variable name="chars"
                        select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
          <xsl:variable name="div" select="$number div 16"/>
          <xsl:variable name="count" select="floor($div)"/>
          <xsl:variable name="remainder" select="($div - $count) * 16"/>
-         <xsl:value-of select="concat(if($count gt 15) then hwh-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
+         <xsl:value-of select="concat(if($count gt 15) then hendi-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
       </xsl:function>
-      <xsl:function name="hwh-xsl:compute-check-digit">
+      <xsl:function name="hendi-xsl:compute-check-digit">
          <xsl:param name="id" as="xs:string"/>
          <xsl:variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
          <xsl:variable name="str2codepts" select="string-to-codepoints($id)"/>
@@ -6592,19 +6306,20 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
          <xsl:variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
          <xsl:variable name="sum"
                        select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
-         <xsl:value-of select="hwh-xsl:int2hex(xs:int($sum mod 16))"/>
+         <xsl:value-of select="hendi-xsl:int2hex(xs:int($sum mod 16))"/>
       </xsl:function>
-      <xsl:function name="hwh-xsl:checkIdByCheckDigit">
+      <xsl:function name="hendi-xsl:checkIdByCheckDigit">
          <xsl:param name="str" as="xs:string"/>
          <xsl:variable name="idStr" select="substring($str, 1, 7)"/>
          <xsl:variable name="idCheckDigit" select="substring($str, 8, 1)"/>
-         <xsl:variable name="computedCheckDigit" select="hwh-xsl:compute-check-digit($idStr)"/>
+         <xsl:variable name="computedCheckDigit"
+                       select="hendi-xsl:compute-check-digit($idStr)"/>
          <xsl:variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
          <xsl:value-of select="$check"/>
       </xsl:function>
       <sch:pattern id="idCheckDigit">
-         <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote)and not(parent::tei:foreign)] | @sameAs | @codedval | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
-            <sch:assert test="hwh-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hwh-xsl:compute-check-digit(.)"/>.</sch:assert>
+         <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe">
+            <sch:assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hendi-xsl:compute-check-digit(.)"/>.</sch:assert>
          </sch:rule>
       </sch:pattern>
    </sch:schema>
@@ -6617,7 +6332,7 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                queryBinding="xslt2">
-      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hwh-xsl"/>
+      <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
       <sch:ns uri="http://www.functx.com" prefix="functx"/>
       <xsl:function name="functx:escape-for-regex" as="xs:string">
          <xsl:param name="arg" as="xs:string?"/>
@@ -6789,7 +6504,12 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                 xmlns:s="http://www.ascc.net/xml/schematron"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 context="tei:persName | tei:orgName | tei:placeName">
-         <sch:report test="@type='import'" role="info">This element should be deleted after checking this record.</sch:report>
+         <sch:report test="(@type='import') and parent::node()/@status[.='proposed']"
+                     role="info">This element should be deleted after checking this record.</sch:report>
+         <sch:report test="(@type='import') and parent::node()/@status[.='candidate']"
+                     role="warning">This element should be deleted after checking this record.</sch:report>
+         <sch:report test="(@type='import') and parent::node()/@status[.='approved']"
+                     role="error">This element has to be deleted before publishing!</sch:report>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6839,9 +6559,57 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
       </sch:rule>
    </pattern>
    <sch:ns xmlns="http://www.tei-c.org/ns/1.0"
+           xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+           xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
            xmlns:mei="http://www.music-encoding.org/ns/mei"
            xmlns:rng="http://relaxng.org/ns/structure/1.0"
+           xmlns:s="http://www.ascc.net/xml/schematron"
            xmlns:sch="http://purl.oclc.org/dsdl/schematron"
            prefix="mei"
            uri="http://www.music-encoding.org/ns/mei"/>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiWorksMEI-rendIfBreakNo-constraint-rule-93">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:lb | tei:pb">
+         <sch:assert test="not(@*) or @n or @break or (@break and @rend)">@rend is only allowed if @break is used.</sch:assert>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiWorksMEI-reportLBfollowsPB-constraint-rule-94">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:pb">
+         <sch:report test=".[following::lb]">A lb-element right after a pb-element is senseless.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiWorksMEI-seriesTitleRequirements-constraint-rule-95">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+         <sch:let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
+         <sch:let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
+         <sch:let name="seriesTitleA02"
+                  value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<sch:value-of select="$seriesTitleA04"/>".</sch:report>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<sch:value-of select="$seriesTitleA05"/>".</sch:report>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<sch:value-of select="$seriesTitleA02"/>".</sch:report>
+      </sch:rule>
+   </pattern>
 </grammar>

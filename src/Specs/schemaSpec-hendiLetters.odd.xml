@@ -1,472 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
-<schemaSpec ident="hendiLetters" xml:lang="en" start="TEI" source="../../submodules/WeGA-ODD/compiled-ODD/guidelines-de-wegaLetters.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+<schemaSpec ident="hendiLetters" xml:lang="en" start="TEI" source="../../submodules/WeGA-ODD/compiled-ODD/guidelines-de-wegaLetters.compiled.xml" xmlns="http://www.tei-c.org/ns/1.0"	xmlns:mei="http://www.music-encoding.org/ns/mei"	xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
 
     <desc>This is the customization for encoding letters at Henze-Digital</desc>
 
-    <moduleRef key="core"/>
+	<moduleRef key="core"/>
     <elementRef key="foreign" source="tei:4.3.0"/>
     <elementRef key="measure" source="tei:4.3.0"/>
 	<classRef key="att.measurement" source="tei:4.3.0"/>
     <elementRef key="term" source="tei:4.3.0"/>
-
-    <moduleRef key="tei"/>
+    
+	<moduleRef key="figures"/>
+    <moduleRef key="gaiji"/>
     <moduleRef key="header"/>
     <elementRef key="extent" source="tei:4.3.0"/>
     <elementRef key="textClass" source="tei:4.3.0"/>
     <elementRef key="keywords" source="tei:4.3.0"/>
 
-    <moduleRef key="textstructure"/>
-
+    <moduleRef key="linking"/>
+    <moduleRef key="msdescription" source="tei:4.3.0" except="additions bindingDesc decoDesc sealDesc"/>
+	
     <moduleRef key="namesdates"/>
     <elementRef key="bloc" source="tei:4.3.0"/>
     <elementRef key="district" source="tei:4.3.0"/>
     <!-- location, residence, offset -->
 	<classRef key="att.datable.custom" source="tei:4.3.0"/>
 
-    <moduleRef key="figures"/>
+	<moduleRef key="tei"/>
+    <moduleRef key="textcrit"/>
+    <moduleRef key="textstructure"/>
     <moduleRef key="transcr"/>
     <elementRef key="fw" source="tei:4.3.0"/>
 
-    <moduleRef key="msdescription" source="tei:4.3.0" except="additions bindingDesc decoDesc sealDesc"/>
-
-    <moduleRef key="linking"/>
-    <moduleRef key="textcrit"/>
-    <moduleRef key="gaiji"/>
-
-
-
-    <!-- ODD-specific elements like <elementSpec> and <classSpec>;
-             or references to <specGrp>s defined above using <specGrpRef>. -->
-
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-patterns"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-styleguides"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-lists"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-classes"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-element-additions"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-constraints"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-common-atts"/>
-	<specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-atts"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-core"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-header"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textstructure"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-namesdates"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-figures"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-transcr"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-msdescription"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-linking"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-textcrit"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-gaiji"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-tei-macros"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-datatypes"/>
-    <specGrpRef target="../Specs/common-specs.odd.xml#hwh-biblStruct"/>
-    
-    <constraintSpec scheme="schematron" ident="rendIfBreakNo" mode="add">
-        <desc versionDate="2014-07-09" xml:lang="en">If a line break (line beginning) is inside a word then <att>rend</att> can be used to encode the hyphen is orthographiclally not realzied.</desc>
-        <desc versionDate="2014-07-09" xml:lang="de">Wenn ein Umbruch im wort erfolgt, so kann mit <att>rend</att> dargestellt werden, dass ein Trennstrich orthographisch nciht realisiert ist.</desc>
-        <constraint>
-            <sch:rule context="tei:lb | tei:pb">
-                <sch:assert test="not(@*) or @n or @break or (@break and @rend)">@rend is only allowed if @break is used.</sch:assert>
-            </sch:rule>
-        </constraint>
-    </constraintSpec>
-    <constraintSpec scheme="schematron" ident="reportLBfollowsPB" mode="add">
-        <desc versionDate="2022-04-25" xml:lang="en">If a line break (line beginning) follows a page break (page beginning), this will be reported.</desc>
-        <desc versionDate="2014-07-09" xml:lang="de">Wenn ein Umbruch im wort erfolgt, so kann mit <att>rend</att> dargestellt werden, dass ein Trennstrich orthographisch nciht realisiert ist.</desc>
-        <constraint>
-            <sch:rule context="tei:pb">
-                <sch:report test=".[following::lb]">A lb-element right after a pb-element is senseless.</sch:report>
-            </sch:rule>
-        </constraint>
-    </constraintSpec>
-    
-    <elementSpec ident="TEI" mode="change" module="core">
-    	<classes mode="change">
-    		<memberOf key="att.docStatus" mode="add"/>
-    	</classes>
-        <attList>
-            <attDef ident="source" mode="add" usage="req">
-                <valList type="closed" mode="change">
-                    <valItem ident="HWH" mode="add">
-                        <desc versionDate="2021-10-20" xml:lang="en">persons from the database of the Henze-Digital project (HWH).</desc>
-                        <desc versionDate="2021-10-20" xml:lang="de">Personen aus dem Datenbestand des Projektes Henze-Digital (HWH).</desc>
-                    </valItem>
-                </valList>
-            </attDef>
-        </attList>
-    </elementSpec>
-
-    <elementSpec ident="teiHeader" module="header" mode="change">
-        <constraintSpec scheme="schematron" ident="seriesTitle" mode="change">
-            <constraint>
-                <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
-                    <sch:assert test=".=('Henze-Digital, Briefedition')">The series title must be "Henze-Digital, Briefedition".</sch:assert>
-                </sch:rule>
-            </constraint>
-        </constraintSpec>
-    </elementSpec>
-
-    <elementSpec ident="div" mode="change" module="textstructure">
-        <content>
-            <sequence>
-                    <!--                    <elementRef key="p"/>-->
-                <classRef key="model.pLike" minOccurs="0" maxOccurs="unbounded"/>
-                <alternate minOccurs="0" maxOccurs="unbounded">
-                    <classRef key="model.divTop"/>
-                    <classRef key="model.divBottom"/>
-                    <classRef key="model.global"/>
-                </alternate>
-                <sequence minOccurs="0">
-                    <alternate>
-                        <sequence minOccurs="1" maxOccurs="unbounded">
-                            <alternate>
-                                <classRef key="model.divLike"/>
-                                <classRef key="model.divGenLike"/>
-                            </alternate>
-                            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-                        </sequence>
-                        <sequence>
-                            <sequence minOccurs="1" maxOccurs="unbounded">
-                                <classRef key="model.common"/>
-                                <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-                            </sequence>
-                            <sequence minOccurs="0" maxOccurs="unbounded">
-                                <alternate>
-                                    <classRef key="model.divLike"/>
-                                    <classRef key="model.divGenLike"/>
-                                </alternate>
-                                <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-                            </sequence>
-                        </sequence>
-                    </alternate>
-                    <sequence minOccurs="0" maxOccurs="unbounded">
-                        <classRef key="model.divBottom"/>
-                        <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-                    </sequence>
-                        <elementRef key="p" minOccurs="0" maxOccurs="unbounded"/>
-                        <!--                        <classRef key="model.pLike"/>-->
-                </sequence>
-            </sequence>
-        </content>
-    	<constraintSpec scheme="schematron" ident="divTypeRow" mode="add">
-    		<constraint>
-    			<sch:rule context="tei:div[@type='row']">
-    				<sch:assert test="tei:div">If type="row" is used the child elements have to be organized with divs.</sch:assert>
-    			</sch:rule>
-    		</constraint>
-    	</constraintSpec>
-    	<constraintSpec scheme="schematron" ident="divRotation" mode="add">
-    		<constraint>
-    			<sch:rule context="tei:div[@rotation]">
-    				<sch:assert test="number(@rotation) gt 0 and number(@rotation) lt 361 and not(starts-with(@rotation,'0'))">The value must be between 1 and 360 (without leading zeros).</sch:assert>
-    			</sch:rule>
-    		</constraint>
-    	</constraintSpec>
-    	<constraintSpec scheme="schematron" ident="divColSumControl" mode="add">
-    		<constraint>
-    			<sch:rule context="tei:div[@type='row' and tei:div[contains(@type,'col-')]]">
-    				<sch:let name="sumOfCols" value="sum(tei:div[contains(@type,'col-')]/number(substring-after(@type,'col-')))"/>
-    				<sch:report test="$sumOfCols &gt; 12">The sum of all cols must not be greater than 12. It's <sch:value-of select="$sumOfCols"/>.</sch:report>
-    			</sch:rule>
-    		</constraint>
-    	</constraintSpec>
-        <attList>
-            <attDef ident="type" mode="change" usage="opt">
-            	<desc versionDate="2022-10-26" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
-            	<desc versionDate="2022-10-26" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
-            	<valList type="closed" mode="add">
-            		<valItem ident="writingSession" mode="add">
-            			<desc versionDate="2022-10-26" xml:lang="en">identifies the element as a wrapper for a text done in a specific session.</desc>
-            			<desc versionDate="2022-10-26" xml:lang="de">Kennzeichnet das Element als einen Wrapper für einen Text der in einer bestimmten Sitzung entstanden ist.</desc>
-            		</valItem>
-            		<valItem ident="poem" mode="add">
-            			<desc versionDate="2022-10-26" xml:lang="en">identifies the element as a wrapper for a poem.</desc>
-            			<desc versionDate="2022-10-26" xml:lang="de">Kennzeichnet das Element als einen Wrapper für ein Gedicht.</desc>
-            		</valItem>
-            		<valItem ident="row" mode="add">
-            			<desc versionDate="2022-10-26" xml:lang="en">identifies the element as a wrapper whose child-elements are in a row next to each other.</desc>
-            			<desc versionDate="2022-10-26" xml:lang="de">Kennzeichnet das Element als einen Wrapper, dessen Kind-Elemente in einer Reihe nebeneinander stehen.</desc>
-            		</valItem>
-            		<valItem ident="col" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column).</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte).</desc>
-            		</valItem>
-            		<valItem ident="col-1" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 1/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 1/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-2" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 2/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 2/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-3" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 3/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 3/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-4" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 4/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 4/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-5" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 5/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 5/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-6" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 6/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 6/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-7" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 7/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 7/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-8" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 8/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 8/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-9" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 9/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 9/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-10" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 10/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 10/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-11" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 11/12 parts.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 11/12 Einheiten.</desc>
-            		</valItem>
-            		<valItem ident="col-12" mode="add">
-            			<desc versionDate="2022-12-13" xml:lang="en">identifies the element as a block in a row (i.e., column) with a width of 12/12 parts. This value is identical with <val>col</val>.</desc>
-            			<desc versionDate="2022-12-13" xml:lang="de">Kennzeichnet das Element als einen Block in einer Reihe (quasi Spalte) mit einer Breite von 12/12 Einheiten. Dieser Wert ist identisch mit <val>col</val>.</desc>
-            		</valItem>
-            	</valList>
-            </attDef>
-            <attDef ident="n" mode="change" usage="opt">
-                <gloss versionDate="2021-10-19" xml:lang="en">number</gloss>
-                <desc versionDate="2021-10-19" xml:lang="en">gives a number (or other label) for an element, which is not necessarily unique within the document.</desc>
-                <gloss versionDate="2021-10-19" xml:lang="de">Nummer</gloss>
-                <desc versionDate="2021-10-19" xml:lang="de">gibt dem Element eine Nummer (oder eine andere Bezeichnung), die nicht unbedingt eindeutig im Dokument ist.</desc>
-                <datatype>
-                    <dataRef key="teidata.count"/>
-                </datatype>
-            </attDef>
-        	<attDef ident="rotation" mode="add" usage="opt">
-        		<desc versionDate="2022-10-26" xml:lang="en">Zeigt an, dass ein Element gedreht zur Schreibrichtung/grundsätzlichen Ausrichtung des Textes erscheint. Die Drehung wird im Uhrzeigersinn in Grad (0-360) angegeben.</desc>
-        		<desc versionDate="2022-10-26" xml:lang="de">Indicates that an element appears rotated to the writing direction/basic alignment of the text. The rotation is indicated clockwise in degrees (0-360).</desc>
-        		<datatype>
-        			<dataRef name="nonNegativeInteger"/>
-        		</datatype>
-        	</attDef>
-        	<attDef ident="place" mode="change" usage="opt">
-        		<desc versionDate="2022-10-26" xml:lang="en">defines the place the element is placed.</desc>
-        		<desc versionDate="2022-10-26" xml:lang="de">Definiert den Ort, an dem das Element plaziert ist.</desc>
-        		<valList type="closed" mode="replace">
-        			<valItem ident="margin.left" mode="add">
-        				<gloss versionDate="2022-12-12" xml:lang="en">left margin</gloss>
-        				<gloss versionDate="2022-12-12" xml:lang="de">Linker Rand</gloss>
-        				<desc versionDate="2022-12-12" xml:lang="en">Margin left from the main content.</desc>
-        				<desc versionDate="2022-12-12" xml:lang="de">Rand links vom Haupttext.</desc>
-        			</valItem>
-        			<valItem ident="margin.right" mode="add">
-        				<gloss versionDate="2022-12-12" xml:lang="en">right margin</gloss>
-        				<gloss versionDate="2022-12-12" xml:lang="de">Rechter Rand</gloss>
-        				<desc versionDate="2022-12-12" xml:lang="en">Margin right from the main content.</desc>
-        				<desc versionDate="2022-12-12" xml:lang="de">Rand rechts vom Haupttext.</desc>
-        			</valItem>
-        			<valItem ident="margin.top" mode="add">
-        				<gloss versionDate="2022-12-12" xml:lang="en">top margin</gloss>
-        				<gloss versionDate="2022-12-12" xml:lang="de">Oberer Rand</gloss>
-        				<desc versionDate="2022-12-12" xml:lang="en">Margin above the main content.</desc>
-        				<desc versionDate="2022-12-12" xml:lang="de">Rand oberhalb vom Haupttext.</desc>
-        			</valItem>
-        			<valItem ident="margin.bottom" mode="add">
-        				<gloss versionDate="2022-12-12" xml:lang="en">left margin</gloss>
-        				<gloss versionDate="2022-12-12" xml:lang="de">Unterer Rand</gloss>
-        				<desc versionDate="2022-12-12" xml:lang="en">Margin below the main content.</desc>
-        				<desc versionDate="2022-12-12" xml:lang="de">Rand unterhalb vom Haupttext.</desc>
-        			</valItem>
-        		</valList>
-        	</attDef>
-        </attList>
-        <remarks xml:lang="en" versionDate="2021-10-19">
-            <p>For Henze-Digital the content model was changed. It was necessary to allow text blocs after the closer.</p>
-        </remarks>
-    </elementSpec>
-
-    <elementSpec ident="text" mode="change" module="textstructure">
-        <!-- <desc versionDate="2013-11-11" xml:lang="en">contains a single text of any kind, whether unitary or composite, for example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus sample.</desc>
-        <desc versionDate="2013-11-11" xml:lang="de">enthält einen einzelnen Text jeglicher Art, ob einheitlich oder zusammengesetzt, beispielsweise ein Gedicht, ein Drama, eine Sammlung von Aufätzen, ein Roman, ein Wörterbuch, oder eine Sammlung.</desc> -->
-        <attList>
-            <attDef ident="type" mode="replace" usage="req">
-                <desc versionDate="2022-07-26" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
-                <desc versionDate="2022-07-26" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
-                <datatype>
-                    <rng:ref name="postal.type.list"/>
-                </datatype>
-            </attDef>
-        </attList>
-        <remarks versionDate="2022-04-08" xml:lang="de">
-            <p>Diese Klassifizierung entstand aus den Registern, die als Datenbasis für das Projekt Henze-Digital bereits vorlagen.</p>
-        </remarks>
-    </elementSpec>
-
-    <elementSpec ident="lb" module="core" mode="change">
-        <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
-        <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
-        <attList>
-            <attDef ident="rend" usage="opt">
-                <desc versionDate="2021-10-18" xml:lang="en"><att>rend</att> is intended as an extension to <att>break</att> and is to be used when, for example, a hyphen is missing at the line break.</desc>
-                <desc versionDate="2021-10-18" xml:lang="de"><att>rend</att> ist als Erweiterung zu <att>break</att> gedacht und soll verwendet werden, wenn z.B. ein Trennstrich am Zeilenumbruch fehlt.</desc>
-                <valList type="closed">
-                    <valItem ident="noHyphen"/>
-                </valList>
-            </attDef>
-        </attList>
-    </elementSpec>
-    
-    <elementSpec ident="pb" module="core" mode="change">
-        <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
-        <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
-        <attList>
-            <attDef ident="rend" usage="opt">
-                <desc versionDate="2021-10-18" xml:lang="en"><att>rend</att> is intended as an extension to <att>break</att> and is to be used when, for example, a hyphen is missing at the line break.</desc>
-                <desc versionDate="2021-10-18" xml:lang="de"><att>rend</att> ist als Erweiterung zu <att>break</att> gedacht und soll verwendet werden, wenn z.B. ein Trennstrich am Zeilenumbruch fehlt.</desc>
-                <valList type="closed">
-                    <valItem ident="noHyphen"/>
-                </valList>
-            </attDef>
-        </attList>
-    </elementSpec>
-    
-    <elementSpec ident="foreign" module="core" mode="change">
-        <desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
-        <desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
-        <classes>
-            <memberOf key="model.emphLike"/>
-            <memberOf key="att.global"/>
-            <memberOf key="att.global.rendition" mode="delete"/>
-            <memberOf key="att.global.linking" mode="delete"/>
-            <memberOf key="att.global.analytic" mode="delete"/>
-            <memberOf key="att.global.facs" mode="delete"/>
-            <memberOf key="att.global.change" mode="delete"/>
-            <memberOf key="att.global.responsibility" mode="delete"/>
-            <memberOf key="att.global.source" mode="delete"/>
-        </classes>
-        <attList>
-            <attDef ident="n" mode="delete"/>
-            <attDef ident="xml:base" mode="delete"/>
-            <attDef ident="xml:space" mode="delete"/>
-            <attDef ident="xml:lang" usage="req" mode="change">
-                <desc versionDate="2021-10-18" xml:lang="en">The language used in the following sibling.</desc>
-                <desc versionDate="2021-10-18" xml:lang="de">Die im Foglenden genutzte Sprache.</desc>
-                <datatype>
-                    <dataRef key="teidata.language"/>
-                </datatype>
-            </attDef>
-            <attDef ident="xml:id" usage="rec" mode="change">
-                <desc versionDate="2022-09-16" xml:lang="en">The id of the current element.</desc>
-                <desc versionDate="2022-09-16" xml:lang="de">Die ID des aktuellen Elements.</desc>
-            	<datatype>
-            		<dataRef key="hwh.foreign.pointer"/>
-            	</datatype>
-            </attDef>
-        </attList>
-    </elementSpec>
-
-    <elementSpec ident="postscript" mode="change" module="textstructure">
-        <desc versionDate="2013-11-11" xml:lang="en">contains a postscript, e.g. to a letter.</desc>
-        <desc versionDate="2013-11-11" xml:lang="de"/>
-        <classes mode="change">
-            <memberOf key="att.written" mode="delete"/>
-            <memberOf key="att.global.rendition" mode="add"/>
-        </classes>
-        <!-- Beispiel von Frau Bartlitz (Email vom 24. August 2012) [PS] -->
-        <!--<exemplum versionDate="2013-11-11" xml:lang="de">
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                <postscript><p>ich schikke der Sicherheit halber alles über Prag, durch Liebig</p></postscript>
-            </egXML>
-        </exemplum>-->
-    </elementSpec>
-
-    <elementSpec ident="dimensions" module="msdescription" mode="change">
-        <desc versionDate="2022-01-11" xml:lang="en">Indicates the (physical) dimensions of an object.</desc>
-        <desc versionDate="2022-01-11" xml:lang="de">Gibt die (physicalischen) Abmessungen eines Objektes an.</desc>
-        <content>
-            <alternate minOccurs="0"
-                maxOccurs="unbounded">
-                <elementRef key="height"/>
-                <elementRef key="width"/>
-            </alternate>
-        </content>
-    </elementSpec>
-    
-	<elementSpec ident="objectDesc" mode="change" module="msdescription">
-		<gloss versionDate="2022-07-26" xml:lang="en">object description</gloss>
-		<desc versionDate="2022-07-26" xml:lang="en">contains a description of the physical components making up the object which is being described.</desc>
-		<gloss versionDate="2022-07-26" xml:lang="de">Objektbeschreibung</gloss>
-		<desc versionDate="2022-07-26" xml:lang="de">enthält eine Beschreibung der physischen Komponenten, aus denen das beschriebene Objekt besteht.</desc>
-		<classes>
-			<memberOf key="att.global.attributes" mode="delete"/>
-		</classes>
-		<attList>
-			<attDef ident="form" mode="replace" usage="req">
-				<datatype>
-					<rng:ref name="postal.type.list"/>
-				</datatype>
-			</attDef>
-			<!--<attDef ident="type" mode="replace" usage="opt">
-				<desc versionDate="2022-07-26" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
-				<desc versionDate="2022-07-26" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
-				<datatype>
-					<rng:ref name="postal.type.list"/>
-				</datatype>
-			</attDef>-->
-		</attList>
-	</elementSpec>
-    
-    <elementSpec ident="term" module="core" mode="change">
-        <constraintSpec scheme="schematron" ident="controleContentOfTermElements">
-            <desc xml:lang="de">Kontrolliert das Vokabular, welches als Inhalte für term Elemente in textClass verwendet wird.</desc>
-            <desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
-            <constraint>
-                <sch:rule context="tei:textClass/tei:keywords/tei:term">
-                    <sch:report test="parent::node()/tei:term = 'typoscript'"
-                        role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
-                    <sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
-                    <sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
-                        role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
-                </sch:rule>
-            </constraint>
-        </constraintSpec>
-    </elementSpec>
-    
-    <elementSpec ident="address" module="core" mode="change">
-       <attList>
-           <attDef ident="type" mode="add" usage="opt">
-               <valList mode="add" type="closed">
-                   <valItem ident="sender">
-                       <gloss versionDate="2022-01-14" xml:lang="de">Absender</gloss>
-                       <gloss versionDate="2022-01-14" xml:lang="en">sender</gloss>
-                   </valItem>
-                   <valItem ident="receiver">
-                       <gloss versionDate="2022-01-31" xml:lang="de">Empfänger</gloss>
-                       <gloss versionDate="2022-01-31" xml:lang="en">receiver</gloss>
-                   </valItem>
-               </valList>
-           </attDef>
-       </attList>
-    </elementSpec>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-biblStruct"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-classes"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-common-constraints"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-common-atts"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-core"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-datatypes"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-element-additions"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-figures"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-gaiji"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-header"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-linking"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-lists"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-msdescription"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-namesdates"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-patterns"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-styleguides"/>
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-tei-atts"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-tei-macros"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-textcrit"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-textstructure"/>
+    <specGrpRef target="../Specs/common-specs.odd.xml#hendi-transcr"/>
 	
-	<elementSpec ident="choice" module="core" mode="change">
-		<classes mode="change">
-			<memberOf key="att.global.responsibility" mode="add"/>
-		</classes>
-	</elementSpec>
-	
-	<elementSpec ident="resp" module="core" mode="change">
-		<content>
-			<dataRef key="hwh_resp.list"/>
-		</content>
-	</elementSpec>
-	
+	<specGrpRef target="../Specs/common-specs.odd.xml#hendi-target-letters"/>
+    
 </schemaSpec>
