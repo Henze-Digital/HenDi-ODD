@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-01-20T05:09:51Z. .
+Schema generated from ODD source 2023-01-27T07:12:06Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding letters at Henze-Digital 
@@ -2665,6 +2665,8 @@ Empfohlene Werte sind: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] canto; 
       </sch:report>
             </rule>
          </pattern>
+         <ref name="att.hendi.placement.attributes"/>
+         <ref name="att.hendi.rotation.attributes"/>
          <ref name="att.fragmentable.attributes"/>
          <ref name="att.written.attributes"/>
          <ref name="att.global.attribute.xmlid"/>
@@ -6088,7 +6090,7 @@ Empfohlene Werte sind: 1] sent; 2] received; 3] transmitted; 4] redirected; 5] f
    </define>
    <define name="msDesc">
       <element name="msDesc">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(manuscript description) contains a description of a single identifiable manuscript or other text-bearing object such as early printed books. []</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(manuscript description) contains a description of a single identifiable manuscript or other text-bearing object such as an early printed book. []</a:documentation>
          <group>
             <ref name="msIdentifier"/>
             <zeroOrMore>
@@ -8091,7 +8093,7 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
    </define>
    <define name="opener">
       <element name="opener">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(opener) fasst Datumszeile, Verfasserangabe, Anredeformel und ähnliche Phrasen zusammen, die einleitend zu Beginn eines Abschnitts stehen, vor allem bei einem Brief. [4.2. Elements Common to All Divisions]</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(opener) groups together dateline, byline, salutation, and similar phrases appearing as a preliminary group at the start of a division, especially of a letter. [4.2. Elements Common to All Divisions]</a:documentation>
          <zeroOrMore>
             <choice>
                <text/>
@@ -8104,6 +8106,8 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
+         <ref name="att.hendi.placement.attributes"/>
+         <ref name="att.hendi.rotation.attributes"/>
          <ref name="att.global.attributes"/>
          <ref name="att.written.attributes"/>
          <empty/>
@@ -8111,7 +8115,7 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
    </define>
    <define name="closer">
       <element name="closer">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(closer) gruppiert die Grußformeln, Datumszeilen, und ähnliche Formulierungen, die als letzte Gruppe am Ende eines Bereichs, besonders aber bei Briefen, auftreten. [4.2.2. Openers and Closers 4.2. Elements Common to All Divisions]</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(closer) groups together salutations, datelines, and similar phrases appearing as a final group at the end of a division, especially of a letter. [4.2.2. Openers and Closers 4.2. Elements Common to All Divisions]</a:documentation>
          <zeroOrMore>
             <choice>
                <text/>
@@ -8123,6 +8127,8 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
+         <ref name="att.hendi.placement.attributes"/>
+         <ref name="att.hendi.rotation.attributes"/>
          <ref name="att.written.attributes"/>
          <optional>
             <attribute name="rend">
@@ -8192,6 +8198,8 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
                </group>
             </zeroOrMore>
          </group>
+         <ref name="att.hendi.placement.attributes"/>
+         <ref name="att.hendi.rotation.attributes"/>
          <ref name="att.written.attributes"/>
          <optional>
             <attribute name="rend">
@@ -8811,9 +8819,10 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
       <element name="fw">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(forme work) contains a running head (e.g. a header, footer), catchword, or similar material appearing on the current page. []</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <ref name="att.hendi.placement.attributes"/>
+         <ref name="att.hendi.rotation.attributes"/>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attribute.subtype"/>
-         <ref name="att.placement.attributes"/>
          <ref name="att.written.attributes"/>
          <optional>
             <attribute name="type">
@@ -8971,6 +8980,50 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
          </attribute>
       </optional>
    </define>
+   <define name="att.hendi.placement.attributes">
+      <ref name="att.hendi.placement.attribute.place"/>
+   </define>
+   <define name="att.hendi.placement.attribute.place">
+      <optional>
+         <attribute name="place">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Definiert den Ort, an dem das Element plaziert ist.</a:documentation>
+            <choice>
+               <value>margin.left</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Linker Rand) Rand links vom Haupttext.</a:documentation>
+               <value>margin.right</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Rechter Rand) Rand rechts vom Haupttext.</a:documentation>
+               <value>margin.top</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Oberer Rand) Rand oberhalb vom Haupttext.</a:documentation>
+               <value>margin.bottom</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Unterer Rand) Rand unterhalb vom Haupttext.</a:documentation>
+            </choice>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.hendi.rotation.attributes">
+      <ref name="att.hendi.rotation.attribute.rotation"/>
+   </define>
+   <define name="att.hendi.rotation.attribute.rotation">
+      <optional>
+         <attribute name="rotation">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Indicates that an element appears rotated to the writing direction/basic alignment of the text. The rotation is indicated clockwise in degrees (0-360).</a:documentation>
+            <data type="nonNegativeInteger"/>
+         </attribute>
+      </optional>
+   </define>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiLetters-att.hendi.rotation-divRotation-constraint-rule-115">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:*[@rotation]">
+         <sch:assert test="number(@rotation) gt 0 and number(@rotation) lt 361 and not(starts-with(@rotation,'0'))">The value must be between 1 and 360 (without leading zeros).</sch:assert>
+      </sch:rule>
+   </pattern>
    <define name="att.docStatus.attributes">
       <ref name="att.docStatus.attribute.status"/>
    </define>
@@ -9416,7 +9469,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiLetters-styleguide-document-node-content-constraint-rule-115">
+            id="hendiLetters-styleguide-document-node-content-constraint-rule-116">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
