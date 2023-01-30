@@ -1446,9 +1446,19 @@
             <desc versionDate="2023-01-17" xml:lang="en">warnings for whitespace at the beginning of an element if.</desc>
             <desc versionDate="2023-01-17" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
             <constraint>
-                <sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
-                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="warning">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
+                <sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
+                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="error">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
+                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="error">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="hiRendUnderlineStartsWithWhitespace" mode="add">
+            <desc versionDate="2023-01-27" xml:lang="en">warnings for whitespace at the beginning of &lt;hi rend="underline">&gt;.</desc>
+            <desc versionDate="2023-01-27" xml:lang="de">Warnung vor Leerzeichen am Beginn von &lt;hi rend="underline">&gt;.</desc>
+            <constraint>
+                <sch:rule context="tei:hi[@rend='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript']">
+                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</sch:report>
+                    <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</sch:report>
                 </sch:rule>
             </constraint>
         </constraintSpec>
@@ -1575,7 +1585,7 @@
             </constraint>
         </constraintSpec>
         <constraintSpec scheme="schematron" ident="addWithoutPlace" mode="add">
-            <desc versionDate="2021-10-18" xml:lang="en">Report missing of @place if no substitution (typoscript).</desc>
+            <desc versionDate="2021-10-18" xml:lang="en">Report missing of @place if no substitution (typescript).</desc>
             <desc versionDate="2021-10-18" xml:lang="de">Meldet das Fehlen von @place, wenn es sich nicht um eine Ersetzung handelt (Typoskript).</desc>
             <constraint>
                 <sch:rule context="tei:add[not(parent::tei:subst)]">
@@ -1789,7 +1799,7 @@
             <desc versionDate="2013-11-11" xml:lang="de">enthält Buchstaben, Wörter oder Sätze im Quelltext, die von einem Autor, Schreiber, Kommentator oder Korrektor eingesetzt wurden.</desc>-->
             <attList>
                 <attDef ident="place" mode="replace" usage="rec">
-                    <desc versionDate="2021-10-18" xml:lang="en">specifies where this item is placed. It should not be used for overtyped passages in typoscripts.</desc>
+                    <desc versionDate="2021-10-18" xml:lang="en">specifies where this item is placed. It should not be used for overtyped passages in typescripts.</desc>
                     <desc versionDate="2021-10-18" xml:lang="de">spezifiert wo das Element angebracht ist. Es soll nicht benutzt werden, wenn es sich um Überschreibungen in einem Typoskript handelt.</desc>
                     <valList type="closed" mode="replace">
                         <valItem ident="above">
@@ -3453,7 +3463,7 @@
             <content mode="change">
                 <valList type="closed" mode="add">
                     <valItem ident="Ts" mode="add">
-                        <gloss versionDate="2021-11-22" xml:lang="en">typoscript</gloss>
+                        <gloss versionDate="2021-11-22" xml:lang="en">typescript</gloss>
                         <desc versionDate="2021-11-22" xml:lang="en"/>
                         <gloss versionDate="2021-11-22" xml:lang="de">Typoscript</gloss>
                         <desc versionDate="2021-11-22" xml:lang="de"/>
@@ -3604,8 +3614,10 @@
     <specGrp xml:id="hendi-target-biblio"/>
 	<specGrp xml:id="hendi-target-letters">
 		<elementSpec ident="div" mode="change" module="textstructure">
-		    <classes>
+		    <classes mode="change">
 		        <memberOf key="model.global" mode="add"/>
+		        <memberOf key="att.hendi.placement" mode="add"/>
+		        <memberOf key="att.hendi.rotation" mode="add"/>
 		    </classes>
 		    <content>
 				<sequence>
@@ -3655,7 +3667,6 @@
 		            </sch:rule>
 		        </constraint>
 		    </constraintSpec>
-		    
 		    <constraintSpec scheme="schematron" ident="divTypeRow" mode="add">
 				<constraint>
 					<sch:rule context="tei:div[@type='row']">
@@ -3758,46 +3769,26 @@
 						<dataRef key="teidata.count"/>
 					</datatype>
 				</attDef>
-				<attDef ident="rotation" mode="add" usage="opt">
-					<desc versionDate="2022-10-26" xml:lang="en">Zeigt an, dass ein Element gedreht zur Schreibrichtung/grundsätzlichen Ausrichtung des Textes erscheint. Die Drehung wird im Uhrzeigersinn in Grad (0-360) angegeben.</desc>
-					<desc versionDate="2022-10-26" xml:lang="de">Indicates that an element appears rotated to the writing direction/basic alignment of the text. The rotation is indicated clockwise in degrees (0-360).</desc>
-					<datatype>
-						<dataRef name="nonNegativeInteger"/>
-					</datatype>
-				</attDef>
-				<attDef ident="place" mode="change" usage="opt">
-					<desc versionDate="2022-10-26" xml:lang="en">defines the place the element is placed.</desc>
-					<desc versionDate="2022-10-26" xml:lang="de">Definiert den Ort, an dem das Element plaziert ist.</desc>
-					<valList type="closed" mode="replace">
-						<valItem ident="margin.left" mode="add">
-							<gloss versionDate="2022-12-12" xml:lang="en">left margin</gloss>
-							<gloss versionDate="2022-12-12" xml:lang="de">Linker Rand</gloss>
-							<desc versionDate="2022-12-12" xml:lang="en">Margin left from the main content.</desc>
-							<desc versionDate="2022-12-12" xml:lang="de">Rand links vom Haupttext.</desc>
-						</valItem>
-						<valItem ident="margin.right" mode="add">
-							<gloss versionDate="2022-12-12" xml:lang="en">right margin</gloss>
-							<gloss versionDate="2022-12-12" xml:lang="de">Rechter Rand</gloss>
-							<desc versionDate="2022-12-12" xml:lang="en">Margin right from the main content.</desc>
-							<desc versionDate="2022-12-12" xml:lang="de">Rand rechts vom Haupttext.</desc>
-						</valItem>
-						<valItem ident="margin.top" mode="add">
-							<gloss versionDate="2022-12-12" xml:lang="en">top margin</gloss>
-							<gloss versionDate="2022-12-12" xml:lang="de">Oberer Rand</gloss>
-							<desc versionDate="2022-12-12" xml:lang="en">Margin above the main content.</desc>
-							<desc versionDate="2022-12-12" xml:lang="de">Rand oberhalb vom Haupttext.</desc>
-						</valItem>
-						<valItem ident="margin.bottom" mode="add">
-							<gloss versionDate="2022-12-12" xml:lang="en">left margin</gloss>
-							<gloss versionDate="2022-12-12" xml:lang="de">Unterer Rand</gloss>
-							<desc versionDate="2022-12-12" xml:lang="en">Margin below the main content.</desc>
-							<desc versionDate="2022-12-12" xml:lang="de">Rand unterhalb vom Haupttext.</desc>
-						</valItem>
-					</valList>
-				</attDef>
+			    <attDef ident="rend" usage="opt" mode="change">
+			        <gloss versionDate="2023-01-27" xml:lang="en">rendition</gloss>
+			        <desc versionDate="2023-01-27" xml:lang="en">indicates how the element in question was rendered or presented in the source text.</desc>
+			        <gloss versionDate="2023-01-27" xml:lang="de">Ausgabe</gloss>
+			        <desc versionDate="2023-01-27" xml:lang="de">gibt an, wie das fragliche Element ausgegeben wurde oder im Quelltext präsentiert ist.</desc>
+			        <valList type="closed" mode="add">
+			            <valItem ident="inline" mode="add">
+			                <desc versionDate="2023-01-27" xml:lang="en">marks the element as following in the same line then the preceding element</desc>
+			                <desc versionDate="2023-01-27" xml:lang="de">markiert das Element als in der selben Zeile beginnend wie das Vorgänger-Element</desc>
+			            </valItem>
+			            <valItem ident="justify-between" mode="add">
+			                <desc versionDate="2023-01-27" xml:lang="en">marks spacing between elements</desc>
+			                <desc versionDate="2023-01-27" xml:lang="de">markiert, dass zwischen den Elementen Abstand herrscht</desc>
+			            </valItem>
+			        </valList>
+			    </attDef>
 			</attList>
-			<remarks xml:lang="en" versionDate="2021-10-19">
+			<remarks xml:lang="en" versionDate="2023-01-27">
 				<p>For Henze-Digital the content model was changed. It was necessary to allow text blocs after the closer.</p>
+			    <p>The redefinition of the values of @rend was necessary because they where defined as rng in the source.</p>
 			</remarks>
 		</elementSpec>
 		<elementSpec ident="TEI" mode="change" module="textstructure">
@@ -3831,8 +3822,8 @@
 				<constraint>
 					<sch:rule context="tei:textClass/tei:keywords/tei:term">
 						<sch:report test="parent::node()/tei:term = 'typoscript'"
-							role="warn">Typo! Use 'typescript' instead of 'typoscript'.</sch:report>
-						<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typoscript'</sch:assert>
+							role="warn">Please use 'typescript' instead of 'typoscript'.</sch:report>
+						<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typescript'</sch:assert>
 						<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
 							role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
 					</sch:rule>
