@@ -10,7 +10,7 @@
 			<div xml:id="DT-primary-struct-text">
 				<head>Grundstruktur des Textes</head>
 				<p>Zur grundlegenden Struktur der <gi>text</gi> Elemente, bestehend aus <gi>div</gi> und <gi>p</gi> Elementen, ist anzumerken, dass <gi>div</gi> Elemente zur groben Gliederung verwendet werden.<note>Detaillierter siehe <ptr target="#DT-postals"/>.</note> Für gewöhnlich bestehen Briefe aus einem oder wenigen Abschnitten, die als <gi>div</gi> zu codieren sind. Die Verwendung des Elements <gi>p</gi>, welches zur Abtrennung von Absätzen Anwendung findet, orientiert sich streng an der Struktur, welche der zu edierende Textes vorgibt.<note>Bzgl. Zeilenumbrücke siehe <ptr target="#sec-encoding-general"/> und <ptr target="#eG-lb-hyphen"/>.</note> Ausnahmen hiervon entstehen zwangsläufig bei Inhalten von komplexer Struktur und an denjenigen Stellen, an denen, bedingt durch das Schema, ein <gi>div</gi> oder <gi>p</gi> erforderlich ist; beispielsweise als Wrapper-Element für <gi>address</gi>.<note>Zu den Besonderheiten bzgl. Postkarten und Telegramme siehe <ptr target="#DT-postals-postcards"/> bzw. <ptr target="#DT-postals-telegram"/>.</note></p>
-				<p>Einzüge werden abstrakt behandelt, d.h. ihre Breite wird in relativen Einheiten erfasst:</p>
+				<p>Einzüge werden abstrakt behandelt, d.h. ihre Breite wird in relativen Einheiten erfasst. Bei Typoskripten kann die Ausdehnung auch als Anzahl von Zeichen angegeben werden.</p>
 				<p>
 					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0402725">
 						<closer>
@@ -55,10 +55,10 @@
 				<p>Die einzelnen Abschnitte (Absätze/Paragraphen) des Briefes werden mit <gi>p</gi> gekennzeichnet. In der Regel bestehen die Briefe aus einer Einheit, die insgesamt durch das Element <gi>text</gi> strukturell veranktert ist. Der Wert des Attributs <att>type</att> klassifiziert die Art des Textes; bspw. <tag>text type="letter"</tag>. In dem Falle, dass ein Umschlag überliefert ist, wird dessen Inhalt in einem eigenen <gi>text</gi> codiert und mit dem Typ <val>envelope</val> klassifiziert.
 					<!-- Durch ein <att>type</att>-Attribut werden die jeweiligen Divisions näher bestimmt. Ggf. können unterschiedliche Elemente (z. B. unterschiedliche Schreibakte) zusätzlich mit einem <tag>div type="writingSession" n="2"</tag>-->
 					</p><p>
-						<!-- DR: Überarbeiten! -->
-						Beginn und Ende der Abschlusssektion <gi>closer</gi> sollten nicht nach der räumlichen Anordnung auf dem Papier (also nach typographischen Gesichtspunkten), sondern nach inhaltlichen Kriterien (wirklicher Beschluss des Briefes) festgelegt werden: Sie beginnt also nicht mitten in einem Satz, sondern umfasst den ganzen Satz (oder mehrere Sätze) bzw. einen Absatz einschließlich der Unterschrift. Die graphische Anordnung ist für diese Form der Auszeichnung sekundär, dennoch werden Umbrüche hier durch die Verwendung von <gi>lb</gi> Elementen in der Codierung hinterlegt werden, um diese Information nicht zu verlieren. Hinweise auf die abweichende horizontale Anordnung eines Textsegments (<gi>seg</gi>), z. B. am linken oder rechten Rand bzw. in der Mitte, können ebenfalls hinterlegt werden: <tag>seg place="margin.left"</tag>, <tag>seg place="margin.right"</tag> oder <tag>seg rend="center"</tag>; eine weitere Differenzierung der räumlichen Positionen wird nicht vorgenommen.</p>
-				<p>Schließt die Grußformel direkt in der laufenden Zeile eines Textes an, lässt sich eine Absatzbildung des <gi>closer</gi> durch das Attribut <att>rend</att> (<tag>closer rend="inline"</tag>) verhindern.
-					<lb/>Nachschriften am Ende des eigentlichen Briefes (also nach dem <gi>closer</gi> mit der Unterschriftsformel) können, wenn es sich um kürzere Zusätze handelt, innerhalb eines <gi>postscript</gi>-Elements erscheinen oder – falls eine längere bzw. stärker strukturierte Nachschrift vorliegt – in ein weiteres <tag>p</tag> Element eingeschlossen werden. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8A0">
+						Beginn und Ende der Abschlusssektion <gi>closer</gi> sollten nicht nach der räumlichen Anordnung auf dem Papier (also nach typographischen Gesichtspunkten), sondern nach inhaltlichen Kriterien (wirklicher Beschluss des Briefes) festgelegt werden: Sie beginnt also nicht mitten in einem Satz, sondern umfasst den ganzen Satz (oder mehrere Sätze) bzw. einen Absatz einschließlich der Unterschrift. Die graphische Anordnung ist für diese Form der Auszeichnung sekundär, dennoch werden Umbrüche hier durch die Verwendung von <gi>lb</gi> Elementen in der Codierung hinterlegt werden, um diese Information nicht zu verlieren. Hinweise auf die abweichende horizontale Anordnung eines Textsegments (<gi>seg</gi>), z. B. am linken oder rechten Rand bzw. in der Mitte, können ebenfalls hinterlegt werden: <tag>seg place="margin.left"</tag>, <tag>seg place="margin.right"</tag> oder <tag>seg rend="center"</tag>; eine weitere Differenzierung der räumlichen Positionen wird nicht vorgenommen. (Zu Einzügen vgl. auch <ptr target="#DT-primary-struct-text"/>)</p>
+				<p>Schließt die Grußformel direkt in der laufenden Zeile eines Textes an, lässt sich eine Absatzbildung des <gi>closer</gi> durch das Attribut <att>rend</att> mit dem Wert <val>inline</val> (<tag>closer rend="inline"</tag>) verhindern.
+					<lb/>Nachschriften am Ende des Briefes (also nach dem <gi>closer</gi> ggf. mit Unterschriftsformel) können, wenn es sich um kürzere Zusätze handelt, innerhalb eines <gi>postscript</gi>-Elements erscheinen oder – falls eine längere bzw. stärker strukturierte Nachschrift vorliegt – in ein weiteres <tag>p</tag> Element eingeschlossen werden.
+					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8A0">
 						<text type="Brief">
 							<body>
 								<div>
@@ -93,26 +93,28 @@
 			</div>
 			<div xml:id="DT-postals-letterpaper">
 				<head>Briefe (auf Briefpapier)</head>
-				<p>In den überwiegenden Fällen sind die Briefe auf einem blanko Papier geschrieben, doch kommt es auch vor, dass Briefe auf eigenem Briefpapier mit aufgedrucktem Namen und/oder Adresse oder bspw. auf Hotel-Briefpapier geschrieben werden. In diesen Fällen müssen die vorgedruckten Elemente über das Element <gi>fw</gi> (formed work) erfasst werden.</p>
+				<p>In den überwiegenden Fällen sind die Briefe auf einem blanko Papier geschrieben, doch kommt es auch vor, dass Briefe auf eigenem Briefpapier mit aufgedrucktem Namen und/oder Adresse oder bspw. auf Hotel-Briefpapier geschrieben werden. In diesen Fällen müssen die vorgedruckten Elemente über das Element <gi>fw</gi> (forme work) erfasst werden.</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C9CB">
 					<div>
 						<fw><hi rend="capital">La Leprara</hi>
 							<lb/> 00047 <hi rend="capital">Marino</hi> (<hi rend="capital">Roma</hi>)</fw>
 						<opener>
-							<dateline><date when="????-06-06">6 Juni</date></dateline>
+							<dateline><date when-custom="0000-06-06">6 Juni</date></dateline>
 							<salute>
 								<foreign xml:lang="es">Querido</foreign>
-								<persName key="A0002EA0">Mang</persName>, </salute>
+								<persName key="A0002EA0">Mang</persName>,
+							</salute>
 						</opener>
 					</div>
 				</egXML>
-				<p>Nach demselben Prinzip ist mit vorgedruckten Fußzeilen zu verfahren, oder auch mit sich wiederholenden Elementen wie bspw. maschinenschriftlichen Paginierungen (<tag>fw</tag>HWH – 1 –<tag>/fw</tag>). Auf die Verwendung von gedrucktem Briefpapier wird sowohl in der <gi>physDesc</gi> (Quellenbeschreibung) als auch in der <gi>layoutDesc</gi> (Beschreibung des Layouts) verwiesen.</p>
+				<p>Nach demselben Prinzip ist mit vorgedruckten Kopf- und Fußzeilen zu verfahren, oder auch mit sich wiederholenden Elementen wie bspw. maschinenschriftlichen Paginierungen (<tag>fw</tag>HWH – 1 –<tag>/fw</tag>). Auf die Verwendung von gedrucktem Briefpapier wird sowohl in der Quellenbeschreibung (<gi>physDesc</gi>) als auch in der Beschreibung des Layouts (<gi>layoutDesc</gi>) verwiesen.</p>
 			</div>
 			<div xml:id="DT-postals-postcards">
 				<head>Karten/Postkarten</head>
-				<p>Bei Karten sind verschiedene Typen zu unterscheiden. Sogenannte Briefkarten, also Faltkarten mit Motiv, werden in einem Umschlag verschickt und enthalten daher keine Adress- oder Absendernagaben; daher werden diese im Prinzip wie Briefe behandelt. Die Tatsache, dass es sich um eine Briefkarte handelt, wird in der <gi>physDesc</gi> beschrieben. Ggf. vorhandene Bildmotive werden mit <gi>figureDesc</gi> beschrieben.</p>
-				<p>Als Karten im eigentlichen Sinne können die sog. Ansichtskarten gelten, die zum sofortigen postalscihen Versand gedacht sind...<!-- DR: ausformulieren! --> und die von der Post als Vordruck (inkl. Briefmarke) vertriebene Postkarte.</p>
-				<p>Die von der Post vertriebene Karte (Postkarte, z.T. mit vorgedruckter Briefmarke), die direkt zum Versand vorgesehen ist, enthält zahlreiche vorgedruckte Angaben, die mit <gi>fw</gi> erfasst sind, (vgl. <ref target="#DT-postals-general">Adressen</ref>), die aufgedruckten Briefmarken eingeschlossen. Da der Absenderbereich bei solchen Postkarten nur die halbe linke Seite einnimmt, entsteht hier freier Platz, der häufig noch für den Briefschluss, andere Notizen oder auch Bilder genutzt wird. Absender und Adressfeld werden mit Angabe der vorgedruckten Informationen (<gi>fw</gi>) wiedergegeben. Der üblichen Leserichtung (links nach rechts) folgend, wird zuerst der Absender und dann der Empfänger wiedergegeben. </p>
+				<p>Bei Karten sind verschiedene Typen zu unterscheiden. Sogenannte Briefkarten, also Faltkarten mit Motiv, werden für gewöhnlich in einem Umschlag verschickt und enthalten daher keine Adress- oder Absenderangaben; daher werden diese im Prinzip wie Briefe behandelt. Die Tatsache, dass es sich um eine Briefkarte handelt, wird in der <gi>physDesc</gi> beschrieben. Ggf. vorhandene Bildmotive werden mit <gi>figureDesc</gi> beschrieben.</p>
+				<p>Als Karten im eigentlichen Sinne können die sogenannten Ansichtskarten gelten, die zum sofortigen postalischen Versand gedacht sind, sowie die Postkarte (ohne Bild).</p>
+				<p>Die von der Post vertriebene Karte (Postkarte, z.T. mit vorgedruckter Briefmarke), die direkt zum Versand vorgesehen ist, enthält zahlreiche vorgedruckte Angaben, die mit <gi>fw</gi> erfasst sind (vgl. <ref target="#DT-postals-general">Adressen</ref>), die aufgedruckten Briefmarken eingeschlossen. Da der Absenderbereich bei solchen Postkarten nur die halbe linke Seite einnimmt, entsteht hier freier Platz, der häufig noch für den Briefschluss, andere Notizen oder auch Bilder genutzt wird. Absender und Adressfeld werden mit Angabe der vorgedruckten Informationen (<gi>fw</gi>) wiedergegeben. Der üblichen Leserichtung (links nach rechts) folgend, wird zuerst der Absender und dann der Empfänger wiedergegeben.</p>
+				<p><quote source="https://de.wikipedia.org/w/index.php?title=Postkarte&amp;oldid=229479303#Vorderseite_(Adressseite)">Die Vorderseite der Postkarte ist die Adressseite. Diese Definition gilt für deutsche philatelistische und philokartistische Fachsprache für alle Arten der Postkarten, auch für Ansichtskarten.</quote> (Vgl. auch <ref target="https://web.archive.org/web/20230208125417/https://www.philawiki.ch/index.php?title=Postkarte&amp;oldid=20468">https://web.archive.org/web/20230208125417/https://www.philawiki.ch/index.php?title=Postkarte&amp;oldid=20468</ref>).</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0428840">
 					<div type="row">
 						<div>
@@ -151,7 +153,7 @@
 						</div>
 					</div>
 				</egXML>
-				<p>Es folgt dann der Brieftext der Rückseite. Da dieser in der Regel nur die eine Seite umfasst, zeigt ein <gi>pb</gi> in diesem Fall an, dass der Text oder das Bild vorne unter dem Absenderfeld notiert ist. Im übrigen folgt die Codierung des Textes den Regeln für Briefe.</p>
+				<p>Es folgt dann der Brieftext der Rückseite. Da dieses Medium in der Regel nur die eine Seite umfasst, zeigt ein <gi>pb</gi> in diesem Fall den Beginn der Rückseite an <tag>pb n="verso"</tag>. Im übrigen folgt die Codierung des Textes den Regeln für Briefe.</p>
 			</div>
 			<div xml:id="DT-postals-telegram">
 				<head>Telegramme</head>
