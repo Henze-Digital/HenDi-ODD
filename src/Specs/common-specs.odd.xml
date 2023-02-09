@@ -2669,11 +2669,20 @@
     	        <sequence>
     	            <elementRef key="fileDesc"/>
     	            <elementRef key="encodingDesc"/>
-    	            <elementRef key="profileDesc"/>
+    	            <elementRef key="profileDesc" minOccurs="0" maxOccurs="1"/>
     	            <elementRef key="revisionDesc"/>
     	        </sequence>
     	    </content>
     	    <constraintSpec scheme="schematron" ident="seriesTitle" mode="delete"/>
+    	    <constraintSpec scheme="schematron" ident="profileDescRequirement" mode="add">
+    	        <desc versionDate="2023-02-09" xml:lang="en">Forces an error if profileDesc is missing at letters.</desc>
+    	        <desc versionDate="2023-02-09" xml:lang="de">Gibt einen Fehler aus, wenn in einem Brief die profileDesc fehlt.</desc>
+    	        <constraint>
+    	            <sch:rule context="tei:teiHeader">
+    	                <sch:report test="parent::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:profileDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
     	</elementSpec>
     </specGrp>
 
