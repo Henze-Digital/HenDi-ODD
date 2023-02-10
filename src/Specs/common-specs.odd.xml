@@ -4053,7 +4053,44 @@
 	<specGrp xml:id="hendi-target-orgs"/>
     <specGrp xml:id="hendi-target-persons"/>
 	<specGrp xml:id="hendi-target-places"/>
-
+    <specGrp xml:id="hendi-target-thematicCommentaries">
+        <constraintSpec scheme="isoschematron" ident="seriesTitle">
+            <constraint>
+                <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+                    <sch:assert test=".='Henze-Digital, Themenkommentare, Digitale Edition'">The series title must be 
+                        "Henze-Digital, Themenkommentare, Digitale Edition".</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <elementSpec ident="TEI" mode="change" module="textstructure">
+            <classes mode="change">
+                <memberOf key="att.docStatus" mode="add"/>
+            </classes>
+            <attList>
+                <attDef ident="xml:id" mode="change" usage="req">
+                    <datatype>
+                        <dataRef key="hendi.thematicCom.pointer"/>
+                    </datatype>
+                </attDef>
+            </attList>
+        </elementSpec>
+        
+        <elementSpec ident="keywords" mode="change" module="header">
+            <attList>
+                <attDef ident="scheme" mode="change" usage="req">
+                    <valList type="closed" mode="replace">
+                        <valItem ident="HWH_cat"/>
+                    </valList>
+                </attDef>
+            </attList>
+        </elementSpec>
+        
+        <elementSpec ident="term" mode="change" module="core">
+            <content>
+                <rng:ref name="hwh_keywords.list"/>
+            </content>
+        </elementSpec>
+    </specGrp>
     <specGrp xml:id="hendi-target-var">
         <elementSpec ident="TEI" mode="change" module="textstructure">
             <classes mode="change">
