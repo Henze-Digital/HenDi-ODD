@@ -656,6 +656,58 @@
     			</valList>
     		</content>
     	</macroSpec>
+    
+        <macroSpec ident="hendi.document.keywords.list" mode="add" module="hendi.core.module">
+            <desc versionDate="2021-07-26" xml:lang="de">geschlossene Liste von Schlagworten zur Beschreibung der Dokumente</desc>
+            <desc versionDate="2021-07-26" xml:lang="en">closed list of keywords for describing the documents</desc>
+            <content>
+                <valList mode="add" type="closed">
+                    <valItem ident="Finanzen">
+                        <desc versionDate="2022-11-07" xml:lang="de">auf dem Dokument ist der An- oder Verkauf, oder Schuld von Waren oder Dienstleistungen mit entsprechenden Summen genannt oder die Anbahnung eines solchen Geschäfts</desc>
+                    </valItem>
+                    <valItem ident="Behördliches">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument ist von einer zivilen Behörde oder Stelle ausgefertigt</desc>
+                    </valItem>
+                    <valItem ident="Kirchliches">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument ist von einer kirchlichen Behörde oder Stelle ausgefertigt</desc>
+                    </valItem>
+                    <valItem ident="Persönliches">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Dingen oder Ereignissen die Individualität einer Person, Familie oder Gruppe betreffend</desc>
+                    </valItem>
+                    <valItem ident="Künstlerische_Arbeit">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zu künstlerischer Arbeit wie Aufführungen, Werke oder Proben</desc>
+                    </valItem>
+                    <valItem ident="Theaterbetrieb">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zum internen Theaterbetrieb</desc><!-- keine Zettel! -->
+                    </valItem>
+                    <valItem ident="Reisen">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zu Reisen oder Aufenthalten außer Haus</desc>
+                    </valItem>
+                    <valItem ident="Haushalt">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument enthält Informationen zum (persönlichen) Haushalt wie Einrichtung, Besorgungen, Umzüge oder auch Personal</desc>
+                    </valItem>
+                    <valItem ident="Ehrung">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument enhält Informationen zu Auszeichnungen, Preisen, Huldigungen o.ä.</desc>
+                    </valItem>
+                    <valItem ident="Verzeichnis">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument enhält eine beliebige Auflistung von Gegenständen, Werken, Ereignissen, Finanztiteln o.ä.</desc>
+                    </valItem>
+                    <valItem ident="Justiz">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Vorgängen der Justiz</desc> <!-- = Verfeinerung von "Behördliches" -->
+                    </valItem>
+                    <valItem ident="Theaterzettel">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument ist eine Einblattveröffentlichung zur Ankündigung der Aufführung eines Bühnenwerks</desc>
+                    </valItem>
+                    <valItem ident="Konzertwesen">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Vorbereitungen, Ankündigungen oder Abrechnungen von Konzerten</desc><!-- auch konzertante Anteile von Bühnenwerken -->
+                    </valItem>
+                    <valItem ident="Vereine">
+                        <desc versionDate="2022-11-07" xml:lang="de">das Dokument gibt Zeugnis von Vorgängen in Vereinen und Zirkeln</desc>
+                    </valItem>
+                </valList>
+            </content>
+        </macroSpec>
+        
     </specGrp>
 
     <specGrp xml:id="hendi-common-atts">
@@ -3625,7 +3677,112 @@
     </specGrp>
     
     <specGrp xml:id="hendi-target-biblio"/>
-	<specGrp xml:id="hendi-target-letters">
+    <specGrp xml:id="hendi-target-documents">
+        <constraintSpec scheme="schematron" ident="seriesTitle" mode="replace">
+            <constraint>
+                <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
+                    <sch:assert test=".='Henze-Digital, Dokumente, Digitale Edition'">The series title must be 
+                        "Henze-Digital, Dokumente, Digitale Edition".</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <elementSpec ident="TEI" mode="change" module="textstructure">
+            <classes>
+                <memberOf key="att.docStatus" mode="add"/>
+            </classes>
+            <content>
+                <rng:choice>
+                    <!--   Ordentlicher Eintrag   -->
+                    <rng:group>
+                        <rng:ref name="teiHeader"/>
+                        <rng:choice>
+                            <rng:group>
+                                <rng:oneOrMore>
+                                    <rng:ref name="model.resource"/>
+                                </rng:oneOrMore>
+                                <rng:optional>
+                                    <rng:ref name="text"/>
+                                </rng:optional>
+                            </rng:group>
+                            <rng:ref name="text"/>
+                        </rng:choice>
+                    </rng:group>
+                    <!--  Dubletten  -->
+                    <rng:element name="ref">
+                        <rng:attribute name="type">
+                            <rng:value>duplicate</rng:value>
+                        </rng:attribute>
+                        <rng:attribute name="target">
+                            <alternate>
+                                <dataRef key="hendi.writings.pointer"/>
+                                <dataRef key="hendi.letters.pointer"/>
+                                <dataRef key="hendi.documents.pointer"/>
+                            </alternate>
+                        </rng:attribute>
+                        <rng:empty/>
+                    </rng:element>
+                </rng:choice>
+            </content>
+            <attList>
+                <attDef ident="source" mode="replace" usage="req">
+                    <valList type="closed" mode="change">
+                        <valItem ident="HenDi" mode="add">
+                            <desc versionDate="2021-10-20" xml:lang="en">Based on information from the Henze-Digital project (HenDi).</desc>
+                            <desc versionDate="2021-10-20" xml:lang="de">Basiert auf Informationen aus Henze-Digital (HenDi).</desc>
+                        </valItem>
+                    </valList>
+                </attDef>
+                <attDef ident="xml:id" mode="change" usage="req">
+                    <datatype>
+                        <dataRef key="hendi.documents.pointer"/>
+                    </datatype>
+                </attDef>
+            </attList>
+        </elementSpec>
+        <elementSpec ident="text" mode="change" module="textstructure">
+            <attList>
+                <attDef ident="type" mode="change" usage="req">
+                    <valList type="closed" mode="change">
+                        <!--<valItem ident="personal_document">
+                        <desc versionDate="2016-10-25" xml:lang="en">genealogic, personal documents, e.g. passports, baptismal certificates.</desc>
+                        <desc versionDate="2016-10-25" xml:lang="de">genealogische, personengebundene/personenbezogene Dokumente im engeren Sinne: Pässe, Anstellungsdekrete, Taufscheine, Taufeinträge etc.</desc>
+                    </valItem>
+                    <valItem ident="financial_document">
+                        <desc versionDate="2016-10-25" xml:lang="en">receipts, bills, etc.</desc>
+                        <desc versionDate="2016-10-25" xml:lang="de">Rechnungsbelege, Quittungen, Werkbelege aus dem Ausgabenbuch etc.</desc>
+                    </valItem>
+                    <valItem ident="varia_document">
+                        <desc versionDate="2016-10-25" xml:lang="en">business cards, tickets, entrance cards, etc.</desc>
+                        <desc versionDate="2016-10-25" xml:lang="de">Visitenkarten, Eintrittskarten, Fahrkarten, Postscheine, Logendokumente etc.</desc>
+                    </valItem>
+                    <valItem ident="notification_document">
+                        <desc versionDate="2016-10-25" xml:lang="en">notifications of visits or other announcements in journals and news papers.</desc>
+                        <desc versionDate="2016-10-25" xml:lang="de">Fremdenanzeigen oder sonstige Anzeigen in Periodika.</desc>
+                    </valItem>
+                    <valItem ident="konzertzettel_document">
+                        <desc versionDate="2016-10-25" xml:lang="en">Konzertzettel, Theaterzettel</desc>
+                        <desc versionDate="2016-10-25" xml:lang="de">Konzertzettel, Theaterzettel.</desc>
+                    </valItem>
+                    <valItem ident="work-related_document">
+                        <desc versionDate="2016-10-25" xml:lang="en">documents related to musical works.</desc>
+                        <desc versionDate="2016-10-25" xml:lang="de">Ausgabenbuch, Danzis Gutachen, Gutachten über Euryanthe.</desc>
+                    </valItem>
+                    <valItem ident="legal_document">
+                        <desc versionDate="2018-06-22" xml:lang="en">legal document or administrative deed.</desc>
+                        <desc versionDate="2018-06-22" xml:lang="de">Aktenstück (Protokolle und Verwaltungsakten).</desc>
+                    </valItem>-->
+                        <valItem ident="theater_document" mode="delete"/>
+                    </valList>
+                </attDef>
+            </attList>
+        </elementSpec>
+        <elementSpec ident="term" mode="change" module="core">
+            <content>
+                <rng:ref name="hendi.document.keywords.list"/>
+            </content>
+        </elementSpec>
+    </specGrp>
+    <specGrp xml:id="hendi-target-letters">
 		<elementSpec ident="div" mode="change" module="textstructure">
 		    <classes mode="change">
 		        <memberOf key="model.global" mode="add"/>
