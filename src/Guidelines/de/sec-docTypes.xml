@@ -59,7 +59,7 @@
 				<p>Schließt die Grußformel direkt in der laufenden Zeile eines Textes an, lässt sich eine Absatzbildung des <gi>closer</gi> durch das Attribut <att>rend</att> mit dem Wert <val>inline</val> (<tag>closer rend="inline"</tag>) verhindern.
 					<lb/>Nachschriften am Ende des Briefes (also nach dem <gi>closer</gi> ggf. mit Unterschriftsformel) können, wenn es sich um kürzere Zusätze handelt, innerhalb eines <gi>postscript</gi>-Elements erscheinen oder – falls eine längere bzw. stärker strukturierte Nachschrift vorliegt – in ein weiteres <tag>p</tag> Element eingeschlossen werden.
 					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8A0">
-						<text type="Brief">
+						<text type="letter">
 							<body>
 								<div>
 									<p>
@@ -90,6 +90,19 @@
 						</text>
 					</egXML>
 				</p>
+				
+				<p>Enthält ein Brief Beilagen, so werden diese separat als Dokumente erfasst (siehe <ptr target="#DT-documents"/>). Der Verweis ist obligatorisch:</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<sourceDesc>
+						<msDesc>
+							<msIdentifier/>
+							<physDesc/>
+						</msDesc>
+						<listRelation>
+							<relation name="hasEnclosure" key="{DocumentId}"/>
+						</listRelation>
+					</sourceDesc>
+				</egXML>
 			</div>
 			<div xml:id="DT-postals-letterpaper">
 				<head>Briefe (auf Briefpapier)</head>
@@ -114,6 +127,7 @@
 				<p>Bei Karten sind verschiedene Typen zu unterscheiden. Sogenannte Briefkarten, also Faltkarten mit Motiv, werden für gewöhnlich in einem Umschlag verschickt und enthalten daher keine Adress- oder Absenderangaben; daher werden diese im Prinzip wie Briefe behandelt. Die Tatsache, dass es sich um eine Briefkarte handelt, wird in der <gi>physDesc</gi> beschrieben. Ggf. vorhandene Bildmotive werden mit <gi>figureDesc</gi> beschrieben.</p>
 				<p>Als Karten im eigentlichen Sinne können die sogenannten Ansichtskarten gelten, die zum sofortigen postalischen Versand gedacht sind, sowie die Postkarte (ohne Bild).</p>
 				<p>Die von der Post vertriebene Karte (Postkarte, z.T. mit vorgedruckter Briefmarke), die direkt zum Versand vorgesehen ist, enthält zahlreiche vorgedruckte Angaben, die mit <gi>fw</gi> erfasst sind (vgl. <ref target="#DT-postals-general">Adressen</ref>), die aufgedruckten Briefmarken eingeschlossen. Da der Absenderbereich bei solchen Postkarten nur die halbe linke Seite einnimmt, entsteht hier freier Platz, der häufig noch für den Briefschluss, andere Notizen oder auch Bilder genutzt wird. Absender und Adressfeld werden mit Angabe der vorgedruckten Informationen (<gi>fw</gi>) wiedergegeben. Der üblichen Leserichtung (links nach rechts) folgend, wird zuerst der Absender und dann der Empfänger wiedergegeben.</p>
+				<p>Zur Erfassung der Struktur (Bereiche auf der Karte) siehe <ptr target="DT-postals-telegram"/>.</p>
 				<p><quote source="https://de.wikipedia.org/w/index.php?title=Postkarte&amp;oldid=229479303#Vorderseite_(Adressseite)">Die Vorderseite der Postkarte ist die Adressseite. Diese Definition gilt für deutsche philatelistische und philokartistische Fachsprache für alle Arten der Postkarten, auch für Ansichtskarten.</quote> (Vgl. auch <ref target="https://web.archive.org/web/20230208125417/https://www.philawiki.ch/index.php?title=Postkarte&amp;oldid=20468">https://web.archive.org/web/20230208125417/https://www.philawiki.ch/index.php?title=Postkarte&amp;oldid=20468</ref>).</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0428840">
 					<div type="row">
@@ -137,11 +151,10 @@
 								<address type="receiver">
 									<fw rend="left">Postkarte</fw>
 									<fw rend="right">Briefmarke</fw>
-									<!-- rend="right inline" ??? -->
-									<stamp>Poststempel: Rundstempel: Heidelberg
-										<lb/> 29.6.49
-										<lb/> -17
-										<lb/> an</stamp>
+									<stamp>Rundstempel: Heidelberg
+										<lb/>29.6.49
+										<lb/>-17
+										<lb/>an</stamp>
 									<!-- position: auf der Briefmarke? -->
 									<addrLine>Dr. Walter Jockisch</addrLine>
 									<addrLine>EGERN am Tegernsee</addrLine>
@@ -157,40 +170,12 @@
 			</div>
 			<div xml:id="DT-postals-telegram">
 				<head>Telegramme</head>
-				<p>Die Erfassung von Telegrammen in TEI soll zusätzlich zum Inhalt auch die Formular-Struktur des Mediums abbilden. Hierzu wird ein eigenes Datenmodell erarbeitet, welches sich derzeit noch in der Entwicklung befindet. Daher wird primär der Inhalt erfasst und aufbereitet; die Struktur wird zum Teil nachgereicht.</p>
-				<p>Ziel ist es mit der Codierung nicht nur dem Inhalt, sondern auch dem Medium gerecht zu werden.</p>
-				<p>Der Modellansatz für die Erschließung der Formular-Struktur ist am Bootstrap-Framework orientiert, das Bereiche mit <gi>div</gi>s organisiert. Zur Nutzung dieser Technik wurde die TEI-Definition von <gi>div</gi> <quote>(text division) contains a subdivision of the front, body, or back of a text.</quote> für Henze-Digital erweitert: (text division) contains a subdivision of the front, body, or back of a text or is used to represent the structure of the text for special documents (e.g., postcards, telegrams).</p>
-				<p>Analog zum Bootstrap-Framework wird jeweils ein <gi>div</gi> als Wrapper für eine Zeile verwendet. Die Kind-Elemente – in diesem Fall ist <gi>div</gi> obligatorisch – stellen dann Bereiche in einer Zeile (Spalten) dar.</p>
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<div type="row">
-						<div/>
-						<div/>
-					</div>
-				</egXML>
-				<p>Werden in den <gi>div</gi>-Elementen innerhalb von <tag>div type="row"</tag> keine weiteren Spezifikationen angegeben, so bedeuted dies eine gleichmäßige Verteilung bzw. gleichmäßige horizontale Ausdehnung der Bereiche. Ungleichgroße Bereiche können durch die Werte <val>col-1</val> bis <val>col-11</val> spezifiziert werden, wobei die Summe 12 (analog zu Bootstrap) nicht überschritten werden darf.</p>
-				<p>Eine Zeile mit zwei Bereichen im Verhältnis 1:2 (1/3 der Gesamtbreite + 2/3 der Gesamtbreite) kann wie folgt codiert werden:</p>
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<div type="row">
-						<div type="col-4"/>
-						<div type="col-8"/>
-					</div>
-				</egXML>
-				<p>Werden nur einzelne Bereiche in ihrer horizontalen Ausdehnung spezifiziert, so sind alle anderen Bereiche als gleichmäßig verteilt (bezogen auf den zur Verfügung stehenden Platz) zu verstehen.</p>
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<div type="row">
-						<div type="col-2"/>
-						<!-- = col-5 -->
-						<div type="col"/>
-						<!-- = col-5 -->
-						<div type="col"/>
-					</div>
-				</egXML>
-				<p>Der Wrapper <tag>div type="row"</tag> kann in jedem Bereich verwendet werden, außer in sich selbst. Auf diese Weise lassen sich auch komplexe Formularstrukturen erfassen und mit Hilfe des Bootstrap-Framework darstellen.</p>
-				<p>Vorgedruckte Formular-Texte werden mit <gi>fw</gi> ausgezeichnet. Für die Angabe von Positionsangaben ist ein Modell zu erarbeiten.</p>
+				<p>Die Erfassung von Telegrammen in TEI befindet sich noch im Anfangsstadium. Bisher erfasste Telegramme wurden zumeist nur inhaltlich erfasst, ohne (größere) Rücksicht auf die Formular-Struktur dieses Mediums.</p>
+				<p>Das Datenmodell zur Erfassung von Telegrammen ist derzeit in der Entwicklung. <!-- DR: viel mit div und fw arbeiten? --></p>
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
-				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="Umschlag"</tag><!-- DR: values übersetzen!!! --> ausgezeichnet, wobei die Adressseite als erste und die Absenderseite als zweite Seite angegeben wird.<!-- DR: Wir könnten das natürlich auch als <pb n="verso"/> angeben, zumindest bei Umschlägen. --></p>
+				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="envelope"</tag> erfasst, wobei die Adressseite als Vorderseite und die Absenderseite als Rückseite, eingeleitet mit <tag>pb type="verso"</tag>, erfasst wird. (Vgl. auch <ptr target="#DT-postals-postcards"/>)</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C883">
 					<text type="Umschlag">
 						<body>
@@ -205,7 +190,8 @@
 										<addrLine>Italia</addrLine>
 									</address></p>
 								<pb n="verso"/>
-								<p><!-- Rückseite -->
+								<!-- Rückseite -->
+								<p>
 									<address>
 										<addrLine rend="center">H.M.E. c/o Casa de las Américas</addrLine>
 										<addrLine rend="center">G y Tercera, Vedado</addrLine>
@@ -219,13 +205,19 @@
 				</egXML>
 				<p>Als zusätzliche Elemente finden sich auf Umschlägen oft vorgedruckte Texte und vor allem Briefmarken und Stempel – in den 1950er Jahren sowohl Ausgangs- als auch Eingangsstempel. Die vorgedruckten Elemente werden wie im Abschnitt zu den <ref target="#DT-postals-letterpaper">Briefpapieren</ref> beschrieben, in <gi>fw</gi> wiedergegeben. Mit der Codierung dieser Aspekte befasst sich der Abschnitt zu <ref target="#DT-postals-stamp">Stempel und Briefmarken</ref>.</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C885">
-					<text type="Umschlag">
+					<text type="envelope">
 						<body>
 							<div>
-								<p><fw><hi rend="spaced_out">Center for Advanced Studies</hi>
-									<lb/>
-									<hi rend="capital">WESLYAN UNIVERSITY . MIDDLETOWN . CONNETICUT</hi> 06457</fw></p>
-								<p>companero hans werner henze<space unit="chars" quantity="3"/>la leprara<space unit="chars" quantity="3"/>marino (roma)<space unit="chars" quantity="3"/>italia</p>
+								<p>
+									<fw>
+										<hi rend="spaced_out">Center for Advanced Studies</hi>
+										<lb/>
+										<hi rend="capital">Wesleyan University . Middletown . Connecticut</hi> 06457</fw>
+								</p>
+								<p>
+									<foreign xml:lang="es">companero</foreign> hans werner henze<space unit="chars" quantity="3"/>la leprara<space unit="chars" quantity="3"/>marino (roma)<space unit="chars" quantity="3"/>italia 
+								</p>
+								<pb/><p><stamp type="rundstempel">Poste Roma - Arrivi E distribuzione [darin:] 14 - 15<lb/> 25 -1<lb/> 1968</stamp></p>
 							</div>
 						</body>
 					</text>
@@ -233,23 +225,30 @@
 			</div>
 			<div xml:id="DT-postals-stamp">
 				<head>Stempel/Briefmarken</head>
-				<p>Siehe <ref target="https://tei-c.org/release/doc/tei-p5-doc/en/html/MS.html#mswat">TEI Guidelines</ref>.</p>
+				<p>Siehe <ref target="https://tei-c.org/release/doc/tei-p5-doc/en/html/MS.html#mswat">TEI Guidelines</ref>. Dieser Aspekt befindet sich im Entwickliungsstadium. Vgl. auch Obert, Dewi Josephine/Trautmann, Marjam: Postage stamps, seals, and postmarks, <ref target="https://web.archive.org/web/20230213065004/https://encoding-correspondence.bbaw.de/v1/stamps-seals-postmarks.html">https://web.archive.org/web/20230213065004/https://encoding-correspondence.bbaw.de/v1/stamps-seals-postmarks.html</ref>.</p>
 			</div>
 		</div>
-		<!--<div
-	            xml:id="DT-reviews">
-	            <!-\- IC: nehmen wir Rezensionen auf? mir sind bislang keine begegnet, also bei uns mit unter Dokumente fassen?-\->
-	            <head>Rezeptionsdokumente (reviews)</head>
-	            <p>Aufführungsbesprechungen, Rezensionen etc., sowie Artikel der zeitgenössischen Presse, die sich auf Henzes Werke und sein Wirken beziehen.</p>
-	        </div>-->
 		<div xml:id="DT-documents">
 			<head>Schriftstücke</head>
 			<!-- Noch nicht fertig formuliert - draft! -->
-			<p>Weitere Dokumente, die im Zusammenhang mit der Korrespondenz überliefert sind, das sind in der Regel Beilagen zu Briefen wie Aufstellungen, Listen, Rechnungen etc. Sind die Dokumente eindeutig als Beilage eines Briefes nachzuweisen, erfolgt die Wiedergabe bei dem Brief, doch wird unter den Dokumenten auf sie verlinkt. Dokumente, die als Briefanlagen versendet wurden, sind im Briefkorpus codiert. <note resp="DR">Zu Dokumenten: Wäre es sinnvoll die Briefbeilagen in die Dokumente auszulagern und zu verlinken?</note></p>
+			<p>Weitere Dokumente, die im Zusammenhang mit der Korrespondenz überliefert sind; das sind in der Regel Beilagen zu Briefen wie Aufstellungen, Listen, Rechnungen, Zeitschriftenartikel etc. Sind die Dokumente eindeutig als Beilage eines Briefes nachzuweisen, so werden diese mit dem entsprechenden Brief verlinkt:</p>
+			<egXML xmlns="http://www.tei-c.org/ns/Examples">
+				<sourceDesc>
+					<msDesc>
+						<msIdentifier/>
+						<physDesc/>
+					</msDesc>
+					<listRelation>
+						<relation name="isEnclosure" key="{LetterId}"/>
+					</listRelation>
+				</sourceDesc>
+			</egXML>
+			<p>(Der Verweis erfolgt in beide Richtungen. Vgl. auch <ptr target="#DT-postals-general"/>)</p>
 		</div>
 		<div xml:id="DT-writings">
-			<head>Schriften (Henze)</head>
-			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musiklaischen Hinterlassenschaften von Hans Werner Henze von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, die nicht von Henze selbst stammt, ist unter den Bibliographika verzeichnet.</p>
+			<head>Schriften</head>
+			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musikalischen Hinterlassenschaften von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, ist unter den Bibliographika verzeichnet.</p>
+			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen; unabhängig davon, ob der Autor Hans Werner Henze ist oder nicht.</p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
