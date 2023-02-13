@@ -168,8 +168,36 @@
 			</div>
 			<div xml:id="DT-postals-telegram">
 				<head>Telegramme<note resp="DR" place="bottom">Die Erfassung von Telegrammen in TEI befindet sich noch im Entwickliungsstadium.</note></head>
-				<p>Bisher erfasste Telegramme wurden zumeist nur inhaltlich erfasst, ohne (größere) Rücksicht auf die Formular-Struktur dieses Mediums.</p>
-				<p>Das Datenmodell zur Erfassung von Telegrammen ist derzeit in der Entwicklung. <!-- DR: viel mit div und fw arbeiten? --></p>
+				<p>Die Erfassung von Telegrammen in TEI soll zusätzlich zum Inhalt auch die Formular-Struktur des Mediums abbilden. Hierzu wird ein eigenes Datenmodell erarbeitet, welches sich derzeit noch in der Entwicklung befindet. Daher wird primär der Inhalt erfasst und aufbereitet; die Struktur wird zum Teil nachgereicht.</p>
+				<p>Ziel ist es mit der Codierung nicht nur dem Inhalt, sondern auch dem Medium gerecht zu werden.</p>
+				<p>Der Modellansatz für die Erschließung der Formular-Struktur ist am Bootstrap-Framework orientiert, das Bereiche mit <gi>div</gi>s organisiert. Zur Nutzung dieser Technik wurde die TEI-Definition von <gi>div</gi> <quote>(text division) contains a subdivision of the front, body, or back of a text.</quote> für Henze-Digital erweitert: (text division) contains a subdivision of the front, body, or back of a text or is used to represent the structure of the text for special documents (e.g., postcards, telegrams).</p>
+				<p>Analog zum Bootstrap-Framework wird jeweils ein <gi>div</gi> als Wrapper für eine Zeile verwendet. Die Kind-Elemente – in diesem Fall ist <gi>div</gi> obligatorisch – stellen dann Bereiche in einer Zeile (Spalten) dar.</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div/>
+						<div/>
+					</div>
+				</egXML>
+				<p>Werden in den <gi>div</gi>-Elementen innerhalb von <tag>div type="row"</tag> keine weiteren Spezifikationen angegeben, so bedeuted dies eine gleichmäßige Verteilung bzw. gleichmäßige horizontale Ausdehnung der Bereiche. Ungleichgroße Bereiche können durch die Werte <val>col-1</val> bis <val>col-11</val> spezifiziert werden, wobei die Summe 12 (analog zu Bootstrap) nicht überschritten werden darf.</p>
+				<p>Eine Zeile mit zwei Bereichen im Verhältnis 1:2 (1/3 der Gesamtbreite + 2/3 der Gesamtbreite) kann wie folgt codiert werden:</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div type="col-4"/>
+						<div type="col-8"/>
+					</div>
+				</egXML>
+				<p>Werden nur einzelne Bereiche in ihrer horizontalen Ausdehnung spezifiziert, so sind alle anderen Bereiche als gleichmäßig verteilt (bezogen auf den zur Verfügung stehenden Platz) zu verstehen.</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div type="col-2"/>
+						<!-- = col-5 -->
+						<div type="col"/>
+						<!-- = col-5 -->
+						<div type="col"/>
+					</div>
+				</egXML>
+				<p>Der Wrapper <tag>div type="row"</tag> kann in jedem Bereich verwendet werden, außer in sich selbst. Auf diese Weise lassen sich auch komplexe Formularstrukturen erfassen und mit Hilfe des Bootstrap-Framework darstellen.</p>
+				<p>Vorgedruckte Formular-Texte werden mit <gi>fw</gi> ausgezeichnet. Für die Angabe von Positionsangaben ist ein Modell zu erarbeiten.</p>
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
