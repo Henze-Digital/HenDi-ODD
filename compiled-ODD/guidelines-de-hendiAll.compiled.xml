@@ -93,14 +93,12 @@
 						</address>
 					</egXML>
 					einem zu Beginn stehenden <gi>opener</gi>, der z. B. aus einer Datumszeile (<gi>dateline</gi>) und oder einer oder mehrerer Anredezeilen bestehen kann. Komplementär zur Eröffnung ist ggf. eine Abschlusssektion (<gi>closer</gi>) mit Grußfloskel (<gi>salute</gi>), ggf. mit Unterschrift (<gi>signed</gi>), vorhanden, die das Ende des Briefes bildet. Dazwischen steht der eigentliche Brieftext.</p>
-				<p>Die einzelnen Abschnitte (Absätze/Paragraphen) des Briefes werden mit <gi>p</gi> gekennzeichnet. In der Regel bestehen die Briefe aus einer Einheit, die insgesamt durch das Element <gi>text</gi> strukturell veranktert ist. Der Wert des Attributs <att>type</att> klassifiziert die Art des Textes; bspw. <tag>text type="letter"</tag>. In dem Falle, dass ein Umschlag überliefert ist, wird dessen Inhalt in einem eigenen <gi>text</gi> codiert und mit dem Typ <val>envelope</val> klassifiziert.
-					<!-- Durch ein <att>type</att>-Attribut werden die jeweiligen Divisions näher bestimmt. Ggf. können unterschiedliche Elemente (z. B. unterschiedliche Schreibakte) zusätzlich mit einem <tag>div type="writingSession" n="2"</tag>-->
-					</p><p>
-						Beginn und Ende der Abschlusssektion <gi>closer</gi> sollten nicht nach der räumlichen Anordnung auf dem Papier (also nach typographischen Gesichtspunkten), sondern nach inhaltlichen Kriterien (wirklicher Beschluss des Briefes) festgelegt werden: Sie beginnt also nicht mitten in einem Satz, sondern umfasst den ganzen Satz (oder mehrere Sätze) bzw. einen Absatz einschließlich der Unterschrift. Die graphische Anordnung ist für diese Form der Auszeichnung sekundär, dennoch werden Umbrüche hier durch die Verwendung von <gi>lb</gi> Elementen in der Codierung hinterlegt werden, um diese Information nicht zu verlieren. Hinweise auf die abweichende horizontale Anordnung eines Textsegments (<gi>seg</gi>), z. B. am linken oder rechten Rand bzw. in der Mitte, können ebenfalls hinterlegt werden: <tag>seg place="margin.left"</tag>, <tag>seg place="margin.right"</tag> oder <tag>seg rend="center"</tag>; eine weitere Differenzierung der räumlichen Positionen wird nicht vorgenommen. (Zu Einzügen vgl. auch <ptr target="#DT-primary-struct-text"/>)</p>
+				<p>Die einzelnen Abschnitte (Absätze/Paragraphen) des Briefes werden mit <gi>p</gi> gekennzeichnet. In der Regel bestehen die Briefe aus einer Einheit, die insgesamt durch das Element <gi>text</gi> strukturell veranktert ist. Der Wert des Attributs <att>type</att> klassifiziert die Art des Textes; bspw. <tag>text type="letter"</tag>. In dem Falle, dass ein Umschlag überliefert ist, wird dessen Inhalt in einem eigenen <gi>text</gi> codiert und mit dem Typ <val>envelope</val> klassifiziert.</p>
+				<p>Beginn und Ende der Abschlusssektion <gi>closer</gi> sollten nicht nach der räumlichen Anordnung auf dem Papier (also nach typographischen Gesichtspunkten), sondern nach inhaltlichen Kriterien (wirklicher Beschluss des Briefes) festgelegt werden: Sie beginnt also nicht mitten in einem Satz, sondern umfasst den ganzen Satz (oder mehrere Sätze) bzw. einen Absatz einschließlich der Unterschrift. Die graphische Anordnung ist für diese Form der Auszeichnung sekundär, dennoch werden Umbrüche hier durch die Verwendung von <gi>lb</gi> Elementen in der Codierung hinterlegt werden, um diese Information nicht zu verlieren. Hinweise auf die abweichende horizontale Anordnung eines Textsegments (<gi>seg</gi>), z. B. am linken oder rechten Rand bzw. in der Mitte, können ebenfalls hinterlegt werden: <tag>seg place="margin.left"</tag>, <tag>seg place="margin.right"</tag> oder <tag>seg rend="center"</tag>; eine weitere Differenzierung der räumlichen Positionen wird nicht vorgenommen. (Zu Einzügen vgl. auch <ptr target="#DT-primary-struct-text"/>)</p>
 				<p>Schließt die Grußformel direkt in der laufenden Zeile eines Textes an, lässt sich eine Absatzbildung des <gi>closer</gi> durch das Attribut <att>rend</att> mit dem Wert <val>inline</val> (<tag>closer rend="inline"</tag>) verhindern.
 					<lb/>Nachschriften am Ende des Briefes (also nach dem <gi>closer</gi> ggf. mit Unterschriftsformel) können, wenn es sich um kürzere Zusätze handelt, innerhalb eines <gi>postscript</gi>-Elements erscheinen oder – falls eine längere bzw. stärker strukturierte Nachschrift vorliegt – in ein weiteres <tag>p</tag> Element eingeschlossen werden.
 					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C8A0">
-						<text type="Brief">
+						<text type="letter">
 							<body>
 								<div>
 									<p>
@@ -131,6 +129,19 @@
 						</text>
 					</egXML>
 				</p>
+				
+				<p>Enthält ein Brief Beilagen, so werden diese separat als Dokumente erfasst (siehe <ptr target="#DT-documents"/>). Der Verweis ist obligatorisch:</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<sourceDesc>
+						<msDesc>
+							<msIdentifier/>
+							<physDesc/>
+						</msDesc>
+						<listRelation>
+							<relation name="hasEnclosure" key="{DocumentId}"/>
+						</listRelation>
+					</sourceDesc>
+				</egXML>
 			</div>
 			<div xml:id="DT-postals-letterpaper">
 				<head>Briefe (auf Briefpapier)</head>
@@ -155,6 +166,7 @@
 				<p>Bei Karten sind verschiedene Typen zu unterscheiden. Sogenannte Briefkarten, also Faltkarten mit Motiv, werden für gewöhnlich in einem Umschlag verschickt und enthalten daher keine Adress- oder Absenderangaben; daher werden diese im Prinzip wie Briefe behandelt. Die Tatsache, dass es sich um eine Briefkarte handelt, wird in der <gi>physDesc</gi> beschrieben. Ggf. vorhandene Bildmotive werden mit <gi>figureDesc</gi> beschrieben.</p>
 				<p>Als Karten im eigentlichen Sinne können die sogenannten Ansichtskarten gelten, die zum sofortigen postalischen Versand gedacht sind, sowie die Postkarte (ohne Bild).</p>
 				<p>Die von der Post vertriebene Karte (Postkarte, z.T. mit vorgedruckter Briefmarke), die direkt zum Versand vorgesehen ist, enthält zahlreiche vorgedruckte Angaben, die mit <gi>fw</gi> erfasst sind (vgl. <ref target="#DT-postals-general">Adressen</ref>), die aufgedruckten Briefmarken eingeschlossen. Da der Absenderbereich bei solchen Postkarten nur die halbe linke Seite einnimmt, entsteht hier freier Platz, der häufig noch für den Briefschluss, andere Notizen oder auch Bilder genutzt wird. Absender und Adressfeld werden mit Angabe der vorgedruckten Informationen (<gi>fw</gi>) wiedergegeben. Der üblichen Leserichtung (links nach rechts) folgend, wird zuerst der Absender und dann der Empfänger wiedergegeben.</p>
+				<p>Zur Erfassung der Struktur (Bereiche auf der Karte) siehe <ptr target="DT-postals-telegram"/>.</p>
 				<p><quote source="https://de.wikipedia.org/w/index.php?title=Postkarte&amp;oldid=229479303#Vorderseite_(Adressseite)">Die Vorderseite der Postkarte ist die Adressseite. Diese Definition gilt für deutsche philatelistische und philokartistische Fachsprache für alle Arten der Postkarten, auch für Ansichtskarten.</quote> (Vgl. auch <ref target="https://web.archive.org/web/20230208125417/https://www.philawiki.ch/index.php?title=Postkarte&amp;oldid=20468">https://web.archive.org/web/20230208125417/https://www.philawiki.ch/index.php?title=Postkarte&amp;oldid=20468</ref>).</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0428840">
 					<div type="row">
@@ -178,11 +190,10 @@
 								<address type="receiver">
 									<fw rend="left">Postkarte</fw>
 									<fw rend="right">Briefmarke</fw>
-									<!-- rend="right inline" ??? -->
-									<stamp>Poststempel: Rundstempel: Heidelberg
-										<lb/> 29.6.49
-										<lb/> -17
-										<lb/> an</stamp>
+									<stamp>Rundstempel: Heidelberg
+										<lb/>29.6.49
+										<lb/>-17
+										<lb/>an</stamp>
 									<!-- position: auf der Briefmarke? -->
 									<addrLine>Dr. Walter Jockisch</addrLine>
 									<addrLine>EGERN am Tegernsee</addrLine>
@@ -197,13 +208,13 @@
 				<p>Es folgt dann der Brieftext der Rückseite. Da dieses Medium in der Regel nur die eine Seite umfasst, zeigt ein <gi>pb</gi> in diesem Fall den Beginn der Rückseite an <tag>pb n="verso"</tag>. Im übrigen folgt die Codierung des Textes den Regeln für Briefe.</p>
 			</div>
 			<div xml:id="DT-postals-telegram">
-				<head>Telegramme</head>
-				<p>Die Erfassung von Telegrammen in TEI befindet sich noch im Anfangsstadium. Bisher erfasste Telegramme wurden zumeist nur inhaltlich erfasst, ohne (größere) Rücksicht auf die Formular-Struktur dieses Mediums.</p>
+				<head>Telegramme<note resp="DR" place="bottom">Die Erfassung von Telegrammen in TEI befindet sich noch im Entwickliungsstadium.</note></head>
+				<p>Bisher erfasste Telegramme wurden zumeist nur inhaltlich erfasst, ohne (größere) Rücksicht auf die Formular-Struktur dieses Mediums.</p>
 				<p>Das Datenmodell zur Erfassung von Telegrammen ist derzeit in der Entwicklung. <!-- DR: viel mit div und fw arbeiten? --></p>
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
-				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="Umschlag"</tag><!-- DR: values übersetzen!!! --> ausgezeichnet, wobei die Adressseite als erste und die Absenderseite als zweite Seite angegeben wird.<!-- DR: Wir könnten das natürlich auch als <pb n="verso"/> angeben, zumindest bei Umschlägen. --></p>
+				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="envelope"</tag> erfasst, wobei die Adressseite als Vorderseite und die Absenderseite als Rückseite, eingeleitet mit <tag>pb type="verso"</tag>, erfasst wird. (Vgl. auch <ptr target="#DT-postals-postcards"/>)</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C883">
 					<text type="Umschlag">
 						<body>
@@ -218,7 +229,8 @@
 										<addrLine>Italia</addrLine>
 									</address></p>
 								<pb n="verso"/>
-								<p><!-- Rückseite -->
+								<!-- Rückseite -->
+								<p>
 									<address>
 										<addrLine rend="center">H.M.E. c/o Casa de las Américas</addrLine>
 										<addrLine rend="center">G y Tercera, Vedado</addrLine>
@@ -232,13 +244,19 @@
 				</egXML>
 				<p>Als zusätzliche Elemente finden sich auf Umschlägen oft vorgedruckte Texte und vor allem Briefmarken und Stempel – in den 1950er Jahren sowohl Ausgangs- als auch Eingangsstempel. Die vorgedruckten Elemente werden wie im Abschnitt zu den <ref target="#DT-postals-letterpaper">Briefpapieren</ref> beschrieben, in <gi>fw</gi> wiedergegeben. Mit der Codierung dieser Aspekte befasst sich der Abschnitt zu <ref target="#DT-postals-stamp">Stempel und Briefmarken</ref>.</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C885">
-					<text type="Umschlag">
+					<text type="envelope">
 						<body>
 							<div>
-								<p><fw><hi rend="spaced_out">Center for Advanced Studies</hi>
-									<lb/>
-									<hi rend="capital">WESLYAN UNIVERSITY . MIDDLETOWN . CONNETICUT</hi> 06457</fw></p>
-								<p>companero hans werner henze<space unit="chars" quantity="3"/>la leprara<space unit="chars" quantity="3"/>marino (roma)<space unit="chars" quantity="3"/>italia</p>
+								<p>
+									<fw>
+										<hi rend="spaced_out">Center for Advanced Studies</hi>
+										<lb/>
+										<hi rend="capital">Wesleyan University . Middletown . Connecticut</hi> 06457</fw>
+								</p>
+								<p>
+									<foreign xml:lang="es">companero</foreign> hans werner henze<space unit="chars" quantity="3"/>la leprara<space unit="chars" quantity="3"/>marino (roma)<space unit="chars" quantity="3"/>italia 
+								</p>
+								<pb/><p><stamp type="rundstempel">Poste Roma - Arrivi E distribuzione [darin:] 14 - 15<lb/> 25 -1<lb/> 1968</stamp></p>
 							</div>
 						</body>
 					</text>
@@ -246,83 +264,92 @@
 			</div>
 			<div xml:id="DT-postals-stamp">
 				<head>Stempel/Briefmarken</head>
-				<p>Siehe <ref target="https://tei-c.org/release/doc/tei-p5-doc/en/html/MS.html#mswat">TEI Guidelines</ref>.</p>
+				<p>Siehe <ref target="https://tei-c.org/release/doc/tei-p5-doc/en/html/MS.html#mswat">TEI Guidelines</ref>. Vgl. auch Obert, Dewi Josephine/Trautmann, Marjam: Postage stamps, seals, and postmarks, <ref target="https://web.archive.org/web/20230213065004/https://encoding-correspondence.bbaw.de/v1/stamps-seals-postmarks.html">https://web.archive.org/web/20230213065004/https://encoding-correspondence.bbaw.de/v1/stamps-seals-postmarks.html</ref>.<note resp="DR" place="bottom">Dieser Aspekt befindet sich im Entwickliungsstadium.</note></p>
 			</div>
 		</div>
-		<!--<div
-	            xml:id="DT-reviews">
-	            <!-\- IC: nehmen wir Rezensionen auf? mir sind bislang keine begegnet, also bei uns mit unter Dokumente fassen?-\->
-	            <head>Rezeptionsdokumente (reviews)</head>
-	            <p>Aufführungsbesprechungen, Rezensionen etc., sowie Artikel der zeitgenössischen Presse, die sich auf Henzes Werke und sein Wirken beziehen.</p>
-	        </div>-->
 		<div xml:id="DT-documents">
 			<head>Schriftstücke</head>
-			<!-- Noch nicht fertig formuliert - draft! -->
-			<p>Weitere Dokumente, die im Zusammenhang mit der Korrespondenz überliefert sind, das sind in der Regel Beilagen zu Briefen wie Aufstellungen, Listen, Rechnungen etc. Sind die Dokumente eindeutig als Beilage eines Briefes nachzuweisen, erfolgt die Wiedergabe bei dem Brief, doch wird unter den Dokumenten auf sie verlinkt. Dokumente, die als Briefanlagen versendet wurden, sind im Briefkorpus codiert. <note resp="DR">Zu Dokumenten: Wäre es sinnvoll die Briefbeilagen in die Dokumente auszulagern und zu verlinken?</note></p>
+			<p>Weitere Dokumente, die im Zusammenhang mit der Korrespondenz überliefert sind; das sind in der Regel Beilagen zu Briefen wie Aufstellungen, Listen, Rechnungen, Zeitschriftenartikel etc. Sind die Dokumente eindeutig als Beilage eines Briefes nachzuweisen, so werden diese mit dem entsprechenden Brief verlinkt:<note resp="DR" place="bottom">Der Verweis erfolgt in beide Richtungen. Vgl. auch <ptr target="#DT-postals-general"/>.</note></p>
+			<egXML xmlns="http://www.tei-c.org/ns/Examples">
+				<sourceDesc>
+					<msDesc>
+						<msIdentifier/>
+						<physDesc/>
+					</msDesc>
+					<listRelation>
+						<relation name="isEnclosure" key="{LetterId}"/>
+					</listRelation>
+				</sourceDesc>
+			</egXML>
 		</div>
 		<div xml:id="DT-writings">
-			<head>Schriften (Henze)</head>
-			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musiklaischen Hinterlassenschaften von Hans Werner Henze von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, die nicht von Henze selbst stammt, ist unter den Bibliographika verzeichnet.</p>
+			<head>Schriften</head>
+			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musikalischen Hinterlassenschaften von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, ist unter den Bibliographika verzeichnet.</p>
+			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen; unabhängig davon, ob der Autor Hans Werner Henze ist oder nicht.</p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
 		<head>Dokumenttypen II (Katalogdatensätze)</head>
-		<p>Ergänzt werden die Datensätze zu den Primärdokumenten durch folgende katalogartig geführte Datensätze zu sekundären Dokumenten wie Bibliographika, Institutionen, Orte, Personen, <!--Quellen zu musikalischen/literarischen Werken-->, musikalischer und literarischer Werke. Die Datensätze, die musikalische Werke und ihre Quellen verzeichnen, sind im Gegensatz zu den restlichen Datensätzen mit dem MEI-Standard codiert.</p>
+		<p>Ergänzt werden die Datensätze zu den Primärdokumenten durch folgende katalogartig geführte Datensätze zu sekundären Dokumenten wie Bibliographika, Institutionen, Orte, Personen, musikalischer und literarischer Werke, sowie Ereignisse<note resp="DR" place="bottom">Dieser Datentyp befindet sich derzeit im Aufbau.</note>. Die Datensätze, die musikalische Werke und ihre Quellen verzeichnen, sind im Gegensatz zu den restlichen Datensätzen mit dem MEI-Standard codiert.</p>
 		<div xml:id="DT-secondary-general">
-			<head>Verknüpfung mnit Normdaten</head>
-			<p>Hier zu <gi>idno</gi> und GND.</p>
+			<head>Verknüpfung mit Normdaten</head>
+			<p>Zahlreiche Objekte, die im Kontext von Henze-Digital in Erscheinung treten sind in Normdatenbanken wie der <ref target="https://web.archive.org/web/20230213071234/https://www.dnb.de/DE/Professionell/Standardisierung/GND/gnd_node.html">GND</ref>, <ref target="https://www.geonames.org/">geonames</ref> oder <ref target="https://viaf.org/">VIAF</ref> verzeichnet. JE nach Dokumenttyp wird eine geeignete Datenbank für Verweise verwendet. Es findet keine direkte Verlinkun statt! Die Datensätze von Henze-Digital werden mittels der Identifikatoren der entsprechenden Normdatenbanken z.B. mit<gi>idno</gi> (für TEI) zugeordnet.</p>
 		</div>
 		<div xml:id="DT-persons">
 			<head>Personen</head>
-			<p>Personen-Datensätze enthalten innerhalb des Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. von <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen auftreten <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches Angaben zu Taufnamen und Namensänderungen durch Heirat usw. enthalten kann, z.B. <tag>persName type="alt"</tag> oder <tag>subtype="married"</tag>. Weitere Bestandteile von Personendokumenten sind Geburtsdaten: <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001000A">
+			<p>Personen-Datensätze enthalten innerhalb des Root-Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. von <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen erfasst werden <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches beispielsweise Angaben zu Taufnamen oder Namensänderungen durch Heirat usw. klassifiziert: <tag>persName type="alt" subtype="married"</tag>. Weitere Bestandteile von Personendokumenten sind Geburtsdaten: <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001000A">
 				<birth>
 					<date when="1926-07-01"/>
 					<settlement key="A13014E4">Gütersloh</settlement>
 				</birth>
-			</egXML> und Sterbedaten <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001028C">
+			</egXML>
+				und Sterbedaten
+				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001028C">
 				<death>
 					<date when="2012-10-27"/>
 					<settlement>Dresden</settlement>
 				</death>
-			</egXML> sowie Angaben zum Geschlecht <gi>sex</gi>, zu Beruf <gi>occupation</gi> und Wohnorten <gi>residence</gi>. Weitere zusätzliche erwähnenswerte Aspekte zur entsprechenen Person werden in einem <tag>note type="bioSummary"</tag> gesammelt.</p>
-			<p>Bei biblischen und mythologischen Personen wird der Datensatz verschlankt auf die Angabe des Namens innerhalb des Elements <gi>persName</gi> ohne weitere Spezifizierung, die Angaben zum Geschlecht, zum Beruf und die Kennzeichnung in den Anmerkungen als biblische oder mythologische Figur. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001148F">
+			</egXML> sowie Angaben zu Geschlecht <gi>sex</gi>, zu Beruf <gi>occupation</gi> und Wohnorten <gi>residence</gi>. Durch den Bezug zu den Normdaten und die Anzeige dieser in der HenDi-WebApp werden für Personen nur diese Ramendaten erfasst. Darüberhinaus werden in den Personendatensätzen nur Daten erfasst, die im Rahmen von Henze-Digital nötig sind, sich aber nicht aus den Normdaten herleiten oder von diesen abweichen. Zusätzliche Informationen werden in einer <tag>note type="bioSummary"</tag> erfasst.</p>
+			<p>Ist eine Person innerhalb einer Organisation tätig oder tätig gewesen, so wird diese Beziehung mit <gi>affiliation</gi> angegeben. <tag>affiliation key="{OrgId}"</tag>. Handelt es sich um eine zeitlich begrenzte Tätigkeit, deren Dauer für die Edition relevant ist, so kann dieser Zeitraum mit den Attributen <att>from</att> und <att>to</att> angegeben werden.</p>
+			<p>Bei biblischen und mythologischen Personen wird der Datensatz verschlankt auf die Angabe des Namens innerhalb des Elements <gi>persName</gi>. Die Auszeichnung innerhalb der Briefe klassifiziert diese als biblische oder mythologische Figur. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001148F">
 				<person>
 					<persName>Orpheus</persName>
 					<occupation>Sänger</occupation>
 					<occupation>Dichter</occupation>
-					<sex>unknown</sex>
+					<sex>m</sex>
 					<note>mythologische Figur</note>
 				</person></egXML>
 			</p>
 		</div>
 		<div xml:id="DT-characters">
-			<head>Rollen</head>
-			<p>[Dieser Datentyp wird derzeit noch diskutiert.]</p>
+			<head>Rollen und Charaktere</head>
+			<p>[...]<note resp="DR" place="bottom">Dieser Datentyp wird derzeit noch diskutiert.</note></p>
 		</div>
 		<div xml:id="DT-places">
 			<head>Orte</head>
-			<p>Referenzdatensätze zu Orten werden stets einzeln erfasst. Es ist hierbei nicht von Belang ob es sich um ein Land, eine Stadt, eine Adresse oder ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert. Die Normdaten-Verknüpfung wird mit der Datenbank von <ref target="https://www.geonames.org/">GeoNames</ref> mittels Angabe der GeoNames-ID hergestellt. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Orte, wie Schlösser, Burgen, u.a. enthält; zudem sind die Datensätze miteinander verknüpft und hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
+			<p>Referenzdatensätze zu Orten werden stets einzeln erfasst. Es ist hierbei nicht von Belang, ob es sich um ein Land, eine Stadt, eine Adresse oder ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert. Als Normdatenbank ist primär <ref target="https://www.geonames.org/">GeoNames</ref> zu verwenden. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
 			<p>Das Datenmodell für Orte ist von einfacher Struktur.</p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A13025E2">
-				<place xml:id="A13025E2" status="proposed" source="HWH">
+				<place xml:id="A13025E2" status="proposed" source="HenDi">
 					<idno type="geonames">5128581</idno>
 					<placeName type="reg">New York</placeName>
 					<placeName type="alt">New York City</placeName>
 				</place>
 			</egXML>
-			<p>Für den Fall, dass ein Ort nicht in der <ref target="https://www.geonames.org/">GeoNames</ref>-Datenbank verfügbar ist, werden die Koordinaten ermittelt und im Datensatz nach folgendem Schema hinterlegt.</p>
+			<p>Für den Fall, dass ein Ort nicht in der <ref target="https://www.geonames.org/">GeoNames</ref>-Datenbank verfügbar ist, können ggf. die Koordinaten ermittelt und im Datensatz nach folgendem Schema hinterlegt.</p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A130109C">
-				<place xml:id="A130109C" status="candidate" source="HWH">
+				<place xml:id="A130109C" status="candidate" source="HenDi">
 					<placeName type="reg">Falkenmühle</placeName>
 					<location>
 						<geo>49.0957712 7.8051705</geo>
 					</location>
 				</place>
 			</egXML>
+			<p>Fiktive Orte sind so zu charakterisieren, dass sie sich eindeutig zuordnen, d.h. von anderen Orten gleichen oder ähnlichen Namens unterscheiden lassen.</p>
 		</div>
 		<div xml:id="DT-orgs">
 			<head>Organisationen/Institutionen</head>
-			<p>Bei Referenzsdatensätzen zu Organisationen werden derzeit nur Name und Ort erfasst.<note resp="DR" place="bottom">Orgs befinden sich noch im Aufbau.</note></p>
+			<p>Bei Referenzsdatensätzen zu Organisationen werden derzeit nur Name und Ort erfasst.<note resp="DR" place="bottom">Dieser Datentyp befinden sich derzeit im Aufbau.</note></p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0800626">
 				<org xml:id="A0800626" source="HWH">
 					<idno type="gnd">2028455-X</idno>
@@ -331,7 +358,12 @@
 					<settlement key="A13007FD">Bonn</settlement>
 				</org>
 			</egXML>
-			<p>Zum Umgang mit Abteilungen, Projektgruppen und organisationshierarchischen Untersektionen: Vgl. hierzu issue 107 </p>
+			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchischen Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensat erfolgt mittels <gi>link</gi>:
+			<egXML xmlns="http://www.tei-c.org/ns/Examples">
+				<link type="isPartOf" target="#{OrgId}"/>
+				<!-- or -->
+				<link type="sameas" target="#{OrgId}"/>
+			</egXML></p>
 		</div>
 		<div xml:id="DT-biblio">
 			<head>Literatur</head>
@@ -399,6 +431,10 @@
 		<!--<div xml:id="DT-sources">
             <head>Quellen</head>
         </div>-->
+		<div xml:id="DT-events">
+			<head>Erfassung von Ereignissen</head>
+			<p>Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</p>
+		</div>
 	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
 		<head>ID-Systematik</head>
@@ -10503,7 +10539,15 @@ purposes.</p>
     constituent une page de titre électronique au début de tout texte conforme à la TEI.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-12-20" xml:lang="ko">모든 TEI 구조의 텍스트 서두에 위치하는 전자 제목 페이지를 구성하는 기술적이고 선언적인 정보를
     제공한다.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-02" xml:lang="zh-TW">在所有符合TEI標準的文本起始的電子題名頁當中提供敘述性以及宣告性的資訊。</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2008-04-05" xml:lang="ja">全てのTEI準拠テキストが伴う，電子版のタイトルページを構成する，記述 的・宣言的情報を示す．</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2016-11-25" xml:lang="de">beinhaltet beschreibende und erklärende Metadaten, die einer digitalen Ressource oder einer Sammlung von Ressourcen vorangestellt sind.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-04" xml:lang="es">proporciona información descriptiva y declarativa de una
     página de título electrónico prefijada como un texto conforme a TEI.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-01-21" xml:lang="it">fornisce informazioni descrittive e dichiarative che
-    costituiscono un frontespizio elettronico che precede qualsiasi testo TEI-conforme.</desc><classes><memberOf key="att.global"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="fileDesc"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="encodingDesc"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="profileDesc"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="revisionDesc"/></sequence></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+    costituiscono un frontespizio elettronico che precede qualsiasi testo TEI-conforme.</desc><classes><memberOf key="att.global"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="fileDesc"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="encodingDesc"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="profileDesc" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="revisionDesc"/></sequence></content><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="profileDescRequirement" mode="add">
+    	        <desc versionDate="2023-02-09" xml:lang="en">Forces an error if profileDesc is missing at letters.</desc>
+    	        <desc versionDate="2023-02-09" xml:lang="de">Gibt einen Fehler aus, wenn in einem Brief die profileDesc fehlt.</desc>
+    	        <constraint>
+    	            <sch:rule context="tei:teiHeader">
+    	                <sch:report test="parent::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:profileDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <teiHeader>
         <fileDesc>
@@ -13657,7 +13701,7 @@ crest, and the legend <q>Cole Deum</q>.</p>
   <listRef>
     <ptr target="#msmat"/>
   </listRef>
-</elementSpec><elementSpec rend="change" module="msdescription" xml:id="OBJECTTYPE" ident="objectType"><gloss xml:lang="en" versionDate="2020-12-20">object type</gloss><gloss versionDate="2011-01-10" xml:lang="fr">type d'objet</gloss><desc versionDate="2013-06-22" xml:lang="en" xml:id="objectType.desc">contains a word or phrase describing the type of object being referred to.</desc><desc versionDate="2011-01-10" xml:lang="fr">contient un mot ou une expression qui décrit le type de l'objet consideré.</desc><classes><memberOf key="att.global"/><memberOf key="model.pPart.msdesc"/><memberOf key="att.canonical"/></classes><content rend="change"><valList xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" type="closed" rend="add">
+</elementSpec><elementSpec rend="change" module="msdescription" xml:id="OBJECTTYPE" ident="objectType"><gloss xml:lang="en" versionDate="2020-12-20">object type</gloss><gloss versionDate="2011-01-10" xml:lang="fr">type d'objet</gloss><desc versionDate="2013-06-22" xml:lang="en" xml:id="objectType.desc">contains a word or phrase describing the type of object being referred to.</desc><desc versionDate="2011-01-10" xml:lang="fr">contient un mot ou une expression qui décrit le type de l'objet consideré.</desc><classes><memberOf key="att.global"/><memberOf key="model.pPart.msdesc"/><memberOf key="att.canonical"/></classes><content><valList xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" type="closed" rend="add">
                     <valItem ident="Ts" rend="add">
                         <gloss versionDate="2021-11-22" xml:lang="en">typescript</gloss>
                         <desc versionDate="2021-11-22" xml:lang="en"/>
@@ -23573,11 +23617,11 @@ psychological significance.
                     </valItem>
                 </valList>
             </content>
-        </dataSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="staffSignatures.list" mode="add">
+        </dataSpec><macroSpec rend="add" ident="staffSignatures.list" mode="add" module="hendi.core.module">
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>AT</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Antje Tumat</a:documentation><value>CC</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Christian Camino</a:documentation><value>DR</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Dennis Ried</a:documentation><value>EM</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Elena Minetti</a:documentation><value>IC</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Irmlind Capelle</a:documentation><value>JV</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Joachim Veit</a:documentation><value>PH</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Philipp Heitmann</a:documentation><value>PS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Peter Stadler</a:documentation><value>SS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Sophie Stremel</a:documentation></choice>
             </content>
-        </macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="marcRelator.list" mode="add">
+        </macroSpec><macroSpec rend="add" ident="marcRelator.list" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2014-04-02" xml:lang="en"><ref target="http://www.loc.gov/marc/relators/relaterm.html">MARC Code List for Relators</ref>, constrained for use in Henze-Digital.</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <valList rend="add">
@@ -23726,7 +23770,7 @@ psychological significance.
                     </valItem>
                 </valList>
             </content>
-        </macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="postal.type.list" mode="add">
+        </macroSpec><macroSpec rend="add" ident="postal.type.list" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2022-07-26" xml:lang="en">List of typed for classifying postals.</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <valList type="closed" rend="add">
@@ -23780,7 +23824,7 @@ psychological significance.
                     </valItem>
                 </valList>
             </content>
-        </macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="hwh_quotation.rend.list" mode="add">
+        </macroSpec><macroSpec rend="add" ident="hwh_quotation.rend.list" mode="add" module="hendi.core.module">
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
     			<valList type="closed" rend="add">
     			    <valItem ident="none">
@@ -23805,7 +23849,7 @@ psychological significance.
           			</valItem>
           		</valList>
     		</content>
-    	</macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="hwh_quotation.lang.list" mode="add">
+    	</macroSpec><macroSpec rend="add" ident="hwh_quotation.lang.list" mode="add" module="hendi.core.module">
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
     		<valList type="closed" rend="add">
     				<valItem ident="de">
@@ -23822,7 +23866,7 @@ psychological significance.
     				</valItem>
     			</valList>
     		</content>
-    	</macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="hwh_resp.list" mode="add">
+    	</macroSpec><macroSpec rend="add" ident="hwh_resp.list" mode="add" module="hendi.core.module">
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
     			<valList rend="add" type="closed">
     				<valItem ident="Übertragung">
@@ -23837,99 +23881,103 @@ psychological significance.
     					<gloss versionDate="2022-01-31" xml:lang="de">Übersetzung</gloss>
     					<gloss versionDate="2022-01-31" xml:lang="en">Translation</gloss>
     				</valItem>
+    				<valItem ident="Kommentierung">
+    					<gloss versionDate="2023-02-13" xml:lang="de">Kommentierung</gloss>
+    					<gloss versionDate="2023-02-13" xml:lang="en">Commentary</gloss>
+    				</valItem>
     			</valList>
     		</content>
-    	</macroSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.persons.pointer">
+    	</macroSpec><dataSpec rend="add" ident="hendi.persons.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Personen-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for person IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A00[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.works.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.works.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Werk-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for work IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A02[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.writings.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.writings.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Schriften-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for writing IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A03[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.letters.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.letters.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Brief-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for letter IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A04[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.news.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.news.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für News-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for news IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A05[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.diaries.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.diaries.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Tagebuch-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for diary IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A06[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.var.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.var.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Varia-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for varia IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A07[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.orgs.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.orgs.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Körperschaften-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for organisation IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A08[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.documents.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.documents.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Dokumenten-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for document IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A10[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.biblio.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.biblio.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Biblio-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for biblio IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A11[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.addenda.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.addenda.pointer" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2018-11-16">definiert das Muster für Addenda-Dokument-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2018-11-16">defines the possible attribute values for addenda document IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A12[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.places.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.places.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Orts-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for places IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A13[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.sources.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.sources.pointer" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Quellen-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for source IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A22[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.internal.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.internal.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">fasst die potentiellen internen Verweise zusammen</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">groups together the possible internal linkable patterns</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <alternate minOccurs="1" maxOccurs="1"><dataRef key="hendi.persons.pointer"/><dataRef key="hendi.works.pointer"/><dataRef key="hendi.writings.pointer"/><dataRef key="hendi.letters.pointer"/><dataRef key="hendi.news.pointer"/><dataRef key="hendi.diaries.pointer"/><dataRef key="hendi.var.pointer"/><dataRef key="hendi.orgs.pointer"/><dataRef key="hendi.documents.pointer"/><dataRef key="hendi.biblio.pointer"/><dataRef key="hendi.places.pointer"/><dataRef key="hendi.sources.pointer"/><dataRef key="hendi.addenda.pointer"/></alternate>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.personsPlus.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.personsPlus.pointer" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">fasst die potentiellen internen Verweise zu Personen und Körperschaften zusammen</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">groups together the possible internal pointers to persons and organisations</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <alternate minOccurs="1" maxOccurs="1"><dataRef key="hendi.persons.pointer"/><dataRef key="hendi.orgs.pointer"/></alternate>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.biblio.types" mode="add">
+        </dataSpec><dataSpec rend="add" ident="hendi.biblio.types" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">A closed list of values to be used with a <att>type</att> attribute on e.g. <gi>biblStruct</gi>.</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <valList type="closed" rend="add">
@@ -23979,40 +24027,40 @@ psychological significance.
                     </valItem>
                 </valList>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.hand.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.hand.pointer" module="hendi.core.module" mode="add">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Schreiber-IDs innerhalb einer Datei.</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for hand IDs within a file</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="hand\.[0-9]{1,3}"/>
             </content>
-        </dataSpec><dataSpec rend="add" module="derived-module-hendiAll" ident="hendi.foreign.pointer">
+        </dataSpec><dataSpec rend="add" ident="hendi.foreign.pointer" mode="add" module="hendi.core.module">
     		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für &lt;foreign&gt;-IDs innerhalb einer Datei.</desc>
     		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for &lt;foreign&gt; IDs within a file</desc>
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
     			<dataRef name="string" restriction="foreign\.[0-9]{1,3}"/>
     		</content>
-    	</dataSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="gnd.pattern" mode="add">
+    	</dataSpec><macroSpec rend="add" ident="gnd.pattern" mode="add" module="hendi.core.module">
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <rng:data type="string">
                     
                     <rng:param name="pattern">1[012]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X]</rng:param>
                 </rng:data>
             </content>
-        </macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="viaf.pattern" mode="add">
+        </macroSpec><macroSpec rend="add" ident="viaf.pattern" mode="add" module="hendi.core.module">
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <rng:data type="string">
                     
                     <rng:param name="pattern">[1-9]\d(\d{0,7}|\d{17,20})</rng:param>
                 </rng:data>
             </content>
-        </macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="geonames.pattern" mode="add">
+        </macroSpec><macroSpec rend="add" ident="geonames.pattern" mode="add" module="hendi.core.module">
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <rng:data type="string">
                     
                     <rng:param name="pattern">[1-9][0-9]{0,8}</rng:param>
                 </rng:data>
             </content>
-        </macroSpec><macroSpec rend="add" module="derived-module-hendiAll" ident="pages.pattern" mode="add">
+        </macroSpec><macroSpec rend="add" ident="pages.pattern" mode="add" module="hendi.core.module">
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <choice xmlns="http://relaxng.org/ns/structure/1.0"><rng:data xmlns="http://www.tei-c.org/ns/1.0" type="string">
                         
