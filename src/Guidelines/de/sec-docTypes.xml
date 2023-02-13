@@ -244,7 +244,7 @@
 		<div xml:id="DT-writings">
 			<head>Schriften</head>
 			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musikalischen Hinterlassenschaften von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, ist unter den Bibliographika verzeichnet.</p>
-			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen; unabhängig davon, ob der Autor Hans Werner Henze ist oder nicht.</p>
+			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen.<note resp="DR" place="bottom">Es werden Schriften verschiedener Autoren erfasst, sofern sie in Zusammenhand mit der Edition stehen.</note></p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
@@ -326,21 +326,69 @@
 		</div>
 		<div xml:id="DT-biblio">
 			<head>Literatur</head>
-			<p>Die Datensätze der Sammlung Bibliographika enthalten ein <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor <gi>author</gi> unter möglicher Hinzufügung eines <att>key</att> und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort unselbstständiger Publikationen mittels der Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A110005B">
-				<biblStruct xml:id="A110005B" status="candidate" type="article">
+			<p>Die Datensätze zu den Bibliographika enthalten bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
+				<biblStruct xmlns="http://www.tei-c.org/ns/1.0" type="article" xml:id="A1100BF8" status="proposed" source="HenDi">
 					<analytic>
-						<title level="a">Henze Bibliothek in Detmold</title>
-						<author>wsp</author>
-						<ref target="https://www.westfalenspiegel.de/hans-werner-henze-bibliothek-detmold/">Original</ref>
+						<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
+						<author key="A0003CFE">Marsico, Federica</author>
 					</analytic>
 					<monogr>
-						<title>Westfalenspiegel</title>
+						<title level="m">Hans Werner Henze, Elegy for Young Lovers, Elegia per giovani amanti</title>
 						<imprint>
-							<date when="2021-12-13"/>
+							<pubPlace>Casale sul Sile</pubPlace>
+							<date when="2014">2014</date>
+							<publisher>Edizioni del Teatro La Fenice di Venezia</publisher>
+							<note type="additional">pp.11–30</note>
 						</imprint>
 					</monogr>
+					<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
 				</biblStruct>
-			</egXML>
+			</p>
+			<p>Um Redundanzen zu vermeiden, werden Teile dieser Struktur ausgelagert. So können Reihen einmalig angelegt werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<series>
+							<title/>
+							<editor/>
+						</series>
+					</biblStruct>
+				</egXML>
+				und mehrere selbstständige Publikationen dieser einen Reihe zugeordnet werden.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+						<series sameAs="#{seriesId}"/>
+					</biblStruct>
+				</egXML>
+			</p>
+			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+					</biblStruct>
+				</egXML>
+				während die erfassten unselbstständigen Publikationen dann diesen zugeorndet werden.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<analytic>
+							<title/>
+							<author/>
+						</analytic>
+						<monogr sameAs="#{seriesId}"/>
+					</biblStruct>
+				</egXML>
 			</p>
 		</div>
 		<div xml:id="DT-works">
