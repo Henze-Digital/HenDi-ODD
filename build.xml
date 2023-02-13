@@ -10,10 +10,11 @@
 	</condition>
 	
 	
+	<target name="superset" depends="hendiAll"/>
 	<target name="tei" depends="hendiBiblio, hendiLetters, hendiNews, hendiOrgs, hendiPersons, hendiPlaces, hendiThematicCommentaries, hendiWritings"/>
 	<target name="tei-html-problems" depends="hendiDocuments, hendiVar, hendiWorksTEI"/>
 	<target name="mei" depends="hendiWorksMEI"/>
-	<target name="all" depends="tei, mei, text, tei-html-problems"/>
+	<target name="all" depends="superset, tei, mei, tei-html-problems"/>
 	
 	<target name="dir.check">
 		<condition property="dir.exists">
@@ -166,12 +167,6 @@
 			<param name="outputFileRNG" value="${basedir}/schema/${lang}/hendiPlaces.rng"/>
 			<param name="outputFileSchematron" value="${basedir}/schema/${lang}/hendiPlaces.isosch"/>
 			<param name="selectedSchema" value="hendiPlaces"/>
-		</antcall>
-	</target>
-	
-	<target name="text" depends="init">
-		<antcall target="process-text">
-			<param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de-text.xml"/>
 		</antcall>
 	</target>
 	
