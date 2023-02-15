@@ -274,31 +274,4 @@
 		</sequential>
 	</target>
 	
-	<target name="process-text">
-		<basename property="inputFile.basename" file="${inputFile}" suffix=".xml"/>
-		<!-- TEI is considered default source -->
-		<condition property="source" value="${source}" else="${tei.source}">
-			<isset property="source"/>
-		</condition>
-		<sequential>
-			<echo>Expanding ODD file (text)</echo>
-			<xslt force="yes" style="${stylesheets.dir}/odds/odd2odd.xsl" 
-				in="${inputFile}" out="${compiledODD.dir}/${inputFile.basename}.compiled.xml" classpathref="hendi.odd.classpath">
-				<factory name="net.sf.saxon.TransformerFactoryImpl">
-					<attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
-				</factory>
-				<param name="lang" expression="${lang}" if="lang"/>
-				<param name="defaultSource" expression="${source}"/>
-			</xslt>
-		</sequential>
-	</target>
-	
-	<target name="check-rng-output">
-		<taskdef name="jing" classpath="resources/jing.jar" classname="com.thaiopensource.relaxng.util.JingTask"/>
-		<sequential>
-			<echo level="info">Validating ${selectedSchema}.rng with RelaxNG.</echo>
-			<jing rngfile="resources/relaxng.rng" file="schema/de/${selectedSchema}.rng"/>
-		</sequential>
-	</target>
-	
 </project>
