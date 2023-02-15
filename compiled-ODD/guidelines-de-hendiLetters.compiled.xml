@@ -209,8 +209,36 @@
 			</div>
 			<div xml:id="DT-postals-telegram">
 				<head>Telegramme<note resp="DR" place="bottom">Die Erfassung von Telegrammen in TEI befindet sich noch im Entwickliungsstadium.</note></head>
-				<p>Bisher erfasste Telegramme wurden zumeist nur inhaltlich erfasst, ohne (größere) Rücksicht auf die Formular-Struktur dieses Mediums.</p>
-				<p>Das Datenmodell zur Erfassung von Telegrammen ist derzeit in der Entwicklung. <!-- DR: viel mit div und fw arbeiten? --></p>
+				<p>Die Erfassung von Telegrammen in TEI soll zusätzlich zum Inhalt auch die Formular-Struktur des Mediums abbilden. Hierzu wird ein eigenes Datenmodell erarbeitet, welches sich derzeit noch in der Entwicklung befindet. Daher wird primär der Inhalt erfasst und aufbereitet; die Struktur wird zum Teil nachgereicht.</p>
+				<p>Ziel ist es mit der Codierung nicht nur dem Inhalt, sondern auch dem Medium gerecht zu werden.</p>
+				<p>Der Modellansatz für die Erschließung der Formular-Struktur ist am Bootstrap-Framework orientiert, das Bereiche mit <gi>div</gi>s organisiert. Zur Nutzung dieser Technik wurde die TEI-Definition von <gi>div</gi> <quote>(text division) contains a subdivision of the front, body, or back of a text.</quote> für Henze-Digital erweitert: (text division) contains a subdivision of the front, body, or back of a text or is used to represent the structure of the text for special documents (e.g., postcards, telegrams).</p>
+				<p>Analog zum Bootstrap-Framework wird jeweils ein <gi>div</gi> als Wrapper für eine Zeile verwendet. Die Kind-Elemente – in diesem Fall ist <gi>div</gi> obligatorisch – stellen dann Bereiche in einer Zeile (Spalten) dar.</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div/>
+						<div/>
+					</div>
+				</egXML>
+				<p>Werden in den <gi>div</gi>-Elementen innerhalb von <tag>div type="row"</tag> keine weiteren Spezifikationen angegeben, so bedeuted dies eine gleichmäßige Verteilung bzw. gleichmäßige horizontale Ausdehnung der Bereiche. Ungleichgroße Bereiche können durch die Werte <val>col-1</val> bis <val>col-11</val> spezifiziert werden, wobei die Summe 12 (analog zu Bootstrap) nicht überschritten werden darf.</p>
+				<p>Eine Zeile mit zwei Bereichen im Verhältnis 1:2 (1/3 der Gesamtbreite + 2/3 der Gesamtbreite) kann wie folgt codiert werden:</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div type="col-4"/>
+						<div type="col-8"/>
+					</div>
+				</egXML>
+				<p>Werden nur einzelne Bereiche in ihrer horizontalen Ausdehnung spezifiziert, so sind alle anderen Bereiche als gleichmäßig verteilt (bezogen auf den zur Verfügung stehenden Platz) zu verstehen.</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div type="col-2"/>
+						<!-- = col-5 -->
+						<div type="col"/>
+						<!-- = col-5 -->
+						<div type="col"/>
+					</div>
+				</egXML>
+				<p>Der Wrapper <tag>div type="row"</tag> kann in jedem Bereich verwendet werden, außer in sich selbst. Auf diese Weise lassen sich auch komplexe Formularstrukturen erfassen und mit Hilfe des Bootstrap-Framework darstellen.</p>
+				<p>Vorgedruckte Formular-Texte werden mit <gi>fw</gi> ausgezeichnet. Für die Angabe von Positionsangaben ist ein Modell zu erarbeiten.</p>
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
@@ -285,7 +313,7 @@
 		<div xml:id="DT-writings">
 			<head>Schriften</head>
 			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musikalischen Hinterlassenschaften von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, ist unter den Bibliographika verzeichnet.</p>
-			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen; unabhängig davon, ob der Autor Hans Werner Henze ist oder nicht.</p>
+			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen.<note resp="DR" place="bottom">Es werden Schriften verschiedener Autoren erfasst, sofern sie in Zusammenhand mit der Edition stehen.</note></p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
@@ -367,26 +395,76 @@
 		</div>
 		<div xml:id="DT-biblio">
 			<head>Literatur</head>
-			<p>Die Datensätze der Sammlung Bibliographika enthalten ein <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor <gi>author</gi> unter möglicher Hinzufügung eines <att>key</att> und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort unselbstständiger Publikationen mittels der Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A110005B">
-				<biblStruct xml:id="A110005B" status="candidate" type="article">
+			<p>Die Datensätze zu den Bibliographika enthalten bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct type="article" xml:id="A1100BF8" status="proposed" source="HenDi">
 					<analytic>
-						<title level="a">Henze Bibliothek in Detmold</title>
-						<author>wsp</author>
-						<ref target="https://www.westfalenspiegel.de/hans-werner-henze-bibliothek-detmold/">Original</ref>
+						<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
+						<author key="A0003CFE">Marsico, Federica</author>
 					</analytic>
 					<monogr>
-						<title>Westfalenspiegel</title>
+						<title level="m">Hans Werner Henze, Elegy for Young Lovers, Elegia per giovani amanti</title>
 						<imprint>
-							<date when="2021-12-13"/>
+							<pubPlace>Casale sul Sile</pubPlace>
+							<date when="2014">2014</date>
+							<publisher>Edizioni del Teatro La Fenice di Venezia</publisher>
+							<note type="additional">pp.11–30</note>
 						</imprint>
 					</monogr>
+					<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
 				</biblStruct>
-			</egXML>
+				</egXML>
+			</p>
+			<p>Um Redundanzen zu vermeiden, werden Teile dieser Struktur ausgelagert. So können Reihen einmalig angelegt werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<series>
+							<title/>
+							<editor/>
+						</series>
+					</biblStruct>
+				</egXML>
+				und mehrere selbstständige Publikationen dieser einen Reihe zugeordnet werden.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+						<series sameAs="#{seriesId}"/>
+					</biblStruct>
+				</egXML>
+			</p>
+			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+					</biblStruct>
+				</egXML>
+				während die erfassten unselbstständigen Publikationen dann diesen zugeorndet werden.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<analytic>
+							<title/>
+							<author/>
+						</analytic>
+						<monogr sameAs="#{monogrId}"/>
+					</biblStruct>
+				</egXML>
 			</p>
 		</div>
 		<div xml:id="DT-works">
 			<head>Werke</head>
-			<p>Dieser Datentyp ist äußerst komplex, da musikalische wie auch literarische Werke erfasst werden. Für die musikalischen Werke findet die Music Encoding Initiative (MEI) anwendung; für literarische Werke die Text Encoding Initiative (TEI). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
+			<p>Dieser Datentyp ist äußerst komplex, da musikalische und literarische Werke auf unterschiedliche Weisen erfasst werden. Für die musikalischen Werke findet die Music Encoding Initiative (<ref target="https://music-encoding.org/">MEI</ref>) Anwendung; für literarische Werke die Text Encoding Initiative (<ref target="https://tei-c.org/">TEI</ref>). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
 			<p>UNTERSCHEIDUNG: Henze-Werke, die ausführlicher und fremde Werke, die rudimentär beschrieben werden.</p>
 			<div xml:id="DT-works-musical">
 				<head>Musikalische Werke (MEI)</head>
@@ -428,12 +506,9 @@
 				</p>
 			</div>
 		</div>
-		<!--<div xml:id="DT-sources">
-            <head>Quellen</head>
-        </div>-->
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
-			<p>Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</p>
+			<p>[...]<note resp="DR" place="bottom">Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</note></p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
@@ -11139,7 +11214,7 @@ définissant les droits d'utilisation.</desc><desc xmlns:teix="http://www.tei-c.
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD27">2.2.6. The Notes Statement</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD2">2.2. The File Description</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="header" ident="sourceDesc"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">source description</gloss><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de">Quellenbeschreibung</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence.</desc><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de"/><classes/><content><alternate minOccurs="1" maxOccurs="1"><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="biblStruct" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listEvent" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="msDesc" minOccurs="0" maxOccurs="unbounded"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listWit" minOccurs="0" maxOccurs="1"/></sequence><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="p" minOccurs="0" maxOccurs="1"/></alternate></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+  </listRef></elementSpec><elementSpec rend="change" module="header" ident="sourceDesc"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">source description</gloss><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de">Quellenbeschreibung</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence.</desc><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de"/><classes/><content><alternate minOccurs="1" maxOccurs="1"><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="biblStruct" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listEvent" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="msDesc" minOccurs="0" maxOccurs="unbounded"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listWit" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listRelation" minOccurs="0" maxOccurs="1"/></sequence><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="p" minOccurs="0" maxOccurs="1"/></alternate></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <sourceDesc>
         <bibl><title level="a">The Interesting story of the Children in the Wood</title>. In
@@ -20145,7 +20220,255 @@ should be supplied for the <att>scheme</att> attribute.</p>
       </exemplum>
     </attDef></attList><listRef>
     <ptr target="#NDDATE"/>
-  </listRef></classSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="transcr" ident="fw"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2023-01-27" xml:lang="en">forme work</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2023-01-27" xml:lang="en">contains a running head (e.g. a header, footer), catchword, or similar material appearing on the current page.</desc><classes><memberOf key="att.hendi.placement"/><memberOf key="att.hendi.rotation"/><memberOf key="att.global"/><memberOf key="att.typed"/><memberOf key="model.milestoneLike"/><memberOf key="att.written"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef ident="type" mode="change" usage="rec">
+  </listRef></classSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="namesdates" ident="listRelation">
+  <desc versionDate="2009-01-05" xml:lang="fr">donne des informations sur les relations qui existent
+    entre des personnes, des lieux, ou des organisations, soit de manière informelle en prose, soit
+    de manière formelle.</desc>
+  <desc versionDate="2011-12-02" xml:lang="en">provides information about relationships identified amongst people, places, and
+    organizations, either informally as prose or as formally expressed relation links.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko">비공식적으로 산문체 또는 공식적으로 표현된 관계 연결을 통하여 사람, 장소, 그리고 조직 사이에
+    식별되는 관련성에 관한 정보를 제공한다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">描述一項語言互動中參與者之間的關係或社交關聯。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja">人，場所，組織間の関係に関する情報を，散文またはリンクによる形式的表 現で示す．</desc>
+  <desc versionDate="2007-11-06" xml:lang="it">fornisce informazioni relative alle relazioni
+    identificate tra persone, luoghi e organizzazioni, a livello informale discorsivo o sotto forma
+    di legami formalmente espressi</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">describe las relaciones o los lazos sociales entre los
+    participantes de una interacción verbal.</desc>
+  <classes>
+    <memberOf key="att.global"/>
+    <memberOf key="att.typed"/>
+    
+    <memberOf key="model.biblPart"/>
+    <memberOf key="model.listLike"/>
+  </classes>
+  <content>
+    <sequence>
+      <classRef key="model.headLike" minOccurs="0" maxOccurs="unbounded"/>
+      <elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/>
+      <alternate minOccurs="1" maxOccurs="1">
+        <classRef key="model.pLike"/>
+        <alternate minOccurs="1" maxOccurs="unbounded">
+          <elementRef key="relation" minOccurs="1" maxOccurs="1"/>
+          <elementRef key="listRelation" minOccurs="1" maxOccurs="1"/>
+        </alternate>
+      </alternate>
+    </sequence>
+  </content>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <listPerson>
+        <person xml:id="pp1">
+          <!-- data about person pp1 -->
+        </person>
+        <person xml:id="pp2">
+          <!-- data about person pp1 -->
+        </person>
+        <!-- more person (pp3, pp4) elements here -->
+      <listRelation type="personal">
+        <relation name="parent" active="#pp1 #pp2" passive="#pp3 #pp4"/>
+        <relation name="spouse" mutual="#pp1 #pp2"/>
+      </listRelation>
+      <listRelation type="social">
+        <relation name="employer" active="#pp1" passive="#pp3 #pp5 #pp6 #pp7"/>
+      </listRelation>
+     </listPerson>
+    </egXML>
+    <p>The persons with identifiers pp1 and pp2 are the parents of pp3 and pp4; they are also married to
+      each other; pp1 is the employer of pp3, pp5, pp6, and pp7.</p>
+  </exemplum>
+  <exemplum xml:lang="en" versionDate="2017-06-30">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <listPerson>
+        <person xml:id="en_pp1">
+          <!-- data about person en_pp1 -->
+        </person>
+        <person xml:id="en_pp2">
+          <!-- data about person en_pp2 -->
+        </person>
+        <!-- more person (en_pp3, en_pp4) elements here -->
+      </listPerson>
+      <listPlace>
+        <place xml:id="en_pl1">
+          <!-- data about place en_pl1 -->
+        </place>
+        <!-- more place (en_pl2, en_pl3) elements here -->
+      </listPlace>
+      <listRelation>
+        <relation name="residence" active="#en_pp1 #en_pp2" passive="#en_pl1"/>
+      </listRelation>
+    </egXML>
+    <p>The persons with identifiers en_pp1 and en_pp2 live in en_pl1.</p>
+  </exemplum>
+  <exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <p>Tous les locuteurs sont membres de la famille Ceruli, et sont nés à Naples.</p>
+      </listRelation>
+    </egXML>
+  </exemplum>
+  <exemplum xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <listPerson>
+        <person xml:id="zh-tw_pp1">
+          <!-- 第一人的資料 -->
+        </person>
+        <!-- 更多關於此人的元素 -->
+      </listPerson>
+      <listRelation type="personal">
+        <relation name="parent" active="#zh-tw_pp1 #zh-tw_pp2" passive="#p3 #p4"/>
+        <relation name="spouse" mutual="#zh-tw_pp1 #zh-tw_pp2"/>
+      </listRelation>
+      <listRelation type="social">
+        <relation name="employer" active="#zh-tw_pp1" passive="#p3 #p5 #p6 #p7"/>
+      </listRelation>
+    </egXML>
+  </exemplum>
+  <exemplum xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <p>所有說話者都是林家的人，生於台北板橋。</p>
+      </listRelation>
+    </egXML>
+  </exemplum>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <p>All speakers are members of the Ceruli family, born in Naples.</p>
+      </listRelation>
+    </egXML>
+  </exemplum>
+  <remarks versionDate="2011-12-02" xml:lang="en">
+    <p rend="dataDesc">May contain a prose description organized as paragraphs, or a sequence of
+        <gi>relation</gi> elements.</p>
+  </remarks>
+  <remarks versionDate="2008-12-09" xml:lang="fr">
+    <p rend="dataDesc">Peut contenir soit une description en prose organisée en paragraphes, soit
+      une suite d'éléments <gi>relation</gi>.</p>
+  </remarks>
+  <remarks xml:lang="ja" versionDate="2008-04-05">
+    <p rend="dataDesc"> 段落または一連の要素<gi>relation</gi>による散文を含むかもしれない． </p>
+  </remarks>
+  <listRef>
+    <ptr target="#NDPERSREL"/>
+    
+    
+  </listRef>
+</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" ident="relation"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" xml:lang="en" versiondate="2023-02-15">relationship</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" xml:lang="en" versiondate="2023-02-15">describes any kind of relationship or linkage amongst a specified group of places, events, persons, objects or other items.</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.canonical"/><memberOf key="att.typed"/></classes><content><elementRef key="desc" minOccurs="0"/></content><constraintSpec ident="reforkeyorname" scheme="schematron">
+    <constraint>
+      <assert xmlns="http://purl.oclc.org/dsdl/schematron" test="@ref or @key or @name">One of the attributes  'name', 'ref' or 'key' must be supplied</assert>
+    </constraint>
+  </constraintSpec><constraintSpec ident="activemutual" scheme="schematron">
+    <!-- Note: this constraint is pointless in RELAX NG land, where
+         the org=choice works. It is useful in DTD land, where the
+         attList/@org has no effect. It looks to me like it is useful
+         in W3C XML Schema land, too, which I find suprising, as I
+         thought XSD could express a disjuntion like that w/o
+         difficulty. (But I may be reading the XSD incorrectly.) 
+         — Syd, 2018-05-01 -->
+    <constraint>
+      <report xmlns="http://purl.oclc.org/dsdl/schematron" test="@active and @mutual">Only one of the attributes @active and @mutual may be supplied</report>
+    </constraint>
+  </constraintSpec><constraintSpec ident="activepassive" scheme="schematron">
+    <constraint>
+      <report xmlns="http://purl.oclc.org/dsdl/schematron" test="@passive and not(@active)">the attribute 'passive' may be supplied only if the attribute 'active' is supplied</report>
+    </constraint>
+  </constraintSpec><attList><attDef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" ident="type" usage="req" mode="change">
+    				<desc versionDate="2023-02-15" xml:lang="en">classifys the type of specification.</desc>
+    				<desc versionDate="2023-02-15" xml:lang="de">Gibt die Art der Spezifikation an.</desc>
+    				<valList type="closed" mode="add">
+    					<valItem ident="isEnclosure">
+    						<desc versionDate="2023-02-15" xml:lang="en">The described object is an enclosure of another object.</desc>
+    						<desc versionDate="2023-02-15" xml:lang="de">Das beschriebene Objekt ist eine Beilage zu einem anderen Objekt.</desc>
+    					</valItem>
+    					<valItem ident="hasEnclosure">
+    						<desc versionDate="2023-02-15" xml:lang="en">The described object has an enclosure.</desc>
+    						<desc versionDate="2023-02-15" xml:lang="de">Das beschriebene Objekt besitzt eine Beilage.</desc>
+    					</valItem>
+    				</valList>
+    			</attDef><attList org="choice"><attDef ident="active">
+        <desc versionDate="2005-07-24" xml:lang="en">identifies the <soCalled>active</soCalled> participants in a non-mutual relationship, or all the participants in a mutual
+                    one.</desc>
+        <desc versionDate="2008-04-06" xml:lang="es">identifica los participantes activos en una relación no-mutua, o todos los participantes de
+                    una mutua.</desc>
+        <desc versionDate="2008-03-30" xml:lang="fr">identifie les participants actifs dans une relation à sens unique, ou tous les participants
+                    dans une relation réciproque.</desc>
+        <desc versionDate="2007-11-06" xml:lang="it">identifica i partecipanti attivi in una relazione di non reciprocità, oppure tutti i
+                    partecipanti in una relazione di reciprocità</desc>
+        <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+      </attDef><attDef ident="mutual" usage="opt">
+        <desc versionDate="2005-07-24" xml:lang="en">supplies a list of participants amongst all of whom the relationship holds equally.</desc>
+        <desc versionDate="2008-04-06" xml:lang="es">proporciona una lista de participantes entre los cuales se establece una idéntica
+                    relación</desc>
+        <desc versionDate="2009-03-19" xml:lang="fr">fournit une liste de participants entre lesquels la relation est réciproque.</desc>
+        <desc versionDate="2007-11-06" xml:lang="it">fornisce una lista di partecipanti tra i quali c'è una relazione paritaria</desc>
+        <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+      </attDef></attList><attDef ident="name">
+      <desc versionDate="2005-10-27" xml:lang="en">supplies a name for the kind of relationship of which this is an instance.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">이것이 실례인 관련성 종류에 대한 이름을 제공한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">提供該關係的確切名稱。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該関係の種類名を示す．</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">fournit un nom pour le type de relation dont elle est une instance.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">proporciona un nombre para elipo de relación que representan.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">assegna un nome al tipo di relazione che rappresenta</desc>
+      <datatype><dataRef key="teidata.enumerated"/></datatype>
+    </attDef><attDef ident="passive" usage="opt">
+      <desc versionDate="2005-01-14" xml:lang="en">identifies the <soCalled>passive</soCalled> participants in a non-mutual relationship.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">비상호적 관련성에서 <soCalled>passive</soCalled> 참여자를 식별한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">指出非對等關係中的<q>被動</q>關係人。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">一方向の関係における<soCalled>受動的な</soCalled>参加者を指定す る．</desc>
+      <desc versionDate="2009-03-19" xml:lang="fr">identifie les participants <q>passifs</q> dans une relation non mutuelle.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">identifica los participantes <q>pasivos</q> en una relación de no reciprocidad.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">identifica i partecipanti <q>passivi</q>all'interno di una relazione di non reciprocità.</desc>
+      <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+    </attDef></attList><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <relation type="social" name="supervisor" active="#p1" passive="#p2 #p3 #p4"/>
+    </egXML>
+    <p>This indicates that the person with identifier p1 is supervisor of persons p2, p3, and p4.</p>
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <relation type="social" name="supervisor" active="#fr_p1" passive="#p2 #p3 #p4"/>
+    </egXML>
+    <p xmlns:teix="http://www.tei-c.org/ns/Examples">Cela indique que la personne avec l'identifiant p1 est le superviseur des personnes p2, p3
+        et p4.</p>
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <relation type="personal" name="friends" mutual="#fr_p2 #fr_p3 #fr_p4"/>
+    </egXML>
+    <p xmlns:teix="http://www.tei-c.org/ns/Examples">Cela indique que p2, p3 et p4 sont tous amis.</p>
+  </exemplum><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <relation type="personal" name="friends" mutual="#p2 #p3 #p4"/>
+    </egXML>
+    <p>This indicates that p2, p3, and p4 are all friends.</p>
+  </exemplum><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#UND">
+      <relation type="CRM" name="P89_falls_within" active="http://id.clarosnet.org/places/metamorphoses/place/italy-orvieto" passive="http://id.clarosnet.org/places/metamorphoses/country/IT"/>
+    </egXML>
+    <p>This indicates that there is a relation, defined by CIDOC CRM,
+    between two resources identified by URLs.</p>
+  </exemplum><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#SAWS">
+      <relation resp="http://viaf.org/viaf/44335536/" ref="http://purl.org/saws/ontology#isVariantOf" active="http://www.ancientwisdoms.ac.uk/cts/urn:cts:greekLit:tlg3017.Syno298.sawsGrc01:divedition.divsection1.o14.a107" passive="http://data.perseus.org/citations/urn:cts:greekLit:tlg0031.tlg002.perseus-grc1:9.35"/>
+    </egXML>
+    <p>This example records a relationship, defined by the SAWS ontology, between a passage of text
+    identified by a CTS URN, and a variant passage of text in the Perseus Digital Library, and assigns
+    the identification of the relationship to a particular editor (all using resolvable URIs).</p>
+  </exemplum><remarks versionDate="2006-06-16" xml:lang="en">
+    <p>Only one of the attributes <att>active</att> and <att>mutual</att> may be supplied; the attribute <att>passive</att> may be supplied only
+            if the attribute <att>active</att> is supplied. Not all of these constraints can be enforced in all schema languages.</p>
+  </remarks><remarks xml:lang="fr" versionDate="2007-06-12">
+    <p>Un seul des attributs <att>active</att> et <att>mutual</att> peut être fourni ; l'attribut <att>passive</att> ne peut être utilisé que si
+            l'attribut <att>active</att> est fourni. Tous les langages de schéma ne sont pas capables d'exprimer la totalité de ces contraintes.</p>
+  </remarks><remarks xml:lang="ja" versionDate="2008-04-05">
+    <p> 属性<att>active</att>か属性<att>mutual</att>のどちらかのみが付与さ れる．属性<att>passive</att>は，属性<att>active</att>が付与されて いる場合にのみ使用される．どのスキーマ言語でも，全ての構成要素が使
+            われるというものではない． </p>
+  </remarks><listRef>
+    <ptr target="#NDPERSREL"/>
+    
+    
+  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="transcr" ident="fw"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2023-01-27" xml:lang="en">forme work</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2023-01-27" xml:lang="en">contains a running head (e.g. a header, footer), catchword, or similar material appearing on the current page.</desc><classes><memberOf key="att.hendi.placement"/><memberOf key="att.hendi.rotation"/><memberOf key="att.global"/><memberOf key="att.typed"/><memberOf key="model.milestoneLike"/><memberOf key="att.written"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef ident="type" mode="change" usage="rec">
       <desc versionDate="2005-01-14" xml:lang="en">classifies the material encoded according to some useful typology.</desc>
       <desc versionDate="2007-12-20" xml:lang="ko">유용한 유형에 따라 부호화된 자료를 분류한다.</desc>
       <desc versionDate="2007-05-02" xml:lang="zh-TW">用合適的分類方法將所標記的內容分類。</desc>
