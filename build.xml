@@ -104,6 +104,10 @@
 			<param name="outputFileSchematron" value="${basedir}/schema/${lang}/hendiAll.isosch"/>
 			<param name="selectedSchema" value="hendiAll"/>
 		</antcall>
+		<antcall target="process-guidelines-html">
+			<param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
+			<param name="selectedSchema" value="hendiAll"/>
+		</antcall>
 	</target>
 	
 	<target name="hendiBiblio" depends="init">
@@ -237,17 +241,6 @@
 				<param name="selectedSchema" expression="${selectedSchema}"/>
 			</xslt>
 			
-			<echo>Generate html guidelines</echo>
-			<xslt force="yes" style="${stylesheets.dir}/odds/odd2html.xsl" 
-				in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="guidelines-html/${inputFile.basename}-${selectedSchema}.html" classpathref="hendi.odd.classpath" failontransformationerror="no">
-				<factory name="net.sf.saxon.TransformerFactoryImpl">
-					<attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
-				</factory>
-				<param name="lang" expression="${lang}" if="lang"/>
-				<param name="defaultSource" expression="${source}"/>
-				<param name="selectedSchema" expression="${selectedSchema}"/>
-			</xslt>
-			
 			<echo>Creating RelaxNG schema</echo>
 			<xslt force="yes" style="${stylesheets.dir}/profiles/default/relaxng/to.xsl" 
 				in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="${outputFileRNG}" classpathref="hendi.odd.classpath">
@@ -272,6 +265,19 @@
 				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 			</xslt>
 		</sequential>
+	</target>
+	
+	<target name="process-guidelines-html">
+		<echo>Generate html guidelines</echo>
+		<xslt force="yes" style="${stylesheets.dir}/odds/odd2html.xsl" 
+			in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="guidelines-html/${inputFile.basename}-${selectedSchema}.html" classpathref="hendi.odd.classpath" failontransformationerror="no">
+			<factory name="net.sf.saxon.TransformerFactoryImpl">
+				<attribute name="http://saxon.sf.net/feature/xinclude-aware" value="true"/>
+			</factory>
+			<param name="lang" expression="${lang}" if="lang"/>
+			<param name="defaultSource" expression="${source}"/>
+			<param name="selectedSchema" expression="${selectedSchema}"/>
+		</xslt>
 	</target>
 	
 </project>
