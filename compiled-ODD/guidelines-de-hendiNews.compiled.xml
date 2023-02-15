@@ -209,8 +209,36 @@
 			</div>
 			<div xml:id="DT-postals-telegram">
 				<head>Telegramme<note resp="DR" place="bottom">Die Erfassung von Telegrammen in TEI befindet sich noch im Entwickliungsstadium.</note></head>
-				<p>Bisher erfasste Telegramme wurden zumeist nur inhaltlich erfasst, ohne (größere) Rücksicht auf die Formular-Struktur dieses Mediums.</p>
-				<p>Das Datenmodell zur Erfassung von Telegrammen ist derzeit in der Entwicklung. <!-- DR: viel mit div und fw arbeiten? --></p>
+				<p>Die Erfassung von Telegrammen in TEI soll zusätzlich zum Inhalt auch die Formular-Struktur des Mediums abbilden. Hierzu wird ein eigenes Datenmodell erarbeitet, welches sich derzeit noch in der Entwicklung befindet. Daher wird primär der Inhalt erfasst und aufbereitet; die Struktur wird zum Teil nachgereicht.</p>
+				<p>Ziel ist es mit der Codierung nicht nur dem Inhalt, sondern auch dem Medium gerecht zu werden.</p>
+				<p>Der Modellansatz für die Erschließung der Formular-Struktur ist am Bootstrap-Framework orientiert, das Bereiche mit <gi>div</gi>s organisiert. Zur Nutzung dieser Technik wurde die TEI-Definition von <gi>div</gi> <quote>(text division) contains a subdivision of the front, body, or back of a text.</quote> für Henze-Digital erweitert: (text division) contains a subdivision of the front, body, or back of a text or is used to represent the structure of the text for special documents (e.g., postcards, telegrams).</p>
+				<p>Analog zum Bootstrap-Framework wird jeweils ein <gi>div</gi> als Wrapper für eine Zeile verwendet. Die Kind-Elemente – in diesem Fall ist <gi>div</gi> obligatorisch – stellen dann Bereiche in einer Zeile (Spalten) dar.</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div/>
+						<div/>
+					</div>
+				</egXML>
+				<p>Werden in den <gi>div</gi>-Elementen innerhalb von <tag>div type="row"</tag> keine weiteren Spezifikationen angegeben, so bedeuted dies eine gleichmäßige Verteilung bzw. gleichmäßige horizontale Ausdehnung der Bereiche. Ungleichgroße Bereiche können durch die Werte <val>col-1</val> bis <val>col-11</val> spezifiziert werden, wobei die Summe 12 (analog zu Bootstrap) nicht überschritten werden darf.</p>
+				<p>Eine Zeile mit zwei Bereichen im Verhältnis 1:2 (1/3 der Gesamtbreite + 2/3 der Gesamtbreite) kann wie folgt codiert werden:</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div type="col-4"/>
+						<div type="col-8"/>
+					</div>
+				</egXML>
+				<p>Werden nur einzelne Bereiche in ihrer horizontalen Ausdehnung spezifiziert, so sind alle anderen Bereiche als gleichmäßig verteilt (bezogen auf den zur Verfügung stehenden Platz) zu verstehen.</p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<div type="row">
+						<div type="col-2"/>
+						<!-- = col-5 -->
+						<div type="col"/>
+						<!-- = col-5 -->
+						<div type="col"/>
+					</div>
+				</egXML>
+				<p>Der Wrapper <tag>div type="row"</tag> kann in jedem Bereich verwendet werden, außer in sich selbst. Auf diese Weise lassen sich auch komplexe Formularstrukturen erfassen und mit Hilfe des Bootstrap-Framework darstellen.</p>
+				<p>Vorgedruckte Formular-Texte werden mit <gi>fw</gi> ausgezeichnet. Für die Angabe von Positionsangaben ist ein Modell zu erarbeiten.</p>
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
@@ -285,7 +313,7 @@
 		<div xml:id="DT-writings">
 			<head>Schriften</head>
 			<p>Nicht alles was ein Autor/Komponist erschaffen hat ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musikalischen Hinterlassenschaften von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, ist unter den Bibliographika verzeichnet.</p>
-			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen; unabhängig davon, ob der Autor Hans Werner Henze ist oder nicht.</p>
+			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen.<note resp="DR" place="bottom">Es werden Schriften verschiedener Autoren erfasst, sofern sie in Zusammenhand mit der Edition stehen.</note></p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
@@ -367,26 +395,76 @@
 		</div>
 		<div xml:id="DT-biblio">
 			<head>Literatur</head>
-			<p>Die Datensätze der Sammlung Bibliographika enthalten ein <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor <gi>author</gi> unter möglicher Hinzufügung eines <att>key</att> und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort unselbstständiger Publikationen mittels der Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A110005B">
-				<biblStruct xml:id="A110005B" status="candidate" type="article">
+			<p>Die Datensätze zu den Bibliographika enthalten bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct type="article" xml:id="A1100BF8" status="proposed" source="HenDi">
 					<analytic>
-						<title level="a">Henze Bibliothek in Detmold</title>
-						<author>wsp</author>
-						<ref target="https://www.westfalenspiegel.de/hans-werner-henze-bibliothek-detmold/">Original</ref>
+						<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
+						<author key="A0003CFE">Marsico, Federica</author>
 					</analytic>
 					<monogr>
-						<title>Westfalenspiegel</title>
+						<title level="m">Hans Werner Henze, Elegy for Young Lovers, Elegia per giovani amanti</title>
 						<imprint>
-							<date when="2021-12-13"/>
+							<pubPlace>Casale sul Sile</pubPlace>
+							<date when="2014">2014</date>
+							<publisher>Edizioni del Teatro La Fenice di Venezia</publisher>
+							<note type="additional">pp.11–30</note>
 						</imprint>
 					</monogr>
+					<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
 				</biblStruct>
-			</egXML>
+				</egXML>
+			</p>
+			<p>Um Redundanzen zu vermeiden, werden Teile dieser Struktur ausgelagert. So können Reihen einmalig angelegt werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<series>
+							<title/>
+							<editor/>
+						</series>
+					</biblStruct>
+				</egXML>
+				und mehrere selbstständige Publikationen dieser einen Reihe zugeordnet werden.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+						<series sameAs="#{seriesId}"/>
+					</biblStruct>
+				</egXML>
+			</p>
+			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+					</biblStruct>
+				</egXML>
+				während die erfassten unselbstständigen Publikationen dann diesen zugeorndet werden.
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct>
+						<analytic>
+							<title/>
+							<author/>
+						</analytic>
+						<monogr sameAs="#{monogrId}"/>
+					</biblStruct>
+				</egXML>
 			</p>
 		</div>
 		<div xml:id="DT-works">
 			<head>Werke</head>
-			<p>Dieser Datentyp ist äußerst komplex, da musikalische wie auch literarische Werke erfasst werden. Für die musikalischen Werke findet die Music Encoding Initiative (MEI) anwendung; für literarische Werke die Text Encoding Initiative (TEI). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
+			<p>Dieser Datentyp ist äußerst komplex, da musikalische und literarische Werke auf unterschiedliche Weisen erfasst werden. Für die musikalischen Werke findet die Music Encoding Initiative (<ref target="https://music-encoding.org/">MEI</ref>) Anwendung; für literarische Werke die Text Encoding Initiative (<ref target="https://tei-c.org/">TEI</ref>). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
 			<p>UNTERSCHEIDUNG: Henze-Werke, die ausführlicher und fremde Werke, die rudimentär beschrieben werden.</p>
 			<div xml:id="DT-works-musical">
 				<head>Musikalische Werke (MEI)</head>
@@ -428,12 +506,9 @@
 				</p>
 			</div>
 		</div>
-		<!--<div xml:id="DT-sources">
-            <head>Quellen</head>
-        </div>-->
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
-			<p>Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</p>
+			<p>[...]<note resp="DR" place="bottom">Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</note></p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
@@ -7659,7 +7734,7 @@ définissant les droits d'utilisation.</desc><desc xmlns:teix="http://www.tei-c.
       </p>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD24">2.2.4. Publication, Distribution, Licensing, etc.</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="header" ident="sourceDesc"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">source description</gloss><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de">Quellenbeschreibung</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence.</desc><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de"/><classes/><content><alternate minOccurs="1" maxOccurs="1"><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="biblStruct" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listEvent" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="msDesc" minOccurs="0" maxOccurs="unbounded"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listWit" minOccurs="0" maxOccurs="1"/></sequence><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="p" minOccurs="0" maxOccurs="1"/></alternate></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
+  </listRef></elementSpec><elementSpec rend="change" module="header" ident="sourceDesc"><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">source description</gloss><gloss xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de">Quellenbeschreibung</gloss><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="en">describes the source from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as "born digital" for a text which has no previous existence.</desc><desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" rend="replace" versionDate="2013-11-11" xml:lang="de"/><classes/><content><alternate minOccurs="1" maxOccurs="1"><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="biblStruct" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listEvent" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="msDesc" minOccurs="0" maxOccurs="unbounded"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listWit" minOccurs="0" maxOccurs="1"/><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="listRelation" minOccurs="0" maxOccurs="1"/></sequence><elementRef xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" key="p" minOccurs="0" maxOccurs="1"/></alternate></content><attList/><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <sourceDesc>
         <bibl><title level="a">The Interesting story of the Children in the Wood</title>. In
