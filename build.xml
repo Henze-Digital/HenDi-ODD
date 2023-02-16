@@ -269,6 +269,12 @@
 	
 	<target name="process-guidelines-html">
 		<echo>Generate html guidelines</echo>
+		<basename property="inputFile.basename" file="${inputFile}" suffix=".xml"/>
+		<!-- TEI is considered default source -->
+		<condition property="source" value="${source}" else="${tei.source}">
+			<isset property="source"/>
+		</condition>
+		
 		<xslt force="yes" style="${stylesheets.dir}/odds/odd2html.xsl" 
 			in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="guidelines-html/${inputFile.basename}-${selectedSchema}.html" classpathref="hendi.odd.classpath" failontransformationerror="no">
 			<factory name="net.sf.saxon.TransformerFactoryImpl">
