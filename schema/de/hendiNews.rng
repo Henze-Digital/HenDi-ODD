@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-02-21T08:04:43Z. .
+Schema generated from ODD source 2023-02-21T12:41:26Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -1802,12 +1802,8 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(hervorgehoben) markiert ein Wort oder eine Phrase als grafisch deutlich vom umgebenden Text abgehoben, aus Gründen über die keine Angaben gemacht werden können. [3.3.2.2. Emphatic Words and Phrases 3.3.2. Emphasis, Foreign Words, and Unusual Language]</a:documentation>
          <ref name="macro.paraContent"/>
          <ref name="att.hendi.rend.attributes"/>
+         <ref name="att.hendi.color.attributes"/>
          <ref name="att.written.attributes"/>
-         <optional>
-            <attribute name="color">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            </attribute>
-         </optional>
          <empty/>
       </element>
    </define>
@@ -2843,9 +2839,14 @@ Elements 7.2.5. Speech Contents]</a:documentation>
          <optional>
             <attribute name="key">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <data type="string">
-                  <param name="pattern">A00[0-9A-F]{5}</param>
-               </data>
+               <choice>
+                  <data type="string">
+                     <param name="pattern">A00[0-9A-F]{5}</param>
+                  </data>
+                  <data type="string">
+                     <param name="pattern">A08[0-9A-F]{5}</param>
+                  </data>
+               </choice>
             </attribute>
          </optional>
          <optional>
@@ -3940,6 +3941,16 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
          <sch:assert test="number(@rotation) gt 0 and number(@rotation) lt 361 and not(starts-with(@rotation,'0'))">The value must be between 1 and 360 (without leading zeros).</sch:assert>
       </sch:rule>
    </pattern>
+   <define name="att.hendi.color.attributes">
+      <ref name="att.hendi.color.attribute.color"/>
+   </define>
+   <define name="att.hendi.color.attribute.color">
+      <optional>
+         <attribute name="color" ns="http://henze-digital.zenmem.de/ns/1.0">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         </attribute>
+      </optional>
+   </define>
    <define name="att.docStatus.attributes">
       <ref name="att.docStatus.attribute.status"/>
    </define>
