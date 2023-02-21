@@ -6572,7 +6572,27 @@
                     <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<sch:value-of select="$seriesTitleA02"/>".</sch:report>
                 </sch:rule>
             </constraint>
-        </constraintSpec><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.edittrans"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.frbr"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.header"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.namesdates"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.ptrref"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.shared"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.text"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.analytical"/></schemaSpec>
+        </constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="correspDescControl" mode="add">
+    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the occurance of correspDesc in documents.</desc>
+    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das Erscheinen von correspDesc in Dokumenten.</desc>
+    		<constraint>
+    			<sch:rule context="tei:profileDesc">
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc" role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="textTypeControl" mode="add">
+    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the type attribute of text in documents.</desc>
+    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
+    		<constraint>
+    			<sch:rule context="tei:text/@type">
+    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+    				<sch:let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <sch:value-of select="$textTypePostals"/>.</sch:report>
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.edittrans"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.frbr"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.header"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.namesdates"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.ptrref"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.shared"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.text"/><moduleSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" n="" ident="MEI.analytical"/></schemaSpec>
 				<?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 			</div>

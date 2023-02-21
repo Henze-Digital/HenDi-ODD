@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2023-02-20T16:28:17Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2023-02-21T08:10:15Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -659,6 +659,26 @@
          <report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<value-of select="$seriesTitleA04"/>".</report>
          <report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<value-of select="$seriesTitleA05"/>".</report>
          <report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<value-of select="$seriesTitleA02"/>".</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiWorksMEI-correspDescControl-78">
+      <rule context="tei:profileDesc">
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)"
+                 role="fatal">&lt;profileDesc&gt; is required for postals.</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc"
+                 role="fatal">&lt;profileDesc&gt; is only allowed for postals.</report>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-hendiWorksMEI-textTypeControl-79">
+      <rule context="tei:text/@type">
+         <let name="textTypePostals"
+              value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+         <let name="textTypeDocuments"
+              value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)"
+                 role="error">For postals the value of @type must be one of <value-of select="$textTypePostals"/>.</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)"
+                 role="error">For documents the value of @type must be one of <value-of select="$textTypeDocuments"/>.</report>
       </rule>
    </pattern>
 </schema>
