@@ -8055,7 +8055,27 @@ element is appropriate for which circumstance.</p>
                     <sch:report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<sch:value-of select="$seriesTitleA02"/>".</sch:report>
                 </sch:rule>
             </constraint>
-        </constraintSpec><dataSpec rend="add" ident="hwhdata.position" mode="add" module="tei">
+        </constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="correspDescControl" mode="add">
+    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the occurance of correspDesc in documents.</desc>
+    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das Erscheinen von correspDesc in Dokumenten.</desc>
+    		<constraint>
+    			<sch:rule context="tei:profileDesc">
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc" role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="textTypeControl" mode="add">
+    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the type attribute of text in documents.</desc>
+    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
+    		<constraint>
+    			<sch:rule context="tei:text/@type">
+    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+    				<sch:let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <sch:value-of select="$textTypePostals"/>.</sch:report>
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec><dataSpec rend="add" ident="hwhdata.position" mode="add" module="tei">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">A closed list of values to be used with a <att>rend</att> attribute on e.g. <gi>dateline</gi>.</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
                 <valList type="closed" rend="add">

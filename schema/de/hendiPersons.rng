@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-02-20T16:24:21Z. .
+Schema generated from ODD source 2023-02-21T08:06:31Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -4801,7 +4801,43 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiPersons-styleguide-document-node-content-constraint-rule-92">
+            id="hendiPersons-correspDescControl-constraint-rule-92">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:profileDesc">
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)"
+                     role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc"
+                     role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiPersons-textTypeControl-constraint-rule-93">
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:text/@type">
+         <sch:let name="textTypePostals"
+                  value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+         <sch:let name="textTypeDocuments"
+                  value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)"
+                     role="error">For postals the value of @type must be one of <sch:value-of select="$textTypePostals"/>.</sch:report>
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)"
+                     role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
+      </sch:rule>
+   </pattern>
+   <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+            id="hendiPersons-styleguide-document-node-content-constraint-rule-94">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
