@@ -1906,14 +1906,17 @@
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc" role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
     			</sch:rule>
+    			<sch:rule context="tei:correspDesc">
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A14')]" role="fatal">&lt;correspDesc&gt; is only allowed for postals.</sch:report>
+    			</sch:rule>
     		</constraint>
     	</constraintSpec>
     	<constraintSpec scheme="schematron" ident="textTypeControl" mode="add">
-    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the type attribute of text in documents.</desc>
-    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="en">Controlls the type attribute of text in documents.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
     		<constraint>
     			<sch:rule context="tei:text/@type">
-    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
     				<sch:let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <sch:value-of select="$textTypePostals"/>.</sch:report>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
@@ -3513,6 +3516,10 @@
     						<desc versionDate="2023-02-15" xml:lang="en">The described object has an enclosure.</desc>
     						<desc versionDate="2023-02-15" xml:lang="de">Das beschriebene Objekt besitzt eine Beilage.</desc>
     					</valItem>
+    					<valItem ident="isTranslationOf">
+    						<desc versionDate="2023-04-19" xml:lang="en">The described object is a translation of another object.</desc>
+    						<desc versionDate="2023-04-19" xml:lang="de">Das beschriebene Objekt stellt eine Übersetzung eines anderen Objektes dar.</desc>
+    					</valItem>
     				</valList>
     			</attDef>
     			<attDef ident="key" usage="req" mode="change"/>
@@ -4241,6 +4248,24 @@
 	            <memberOf key="att.hendi.rotation" mode="add"/>
 	        </classes>
 	    </elementSpec>
+    	<constraintSpec scheme="schematron" ident="checkTranslationHasRelation" mode="add">
+    		<desc versionDate="2023-04-19" xml:lang="en">checks if a relation is defined.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert ob eine Relation gesetzt ist.</desc>
+    		<constraint>
+    			<sch:rule context="tei:TEI[starts-with(@xml:id, 'A14')]">
+    				<sch:assert test=".//tei:relation[@name='isTranslationOf']">A relation to the original document must be defined.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
+    	<constraintSpec scheme="schematron" ident="checkTranslationHasTranslator" mode="add">
+    		<desc versionDate="2023-04-19" xml:lang="en">checks if a translator is names.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert ob ein*e Übersetzer*in angegeben ist.</desc>
+    		<constraint>
+    			<sch:rule context="tei:TEI[starts-with(@xml:id, 'A14')]">
+    				<sch:assert test=".//tei:respStmt[tei:resp[.='Übersetzung']]/tei:name[. != '']">A translator must be named.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec>
     </specGrp>
 	<specGrp xml:id="hendi-target-orgs"/>
     <specGrp xml:id="hendi-target-persons"/>
