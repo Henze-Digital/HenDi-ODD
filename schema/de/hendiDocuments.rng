@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-02-21T12:39:29Z. .
+Schema generated from ODD source 2023-04-19T13:20:00Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -101,10 +101,16 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dokument</a:documentation>
          <value>envelope</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Umschlag</a:documentation>
+         <value>fax</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Fax</a:documentation>
          <value>formCommitment</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Verpflichtungsschein</a:documentation>
          <value>letter</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Brief</a:documentation>
+         <value>note.telephone</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Telefonnotiz</a:documentation>
+         <value>note.conversation</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gesprächsnotiz</a:documentation>
          <value>statement</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Abrechnung</a:documentation>
          <value>statement.fee</value>
@@ -8163,6 +8169,8 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Das beschriebene Objekt ist eine Beilage zu einem anderen Objekt.</a:documentation>
                <value>hasEnclosure</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Das beschriebene Objekt besitzt eine Beilage.</a:documentation>
+               <value>isTranslationOf</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Das beschriebene Objekt stellt eine Übersetzung eines anderen Objektes dar.</a:documentation>
             </choice>
          </attribute>
          <optional>
@@ -8962,9 +8970,19 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc"
                      role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
       </sch:rule>
+      <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                xmlns:mei="http://www.music-encoding.org/ns/mei"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                xmlns:s="http://www.ascc.net/xml/schematron"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                context="tei:correspDesc">
+         <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A14')]" role="fatal">&lt;correspDesc&gt; is only allowed for postals.</sch:report>
+      </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-textTypeControl-constraint-rule-111">
+            id="hendiDocuments-textTypeControl-constraint-rule-112">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8974,7 +8992,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 context="tei:text/@type">
          <sch:let name="textTypePostals"
-                  value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+                  value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
          <sch:let name="textTypeDocuments"
                   value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
          <sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)"
@@ -8984,7 +9002,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-styleguide-document-node-content-constraint-rule-112">
+            id="hendiDocuments-styleguide-document-node-content-constraint-rule-113">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -8998,7 +9016,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-seriesTitle-constraint-rule-113">
+            id="hendiDocuments-seriesTitle-constraint-rule-114">
       <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
