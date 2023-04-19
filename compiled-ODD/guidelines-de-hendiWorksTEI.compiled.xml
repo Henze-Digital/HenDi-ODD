@@ -510,6 +510,27 @@
 			<head>Erfassung von Ereignissen</head>
 			<p>[...]<note resp="DR" place="bottom">Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</note></p>
 		</div>
+		<div xml:id="DT-translations">
+			<head>Übersetzungen von Dokumenten</head>
+			<p>Übersetzungen werden derzeit mit dem Briefe-Schema erfasst. Sie liegen in TEI-Dokumenten mit minimalen Metadaten vor und verweisen auf das zugehörige Dokument, das in Übersetzung vorliegt.
+				</p>
+			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A140065B">
+					<sourceDesc>
+						<msDesc>
+							<msIdentifier>
+								<repository>Henze-Digital</repository>
+							</msIdentifier>
+						</msDesc>
+						<listRelation>
+							<relation key="A04037E7" name="isTranslation"/>
+						</listRelation>
+					</sourceDesc>
+				</egXML>
+			</p>
+			<p>Ausgezeichnet werden hier lediglich Personen, Institutionen und Orte. Kritische Anmerkungen (zur Textkonstitution) bleiben dem Original vorbehalten.</p>
+			
+		</div>
 	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
 		<head>ID-Systematik</head>
@@ -573,7 +594,11 @@
 				<cell>Orte</cell>
 			</row>
 			<row>
-				<cell>A14–A21</cell>
+				<cell>A14</cell>
+				<cell>Übersetzungen</cell>
+			</row>
+			<row>
+				<cell>A15–A21</cell>
 				<cell>derzeit nicht belegt</cell>
 			</row>
 			<row>
@@ -14474,13 +14499,16 @@ raiders and saved the town from capture.</desc>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc" role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
     			</sch:rule>
+    			<sch:rule context="tei:correspDesc">
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A14')]" role="fatal">&lt;correspDesc&gt; is only allowed for postals.</sch:report>
+    			</sch:rule>
     		</constraint>
     	</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="textTypeControl" mode="add">
-    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the type attribute of text in documents.</desc>
-    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="en">Controlls the type attribute of text in documents.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
     		<constraint>
     			<sch:rule context="tei:text/@type">
-    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
     				<sch:let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <sch:value-of select="$textTypePostals"/>.</sch:report>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
@@ -14895,7 +14923,13 @@ raiders and saved the town from capture.</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
                 <dataRef name="string" restriction="A13[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" ident="hendi.sources.pointer" mode="add" module="hendi.core.module">
+        </dataSpec><dataSpec rend="add" ident="hendi.translations.pointer" module="hendi.core.module" mode="add">
+    		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="de" versionDate="2023-04-19">definiert das Muster für Übersetzungs-IDs innerhalb von Henze-Digital</desc>
+    		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en" versionDate="2023-04-19">defines the possible attribute values for translation IDs within Henze-Digital</desc>
+    		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    			<dataRef name="string" restriction="A14[0-9A-F]{5}"/>
+    		</content>
+    	</dataSpec><dataSpec rend="add" ident="hendi.sources.pointer" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Quellen-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for source IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0">
