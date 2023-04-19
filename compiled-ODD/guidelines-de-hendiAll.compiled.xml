@@ -510,6 +510,27 @@
 			<head>Erfassung von Ereignissen</head>
 			<p>[...]<note resp="DR" place="bottom">Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</note></p>
 		</div>
+		<div xml:id="DT-translations">
+			<head>Übersetzungen von Dokumenten</head>
+			<p>Übersetzungen werden derzeit mit dem Briefe-Schema erfasst. Sie liegen in TEI-Dokumenten mit minimalen Metadaten vor und verweisen auf das zugehörige Dokument, das in Übersetzung vorliegt.
+				</p>
+			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
+				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A140065B">
+					<sourceDesc>
+						<msDesc>
+							<msIdentifier>
+								<repository>Henze-Digital</repository>
+							</msIdentifier>
+						</msDesc>
+						<listRelation>
+							<relation key="A04037E7" name="isTranslation"/>
+						</listRelation>
+					</sourceDesc>
+				</egXML>
+			</p>
+			<p>Ausgezeichnet werden hier lediglich Personen, Institutionen und Orte. Kritische Anmerkungen (zur Textkonstitution) bleiben dem Original vorbehalten.</p>
+			
+		</div>
 	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
 		<head>ID-Systematik</head>
@@ -573,7 +594,11 @@
 				<cell>Orte</cell>
 			</row>
 			<row>
-				<cell>A14–A21</cell>
+				<cell>A14</cell>
+				<cell>Übersetzungen</cell>
+			</row>
+			<row>
+				<cell>A15–A21</cell>
 				<cell>derzeit nicht belegt</cell>
 			</row>
 			<row>
@@ -23516,13 +23541,16 @@ psychological significance.
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</sch:report>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc" role="fatal">&lt;profileDesc&gt; is only allowed for postals.</sch:report>
     			</sch:rule>
+    			<sch:rule context="tei:correspDesc">
+    				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A14')]" role="fatal">&lt;correspDesc&gt; is only allowed for postals.</sch:report>
+    			</sch:rule>
     		</constraint>
     	</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="textTypeControl" mode="add">
-    		<desc versionDate="2023-02-21" xml:lang="en">Controlls the type attribute of text in documents.</desc>
-    		<desc versionDate="2023-02-21" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="en">Controlls the type attribute of text in documents.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert das type Attribut von text in Dokumenten.</desc>
     		<constraint>
     			<sch:rule context="tei:text/@type">
-    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','formCommitment','letter','statement','statement.fee','telegram','unknown')"/>
+    				<sch:let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
     				<sch:let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <sch:value-of select="$textTypePostals"/>.</sch:report>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
@@ -23868,6 +23896,10 @@ psychological significance.
                         <desc versionDate="2021-10-13" xml:lang="en">Envelope</desc>
                         <desc versionDate="2021-10-13" xml:lang="de">Umschlag</desc>
                     </valItem>
+                    <valItem ident="fax">
+                        <desc versionDate="2023-04-19" xml:lang="en">fax</desc>
+                    	<desc versionDate="2023-04-19" xml:lang="de">Fax</desc>
+                    </valItem>
                     <valItem ident="formCommitment">
                         <desc versionDate="2021-10-13" xml:lang="en">Commitment form</desc>
                         <desc versionDate="2021-10-13" xml:lang="de">Verpflichtungsschein</desc>
@@ -23876,6 +23908,14 @@ psychological significance.
                         <desc versionDate="2021-10-13" xml:lang="en">Letter</desc>
                         <desc versionDate="2021-10-13" xml:lang="de">Brief</desc>
                     </valItem>
+                	<valItem ident="note.telephone">
+                		<desc versionDate="2023-04-19" xml:lang="en">telephone note</desc>
+                		<desc versionDate="2023-04-19" xml:lang="de">Telefonnotiz</desc>
+                	</valItem>
+                	<valItem ident="note.conversation">
+                		<desc versionDate="2023-04-19" xml:lang="en">note of the conversation</desc>
+                		<desc versionDate="2023-04-19" xml:lang="de">Gesprächsnotiz</desc>
+                	</valItem>
                     <valItem ident="statement">
                         <desc versionDate="2021-10-13" xml:lang="en">Statement</desc>
                         <desc versionDate="2021-10-13" xml:lang="de">Abrechnung</desc>
@@ -24067,7 +24107,13 @@ psychological significance.
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="A13[0-9A-F]{5}"/>
             </content>
-        </dataSpec><dataSpec rend="add" ident="hendi.sources.pointer" mode="add" module="hendi.core.module">
+        </dataSpec><dataSpec rend="add" ident="hendi.translations.pointer" module="hendi.core.module" mode="add">
+    		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2023-04-19">definiert das Muster für Übersetzungs-IDs innerhalb von Henze-Digital</desc>
+    		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2023-04-19">defines the possible attribute values for translation IDs within Henze-Digital</desc>
+    		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
+    			<dataRef name="string" restriction="A14[0-9A-F]{5}"/>
+    		</content>
+    	</dataSpec><dataSpec rend="add" ident="hendi.sources.pointer" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für Quellen-IDs innerhalb von Henze-Digital</desc>
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for source IDs within Henze-Digital</desc>
             <content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
@@ -24089,7 +24135,7 @@ psychological significance.
     		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">fasst die potenziellen Verweise auf Dokumente und postalische Dokumente zusammen</desc>
     		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">groups together the possible pointers to documents and postals</desc>
     		<content xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
-    			<alternate minOccurs="1" maxOccurs="1"><dataRef key="hendi.letters.pointer"/><dataRef key="hendi.documents.pointer"/></alternate>
+    			<alternate minOccurs="1" maxOccurs="1"><dataRef key="hendi.letters.pointer"/><dataRef key="hendi.documents.pointer"/><dataRef key="hendi.translations.pointer"/></alternate>
     		</content>
     	</dataSpec><dataSpec rend="add" ident="hendi.biblio.types" mode="add" module="hendi.core.module">
             <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">A closed list of values to be used with a <att>type</att> attribute on e.g. <gi>biblStruct</gi>.</desc>
@@ -24249,7 +24295,23 @@ psychological significance.
     	</macroSpec><moduleSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" ident="hendi.core.module">
 			<desc xml:lang="de" versionDate="2022-11-08">Modul für HenDi-spezifische Ergänzungen</desc>
 			<desc xml:lang="en" versionDate="2017-11-08">Module for HenDi specific additions</desc>
-		</moduleSpec><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="FT" xml:id="DFTFF" ident="figures"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="WD" xml:id="DWD" ident="gaiji"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="SA" xml:id="DSA" ident="linking"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="MS" xml:id="DMSD2" ident="msdescription"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="TD" xml:id="DTDDTD" ident="tagdocs"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="TC" xml:id="DTC" ident="textcrit"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="DS" xml:id="DDS" ident="textstructure"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="PH" xml:id="DPH" ident="transcr"/></schemaSpec>
+		</moduleSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="checkTranslationHasRelation" mode="add">
+    		<desc versionDate="2023-04-19" xml:lang="en">checks if a relation is defined.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert ob eine Relation gesetzt ist.</desc>
+    		<constraint>
+    			<sch:rule context="tei:TEI[starts-with(@xml:id, 'A14')]">
+    				<sch:assert test=".//tei:relation[@name='isTranslationOf']">A relation to the original document must be defined.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="checkTranslationHasTranslator" mode="add">
+    		<desc versionDate="2023-04-19" xml:lang="en">checks if a translator is names.</desc>
+    		<desc versionDate="2023-04-19" xml:lang="de">Kontrolliert ob ein*e Übersetzer*in angegeben ist.</desc>
+    		<constraint>
+    			<sch:rule context="tei:TEI[starts-with(@xml:id, 'A14')]">
+    				<sch:assert test=".//tei:respStmt[tei:resp[.='Übersetzung']]/tei:name[. != '']">A translator must be named.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    	</constraintSpec><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="FT" xml:id="DFTFF" ident="figures"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="WD" xml:id="DWD" ident="gaiji"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="HD" xml:id="DHD" ident="header"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="SA" xml:id="DSA" ident="linking"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="MS" xml:id="DMSD2" ident="msdescription"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="TD" xml:id="DTDDTD" ident="tagdocs"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="TC" xml:id="DTC" ident="textcrit"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" n="DS" xml:id="DDS" ident="textstructure"/><moduleSpec xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:xi="http://www.w3.org/2001/XInclude" n="PH" xml:id="DPH" ident="transcr"/></schemaSpec>
 				<?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
 				<?xml-model href="https://jenkins.tei-c.org/job/TEIP5-dev/lastStableBuild/artifact/P5/release/xml/tei/odd/p5.nvdl" type="application/xml" schematypens="http://purl.oclc.org/dsdl/nvdl/ns/structure/1.0"?>
