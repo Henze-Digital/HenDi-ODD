@@ -4162,6 +4162,39 @@
 			<classes>
 				<memberOf key="att.docStatus" mode="add"/>
 			</classes>
+			<content>
+				<rng:choice>
+					<!--   Ordentlicher Eintrag   -->
+					<rng:group>
+						<rng:ref name="teiHeader"/>
+						<rng:choice>
+							<rng:group>
+								<rng:oneOrMore>
+									<rng:ref name="model.resource"/>
+								</rng:oneOrMore>
+								<rng:optional>
+									<rng:ref name="text"/>
+								</rng:optional>
+							</rng:group>
+							<rng:ref name="text"/>
+						</rng:choice>
+					</rng:group>
+					<!--  Dubletten  -->
+					<rng:element name="ref">
+						<rng:attribute name="type">
+							<rng:value>duplicate</rng:value>
+						</rng:attribute>
+						<rng:attribute name="target">
+							<alternate>
+								<dataRef key="hendi.writings.pointer"/>
+								<dataRef key="hendi.letters.pointer"/>
+								<dataRef key="hendi.documents.pointer"/>
+							</alternate>
+						</rng:attribute>
+						<rng:empty/>
+					</rng:element>
+				</rng:choice>
+			</content>
 			<attList>
 				<attDef ident="source" mode="replace" usage="req">
 					<valList type="closed" mode="change">
