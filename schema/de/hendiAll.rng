@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-04-25T08:25:54Z. .
+Schema generated from ODD source 2023-05-10T08:03:25Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for the superset schema at Henze-Digital 
@@ -9041,15 +9041,39 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       <element name="TEI">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(TEI-Dokument) enthält ein einzelnes TEI-konformes Dokument, das aus einem einzigen TEI-Header und einem oder mehreren Mitgliedern der model.resource-Klasse besteht. Mehrere <code xmlns="http://www.w3.org/1999/xhtml">&lt;TEI&gt;</code>-Elemente können in einem <code xmlns="http://www.w3.org/1999/xhtml">&lt;teiCorpus&gt;</code>-Element zusammengefasst werden. [4. Default Text Structure 15.1. Varieties of Composite Text]</a:documentation>
          <choice>
-            <ref name="ref"/>
             <group>
-               <optional>
-                  <ref name="teiHeader"/>
-               </optional>
-               <zeroOrMore>
-                  <ref name="model.resource"/>
-               </zeroOrMore>
+               <ref name="teiHeader"/>
+               <choice>
+                  <group>
+                     <oneOrMore>
+                        <ref name="model.resource"/>
+                     </oneOrMore>
+                     <optional>
+                        <ref name="text"/>
+                     </optional>
+                  </group>
+                  <ref name="text"/>
+               </choice>
             </group>
+            <element name="ref">
+               <attribute name="type">
+                  <value>duplicate</value>
+               </attribute>
+               <attribute name="target">
+                  <choice>
+                     <data type="string">
+                        <param name="pattern">A03[0-9A-F]{5}</param>
+                     </data>
+                     <data type="string">
+                        <param name="pattern">A04[0-9A-F]{5}</param>
+                     </data>
+                     <data type="string">
+                        <param name="pattern">A10[0-9A-F]{5}</param>
+                     </data>
+                  </choice>
+               </attribute>
+               <empty/>
+            </element>
          </choice>
          <sch:ns xmlns="http://www.tei-c.org/ns/1.0"
                  xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"

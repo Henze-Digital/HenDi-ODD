@@ -19703,7 +19703,15 @@ may be empty.</p>
     mehreren Mitgliedern der <ident type="class">model.resource</ident>-Klasse besteht. Mehrere
     <gi>TEI</gi>-Elemente können in einem <gi>teiCorpus</gi>-Element zusammengefasst werden.</desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-02-06" xml:lang="es">contiene un solo documento conforme a la norma TEI, combinando una sola cabecera TEI (teiHeader) con uno o más miembros de la clase <ident type="class">model.resource</ident>. Múltiples elementos TEI se pueden combinar para formar un elemento <gi>teiCorpus</gi>.
    </desc><desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">contiene un documento TEI-conforme, comprendente un'intestazione e un testo, sia esso isolato o parte di un elemento <gi>teiCorpus</gi>
-   </desc><classes><memberOf xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="att.docStatus" mode="add"/></classes><content><alternate minOccurs="1" maxOccurs="1"><elementRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="ref"/><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="teiHeader" minOccurs="0"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.resource" minOccurs="0" maxOccurs="unbounded"/></sequence></alternate></content><constraintSpec xmlns:teix="http://www.tei-c.org/ns/Examples" ident="c1" scheme="schematron">
+   </desc><classes><memberOf xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" key="att.docStatus" mode="add"/></classes><content><choice xmlns="http://relaxng.org/ns/structure/1.0"><group><ref name="teiHeader"/><choice><group><oneOrMore><ref name="model.resource"/></oneOrMore><optional><ref name="text"/></optional></group><ref name="text"/></choice></group><rng:element xmlns="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" name="ref">
+						<rng:attribute name="type">
+							<rng:value>duplicate</rng:value>
+						</rng:attribute>
+						<rng:attribute name="target">
+							<alternate minOccurs="1" maxOccurs="1"><dataRef key="hendi.writings.pointer"/><dataRef key="hendi.letters.pointer"/><dataRef key="hendi.documents.pointer"/></alternate>
+						</rng:attribute>
+						<rng:empty/>
+					</rng:element></choice></content><constraintSpec xmlns:teix="http://www.tei-c.org/ns/Examples" ident="c1" scheme="schematron">
     <constraint>
       <sch:ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
       <sch:ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
