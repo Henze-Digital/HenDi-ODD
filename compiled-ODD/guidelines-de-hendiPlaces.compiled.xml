@@ -3489,6 +3489,13 @@ resource, either within the current document or elsewhere.</desc>
     					<sch:report test="@type='translation' and not(@xml:lang)">The language must be defined with @xml:lang.</sch:report>
     				</sch:rule>
     			</constraint>
+    		</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="restriction-notes-corresp" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:note[parent::tei:notesStmt]">
+    					<sch:report test="@type='restriction' and not(@corresp)" role="fatal">A note that contains a restriction must be liked to the original using @corresp.</sch:report>
+    					<sch:report test="@type='restriction' and not(@xml:lang)">The language must be defined with @xml:lang.</sch:report>
+    				</sch:rule>
+    			</constraint>
     		</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="note-in-text" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[not(parent::tei:org or parent::tei:place or parent::tei:person or parent::tei:notesStmt or parent::tei:biblStruct or parent::tei:imprint or @type=('addInfo','comment'))]">
@@ -3499,7 +3506,7 @@ resource, either within the current document or elsewhere.</desc>
     		</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="notesStmt-notes" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[parent::tei:notesStmt]">
-    					<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom' or 'translation' are allowed for @type on note.</sch:assert>
+    					<sch:assert test="@type=('editorial', 'summary', 'thematicCom', 'incipit', 'textConst', 'translation', 'restriction')">Within the notesStmt only 'editorial', 'summary', 'textConst', 'thematicCom', 'translation' or 'restriction' are allowed for @type on note.</sch:assert>
     				</sch:rule>
     			</constraint>
     		</constraintSpec><constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:tei="http://www.tei-c.org/ns/1.0" scheme="schematron" ident="text-notes" mode="replace">
@@ -3582,6 +3589,12 @@ resource, either within the current document or elsewhere.</desc>
     						<desc versionDate="2022-09-16" xml:lang="en">Translation of a specific element content . Linking with <att>corresp</att> is required.</desc>
     						<gloss versionDate="2022-09-16" xml:lang="de">Übersetzung</gloss>
     						<desc versionDate="2022-09-16" xml:lang="de">Übersetzung des Inhalts eines spezifischen Dokuments. Verlinkung mit <att>corresp</att> zwingend.</desc>
+    					</valItem>
+    					<valItem ident="restriction">
+    						<gloss versionDate="2022-09-16" xml:lang="en">restriction</gloss>
+    						<desc versionDate="2022-09-16" xml:lang="en">A passage that is resticted by law</desc>
+    						<gloss versionDate="2022-09-16" xml:lang="de">Gesperrt</gloss>
+    						<desc versionDate="2022-09-16" xml:lang="de">Rechtlich gesperrter Abschnitt</desc>
     					</valItem>
     					
     				</valList>
