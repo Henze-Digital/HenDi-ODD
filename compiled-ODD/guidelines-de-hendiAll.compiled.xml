@@ -22731,7 +22731,13 @@ should be supplied for the <att>scheme</att> attribute.</p>
     						</sch:rule>
     					</constraint>
     				</constraintSpec>
-    			    
+    				<constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="restriction-note-ref" mode="add">
+    					<constraint>
+    						<sch:rule context="tei:note[@type='restriction' and @corresp]">
+    							<sch:assert test="id(substring(@corresp,2))">There must be an element with the xml:id = "<sch:value-of select="substring(@corresp,2)"/>" which is the target of this @corresp.</sch:assert>
+    						</sch:rule>
+    					</constraint>
+    				</constraintSpec>
     			</attDef><attDef ident="xml:lang" usage="rec">
     		        <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2022-01-17" xml:lang="en">The language used in the following sibling.</desc>
     		        <desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2022-01-17" xml:lang="de">Die im Foglenden genutzte Sprache.</desc>
@@ -23176,6 +23182,15 @@ psychological significance.
         </classSpec><classSpec rend="add" type="atts" ident="att.hendi.restrict" mode="add" module="hendi.core.module">
     		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-05-23" xml:lang="en">provides attributes for restiction.</desc>
     		<desc xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-05-23" xml:lang="de">Stellt Attribute zur Einschränklung bereit.</desc>
+    		<constraintSpec xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="check-restriction-id-pattern" mode="add">
+    			<desc versionDate="2023-06-07" xml:lang="en">Checks for illegal pattern of IDs if an element is marked as restricted</desc>
+    			<desc versionDate="2023-06-07" xml:lang="de">Überprüft auf illegale ID-pattern, wenn ein Element als gesperrt markiert ist.</desc>
+    		<constraint>
+    			<sch:rule context="tei:*[@restrict]">
+    				<sch:assert test="matches(@xml:id, 'rest\.[0-9]{1,3}')">The ID of a restricted element must be 'rest\.[0-9]{1,3}'.</sch:assert>
+    			</sch:rule>
+    		</constraint>
+    		</constraintSpec>
     		<attList xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:s="http://www.ascc.net/xml/schematron">
     			<attDef ident="restrict" mode="add" usage="opt">
     				<gloss versionDate="2023-05-23" xml:lang="en">restiction</gloss>
@@ -23368,7 +23383,7 @@ psychological significance.
                         <xsl:value-of select="$check"/>
                     </xsl:function>
                     <sch:pattern id="idCheckDigit">
-                        <sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe"> 
+                    	<sch:rule context="@key | @xml:id[not(parent::tei:layout) and not(parent::tei:handNote) and not(parent::tei:foreign) and not(parent::tei:div) and not(parent::tei:p) and not(parent::tei:seg)] | @sameAs | @codedval[not(parent::mei:language)] | tei:ref[@type='deletion' or @type='duplicate']/@target | @scribe"> 
                             <sch:assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <sch:value-of select="."/>. Computed check digit is <sch:value-of select="hendi-xsl:compute-check-digit(.)"/>.</sch:assert>
                         </sch:rule>
                     </sch:pattern>
