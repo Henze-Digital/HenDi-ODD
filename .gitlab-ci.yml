@@ -60,17 +60,12 @@ stages:
       - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
 
 .compile-target:
-  before_script:
-    - !reference [.git_setup, script]
   script:
+    - !reference [.git_setup, script]
     - ant ${CI_JOB_NAME}
-  artifacts:
-    name: "$CI_JOB_NAME"
-    paths:
-      - hendi-odd/${CI_JOB_NAME}-latest.xar
-  after_script:
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./hendi-odd/${CI_JOB_NAME}-latest.xar "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hendi-odd/latest/${CI_JOB_NAME}-latest.xar"'
     - !reference [.git_commit, script]
+  #after_script:
+  #  - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./hendi-odd/${CI_JOB_NAME}-latest.xar "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hendi-odd/latest/${CI_JOB_NAME}-latest.xar"'
   rules:
     - !reference [.default_rules, rules]
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
