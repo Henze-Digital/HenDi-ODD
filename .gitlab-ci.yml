@@ -11,6 +11,7 @@ default:
   image: $HENDI_CI_DOCKER_IMAGE
   
 stages:
+  - delete
   - compile-00
   - compile-01
   - compile-02
@@ -69,6 +70,8 @@ stages:
   rules:
     - !reference [.default_rules, rules]
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $DELETE_ARTIFACTS == "true"
       when: never
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
       when: never
@@ -154,4 +157,15 @@ trigger-update-submodules:
       when: never
     - if: $CI_COMMIT_REF_NAME =~ "/^feature/"
       when: never
+    - if: $DELETE_ARTIFACTS == "true"
+      when: never
     - when: always
+
+delete:articats:
+  stage: delete
+  image: curlimages/curl
+  script: 'curl --request DELETE --header "JOB-TOKEN: $CI_JOB_TOKEN" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/artifacts"'
+  rules:
+    - if: $DELETE_ARTIFACTS == "true"
+      when: always
+    - when: never
