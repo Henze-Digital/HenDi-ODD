@@ -269,19 +269,36 @@
 				</sourceDesc>
 			</egXML>
 		</div>
-		<div xml:id="DT-writings">
+		<!--<div xml:id="DT-writings">
 			<head>Schriften</head>
 			<p>Nicht alles, was ein Autor/Komponist erschaffen hat, ist auch als Werk zu klassifizieren. Um jedoch die schriftlichen, nicht musikalischen Hinterlassenschaften von den übrigen erfassten Texten abzuheben, wird der Dokumenttyp Schriften verwendet. Im Falle von Texten mit literarischer Qualität sind diese als Werke erfasst. Sekundärliteratur, ist unter den Bibliographika verzeichnet.</p>
 			<p>In dieser Kategorie sind alle schriftlichen Erzeugnisse erfasst, die der vorangegangenen Beschreibung entsprechen.<note resp="DR" place="bottom">Es werden Schriften verschiedener Autoren erfasst, sofern sie in Zusammenhang mit der Edition stehen.</note></p>
+		</div>-->
+		<div xml:id="DT-translations">
+			<head>Übersetzungen</head>
+			<p>Übersetzungen von postalischen Dokumenten werden angefertigt, wenn die Dokumente in einer anderen Sprache als deutsch oder englisch vorliegen. Bisher betrifft dies vor allem Dokumente in spanischer oder französischer Sprache. Die Übersetzungen werden mit demselben Schema erfasst wie das Originaldokuemnt, sie erhalten aber nur minimale Metadaten, in denen vor allem auf das Original-Dokument verwiesen wird.</p>
+			<p>
+				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A140065B">
+					<sourceDesc>
+						<msDesc>
+							<msIdentifier>
+								<repository>Henze-Digital</repository>
+							</msIdentifier>
+						</msDesc>
+						<listRelation>
+							<relation key="A04037E7" name="isTranslation"/>
+						</listRelation>
+					</sourceDesc>
+				</egXML>
+			</p>
+			<p>In den Übersetzungen werden lediglich Personen, Institutionen und Orte ausgezeichnet. Anmerkungen zur Textkonstitution und Zeilenkommentare bleiben dem Original vorbehalten.</p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
 		<head>Dokumenttypen II (Katalogdatensätze)</head>
 		<p>Ergänzt werden die Datensätze zu den Primärdokumenten durch katalogartig geführte <q>Referenzdatensätze</q> wie Personen, musikalische und literarische Werke, Institutionen, Orte, Bibliographika, sowie Ereignisse<note resp="DR" place="bottom">Dieser Datentyp befindet sich derzeit im Aufbau.</note>. Die Datensätze, die musikalische Werke und ihre Quellen verzeichnen, sind im Gegensatz zu den restlichen Datensätzen mit dem MEI-Standard codiert.</p>
-		<div xml:id="DT-secondary-general">
-			<head>Verknüpfung mit Normdaten</head>
+<!--			<head>Verknüpfung mit Normdaten</head>-->
 			<p>Zahlreiche Objekte, die im Kontext von Henze-Digital in Erscheinung treten sind in Normdatenbanken wie der <ref target="https://web.archive.org/web/20230213071234/https://www.dnb.de/DE/Professionell/Standardisierung/GND/gnd_node.html">GND</ref>, <ref target="https://www.geonames.org/">geonames</ref> oder <ref target="https://viaf.org/">VIAF</ref> verzeichnet. Je nach Dokumenttyp wird eine geeignete Datenbank für Verweise verwendet. Es findet keine direkte Verlinkung statt! Die Datensätze von Henze-Digital werden mittels der Identifikatoren der entsprechenden Normdatenbanken z.B. mit <gi>idno</gi> (für TEI) zugeordnet.</p>
-		</div>
 		<div xml:id="DT-persons">
 			<head>Personen</head>
 			<p>Personen-Datensätze enthalten innerhalb des Root-Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. <q>von</q> <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen erfasst werden <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches beispielsweise Angaben zu Taufnamen oder Namensänderungen durch Heirat usw. beschreibt: <tag>persName type="alt" subtype="married"</tag>.</p>
@@ -309,9 +326,72 @@
 				</person></egXML>
 			</p>
 		</div>
-		<div xml:id="DT-characters">
-			<head>Rollen und Charaktere</head>
-			<p>Erwähnte Rollen aus dramatischen Werken oder Charakteren in Prosawerken oder Lyrik werden im Brieftext ausgezeichnet – <tag>name type="role"</tag> bzw. <tag>name type="character"</tag> – ein Register für diese Namen ist jedoch noch in Diskussion.</p>
+		<div xml:id="DT-works">
+			<head>Werke</head>
+			<p>Dieser Datentyp ist äußerst komplex, da musikalische und literarische Werke auf unterschiedliche Weisen erfasst werden müssen. Für die musikalischen Werke finden die Kodierungsempfehlungen der Music Encoding Initiative (<ref target="https://music-encoding.org/">MEI</ref>) Anwendung; für literarische Werke die der Text Encoding Initiative (<ref target="https://tei-c.org/">TEI</ref>). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen. Beide Werkgruppen sind noch im Aufbau und werden im Laufe des Projektes weiter differenziert.</p>
+			
+			<div xml:id="DT-works-musical">
+				<head>Musikalische Werke (MEI)</head>
+				<p>Bei den musikalischen Werken wird in der Erfassungstiefe zwischen den Werken Hans Werner Henzes und denen anderer Komponisten unterschieden. 
+					Allen gemeinsam ist die Angabe von Titel, Komponist ggf. weiterer beteiligter Personen und Entstehungsjahr und/oder Uraufführungsdatum. Wenn vorhanden wird ein Verweis auf Normdaten ergänzt.
+				</p>
+				<!--<egXML xmlns="http://www.music-encoding.org/ns/Examples" source="A0201197">
+					<worklist>
+						<work>
+						<title>
+							<titlePart type="main">Die Zauberflöte KV 620</titlePart>
+							<titlePart type="d^esc">Oper</titlePart>
+						</title>
+						<composer>
+							<persName codedval="A001023D">Mozart, Wolfgang Amadeus</persName>
+						</composer>
+						<librettist>
+							<persName>Schikaneder, Emanuel</persName>
+						</librettist>
+						<creation>
+							<date isodate="1791">Uraufführung: Freihaustheater Wien 1791</date>
+						</creation>
+					</work>
+					</worklist>
+				</egXML>-->
+				<p>Die den Werken von Hans Werner Henze werden darüber hinaus Angaben zur Besetzung, zu Auffühurngen, zu Versionen erfasst. Diese Dateien befinden sich im Aufbau.</p>
+				
+			</div>
+			<div xml:id="DT-works-literary">
+				<head>Literarische Werke (TEI)</head>
+				<p>Die literarischen Werke, hierbei ist es unerheblich von wem das Werk stammt, werden als TEI-Dokumente erfasst. Auch wenn hierfür zunächst nur der <gi>teiHeader</gi>, also die Metadaten relevant sind, so besteht die Möglichkeit später den Inhalte des verzeichneten Werkes hinzuzufügen.</p>
+				<p>Verzeichnet werden die Werke mittels eines <gi>biblStruct</gi> Elements. Auf Grund der starken Restriktion dieses Elementes, z. B. die starke Fixierung auf eine Publikation, die u. a. für Theaterstücke nicht günstig ist, werden die Erfassungsmöglichkeiten im Laufe des Projektes noch erweitert. <!-- was heißt das? -->
+					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
+						<biblStruct type="book">
+							<monogr>
+								<title>Les amitiés particulières</title>
+								<title xml:lang="de">Heimliche Freundschaften</title>
+								<author key="A0010785">Peyrefitte, Roger</author>
+								<imprint>
+									<date when="1944">1944</date>
+									<pubPlace/>
+									<publisher/>
+								</imprint>
+							</monogr>
+						</biblStruct>
+					</egXML> Im vorangegangenen Beispiel wurde zusätzlich ein übersetzter Titel angegeben. Im Rahmen des Projektes Henze-Digital wird <att>xml:lang</att> hier nicht verwendet, um die Sprache, in welcher der Titel angegeben wird, im allgemeinen zu definieren. Der erste Titel ist stets als originär zu betrachten und lediglich die u. U. folgenden Titel bedürfen das <att>xml:lang</att> Attribut, um anzugeben in welche Sprache der originäre Titel übersetzt wurde.</p>
+				<p>Die Sprache(n), in der/denen das Werk selbst verfasst ist, werden über die <gi>langUsage</gi> angegeben.<!-- IC: Ist diese Trennung der Angabe der Sprache für Titel und für den Text des Werkes wichtig? -->
+					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
+						<langUsage>
+							<language ident="fr"/>
+						</langUsage>
+					</egXML>
+				</p>
+				<p>Es kommt immer wieder vor, dass Texte übersetzt werden. Da Übersetzungen auch in mehrere Sprachen angefertigt werden können, ist es überaus wichtig neben den Übersetzern auch die Sprache zu erfassen, in die der Text übersetzt wurde. Dies geschieht über das Attribut <att>label</att>, das den im Projekt verwendeten Sprachcode enthält. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A02014EA">
+					<monogr>
+						<title level="m">The Rise and Fall of the City of Mahagonny</title>
+						<author key="A00110DF">Brecht, Bertolt</author>
+						<editor role="trl" label="en" key="A00006DC">Wystan Hugh Auden </editor>
+						<editor role="trl" label="en" key="A0005702">Chester Kallman</editor>
+					</monogr>
+				</egXML>
+				</p>
+			</div>
 		</div>
 		<div xml:id="DT-places">
 			<head>Orte</head>
@@ -360,6 +440,10 @@
 				<!-- or -->
 				<link type="sameas" target="#{OrgId}"/>
 			</egXML></p>
+		</div>
+		<div xml:id="DT-characters">
+			<head>Rollen und Charaktere</head>
+			<p>Erwähnte Rollen aus dramatischen Werken oder Charakteren in Prosawerken oder Lyrik werden im Brieftext ausgezeichnet – <tag>name type="role"</tag> bzw. <tag>name type="character"</tag> – ein Register für diese Namen ist jedoch noch in Diskussion.</p>
 		</div>
 		<div xml:id="DT-biblio">
 			<head>Literatur</head>
@@ -430,97 +514,11 @@
 				</egXML>
 			</p>
 		</div>
-		<div xml:id="DT-works">
-			<head>Werke</head>
-			<p>Dieser Datentyp ist äußerst komplex, da musikalische und literarische Werke auf unterschiedliche Weisen erfasst werden müssen. Für die musikalischen Werke finden die Kodierungsempfehlungen der Music Encoding Initiative (<ref target="https://music-encoding.org/">MEI</ref>) Anwendung; für literarische Werke die der Text Encoding Initiative (<ref target="https://tei-c.org/">TEI</ref>). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen. Beide Werkgruppen sind noch im Aufbau und werden im Laufe des Projektes weiter differenziert.</p>
-			
-			<div xml:id="DT-works-musical">
-				<head>Musikalische Werke (MEI)</head>
-				<p>Bei den musikalischen Werken wird in der Erfassungstiefe zwischen den Werken Hans Werner Henzes und denen anderer Komponisten unterschieden. 
-				Allen gemeinsam ist die Angabe von Titel, Komponist ggf. weiterer beteiligter Personen und Entstehungsjahr und/oder Uraufführungsdatum. Wenn vorhanden wird ein Verweis auf Normdaten ergänzt.
-				</p>
-				<!--<egXML xmlns="http://www.music-encoding.org/ns/Examples" source="A0201197">
-					<worklist>
-						<work>
-						<title>
-							<titlePart type="main">Die Zauberflöte KV 620</titlePart>
-							<titlePart type="d^esc">Oper</titlePart>
-						</title>
-						<composer>
-							<persName codedval="A001023D">Mozart, Wolfgang Amadeus</persName>
-						</composer>
-						<librettist>
-							<persName>Schikaneder, Emanuel</persName>
-						</librettist>
-						<creation>
-							<date isodate="1791">Uraufführung: Freihaustheater Wien 1791</date>
-						</creation>
-					</work>
-					</worklist>
-				</egXML>-->
-				<p>Die den Werken von Hans Werner Henze werden darüber hinaus Angaben zur Besetzung, zu Auffühurngen, zu Versionen erfasst. Diese Dateien befinden sich im Aufbau.</p>
-				
-			</div>
-			<div xml:id="DT-works-literary">
-				<head>Literarische Werke (TEI)</head>
-				<p>Die literarischen Werke, hierbei ist es unerheblich von wem das Werk stammt, werden als TEI-Dokumente erfasst. Auch wenn hierfür zunächst nur der <gi>teiHeader</gi>, also die Metadaten relevant sind, so besteht die Möglichkeit später den Inhalte des verzeichneten Werkes hinzuzufügen.</p>
-				<p>Verzeichnet werden die Werke mittels eines <gi>biblStruct</gi> Elements. Auf Grund der starken Restriktion dieses Elementes, z. B. die starke Fixierung auf eine Publikation, die u. a. für Theaterstücke nicht günstig ist, werden die Erfassungsmöglichkeiten im Laufe des Projektes noch erweitert. <!-- was heißt das? -->
-					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
-						<biblStruct type="book">
-							<monogr>
-								<title>Les amitiés particulières</title>
-								<title xml:lang="de">Heimliche Freundschaften</title>
-								<author key="A0010785">Peyrefitte, Roger</author>
-								<imprint>
-									<date when="1944">1944</date>
-									<pubPlace/>
-									<publisher/>
-								</imprint>
-							</monogr>
-						</biblStruct>
-					</egXML> Im vorangegangenen Beispiel wurde zusätzlich ein übersetzter Titel angegeben. Im Rahmen des Projektes Henze-Digital wird <att>xml:lang</att> hier nicht verwendet, um die Sprache, in welcher der Titel angegeben wird, im allgemeinen zu definieren. Der erste Titel ist stets als originär zu betrachten und lediglich die u. U. folgenden Titel bedürfen das <att>xml:lang</att> Attribut, um anzugeben in welche Sprache der originäre Titel übersetzt wurde.</p>
-				<p>Die Sprache(n), in der/denen das Werk selbst verfasst ist, werden über die <gi>langUsage</gi> angegeben.<!-- IC: Ist diese Trennung der Angabe der Sprache für Titel und für den Text des Werkes wichtig? -->
-					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
-						<langUsage>
-							<language ident="fr"/>
-						</langUsage>
-					</egXML>
-				</p>
-				<p>Es kommt immer wieder vor, dass Texte übersetzt werden. Da Übersetzungen auch in mehrere Sprachen angefertigt werden können, ist es überaus wichtig neben den Übersetzern auch die Sprache zu erfassen, in die der Text übersetzt wurde. Dies geschieht über das Attribut <att>label</att>, das den im Projekt verwendeten Sprachcode enthält. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A02014EA">
-					<monogr>
-						<title level="m">The Rise and Fall of the City of Mahagonny</title>
-						<author key="A00110DF">Brecht, Bertolt</author>
-						<editor role="trl" label="en" key="A00006DC">Wystan Hugh Auden </editor>
-						<editor role="trl" label="en" key="A0005702">Chester Kallman</editor>
-					</monogr>
-				</egXML>
-				</p>
-			</div>
-		</div>
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
 			<p>Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</p>
 		</div>
-		<div xml:id="DT-translations">
-			<head>Übersetzungen</head>
-			<p>Übersetzungen von postalischen Dokumenten werden angefertigt, wenn die Dokumente in einer anderen Sprache als deutsch oder englisch vorliegen. Bisher betrifft dies vor allem Dokumente in spanischer oder französischer Sprache. Die Übersetzungen werden mit demselben Schema erfasst wie das Originaldokuemnt, sie erhalten aber nur minimale Metadaten, in denen vor allem auf das Original-Dokument verwiesen wird.</p>
-			<p>
-				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A140065B">
-					<sourceDesc>
-						<msDesc>
-							<msIdentifier>
-								<repository>Henze-Digital</repository>
-							</msIdentifier>
-						</msDesc>
-						<listRelation>
-							<relation key="A04037E7" name="isTranslation"/>
-						</listRelation>
-					</sourceDesc>
-				</egXML>
-			</p>
-			<p>In den Übersetzungen werden lediglich Personen, Institutionen und Orte ausgezeichnet. Anmerkungen zur Textkonstitution und Zeilenkommentare bleiben dem Original vorbehalten.</p>
 		</div>
-	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
 		<head>ID-Systematik</head>
 		<p>Im Projekt Henze-Digital sind die IDs nach einheitlichen Patterns organisisert. Jede ID beginnt mit einem Präfix, welches aus einem führenden 'A' und zwei Ziffern besteht. Darauf folgt eine vierstellige Hexadezimalzahl, bevor die ID mit einer ebenfalls Prüfziffer (ebenfalls hexadezimal) abschließt. Buchstaben in den IDs von Henze-Digital werden grundsätzlich großgeschrieben. Diese Struktur kann als regulärer Ausdruck dargestellt werden: A\d{2}[0-9A-F]{5}</p>
