@@ -305,8 +305,8 @@
 						<physDesc/>
 					</msDesc>
 					<listRelation>
-						<relation name="isEnclosure" key="{LetterId}"/>
-					</listRelation>ø
+						<relation name="isEnclosureOf" key="{LetterId}"/>
+					</listRelation>
 				</sourceDesc>
 			</egXML>
 		</div>
@@ -318,14 +318,15 @@
 	</div>
 	<div xml:id="sec-docTypes-catalogFiles" xml:lang="de">
 		<head>Dokumenttypen II (Katalogdatensätze)</head>
-		<p>Ergänzt werden die Datensätze zu den Primärdokumenten durch katalogartig geführte <q>Registereinträge</q> wie Personen, musikalische und literarische Werke, Institutionen, Orte, Bibliographika, sowie Ereignisse<note resp="DR" place="bottom">Dieser Datentyp befindet sich derzeit im Aufbau.</note>. Die Datensätze, die musikalische Werke und ihre Quellen verzeichnen, sind im Gegensatz zu den restlichen Datensätzen mit dem MEI-Standard codiert.</p>
+		<p>Ergänzt werden die Datensätze zu den Primärdokumenten durch katalogartig geführte <q>Referenzdatensätze</q> wie Personen, musikalische und literarische Werke, Institutionen, Orte, Bibliographika, sowie Ereignisse<note resp="DR" place="bottom">Dieser Datentyp befindet sich derzeit im Aufbau.</note>. Die Datensätze, die musikalische Werke und ihre Quellen verzeichnen, sind im Gegensatz zu den restlichen Datensätzen mit dem MEI-Standard codiert.</p>
 		<div xml:id="DT-secondary-general">
 			<head>Verknüpfung mit Normdaten</head>
 			<p>Zahlreiche Objekte, die im Kontext von Henze-Digital in Erscheinung treten sind in Normdatenbanken wie der <ref target="https://web.archive.org/web/20230213071234/https://www.dnb.de/DE/Professionell/Standardisierung/GND/gnd_node.html">GND</ref>, <ref target="https://www.geonames.org/">geonames</ref> oder <ref target="https://viaf.org/">VIAF</ref> verzeichnet. Je nach Dokumenttyp wird eine geeignete Datenbank für Verweise verwendet. Es findet keine direkte Verlinkung statt! Die Datensätze von Henze-Digital werden mittels der Identifikatoren der entsprechenden Normdatenbanken z.B. mit <gi>idno</gi> (für TEI) zugeordnet.</p>
 		</div>
 		<div xml:id="DT-persons">
 			<head>Personen</head>
-			<p>Personen-Datensätze enthalten innerhalb des Root-Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. <q>von</q> <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen erfasst werden <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches beispielsweise Angaben zu Taufnamen oder Namensänderungen durch Heirat usw. beschreibt: <tag>persName type="alt" subtype="married"</tag>. Weitere Bestandteile von Personendokumenten sind Geburtsdaten: <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001000A">
+			<p>Personen-Datensätze enthalten innerhalb des Root-Elements <gi>person</gi> die grundlegenden Angaben zur jeweiligen Person: Familienname <gi>surname</gi>, Vorname <gi>forename</gi> und ggf. Namenszusätze wie z. B. <q>von</q> <gi>nameLink</gi> sowie <gi>roleName</gi>. Dabei gibt es eine reguläre Ansetzungform <tag>persName type="reg"</tag>, es können aber auch Alternativnamen erfasst werden <tag>persName type="alt"</tag>, näher spezifiziert durch das Attribut <att>subtype</att>, welches beispielsweise Angaben zu Taufnamen oder Namensänderungen durch Heirat usw. beschreibt: <tag>persName type="alt" subtype="married"</tag>.</p>
+			<p>Weitere Bestandteile von Personendokumenten sind Geburtsdaten <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001000A">
 				<birth>
 					<date when="1926-07-01"/>
 					<settlement key="A13014E4">Gütersloh</settlement>
@@ -337,9 +338,9 @@
 					<date when="2012-10-27"/>
 					<settlement>Dresden</settlement>
 				</death>
-			</egXML> sowie Angaben zu Geschlecht <gi>sex</gi>, zu Beruf <gi>occupation</gi> und zu Wohnorten <gi>residence</gi>. Durch den Bezug zu den Normdaten und die Anzeige dieser in der HenDi-WebApp werden für Personen nur diese Rahmendaten erfasst. Darüber hinaus werden in den Personendatensätzen nur Informationen erfasst, die im Rahmen von Henze-Digital wünschenswert/notwendig sind, sich aber nicht aus den Normdaten herleiten lassen oder von diesen abweichen. Diese Informationen werden in einer <tag>note type="bioSummary"</tag> erfasst.</p>
+			</egXML> sowie Angaben zu Geschlecht <gi>sex</gi>, zu Beruf <gi>occupation</gi> und ggf. zu Wohnorten <gi>residence</gi>. Auf Grund der Verknüpfung mit den Normdaten und die Anzeige dieser (und weiterer durch diese Angabe bereit gestellter Dokumente) in der HenDi-WebApp werden für Personen nur diese Rahmendaten erfasst. Zusätzliche Informationen werden in den Personendatensätzen nur erfasst, wenn sie im Rahmen von Henze-Digital wünschenswert/notwendig sind, da sich diese nicht aus den Normdaten herleiten lassen, keine Normdaten existieren oder sie von diesen abweichen. Diese Informationen werden in einer <tag>note type="bioSummary"</tag> erfasst.</p>
 			<p>Ist eine Person innerhalb einer Organisation tätig oder tätig gewesen, so wird diese Beziehung mit <gi>affiliation</gi> angegeben. <tag>affiliation key="{OrgId}"</tag>. Handelt es sich um eine zeitlich begrenzte Tätigkeit, deren Dauer für die Edition relevant ist, so kann dieser Zeitraum mit den Attributen <att>from</att> und <att>to</att> angegeben werden.</p><!-- Haben wir dies gemacht? -->
-			<p>Bei biblischen und mythologischen Personen wird der Datensatz verschlankt auf die Angabe des Namens innerhalb des Elements <gi>persName</gi>. Die Auszeichnung innerhalb der Briefe klassifiziert diese als biblische oder mythologische Figur. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001148F"><!-- Achtung: note ohne type gibt es nicht -->
+			<p>Bei biblischen und mythologischen Personen wird der Datensatz verschlankt auf die Angabe des Namens innerhalb des Elements <gi>persName</gi>. Die Auszeichnung innerhalb der Briefe<!-- Link? --> klassifiziert diese als biblische oder mythologische Figur. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A001148F"><!-- Achtung: note ohne type gibt es nicht -->
 				<person>
 					<persName>Orpheus</persName>
 					<occupation>Sänger</occupation>
@@ -351,14 +352,14 @@
 		</div>
 		<div xml:id="DT-characters">
 			<head>Rollen und Charaktere</head>
-			<p>[...]<note resp="DR" place="bottom">Dieser Datentyp wird derzeit noch diskutiert.</note></p>
+			<p>Erwähnte Rollen aus dramatischen Werken oder Charakteren in Prosawerken oder Lyrik werden im Brieftext ausgezeichnet – <tag>name type="role"</tag> bzw. <tag>name type="character"</tag> – ein Register für diese Namen ist jedoch noch in Diskussion.</p>
 		</div>
 		<div xml:id="DT-places">
 			<head>Orte</head>
-			<p>Referenzdatensätze zu Orten werden stets einzeln erfasst. Es ist hierbei nicht von Belang, ob es sich um ein Land, eine Stadt, eine Adresse oder ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert. Als Normdatenbank ist primär <ref target="https://www.geonames.org/">GeoNames</ref> zu verwenden. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
+			<p>Referenzdatensätze zu Orten werden einzeln angelegt, dabei ist es nicht von Belang, ob es sich um ein Land, eine Stadt oder z. B. ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert.<!-- Adresse habe ich hier rausgenommen --> Als Normdatenbank wird primär <ref target="https://www.geonames.org/">GeoNames</ref> verwendet. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
 			<p>Das Datenmodell für Orte ist von einfacher Struktur.</p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A13025E2">
-				<place xml:id="A13025E2" status="proposed" source="HenDi">
+				<place xml:id="A13025E2" source="HenDi">
 					<idno type="geonames">5128581</idno>
 					<placeName type="reg">New York</placeName>
 					<placeName type="alt">New York City</placeName>
@@ -366,7 +367,7 @@
 			</egXML>
 			<p>Für den Fall, dass ein Ort nicht in der <ref target="https://www.geonames.org/">GeoNames</ref>-Datenbank verfügbar ist, können ggf. die Koordinaten ermittelt und im Datensatz nach folgendem Schema hinterlegt.</p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A130109C">
-				<place xml:id="A130109C" status="candidate" source="HenDi">
+				<place xml:id="A130109C" source="HenDi">
 					<placeName type="reg">Falkenmühle</placeName>
 					<location>
 						<geo>49.0957712 7.8051705</geo>
@@ -377,16 +378,24 @@
 		</div>
 		<div xml:id="DT-orgs">
 			<head>Organisationen/Institutionen</head>
-			<p>Bei Referenzsdatensätzen zu Organisationen werden derzeit nur Name und Ort erfasst.<note resp="DR" place="bottom">Dieser Datentyp befinden sich derzeit im Aufbau.</note></p>
-			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0800626">
-				<org xml:id="A0800626" source="HWH">
-					<idno type="gnd">2028455-X</idno>
-					<orgName type="reg">Bonn. Kulturamt</orgName>
-					<orgName type="alt">Kulturamt der Stadt Bonn</orgName>
-					<settlement key="A13007FD">Bonn</settlement>
+			<p>Bei Referenzsdatensätzen zu Organisationen werden neben den Normdaten derzeit nur Name und Ort erfasst. Der <q>Typ</q> der Orgnaisation, z. B. Verlag, Theater, Rundfunkanstalt, wird in einem <gi>state</gi>-Element erfasst. Literaturangaben bzw. links sind in <gi>listBibl</gi> möglich.<note resp="DR" place="bottom">Dieser Datentyp befinden sich derzeit im Aufbau.</note></p>
+			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A08003E0">
+				<org xml:id="A08003E0" source="HenDi">
+					<idno type="gnd">2061014-2</idno>
+					<orgName type="reg">Bayerisches Staatstheater am Gärtnerplatz</orgName>
+					<settlement key="A130244A">München</settlement>
+					<country key="A1303E97">Deutschland</country>
+					<state type="orgType">
+						<desc>
+							<term>Theater</term>
+						</desc>
+					</state>
+					<listBibl>
+						<bibl>http://www.staatstheater-am-gaertnerplatz.de/public</bibl>
+					</listBibl>
 				</org>
 			</egXML>
-			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchischen Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensat erfolgt mittels <gi>link</gi>:
+			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchische Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensatz erfolgt mittels <gi>link</gi>:
 			<egXML xmlns="http://www.tei-c.org/ns/Examples">
 				<link type="isPartOf" target="#{OrgId}"/>
 				<!-- or -->
@@ -395,7 +404,7 @@
 		</div>
 		<div xml:id="DT-biblio">
 			<head>Literatur</head>
-			<p>Die Datensätze zu den Bibliographika enthalten bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
+			<p>Die Datensätze zu den Bibliographika bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct type="article" xml:id="A1100BF8" status="proposed" source="HenDi">
 					<analytic>
@@ -450,7 +459,7 @@
 						</monogr>
 					</biblStruct>
 				</egXML>
-				während die erfassten unselbstständigen Publikationen dann diesen zugeorndet werden.
+				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden.
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<analytic>
@@ -464,16 +473,39 @@
 		</div>
 		<div xml:id="DT-works">
 			<head>Werke</head>
-			<p>Dieser Datentyp ist äußerst komplex, da musikalische und literarische Werke auf unterschiedliche Weisen erfasst werden. Für die musikalischen Werke findet die Music Encoding Initiative (<ref target="https://music-encoding.org/">MEI</ref>) Anwendung; für literarische Werke die Text Encoding Initiative (<ref target="https://tei-c.org/">TEI</ref>). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen.</p>
-			<p>UNTERSCHEIDUNG: Henze-Werke, die ausführlicher und fremde Werke, die rudimentär beschrieben werden.</p>
+			<p>Dieser Datentyp ist äußerst komplex, da musikalische und literarische Werke auf unterschiedliche Weisen erfasst werden müssen. Für die musikalischen Werke finden die Kodierungsempfehlungen der Music Encoding Initiative (<ref target="https://music-encoding.org/">MEI</ref>) Anwendung; für literarische Werke die der Text Encoding Initiative (<ref target="https://tei-c.org/">TEI</ref>). Aus diesem Grund werden die beiden Untergruppen dieses Dokumententyps im Folgenden separat besprochen. Beide Werkgruppen sind noch im Aufbau und werden im Laufe des Projektes weiter differenziert.</p>
+			
 			<div xml:id="DT-works-musical">
 				<head>Musikalische Werke (MEI)</head>
-				<p>Angabe von Übersetzern...</p>
+				<p>Bei den musikalischen Werken wird in der Erfassungstiefe zwischen den Werken Hans Werner Henzes und denen anderer Komponisten unterschieden. 
+				Allen gemeinsam ist die Angabe von Titel, Komponist ggf. weiterer beteiligter Personen und Entstehungsjahr und/oder Uraufführungsdatum. Wenn vorhanden wird ein Verweis auf Normdaten ergänzt.
+				</p>
+				<!--<egXML xmlns="http://www.music-encoding.org/ns/Examples" source="A0201197">
+					<worklist>
+						<work>
+						<title>
+							<titlePart type="main">Die Zauberflöte KV 620</titlePart>
+							<titlePart type="d^esc">Oper</titlePart>
+						</title>
+						<composer>
+							<persName codedval="A001023D">Mozart, Wolfgang Amadeus</persName>
+						</composer>
+						<librettist>
+							<persName>Schikaneder, Emanuel</persName>
+						</librettist>
+						<creation>
+							<date isodate="1791">Uraufführung: Freihaustheater Wien 1791</date>
+						</creation>
+					</work>
+					</worklist>
+				</egXML>-->
+				<p>Die den Werken von Hans Werner Henze werden darüber hinaus Angaben zur Besetzung, zu Auffühurngen, zu Versionen erfasst. Diese Dateien befinden sich im Aufbau.</p>
+				
 			</div>
 			<div xml:id="DT-works-literary">
 				<head>Literarische Werke (TEI)</head>
 				<p>Die literarischen Werke, hierbei ist es unerheblich von wem das Werk stammt, werden als TEI-Dokumente erfasst. Auch wenn hierfür zunächst nur der <gi>teiHeader</gi>, also die Metadaten relevant sind, so besteht die Möglichkeit später den Inhalte des verzeichneten Werkes hinzuzufügen.</p>
-				<p>Verzeichnet werden die Werke mittels eines <gi>biblStruct</gi> Elements aufgrund der restriktiven Verwendung.<!-- was heißt das? -->
+				<p>Verzeichnet werden die Werke mittels eines <gi>biblStruct</gi> Elements. Auf Grund der starken Restriktion dieses Elementes, z. B. die starke Fixierung auf eine Publikation, die u. a. für Theaterstücke nicht günstig ist, werden die Erfassungsmöglichkeiten im Laufe des Projektes noch erweitert. <!-- was heißt das? -->
 					<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A0201319">
 						<biblStruct type="book">
 							<monogr>
@@ -508,13 +540,12 @@
 		</div>
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
-			<p>[...]<note resp="DR" place="bottom">Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</note></p>
+			<p>Das Datenmodell zur Erfassung von Ereignissen befindet sich im Aufbau.</p>
 		</div>
 		<div xml:id="DT-translations">
-			<head>Übersetzungen von Dokumenten</head>
-			<p>Übersetzungen werden derzeit mit dem Briefe-Schema erfasst. Sie liegen in TEI-Dokumenten mit minimalen Metadaten vor und verweisen auf das zugehörige Dokument, das in Übersetzung vorliegt.
-				</p>
-			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
+			<head>Übersetzungen</head>
+			<p>Übersetzungen von postalischen Dokumenten werden angefertigt, wenn die Dokumente in einer anderen Sprache als deutsch oder englisch vorliegen. Bisher betrifft dies vor allem Dokumente in spanischer oder französischer Sprache. Die Übersetzungen werden mit demselben Schema erfasst wie das Originaldokuemnt, sie erhalten aber nur minimale Metadaten, in denen vor allem auf das Original-Dokument verwiesen wird.</p>
+			<p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A140065B">
 					<sourceDesc>
 						<msDesc>
@@ -528,13 +559,12 @@
 					</sourceDesc>
 				</egXML>
 			</p>
-			<p>Ausgezeichnet werden hier lediglich Personen, Institutionen und Orte. Kritische Anmerkungen (zur Textkonstitution) bleiben dem Original vorbehalten.</p>
-			
+			<p>In den Übersetzungen werden lediglich Personen, Institutionen und Orte ausgezeichnet. Anmerkungen zur Textkonstitution und Zeilenkommentare bleiben dem Original vorbehalten.</p>
 		</div>
 	</div>
 	<div xml:id="sec-docTypes-idSystem" xml:lang="de">
 		<head>ID-Systematik</head>
-		<p>Im Projekt Henze-Digital sind die IDs nach einheitlichen Patterns organisisert. Jede ID beginnt mit einem Präfix, welches aus einem führenden 'A' und zwei Ziffern besteht. Darauf folgt eine vierstellige hexadezimale Zahl, bevor die ID mit einer ebenfalls hexadezimalen Ziffer abschließt. Buchstaben in den IDs von Henze-Digital werden grundsätzlich großgeschrieben. Diese Sturktur kann als regulärer Ausdruck dargestellt werden: A\d{2}[0-9A-F]{5}</p>
+		<p>Im Projekt Henze-Digital sind die IDs nach einheitlichen Patterns organisisert. Jede ID beginnt mit einem Präfix, welches aus einem führenden 'A' und zwei Ziffern besteht. Darauf folgt eine vierstellige Hexadezimalzahl, bevor die ID mit einer ebenfalls Prüfziffer (ebenfalls hexadezimal) abschließt. Buchstaben in den IDs von Henze-Digital werden grundsätzlich großgeschrieben. Diese Struktur kann als regulärer Ausdruck dargestellt werden: A\d{2}[0-9A-F]{5}</p>
 		<table>
 			<head>Präfixe der Dokumenttypen</head>
 			<row>
@@ -555,7 +585,7 @@
 			</row>
 			<row>
 				<cell>A04</cell>
-				<cell>Postalische Dokumente (Briefe, Telegramme etc.)</cell>
+				<cell>Postalische Dokumente (Briefe, Postkarten, Telegramme etc.)</cell>
 			</row>
 			<row>
 				<cell>A05</cell>
@@ -583,7 +613,7 @@
 			</row>
 			<row>
 				<cell>A11</cell>
-				<cell>Bibliographika aus dem Projektkontext</cell>
+				<cell>Bibliographika <!--aus dem Projektkontext--></cell>
 			</row>
 			<row>
 				<cell>A12</cell>
@@ -646,34 +676,27 @@
 	<div xml:id="sec-encoding-general" xml:lang="de">
 		<head>Grundsätze der Textübertragung und -auszeichnung</head>
 		<p>Grundsätzlich werden alle Texte <hi rend="bold">diplomatisch</hi> wiedergegeben (unter Einschluss der originalen Orthographie und Zeichensetzung).</p>
-		<p>Einen Sonderfall stellen die Telegramme dar, die ihre Inhalte stets in Großbuchstaben wiedergeben. Dieser Umstand ist historisch-technisch bedingt. In diesen Fällen, also dass Groß- und Kleinschreibung aufgrund äußerer Einflüsse historisch nicht beachtet werden konnte, werden die Inhalte entsprechend der heute üblichen Groß- und Kleinschreibung übertragen. Damit diese Änderung transparent bleibt, sind sämtliche übertragende Abschnitte mit deinem entsprechenden Markup ausgezeichnet. Eine respektive Anpassung von 'ss' zu 'ß', für welches bis 2020 im Deutschen kein Großbuchstabe exisitierte, wird jedoch nicht vollzogen. Diese Schritte dienen der Lesbarkeit und sind aus Vermittlungsgründen in die Edition eingeführt worden.</p>
+		<p>Einen Sonderfall stellen die Telegramme dar, die ihre Inhalte stets in Großbuchstaben wiedergeben. Dieser Umstand ist historisch-technisch bedingt. In diesen Fällen, also dass Groß- und Kleinschreibung aufgrund äußerer Einflüsse historisch nicht beachtet werden konnte, werden die Inhalte entsprechend der heute üblichen Groß- und Kleinschreibung übertragen. Damit diese Änderung transparent bleibt, sind sämtliche übertragene Abschnitte mit einem entsprechenden Markup ausgezeichnet. Eine Anpassung von 'ss' zu 'ß', für welches bis 2020 im Deutschen kein Großbuchstabe exisitierte, wird jedoch nicht vollzogen. Diese Schritte dienen der Lesbarkeit und sind aus Vermittlungsgründen in die Edition eingeführt worden.</p>
 		<egXML xmlns="http://www.tei-c.org/ns/Examples">
 			<hi rend="capital">Dieser Text war in Grossbuchstaben abgedruckt</hi>
 		</egXML>
 	</div>
 	<div xml:id="sec-encoding-typoscript" xml:lang="de">
 		<head>Typoskripte</head>
-		<p>Ungefähr die Hälfte der Briefe dieser Edition wurden mit der Schreibmaschine geschrieben (zur Vorliebe der Autoren vgl. die Beschreibung ihrer Schreibgewohnheiten) und kommt es hierdurch gelegentlich zu Doppelüberlieferungen, da an der einen Stelle der abgeschickte Brief erhalten ist und an anderer Stelle der ev. aufgehobene Durchschlag. Zum Verhältnis von Originalbrief und Durchschlag vgl. ???</p>
-		<p>Das Medium "Schreibmaschine" hat einige Besonderheiten, auf die hier verwiesen werden muss.</p>
-		<p>Zeilenabstand: Der Zeilenabstand konnte fest eingestellt werden von halbem bis 2,5fachen (?) Zeilenabstand, also in 5 Stufen. Hierbei hat der sog. einfache Abstand bereits zwei Stufen. Um den Text eindeutig lesen zu können, war mindestens ein einzeiliger Abstand notwendig, doch wurde gelegentlich auch manuell der halbe Abstand eingestellt. Dies wurde einerseits dazu genutzt, Absätze von einander zu trennen (hier sind also nicht nur die sonst im Dokument genutzten Leerzeilen sondern auch Zwischenstufen möglich), andererseits um vergessene Worte mit der Maschine nachzutragen. Dies wurde vor allem genutzt, wenn der Grundzeilenabstand größer als 1,5 war, da dann durch die halbzeilige Versetzung ein anderes Wort leserlich eingefügt werden konnte.</p>
+		<p>Ungefähr die Hälfte der Briefe dieser Edition wurden mit der Schreibmaschine geschrieben (zur Vorliebe der Autoren vgl. die Beschreibung ihrer Schreibgewohnheiten) und kommt es hierdurch gelegentlich zu Doppelüberlieferungen, da an der einen Stelle der abgeschickte Brief erhalten ist und an anderer Stelle der ev. aufgehobene Durchschlag. Diese Überlieferungseigenart (sehr selten gibt es auch Photokopien) wird in der Quellenbeschreibung erfasst. Die Übertragung folgt dem Original.</p>
+		<p>Das Medium <q>Schreibmaschine</q> hat einige Besonderheiten, auf die hier verwiesen werden muss.</p>
+		<p>Zeilenabstand: Der Zeilenabstand konnte fest eingestellt werden von halbem bis 2,5fachen (?) Zeilenabstand, also in 5 Stufen. Hierbei hat der sog. einfache Abstand bereits zwei Stufen. Um den Text eindeutig lesen zu können, war mindestens ein einzeiliger Abstand notwendig, doch wurde gelegentlich auch manuell der halbe Abstand eingestellt. Dies wurde einerseits dazu genutzt, Absätze von einander zu trennen (hier sind also nicht nur die sonst im Dokument genutzten Leerzeilen sondern auch Zwischenstufen möglich), andererseits um vergessene Worte mit der Maschine nachzutragen. solche Einfügungen waren vor allem möglich, wenn der Grundzeilenabstand größer als 1,5 war, da dann durch die halbzeilige Versetzung ein anderes Wort leserlich eingefügt werden konnte.</p>
 		<p>Durch das Einspannen des Blatt Papiers entsteht oben und unten ein Rand von ca. 2cm, da das Blatt sonst nicht fest auf der Walze hielt. Oben wurde von diesem Rand selten abgewichen, doch konnte es vorkommen, dass der Schreiber nicht merkte, dass das Blatt unten zu Ende ging und noch einmal eine Zeilenschaltung machte. Die dann entstehende Zeile war in der Regel nicht mehr gerade, sondern das Blatt rutschte immer weiter nach oben, so dass die letzte Zeile immer weiter nach unten geriet. Diese typographische Besonderheit wird nicht wiedergegeben, sondern nur in der <g>layoutDesc</g> beschrieben.</p>
-		<p>Streichungen: Um Worte zu tilgen hat sich bei der Schreibmaschine nicht der Bindestrich durchgesetzt, sondern wurde der Buchstabe x verwendet. Diese Form wird mit dem Attribut @typedthrough gekennzeichnet. Gelegentlich kommt es vor allem bei Streichungen von einzelnen Buchstaben vor, dass diese mit einem Schrägstrich / getilgt sind. <!-- geben wir das an? --></p>
-		<p>Autorkorrekturen: kleine Fehler wie ein oder zwei falsche Buchstaben wurden häufig einfach überschrieben. Dies wird mit <g>subst</g> codiert ohne noch einmal die ausdrücklich Angabe, dass die Buchstaben overtyped sind. </p>
-		<p>Buchstabenzusätze wie Akzente: als Type waren auf den Maschinen der accent aigu ´und der accent grave ` vorhanden, aus diesen wurde der accent circonflexe zusammengesetzt. Weitere Zeichen waren auf deutschen Maschinen nicht vorhanden und wurden deshalb weggelassen oder später handschriftlich ergänzt. Für die im Spanischen häufige Tilde wurde gelegentlich ein accent circonflexe gesetzt und für den Strich im c ein Komma in das c geschrieben. Weitere Probleme: umgekehrte ¡ ! und ¿ ?, ... </p>
-		<p>auf der Tastatur fehlende Zeichen: Gegenüber heutigen Tastaturen fehlen auf Schreibmaschinen einige Zeichen. Besonders auffällig ist das Fehlen der Null 0, die durch ein O ersetzt wurde, wobei häufig ein kleines o verwendet wird. Dies wird diplomatisch wiedergegeben. </p>
-		<p>Leerstellen: Da bei Schreibmaschinen die Buchstabenabstände eine feste Breite haben (Festbreitenschrift), lassen sich Lücken sehr genau bestimmen. Die diplomatische Übertragung gibt deshalb fehlende und doppelte Leerzeichen wieder. Entsteht eine Lücke von mehr als drei Zeichen wird diese als <g>space</g> codiert und die Zahl der Leerzeichen mit @n angegeben.</p>
-		<p>Farbband: Zweifarbigkeit</p>
-		<p>In Typoskripten werden (Zeilen-)Abstände abweichend von 1,0 in der <gi>layoutDesc</gi> beschrieben. In allen Dokumenten werden Standard-Einrückungen (erste Zeile eines Absatzes) in der <gi>layoutDesc</gi> angemerkt. Von der Regel abweichende Einschübe werden als <gi>space</gi> codiert.</p>
-		<p> In Typoskripten ist die Behandlung von Leerzeichen differenziert. Fehlende Leerzeichen (nach Satzzeichen), werden nicht ergänzt sondern diplomatisch wiedergegeben. Die Wiedergabe zusätzlicher Leerzeichen erfolgt durch entsprechende Codierung: <tag>space unit="char" n="1"</tag> (ein zusätzliches Zeichen). <egXML xmlns="http://www.tei-c.org/ns/Examples">
+		<p>Streichungen: Um Worte zu tilgen hat sich bei der Schreibmaschine nicht der Bindestrich durchgesetzt, sondern wurde der Buchstabe x verwendet. Diese Form wird mit dem Attribut @typedthrough bzw. @overtyped gekennzeichnet. Gelegentlich kommt es vor allem bei Streichungen von einzelnen Buchstaben vor, dass diese mit einem Schrägstrich / getilgt sind. <!-- geben wir das an? habe ich jetzt mit del und add kodiert--></p>
+		<p>Autorkorrekturen: kleine Fehler wie ein oder zwei falsche Buchstaben wurden häufig einfach überschrieben. Dies wird mit <gi>subst</gi> codiert und im <gi>del</gi> wird vermerkt, dass die Buchstaben overtyped sind. </p>
+		<p>Buchstabenzusätze wie Akzente: als Type waren auf den Maschinen der accent aigu ´ und der accent grave ` vorhanden, aus diesen wurde der accent circonflexe zusammengesetzt. Weitere Zeichen waren auf deutschen Maschinen nicht vorhanden und wurden deshalb weggelassen oder später handschriftlich ergänzt. Für die im Spanischen häufige Tilde wurde gelegentlich ein accent circonflexe gesetzt und für den Strich im c ein Komma in das c geschrieben.</p> <p>Sonderzeichen: In anderen Sprachen übliche Zeichen wie ¡! ¿? sind auf fremdsprachigen Maschinen möglich. Auf deutschen Maschinen werden sie im allgemeinen ausgelassen. Gelegentlich findet sich allerdings ein ; als Ersatz für ¡.</p>
+		<p>Fehlende Zeichen: Gegenüber heutigen Tastaturen fehlen auf Schreibmaschinen einige Zeichen. Besonders auffällig ist das Fehlen der Null 0, die durch ein O ersetzt wurde, wobei häufig ein kleines o verwendet wird. Auf anderen Maschinen fehlte dagegen die 1, die dann durch ein l ersetzt wurde. Dies wird diplomatisch wiedergegeben.</p><p>Leerstellen: Da bei Schreibmaschinen die Buchstabenabstände eine feste Breite haben (Festbreitenschrift), lassen sich Lücken sehr genau bestimmen. Die diplomatische Übertragung gibt deshalb fehlende und überflüssige Leerzeichen wieder. Entsteht eine Lücke von zwei und mehr Zeichen wird diese als <g>space</g> codiert und die Zahl der Leerzeichen mit @n angegeben.<egXML xmlns="http://www.tei-c.org/ns/Examples">
 			<!-- source="A040C8D9"??? -->
-			<p>Eine Lücke mit einem doppelten <space unit="chars" quantity="1"/>Leerzeichen.</p>
-		</egXML>
-		</p>
-		<div xml:id="eG-langTypes">
-			<head>Zeichen anderer Sprachen auf der deutschen Schreibmaschinentastatur</head>
-			<p>Spanisches Alphabet: Tilde, ¿?, ¡!, ñÑ</p>
-			<p>Französisches Alphabet: ^, ç</p>
-		</div>
+			<p>Eine Lücke mit einem doppelten <space unit="chars" quantity="2"/>Leerzeichen.</p>
+		</egXML></p>
+		<p>Farbband: Für Schreibmaschinen gab es zweifarbige Farbbänder, im allgemeinen mit den Farben rot und schwarz. Wurde die Mehrfarbigkeit eingesetzt, so ist dies in <gi>handNote</gi> beschrieben und wird dies im Dokument mit <gi>handShift</gi> codiert. </p>
+		<p>In Typoskripten werden (Zeilen-)Abstände abweichend von 1,0 in der <gi>layoutDesc</gi> beschrieben. In allen Dokumenten werden Standard-Einrückungen (erste Zeile eines Absatzes) in der <gi>layoutDesc</gi> angemerkt. Von der Regel abweichende Einschübe werden als <gi>space</gi> oder <gi>p rend="noIndent"</gi>codiert.</p>
+		
 	</div>
 	<div xml:id="sec-encoding-textStructure" xml:lang="de">
 		<head>Textstruktur</head>
@@ -695,13 +718,12 @@
 		</p>
 		<div xml:id="eG-div">
 			<head>Abschnitte <gi>div</gi></head>
-			<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Darüber hinaus erhalten beiliegende Elemente einen eigenen <gi>div</gi> wie Umschläge oder Beilagen (gedruckt oder handschriftlich). Handelt es sich bei den Beilagen um Dokumente oder Rezensionen, so werden diese getrennt erfasst, aber in dem Brief verlinkt.</p>
-			<p>Darüber hinaus wird im <gi>p</gi> die Ausrichtung des Paragraphen codiert: center, bloc, left, right, </p>
+			<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Beilagen wie Umschläge, Dokumente oder Rezensionen werden getrennt erfasst, aber in dem Brief verlinkt.</p>
 		</div>
 		<div xml:id="eG-p">
 			<head>Absätze <gi>p</gi></head>
 			<!-- vgl. oben Abstände und Einzüge -->
-			<p>Die grundsätzliche Gestaltung der Absätze wird vor allem bei Typoscripten in der <gi>physDesc</gi> beschrieben: Zeilenabstand, Einzüge. Weicht ein Absatz davon ab, wird dies als Attribut in <gi>p</gi> vermerkt. Für den Einzug wird hierbei das <gi>space</gi> verwendet. Die Breite des Einzugs wird wie auch bei anderen Abständen in der Zahl der Buchstaben angegeben. Wird in der <gi>physDesc</gi> kein Einzug standardmäßig für die Absätze angegeben, beginnen Absätze ohne weiteres Attribut am linken Rand.</p>
+			<p>Die grundsätzliche Gestaltung der Absätze wird vor allem bei Typoskripten in den Angaben zum Layout <gi>layoutDesc</gi> beschrieben: Zeilenabstand, Einzüge, Abstände. Weicht ein Absatz davon ab, wird dies als Attribut in <gi>p</gi> vermerkt. Für den Einzug wird hierbei das <gi>space</gi> verwendet. Die Breite des Einzugs wird wie auch bei anderen Abständen in der Zahl der Buchstaben angegeben. Wird in der <gi>layoutDesc</gi> kein Einzug standardmäßig für die Absätze angegeben, beginnen Absätze ohne weiteres Attribut am linken Rand.</p>
 		</div>
 		<div xml:id="eG-seg">
 			<head>Textsegmente <gi>seg</gi></head>
@@ -8968,7 +8990,7 @@ element in the TEI header.
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCDEF">15.1. Varieties of Composite Text</ref>
   </listRef></elementSpec><elementSpec rend="change" module="header" ident="fileDesc"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-07-05" xml:lang="en">file description</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-01-05" xml:lang="fr">description bibliographique du fichier</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">파일 기술</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">檔案描述</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2006-10-18" xml:lang="de">Dateibeschreibung</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2021-10-15" xml:lang="es">Descripción del archivo</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">descrizione del file</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2005-01-14" xml:lang="en">contains a full bibliographic description of an electronic file.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2009-01-05" xml:lang="fr">contient une description bibliographique complète du
     fichier électronique.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">전자 파일에 관한 완전한 서지 정보의 기술을 포함한다.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">包含對電子檔案的完整書目敘述。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2008-04-05" xml:lang="ja">電子ファイルに関する完全な書誌情報を示す．</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2016-11-17" xml:lang="de">enthält die vollständige bibliografische Beschreibung einer elektronischen Datei.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-04" xml:lang="es">contiene una descripción bibliográfica completa del archivo electrónico.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-01-21" xml:lang="it">contiene una descrizione bibliografica completa di un
-    file elettronico.</desc><classes/><content><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="titleStmt"/><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="titleStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="editionStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="publicationStmt"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="seriesStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="notesStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="sourceDesc"/></sequence></content><attList/><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+    file elettronico.</desc><classes/><content><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="titleStmt"/><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="titleStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="editionStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="publicationStmt"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="seriesStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="notesStmt" minOccurs="0"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="sourceDesc" minOccurs="1" maxOccurs="unbounded"/></sequence></content><attList/><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <fileDesc>
         <titleStmt>
@@ -10042,7 +10064,7 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
   </exemplum><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD53">2.3.3. The Editorial Practices Declaration</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCAS2">15.3.2. Declarable Elements</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="header" ident="profileDesc"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">text-profile description</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">Profilbeschreibung des Textes</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en"> provides a detailed description of non-bibliographic aspects of a text, specifically the languages and sublanguages used, the situation in which it was produced, the participants and their setting.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">liefert eine detaillierte Beschreibung von nicht-bibliographischen Aspekten eines Textes, vor allem die verwendeten Sprachen und Untersprachen, die Situation, in der das Werk entstand, alle Beteiligten und deren Bedeutung, usw.</desc><classes/><content><sequence minOccurs="1" maxOccurs="1" preserveOrder="false"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="correspDesc" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="textClass" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="langUsage" minOccurs="1" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="handNotes" minOccurs="0" maxOccurs="1"/></sequence></content><attList/><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
+  </listRef></elementSpec><elementSpec rend="change" module="header" ident="profileDesc"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">text-profile description</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">Profilbeschreibung des Textes</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en"> provides a detailed description of non-bibliographic aspects of a text, specifically the languages and sublanguages used, the situation in which it was produced, the participants and their setting.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">liefert eine detaillierte Beschreibung von nicht-bibliographischen Aspekten eines Textes, vor allem die verwendeten Sprachen und Untersprachen, die Situation, in der das Werk entstand, alle Beteiligten und deren Bedeutung, usw.</desc><classes/><content><sequence minOccurs="1" maxOccurs="1" preserveOrder="false"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="correspDesc" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="creation" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="textClass" minOccurs="0" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="langUsage" minOccurs="1" maxOccurs="1"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="handNotes" minOccurs="0" maxOccurs="1"/></sequence></content><attList/><exemplum xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <profileDesc>
         <langUsage>
@@ -13991,6 +14013,14 @@ used to mark normal inter-word space or the like.</p>
                     <valItem ident="phdthesis">
                         <desc versionDate="2021-12-16" xml:lang="en">unpublished (aka 'typed') dissertation.</desc>
                         <desc versionDate="2021-12-16" xml:lang="de">ungedruckte (aka "maschinenschriftliche") Dissertation.</desc>
+                    </valItem>
+                    <valItem ident="poem">
+                        <desc versionDate="2021-12-16" xml:lang="en">poem.</desc>
+                        <desc versionDate="2021-12-16" xml:lang="de">Gedicht.</desc>
+                    </valItem>
+                    <valItem ident="libretto">
+                        <desc versionDate="2021-12-16" xml:lang="en">libretto.</desc>
+                        <desc versionDate="2021-12-16" xml:lang="de">Libretto.</desc>
                     </valItem>
                     <valItem ident="review">
                         <desc versionDate="2021-12-16" xml:lang="en">review.</desc>

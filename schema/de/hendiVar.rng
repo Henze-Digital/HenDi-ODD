@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-06-09T08:12:40Z. .
+Schema generated from ODD source 2023-06-12T09:00:58Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -4084,6 +4084,10 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(native) online Veröffentlichungen wie Blog-Posts, Wikieinträge o.ä.</a:documentation>
                   <value>phdthesis</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">ungedruckte (aka "maschinenschriftliche") Dissertation.</a:documentation>
+                  <value>poem</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gedicht.</a:documentation>
+                  <value>libretto</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Libretto.</a:documentation>
                   <value>review</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Rezension.</a:documentation>
                   <value>score</value>
@@ -4248,7 +4252,9 @@ Elements 7.2.5. Speech Contents]</a:documentation>
             <optional>
                <ref name="notesStmt"/>
             </optional>
-            <ref name="sourceDesc"/>
+            <oneOrMore>
+               <ref name="sourceDesc"/>
+            </oneOrMore>
          </group>
       </element>
    </define>
@@ -4537,10 +4543,21 @@ On <name/>, either the @marks attribute should be used, or a paragraph of descri
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Profilbeschreibung des Textes) liefert eine detaillierte Beschreibung von nicht-bibliographischen Aspekten eines Textes, vor allem die verwendeten Sprachen und Untersprachen, die Situation, in der das Werk entstand, alle Beteiligten und deren Bedeutung, usw. [2.4. The Profile Description 2.1.1. The TEI Header and Its Components]</a:documentation>
          <interleave>
             <optional>
+               <ref name="creation"/>
+            </optional>
+            <optional>
                <ref name="textClass"/>
             </optional>
             <ref name="langUsage"/>
          </interleave>
+      </element>
+   </define>
+   <define name="creation">
+      <element name="creation">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Entstehung) enthält Information über die Entstehung eines Texts. [2.4.1. Creation 2.4. The Profile Description]</a:documentation>
+         <ref name="date"/>
+         <ref name="att.datable.attributes"/>
+         <empty/>
       </element>
    </define>
    <define name="langUsage">
