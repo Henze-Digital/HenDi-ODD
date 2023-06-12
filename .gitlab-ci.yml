@@ -155,3 +155,12 @@ trigger-update-submodules:
     - if: $CI_COMMIT_REF_NAME =~ "/^feature/"
       when: never
     - when: always
+
+delete:articats:
+  stage: trigger-update
+  image: curlimages/curl
+  script: 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --request "DELETE" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/artifacts"'
+  rules:
+    - if: $DELETE_ARTIFACTS == "true"
+      when: always
+    - when: never
