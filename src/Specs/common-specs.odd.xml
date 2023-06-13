@@ -1374,12 +1374,10 @@
     			<rng:zeroOrMore>
     				<rng:ref name="state"/>
     			</rng:zeroOrMore>
+    			<rng:optional>
+    				<rng:ref name="listOrg"/>
+    			</rng:optional>
     			<rng:zeroOrMore>
-    				<rng:ref name="linkGrp"/>
-    			</rng:zeroOrMore>
-    			<rng:zeroOrMore>
-    				<rng:ref name="link"/>
-    			</rng:zeroOrMore>
     			<rng:zeroOrMore>
     				<rng:ref name="event"/>
     			</rng:zeroOrMore>
@@ -3032,6 +3030,30 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="listOrg" mode="change" module="namesdates">
+    		<desc versionDate="2023-06-13" xml:lang="en">contains a list of relations to other organizations.</desc>
+    		<desc versionDate="2023-06-13" xml:lang="de">enthält eine Liste an Beziehungen zu anderen Organisationen.</desc>
+    		<content>
+	    		<elementRef key="relation" minOccurs="1" maxOccurs="unbounded"/>
+    		</content>
+    		<constraintSpec scheme="schematron" ident="listorg-relation-names">
+    			<constraint>
+    				<sch:rule context="tei:relation[parent::tei:listOrg]">
+    					<sch:assert test="@name='isAssociatedWith'">The value must be "isAssociatedWith".</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:org[parent::tei:listOrg]">
+    					<sch:report test="@status">@status is only for use at the root element.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    	</elementSpec>
+    	<elementSpec ident="listEvent" mode="change" module="namesdates">
+    		<desc versionDate="2023-06-13" xml:lang="en">contains a list of events.</desc>
+    		<desc versionDate="2023-06-13" xml:lang="de">enthält eine Liste von Ereignissen.</desc>
+    		<content>
+    			<elementRef key="event" minOccurs="1" maxOccurs="unbounded"/>
+    		</content>
+    	</elementSpec>
     	<elementSpec ident="name" mode="change" module="core">
             <constraintSpec scheme="schematron" ident="name-typeNkey" mode="replace">
                 <desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
@@ -3144,29 +3166,23 @@
     				<rng:ref name="macro.orgContent"/>
     			</rng:choice>
     		</content>
-    		<constraintSpec scheme="schematron" ident="org-status">
+    		<constraintSpec scheme="schematron" ident="listorg-org-status">
     			<constraint>
-    				<sch:rule context="tei:org">
+    				<sch:rule context="tei:org[not(parent::tei:listOrg)]">
     					<sch:assert test="@status">@status is missing.</sch:assert>
     				</sch:rule>
+    				<sch:rule context="tei:org[parent::tei:listOrg]">
+    					<sch:report test="@status">@status is only for use at the root element.</sch:report>
+    				</sch:rule>
     			</constraint>
     		</constraintSpec>
-    		<constraintSpec scheme="schematron" ident="org-source">
+    		<constraintSpec scheme="schematron" ident="listorg-org-source">
     			<constraint>
-    				<sch:rule context="tei:org">
+    				<sch:rule context="tei:org[not(parent::tei:listOrg)]">
     					<sch:assert test="@source">@source is missing.</sch:assert>
     				</sch:rule>
-    			</constraint>
-    		</constraintSpec>
-    		<constraintSpec scheme="schematron" ident="org-link-grouping">
-    			<desc xml:lang="en">Controlls the grouping of link elements.</desc>
-    			<desc xml:lang="en">Kontrolliert die Gruppierung von link Elementen.</desc>
-    			<constraint>
-    				<sch:rule context="tei:org">
-    					<sch:report test="tei:link and tei:linkGrp" role="fatal">Do not use &lt;link&gt; and &lt;linkGrp&gt; at the same time!</sch:report>
-    				</sch:rule>
-    				<sch:rule context="tei:org">
-    					<sch:assert test="count(tei:link) lt 2" role="error">For more than one &lt;link&gt; please use &lt;linkGrp&gt;.</sch:assert>
+    				<sch:rule context="tei:org[parent::tei:listOrg]">
+    					<sch:report test="@source">@source is only for use at the root element.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec>
@@ -3657,6 +3673,10 @@
     				<desc versionDate="2023-02-15" xml:lang="en">classifys the type of specification.</desc>
     				<desc versionDate="2023-02-15" xml:lang="de">Gibt die Art der Spezifikation an.</desc>
     				<valList type="closed" mode="add">
+    					<valItem ident="isAssociatedWith">
+    						<desc versionDate="2023-06-13" xml:lang="en">The described object is an enclosure of another object.</desc>
+    						<desc versionDate="2023-06-13" xml:lang="de">Das beschriebene Objekt ist eine Beilage zu einem anderen Objekt.</desc>
+    					</valItem>
     					<valItem ident="isEnclosureOf">
     						<desc versionDate="2023-06-06" xml:lang="en">The described object is an enclosure of another object.</desc>
     						<desc versionDate="2023-06-06" xml:lang="de">Das beschriebene Objekt ist eine Beilage zu einem anderen Objekt.</desc>
