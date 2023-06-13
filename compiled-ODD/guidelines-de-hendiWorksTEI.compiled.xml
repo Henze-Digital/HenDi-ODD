@@ -436,7 +436,7 @@
 		</div>
 		<div xml:id="DT-places">
 			<head>Orte</head>
-			<p>Referenzdatensätze zu Orten werden einzeln angelegt, dabei ist es nicht von Belang, ob es sich um ein Land, eine Stadt oder z. B. ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert.<!-- Adresse habe ich hier rausgenommen --> Als Normdatenbank wird primär <ref target="https://www.geonames.org/">GeoNames</ref> verwendet. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
+			<p>Referenzdatensätze zu Orten werden einzeln angelegt, dabei ist es nicht von Belang, ob es sich um ein Land, eine Stadt oder z. B. ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert. Als Normdatenbank wird primär <ref target="https://www.geonames.org/">GeoNames</ref> verwendet. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
 			<p>Das Datenmodell für Orte ist von einfacher Struktur.</p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A13025E2">
 				<place xml:id="A13025E2" source="HenDi">
@@ -454,7 +454,6 @@
 					</location>
 				</place>
 			</egXML>
-			<p>Fiktive Orte sind so zu charakterisieren, dass sie sich eindeutig zuordnen, d.h. von anderen Orten gleichen oder ähnlichen Namens unterscheiden lassen.</p>
 		</div>
 		<div xml:id="DT-orgs">
 			<head>Organisationen/Institutionen</head>
@@ -475,11 +474,11 @@
 					</listBibl>
 				</org>
 			</egXML>
-			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchische Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensatz erfolgt mittels <gi>link</gi>:
-			<egXML xmlns="http://www.tei-c.org/ns/Examples">
-				<link type="isPartOf" target="#{OrgId}"/>
-				<!-- or -->
-				<link type="sameas" target="#{OrgId}"/>
+			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchische Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensatz erfolgt mittels <gi>relation</gi>:</p>
+			<p><egXML xmlns="http://www.tei-c.org/ns/Examples">
+				<listOrg>
+					<relation name="isAssociatedWith" key="{OrgId}"/>
+				</listOrg>
 			</egXML></p>
 		</div>
 		<div xml:id="DT-characters">
@@ -698,37 +697,32 @@
 	</div>
 	<div xml:id="sec-encoding-textStructure" xml:lang="de">
 		<head>Textstruktur</head>
-		<p>Die Struktur der Texte kann mit folgenden Elementen untergliedert werden: <specList>
+		<p>Die Struktur der Texte kann mit folgenden Elementen untergliedert werden: </p>
+		<p><specList>
 			<specDesc key="div"/>
 			<specDesc key="p"/>
 			<specDesc key="pb"/>
 			<specDesc key="cb"/>
 			<specDesc key="lb"/>
-			<!--<specDesc key="ab"/>-->
-			<!--<specDesc key="seg"/>
-			<specDesc key="measure"/>
-			<specDesc key="footNote"/>-->
 			<specDesc key="table"/>
 			<specDesc key="list"/>
 			<specDesc key="item"/>
 			<specDesc key="lg"/>
 			<specDesc key="l"/>
 		</specList>
-			Es folgen nur Erläuterungen zu einzelnen Gliederungspunkten, wenn die Verwendung in Henze-Digital Besonderheiten gegenüber der allgemeinen Verwendung in TEI aufweist.
+			</p>
+		<p>Es folgen nur Erläuterungen zu einzelnen Gliederungspunkten, wenn die Verwendung in Henze-Digital Besonderheiten gegenüber der allgemeinen Verwendung in TEI aufweist.
 		</p>
 		<div xml:id="eG-div">
 			<head>Abschnitte <gi>div</gi></head>
-			<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Beilagen wie Umschläge, Dokumente oder Rezensionen werden getrennt erfasst, aber in dem Brief verlinkt.</p>
+			<!-- DR: Verweis auf Handhabung der divs bei Telegrammen (dass anders) -->
+			<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Beilagen wie Dokumente oder Rezensionen aber auch Umschläge werden getrennt erfasst, aber in dem Brief verlinkt.</p>
 		</div>
 		<div xml:id="eG-p">
 			<head>Absätze <gi>p</gi></head>
 			<!-- vgl. oben Abstände und Einzüge -->
 			<p>Die grundsätzliche Gestaltung der Absätze wird in den Angaben zum Layout <gi>layoutDesc</gi> beschrieben: Zeilenabstand, Einzüge, Abstände, wobei die Angaben bei Typoskripten exakter sein können als bei handschriftlich überlieferten Dokumenten. Weicht ein Absatz davon ab, wird dies als Attribut in <gi>p</gi> vermerkt. Für den Einzug wird hierbei das <gi>space</gi> verwendet. Die Breite des Einzugs wird wie auch bei anderen Abständen in der Zahl der Buchstaben oder in Abständen von ca. 2cm angegeben. Wird in der <gi>layoutDesc</gi> kein Einzug standardmäßig für die Absätze angegeben, beginnen Absätze ohne weiteres Attribut am linken Rand.</p>
 		</div>
-		<!--<div xml:id="eG-seg">
-			<head>Textsegmente <gi>seg</gi></head>
-			<p>???</p>
-		</div>-->
 	</div>
 	<div xml:id="sec-encoding-textHighlighting" xml:lang="de">
 		<head>Zum Umgang mit Hervorhebungen im Text</head>
@@ -13964,7 +13958,45 @@ may be empty.</p>
     <p> 要素<ident>g</ident>の要素名は，日本語の「外字」を語源とする <term>gaiji</term>の頭文字である． </p>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/WD.html#WD">5. Characters, Glyphs, and Writing Modes</ref>
-  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" ident="listEvent"><gloss versionDate="2009-01-21" xml:lang="en">list of events</gloss><gloss xml:lang="fr" versionDate="2009-03-19">liste d'événements</gloss><desc versionDate="2009-01-21" xml:lang="en">contains a list of descriptions, each of which provides information
+  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" ident="listEvent"><gloss versionDate="2009-01-21" xml:lang="en">list of events</gloss><gloss xml:lang="fr" versionDate="2009-03-19">liste d'événements</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="en">contains a list of events.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="de">enthält eine Liste von Ereignissen.</desc><classes><memberOf key="att.global"/><memberOf key="att.typed"/><memberOf key="model.listLike"/></classes><content><elementRef key="event" minOccurs="1" maxOccurs="unbounded"/></content><attList/><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listEvent>
+        <head>Battles of the American Civil War: Kentucky</head>
+        <event xml:id="event01" when="1861-09-19">
+          <label>Barbourville</label>
+          <desc>The Battle of Barbourville was one of the early engagements of
+the American Civil War. It occurred September 19, 1861, in Knox
+County, Kentucky during the campaign known as the Kentucky Confederate
+Offensive. The battle is considered the first Confederate victory in
+the commonwealth, and threw a scare into Federal commanders, who
+rushed troops to central Kentucky in an effort to repel the invasion,
+which was finally thwarted at the <ref target="#event02">Battle of
+Camp Wildcat</ref> in October.</desc>
+        </event>
+        <event xml:id="event02" when="1861-10-21">
+          <label>Camp Wild Cat</label>
+          <desc>
+The Battle of Camp Wildcat (also known as Wildcat Mountain and Camp
+Wild Cat) was one of the early engagements of the American Civil
+War. It occurred October 21, 1861, in northern Laurel County, Kentucky
+during the campaign known as the Kentucky Confederate Offensive. The
+battle is considered one of the very first Union victories, and marked
+the first engagement of troops in the commonwealth of Kentucky.</desc>
+        </event>
+        <event xml:id="event03" from="1864-06-11" to="1864-06-12">
+          <label>Cynthiana</label>
+          <desc>The Battle of Cynthiana (or Kellar’s Bridge) was an engagement
+during the American Civil War that was fought on June 11 and 12, 1864,
+in Harrison County, Kentucky, near the town of Cynthiana. A part of
+Confederate Brigadier General John Hunt Morgan's 1864 Raid into
+Kentucky, the battle resulted in a victory by Union forces over the
+raiders and saved the town from capture.</desc>
+        </event>
+      </listEvent>
+    </egXML>
+  </exemplum><listRef>
+    <ptr target="#NDPERSbp"/>
+  </listRef><gloss versionDate="2009-01-21" xml:lang="en">list of events</gloss><gloss xml:lang="fr" versionDate="2009-03-19">liste d'événements</gloss><desc versionDate="2009-01-21" xml:lang="en">contains a list of descriptions, each of which provides information
     about an identifiable event.</desc><desc versionDate="2009-03-19" xml:lang="fr">contient une liste de descriptions, chacune d'entre elles fournissant des informations sur un événement connu.</desc><classes><memberOf key="att.global"/><memberOf key="att.typed"/><memberOf key="model.listLike"/></classes><content><elementRef key="event" minOccurs="1" maxOccurs="unbounded"/></content><attList/><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listEvent>
@@ -14003,7 +14035,42 @@ raiders and saved the town from capture.</desc>
     </egXML>
   </exemplum><listRef>
     <ptr target="#NDPERSbp"/>
-  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" ident="event"><gloss xml:lang="en" versionDate="2008-12-09">event</gloss><gloss versionDate="2008-12-09" xml:lang="fr">évènement</gloss><desc versionDate="2007-08-01" xml:lang="en">contains data relating to any kind of significant event associated with a person, place, or organization.</desc><desc versionDate="2007-12-20" xml:lang="ko">개인, 장소, 또는 조직과 관련된 중요한 사건에 해당하는 데이터를 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">任何未必是口說的或溝通上的現象或發生情況，例如偶然的噪音或其他影響溝通的事件。</desc><desc versionDate="2008-04-05" xml:lang="ja">人生における特定の重要事象の解説を示す．</desc><desc versionDate="2009-03-19" xml:lang="fr">contient des données liées à tout type d'évènement significatif dans l'existence d'une personne, d'un
+  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" ident="event"><gloss xml:lang="en" versionDate="2008-12-09">event</gloss><gloss versionDate="2008-12-09" xml:lang="fr">évènement</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="en">contains data relating to any kind of significant event associated with a an organization or corporate body.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="de">enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft.</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.typed"/><memberOf key="att.naming"/></classes><content><elementRef key="desc" minOccurs="1" maxOccurs="1"/></content><attList/><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person>
+        <event type="mat" when="1972-10-12">
+          <label>matriculation</label>
+        </event>
+        <event type="grad" when="1975-06-23">
+          <label>graduation</label>
+        </event>
+      </person>
+    </egXML>
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person>
+        <event type="mat" when="1972-10-12">
+          <label>inscription</label>
+        </event>
+        <event type="grad" when="1975-06-23">
+          <label>diplômé</label>
+        </event>
+      </person>
+    </egXML>
+  </exemplum><exemplum xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person>
+        <event type="mat" when="1972-10-12">
+          <label>入學</label>
+        </event>
+        <event type="grad" when="1975-06-23">
+          <label>畢業</label>
+        </event>
+      </person>
+    </egXML>
+  </exemplum><listRef>
+    <ptr target="#NDPERSbp"/>
+  </listRef><gloss xml:lang="en" versionDate="2008-12-09">event</gloss><gloss versionDate="2008-12-09" xml:lang="fr">évènement</gloss><desc versionDate="2007-08-01" xml:lang="en">contains data relating to any kind of significant event associated with a person, place, or organization.</desc><desc versionDate="2007-12-20" xml:lang="ko">개인, 장소, 또는 조직과 관련된 중요한 사건에 해당하는 데이터를 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">任何未必是口說的或溝通上的現象或發生情況，例如偶然的噪音或其他影響溝通的事件。</desc><desc versionDate="2008-04-05" xml:lang="ja">人生における特定の重要事象の解説を示す．</desc><desc versionDate="2009-03-19" xml:lang="fr">contient des données liées à tout type d'évènement significatif dans l'existence d'une personne, d'un
         lieu ou d'une organisation.</desc><desc versionDate="2007-05-04" xml:lang="es">cualquier fenómeno o evento no necesariamente vocal o comunicativo, como ruidos accidentales u otros
         fenómenos que inciden en la comunicación en acto.</desc><desc versionDate="2007-01-21" xml:lang="it">qualsiasi fenomeno o evento non necessariamente vocale o comunicativo, come rumori accidentali o altri
         fenomeni che incidano sulla comunicazione in atto</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.typed"/><memberOf key="att.naming"/></classes><content><sequence minOccurs="1" maxOccurs="1"><alternate minOccurs="0" maxOccurs="unbounded"><elementRef key="desc"/><elementRef key="date"/><elementRef key="settlement"/></alternate><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.noteLike"/><classRef key="model.biblLike"/></alternate></sequence></content><attList><attDef ident="type" mode="change">

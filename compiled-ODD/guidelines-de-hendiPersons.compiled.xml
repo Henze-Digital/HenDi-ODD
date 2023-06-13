@@ -436,7 +436,7 @@
 		</div>
 		<div xml:id="DT-places">
 			<head>Orte</head>
-			<p>Referenzdatensätze zu Orten werden einzeln angelegt, dabei ist es nicht von Belang, ob es sich um ein Land, eine Stadt oder z. B. ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert.<!-- Adresse habe ich hier rausgenommen --> Als Normdatenbank wird primär <ref target="https://www.geonames.org/">GeoNames</ref> verwendet. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
+			<p>Referenzdatensätze zu Orten werden einzeln angelegt, dabei ist es nicht von Belang, ob es sich um ein Land, eine Stadt oder z. B. ein Gebirge handelt, jeder identifizierbare Ort wird durch einen eigenen Datensatz repräsentiert. Als Normdatenbank wird primär <ref target="https://www.geonames.org/">GeoNames</ref> verwendet. GeoNames stellt eine äußerst umfangreiche Datensammlung bereit, die neben Städten auch Örtlichkeiten, wie Schlösser, öffentliche Gebäude u.a. enthält; zudem sind die Datensätze von GeoNames hierarchisch organisiert (bspw. Kontinent, Land, Region, Stadt).</p>
 			<p>Das Datenmodell für Orte ist von einfacher Struktur.</p>
 			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A13025E2">
 				<place xml:id="A13025E2" source="HenDi">
@@ -454,7 +454,6 @@
 					</location>
 				</place>
 			</egXML>
-			<p>Fiktive Orte sind so zu charakterisieren, dass sie sich eindeutig zuordnen, d.h. von anderen Orten gleichen oder ähnlichen Namens unterscheiden lassen.</p>
 		</div>
 		<div xml:id="DT-orgs">
 			<head>Organisationen/Institutionen</head>
@@ -475,11 +474,11 @@
 					</listBibl>
 				</org>
 			</egXML>
-			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchische Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensatz erfolgt mittels <gi>link</gi>:
-			<egXML xmlns="http://www.tei-c.org/ns/Examples">
-				<link type="isPartOf" target="#{OrgId}"/>
-				<!-- or -->
-				<link type="sameas" target="#{OrgId}"/>
+			<p>Unterorganisationen wie Abteilungen, Projektgruppen und organisationshierarchische Untersektionen werden als eigene Organisation erfasst. Dies gilt auch für Firmen bei Namenswechsel. Die Zuweisung zum Übergeordneten Datensatz erfolgt mittels <gi>relation</gi>:</p>
+			<p><egXML xmlns="http://www.tei-c.org/ns/Examples">
+				<listOrg>
+					<relation name="isAssociatedWith" key="{OrgId}"/>
+				</listOrg>
 			</egXML></p>
 		</div>
 		<div xml:id="DT-characters">
@@ -698,37 +697,32 @@
 	</div>
 	<div xml:id="sec-encoding-textStructure" xml:lang="de">
 		<head>Textstruktur</head>
-		<p>Die Struktur der Texte kann mit folgenden Elementen untergliedert werden: <specList>
+		<p>Die Struktur der Texte kann mit folgenden Elementen untergliedert werden: </p>
+		<p><specList>
 			<specDesc key="div"/>
 			<specDesc key="p"/>
 			<specDesc key="pb"/>
 			<specDesc key="cb"/>
 			<specDesc key="lb"/>
-			<!--<specDesc key="ab"/>-->
-			<!--<specDesc key="seg"/>
-			<specDesc key="measure"/>
-			<specDesc key="footNote"/>-->
 			<specDesc key="table"/>
 			<specDesc key="list"/>
 			<specDesc key="item"/>
 			<specDesc key="lg"/>
 			<specDesc key="l"/>
 		</specList>
-			Es folgen nur Erläuterungen zu einzelnen Gliederungspunkten, wenn die Verwendung in Henze-Digital Besonderheiten gegenüber der allgemeinen Verwendung in TEI aufweist.
+			</p>
+		<p>Es folgen nur Erläuterungen zu einzelnen Gliederungspunkten, wenn die Verwendung in Henze-Digital Besonderheiten gegenüber der allgemeinen Verwendung in TEI aufweist.
 		</p>
 		<div xml:id="eG-div">
 			<head>Abschnitte <gi>div</gi></head>
-			<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Beilagen wie Umschläge, Dokumente oder Rezensionen werden getrennt erfasst, aber in dem Brief verlinkt.</p>
+			<!-- DR: Verweis auf Handhabung der divs bei Telegrammen (dass anders) -->
+			<p>In der Regel enthält ein Brief nur einen <gi>div</gi>. Ausnahmen sind Briefe, die von verschiedenen Personen geschrieben sind, und Briefe, die eindeutig an verschiedenen Tagen (writingSessions) geschrieben sind. Beilagen wie Dokumente oder Rezensionen aber auch Umschläge werden getrennt erfasst, aber in dem Brief verlinkt.</p>
 		</div>
 		<div xml:id="eG-p">
 			<head>Absätze <gi>p</gi></head>
 			<!-- vgl. oben Abstände und Einzüge -->
 			<p>Die grundsätzliche Gestaltung der Absätze wird in den Angaben zum Layout <gi>layoutDesc</gi> beschrieben: Zeilenabstand, Einzüge, Abstände, wobei die Angaben bei Typoskripten exakter sein können als bei handschriftlich überlieferten Dokumenten. Weicht ein Absatz davon ab, wird dies als Attribut in <gi>p</gi> vermerkt. Für den Einzug wird hierbei das <gi>space</gi> verwendet. Die Breite des Einzugs wird wie auch bei anderen Abständen in der Zahl der Buchstaben oder in Abständen von ca. 2cm angegeben. Wird in der <gi>layoutDesc</gi> kein Einzug standardmäßig für die Absätze angegeben, beginnen Absätze ohne weiteres Attribut am linken Rand.</p>
 		</div>
-		<!--<div xml:id="eG-seg">
-			<head>Textsegmente <gi>seg</gi></head>
-			<p>???</p>
-		</div>-->
 	</div>
 	<div xml:id="sec-encoding-textHighlighting" xml:lang="de">
 		<head>Zum Umgang mit Hervorhebungen im Text</head>
@@ -6956,10 +6950,7 @@ psychological significance.
     </egXML>
   </exemplum><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCAHPA">15.2.2. The Participant Description</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="event"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">event</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">Ereignis</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains data relating to any kind of significant event associated with a person, place, or organization.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">enthält Daten, die zu irgendeinem signifkanten Ereignis, das mit eienr Person, einem Ort oder eine Organisation assoziiert werden kann, zugeordnet werden.</desc><classes xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples"><memberOf key="att.datable.w3c"/><memberOf key="att.locatable"/></classes><content xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples"><ref xmlns="http://relaxng.org/ns/structure/1.0" name="head"/><choice xmlns="http://relaxng.org/ns/structure/1.0"><ref name="p"/><ref name="list"/></choice><rng:interleave>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="p"/></zeroOrMore>
-                <zeroOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="list"/></zeroOrMore>
-            </rng:interleave></content><attList><attDef ident="type" usage="opt">
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="event"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">event</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">Ereignis</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="en">contains data relating to any kind of significant event associated with a an organization or corporate body.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="de">enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft.</desc><classes><memberOf key="att.datable.w3c"/><memberOf key="att.locatable"/></classes><content><elementRef key="desc" minOccurs="1" maxOccurs="1"/></content><attList><attDef ident="type" usage="opt">
                 <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
                 <desc versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
                 <valList type="closed">
