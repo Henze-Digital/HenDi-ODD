@@ -3015,16 +3015,54 @@
     		</attList>
     	</elementSpec>
     	<elementSpec ident="event" module="namesdates" mode="change">
-    		<desc versionDate="2023-06-13" xml:lang="en">contains data relating to any kind of significant event associated with a an organization or corporate body.</desc>
-    		<desc versionDate="2023-06-13" xml:lang="de">enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft.</desc>
-    	    <classes>
-    	        <memberOf key="att.global.rendition.attributes" mode="delete"/>
-    	    </classes>
+    		<desc versionDate="2023-06-21" xml:lang="en">contains data relating to any kind of significant event associated with a an organization or corporate body.</desc>
+    		<desc versionDate="2023-06-21" xml:lang="de">enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft.</desc>
+    		<!--<classes>
+    			<memberOf key="att.global.rendition.attributes" mode="delete"/>
+    		</classes>-->
     		<content>
-    			<elementRef key="desc" minOccurs="1" maxOccurs="1"/>
+    			<sequence>
+    				<alternate minOccurs="0" maxOccurs="unbounded">
+    					<elementRef key="desc"/>
+    					<elementRef key="date"/>
+    					<elementRef key="settlement"/>
+    				</alternate>
+    				<alternate minOccurs="0" maxOccurs="unbounded">
+    					<classRef key="model.noteLike"/>
+    					<classRef key="model.biblLike"/>
+    				</alternate>
+    				<!--<elementRef key="event" minOccurs="0"
+                    maxOccurs="unbounded"/>-->
+    			</sequence>
     		</content>
     		<constraintSpec scheme="schematron" ident="org-events" mode="delete"/>
+    		<attList>
+    			<attDef ident="type" mode="change">
+    				<valList type="closed" mode="add">
+    					<valItem ident="ua">
+    						<gloss versionDate="2022-01-24" xml:lang="en">world's premiere</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="en">contains information about the world's premiere.</desc>
+    						<gloss versionDate="2022-01-24" xml:lang="de">Uraufführung</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="de">Enthält Informationen zur Uraufführung.</desc>
+    					</valItem>
+    					<valItem ident="ea">
+    						<gloss versionDate="2022-01-24" xml:lang="en">premiere</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="en">contains information about the premiere on a certain place.</desc>
+    						<gloss versionDate="2022-01-24" xml:lang="de">Erstaufführung</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="de">Enthält Informationen zur Erstaufführung an einem bestimmten Ort.</desc>
+    					</valItem>
+    					<valItem ident="pa">
+    						<gloss versionDate="2022-01-24" xml:lang="en">private performance</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="en">contains information about a private performance.</desc>
+    						<gloss versionDate="2022-01-24" xml:lang="de">Privataufführung</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="de">Enthält Informationen über eine Privataufführung.</desc>
+    					</valItem>
+    				</valList>
+    			</attDef>
+    		</attList>
     	</elementSpec>
+    	
+    	
     	<elementSpec ident="geogName" mode="change" module="namesdates">
     		<attList>
     			<attDef ident="type" mode="change">
