@@ -242,7 +242,21 @@
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
-				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="envelope"</tag> erfasst, wobei die Adressseite als Vorderseite und die Absenderseite als Rückseite, eingeleitet mit <tag>pb n="verso"</tag>, erfasst wird. (Vgl. auch <ptr target="#DT-postals-postcards"/>)</p>
+				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigener Datensatz angelegt und mit dem zugehörigen postalischen Dokument verlinkt.</p>
+				<p>
+					<egXML xmlns="http://www.tei-c.org/ns/Examples">
+						<sourceDesc>
+							<msDesc>
+								<msIdentifier/>
+								<physDesc/>
+							</msDesc>
+							<listRelation>
+								<relation name="isEnvelopeOf" key="{LetterId}"/>
+							</listRelation>
+						</sourceDesc>
+					</egXML>
+					</p>
+				<p>Die Adressseite wird als Vorderseite und die Absenderseite als Rückseite, eingeleitet mit <tag>pb n="verso"</tag>, erfasst. (Vgl. auch <ptr target="#DT-postals-postcards"/>)</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C883">
 					<text type="Umschlag">
 						<body>
@@ -986,9 +1000,25 @@
 			</specList>
 		</p>
 	</div>
+	<div xml:id="sec-encoding-hands" xml:lang="de">
+		<head>Schreiber*innen (Hände)</head>
+		<p>Sie Erfassung der Schreiber*innen (Hände) wird in <gi>handNotes</gi> vorgenommen. Das erste Element <gi>handNote</gi> definiert den Grundtyp der Schreibweise (Manuskript bzw. Typoskript). Ferner werden hier das Schreibmittel (<att>medium</att>), ggf. die Farbe (<att>hendi:color</att>) und (soweit identifizierbar) der/die Schreiber*in (<att>scribe</att>) angegeben.</p>
+		<p>
+			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A042C2A2">
+				<handNotes>
+					<handNote xml:id="hand.1" script="typescript"/>
+					<handNote xml:id="hand.2" script="manuscript" scribe="A0002EA0"/>
+					<handNote xml:id="hand.3" script="manuscript" medium="pen"/>
+					<handNote xml:id="hand.4" script="manuscript" medium="pencil" hendi:color="blue"/>
+				</handNotes>
+			</egXML>
+		</p>
+		<p>Die ID-Vergabe erfolgt dokumentweise und folgt dem im Beispiel vorgeführten Schema. Im Text kann mit dem Attribut <att>hand</att> eine Beziehung zur entsprechenden <gi>handNote</gi> hergestellt werden.</p>
+	</div>
 	<div xml:id="sec-encoding-textRelations" xml:lang="de">
 		<head>Beziehungen zwischen Texten/Dokumenten</head>
 		<p>Briefkontexte, Entwürfe, mehrteilige Schriften, floatingText</p>
+		<p>Zu den Relationsverweisen siehe <ptr target="#DT-primary-struct-text"/>, <ptr target="#DT-postals-envelopes"/> und <ptr target="#DT-documents"/>.</p>
 	</div>
 	<div xml:id="sec-encoding-content" xml:lang="de">
 		<head>Inhaltliche Auszeichnung</head>
@@ -18713,14 +18743,14 @@ it may optionally be tagged using the <gi>docAuthor</gi> element.</p>
         </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/DS.html#DSOC">4.2.2. Openers and Closers</ref>
   </listRef></elementSpec><elementSpec rend="change" module="textstructure" ident="postscript"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-01-27" xml:lang="en">contains a postscript, e.g. to a letter.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-01-27" xml:lang="de"/><classes><memberOf key="att.hendi.placement"/><memberOf key="att.hendi.rotation"/><memberOf key="att.written"/><memberOf key="model.divBottomPart"/></classes><content><sequence minOccurs="1" maxOccurs="1"><alternate minOccurs="0" maxOccurs="unbounded"><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.global"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.divTopPart"/></alternate><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.common"/><alternate minOccurs="0" maxOccurs="unbounded"><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.global"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.common"/></alternate><sequence minOccurs="0" maxOccurs="unbounded"><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.divBottomPart"/><classRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="model.global" minOccurs="0" maxOccurs="unbounded"/></sequence></sequence></content><attList><attDef ident="rend" usage="opt">
-	                <gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="en">rendition</gloss>
-	                <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
-	                <gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
-	                <desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
-	                <datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" minOccurs="1" maxOccurs="2">
-	                    <dataRef key="hwhdata.position"/>
-	                </datatype>
-	            </attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
+    				<gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="en">rendition</gloss>
+    				<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
+    				<gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
+    				<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
+    				<datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" minOccurs="1" maxOccurs="2">
+    					<dataRef key="hwhdata.position"/>
+    				</datatype>
+    			</attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">
             <egXML xmlns="http://www.tei-c.org/ns/Examples">
                 <postscript><p>ich schikke der Sicherheit halber alles über Prag, durch Liebig</p></postscript>
             </egXML>

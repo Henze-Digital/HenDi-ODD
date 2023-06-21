@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-06-16T14:43:37Z. .
+Schema generated from ODD source 2023-06-21T13:21:39Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding orgs at Henze-Digital 
@@ -1343,7 +1343,6 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
       <choice>
          <ref name="list"/>
          <ref name="listOrg"/>
-         <ref name="listEvent"/>
       </choice>
    </define>
    <define name="model.noteLike">
@@ -3938,7 +3937,21 @@ Empfohlene Werte sind: 1] city; 2] venue</a:documentation>
    <define name="event">
       <element name="event">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(event) enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft. [13.3.1. Basic Principles]</a:documentation>
-         <ref name="desc"/>
+         <group>
+            <zeroOrMore>
+               <choice>
+                  <ref name="desc"/>
+                  <ref name="date"/>
+                  <ref name="settlement"/>
+               </choice>
+            </zeroOrMore>
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.noteLike"/>
+                  <ref name="model.biblLike"/>
+               </choice>
+            </zeroOrMore>
+         </group>
          <ref name="att.datable.attributes"/>
          <ref name="att.locatable.attributes"/>
          <empty/>
@@ -4245,9 +4258,6 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
          <oneOrMore>
             <ref name="event"/>
          </oneOrMore>
-         <ref name="att.global.attributes"/>
-         <ref name="att.typed.attributes"/>
-         <empty/>
       </element>
    </define>
    <define name="relation">
