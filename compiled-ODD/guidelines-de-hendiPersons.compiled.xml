@@ -242,7 +242,21 @@
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
-				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigene Einheit mit <tag>text type="envelope"</tag> erfasst, wobei die Adressseite als Vorderseite und die Absenderseite als Rückseite, eingeleitet mit <tag>pb n="verso"</tag>, erfasst wird. (Vgl. auch <ptr target="#DT-postals-postcards"/>)</p>
+				<p>Die Überlieferung des zum postalischen Dokument gehörigen Umschlags ist nicht häufig, aber in jedem Fall zu berücksichtigen. Gelegentlich kommt es vor, dass ausschließlich ein Umschlag überliefert ist. Der Umschlag wird als eigener Datensatz angelegt und mit dem zugehörigen postalischen Dokument verlinkt.</p>
+				<p>
+					<egXML xmlns="http://www.tei-c.org/ns/Examples">
+						<sourceDesc>
+							<msDesc>
+								<msIdentifier/>
+								<physDesc/>
+							</msDesc>
+							<listRelation>
+								<relation name="isEnvelopeOf" key="{LetterId}"/>
+							</listRelation>
+						</sourceDesc>
+					</egXML>
+					</p>
+				<p>Die Adressseite wird als Vorderseite und die Absenderseite als Rückseite, eingeleitet mit <tag>pb n="verso"</tag>, erfasst. (Vgl. auch <ptr target="#DT-postals-postcards"/>)</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C883">
 					<text type="Umschlag">
 						<body>
@@ -986,9 +1000,25 @@
 			</specList>
 		</p>
 	</div>
+	<div xml:id="sec-encoding-hands" xml:lang="de">
+		<head>Schreiber*innen (Hände)</head>
+		<p>Sie Erfassung der Schreiber*innen (Hände) wird in <gi>handNotes</gi> vorgenommen. Das erste Element <gi>handNote</gi> definiert den Grundtyp der Schreibweise (Manuskript bzw. Typoskript). Ferner werden hier das Schreibmittel (<att>medium</att>), ggf. die Farbe (<att>hendi:color</att>) und (soweit identifizierbar) der/die Schreiber*in (<att>scribe</att>) angegeben.</p>
+		<p>
+			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A042C2A2">
+				<handNotes>
+					<handNote xml:id="hand.1" script="typescript"/>
+					<handNote xml:id="hand.2" script="manuscript" scribe="A0002EA0"/>
+					<handNote xml:id="hand.3" script="manuscript" medium="pen"/>
+					<handNote xml:id="hand.4" script="manuscript" medium="pencil" hendi:color="blue"/>
+				</handNotes>
+			</egXML>
+		</p>
+		<p>Die ID-Vergabe erfolgt dokumentweise und folgt dem im Beispiel vorgeführten Schema. Im Text kann mit dem Attribut <att>hand</att> eine Beziehung zur entsprechenden <gi>handNote</gi> hergestellt werden.</p>
+	</div>
 	<div xml:id="sec-encoding-textRelations" xml:lang="de">
 		<head>Beziehungen zwischen Texten/Dokumenten</head>
 		<p>Briefkontexte, Entwürfe, mehrteilige Schriften, floatingText</p>
+		<p>Zu den Relationsverweisen siehe <ptr target="#DT-primary-struct-text"/>, <ptr target="#DT-postals-envelopes"/> und <ptr target="#DT-documents"/>.</p>
 	</div>
 	<div xml:id="sec-encoding-content" xml:lang="de">
 		<head>Inhaltliche Auszeichnung</head>
@@ -4079,7 +4109,19 @@ resource, either within the current document or elsewhere.</desc>
   <alternate minOccurs="1" maxOccurs="1"><dataRef key="teidata.probability"/><dataRef key="teidata.certainty"/></alternate>
   </content>
   
-</dataSpec><classSpec rend="add" module="tei" type="atts" ident="att.personal">
+</dataSpec><classSpec rend="add" module="tei" type="atts" ident="att.locatable" predeclare="true">
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2021-07-29" xml:lang="en">provides attributes for referencing locations by pointing to entries in a canonical list of places.</desc>
+  <attList xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
+    <attDef ident="where" usage="opt">
+      <desc versionDate="2021-07-29" xml:lang="en">indicates one or more locations by pointing to a <gi>place</gi> element or other canonical description.</desc>
+      <desc versionDate="2021-07-29" xml:lang="fr">indique une ou plusieurs localisations en pointant vers un élément <gi>place</gi> ou autre description canonique.</desc>
+      <desc versionDate="2021-07-29" xml:lang="es">indica una o más localizaciónes señalando un elemento <gi>place</gi> u otra descripción canónica.</desc>
+      <desc versionDate="2021-07-29" xml:lang="it">indica una o più posizioni facendo riferimento a un elemento <gi>place</gi> o altra descrizione canonica.</desc>
+      <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+    </attDef>
+  </attList>
+  
+</classSpec><classSpec rend="add" module="tei" type="atts" ident="att.personal">
   <gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2012-10-24" xml:lang="en">attributes for components of names usually, but not necessarily, personal names</gloss>
   <gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">사람 이름의 성분에 대한 속성</gloss>
   <gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-05-02" xml:lang="zh-TW">用於個人名稱元件的屬性</gloss>
@@ -6936,20 +6978,22 @@ psychological significance.
     </egXML>
   </exemplum><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCAHPA">15.2.2. The Participant Description</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="event"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">event</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">Ereignis</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="en">contains data relating to any kind of significant event associated with a an organization or corporate body.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-13" xml:lang="de">enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft.</desc><classes/><content><elementRef key="desc" minOccurs="1" maxOccurs="1"/></content><attList><attDef ident="type" usage="opt">
-                <desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc>
-                <desc versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc>
-                <valList type="closed">
-                    <valItem ident="studentOf">
-                        <desc versionDate="2013-11-11" xml:lang="en">student.</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">Schüler.</desc>
-                    </valItem>
-                    <valItem ident="profOf">
-                        <desc versionDate="2013-11-11" xml:lang="en">prof.</desc>
-                        <desc versionDate="2013-11-11" xml:lang="de">Prof.</desc>
-                    </valItem>
-                </valList>
-            </attDef><attDef ident="status" usage="opt">
+  </listRef></elementSpec><elementSpec rend="change" module="namesdates" ident="event"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">event</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2018-03-29" xml:lang="de">Ereignis</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-21" xml:lang="en">contains data relating to any kind of significant event associated with a an organization or corporate body.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2023-06-21" xml:lang="de">enthält Informationen über 'events' (z.B. Gründung, Einstellung der Tätigkeit) einer Organisation oder Körperschaft.</desc><classes><memberOf key="att.datable.w3c"/><memberOf key="att.locatable"/></classes><content><sequence minOccurs="1" maxOccurs="1"><alternate minOccurs="0" maxOccurs="unbounded"><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="desc"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="date"/><elementRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="settlement"/></alternate><alternate minOccurs="0" maxOccurs="unbounded"><classRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="model.noteLike"/><classRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="model.biblLike"/></alternate></sequence></content><attList><attDef ident="type" usage="opt"><desc versionDate="2013-11-11" xml:lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</desc><desc versionDate="2013-11-11" xml:lang="de">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angwendet wird.</desc><valList xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" type="closed"><valItem ident="ua">
+    						<gloss versionDate="2022-01-24" xml:lang="en">world's premiere</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="en">contains information about the world's premiere.</desc>
+    						<gloss versionDate="2022-01-24" xml:lang="de">Uraufführung</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="de">Enthält Informationen zur Uraufführung.</desc>
+    					</valItem><valItem ident="ea">
+    						<gloss versionDate="2022-01-24" xml:lang="en">premiere</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="en">contains information about the premiere on a certain place.</desc>
+    						<gloss versionDate="2022-01-24" xml:lang="de">Erstaufführung</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="de">Enthält Informationen zur Erstaufführung an einem bestimmten Ort.</desc>
+    					</valItem><valItem ident="pa">
+    						<gloss versionDate="2022-01-24" xml:lang="en">private performance</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="en">contains information about a private performance.</desc>
+    						<gloss versionDate="2022-01-24" xml:lang="de">Privataufführung</gloss>
+    						<desc versionDate="2022-01-24" xml:lang="de">Enthält Informationen über eine Privataufführung.</desc>
+    					</valItem></valList></attDef><attDef ident="status" usage="opt">
                 <desc versionDate="2013-11-11" xml:lang="en">describes the status of a document either currently or, when associated with a dated element, at the time indicated.</desc>
                 <desc versionDate="2013-11-11" xml:lang="de">beschreibt entweder den aktuellen Status eines Dokuments oder den Zeitpunkt zu dem ein veraltetes Element zugeordnet wurde.</desc>
                 <valList type="closed">
