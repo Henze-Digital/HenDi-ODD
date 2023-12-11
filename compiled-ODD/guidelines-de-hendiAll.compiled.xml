@@ -8772,7 +8772,15 @@ Elements</ref>
     </egXML>
   </exemplum><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COBICOL">3.12.2.1. Analytic, Monographic, and Series Levels</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="core" ident="author"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2011-11-26">author</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2011-11-26" xml:lang="fr">auteur</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">Autor</gloss><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">in a bibliographic reference, contains the name(s) of an author, personal or corporate, of a work; for example in the same form as that provided by a recognized bibliographic name authority.</desc><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält den oder die Namen eines persönlichen oder geschäftlichen Verfassers einer Arbeit im Sinne einer bibliografischen Referenz; beispielsweise in der Form von Daten, die von einer anerkannten bibliographischen Instanz bereit gestellt werden.</desc><classes><memberOf key="model.respLike"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><constraintSpec xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="author-abb">
+  </listRef></elementSpec><elementSpec rend="change" module="core" ident="author"><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2011-11-26">author</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2011-11-26" xml:lang="fr">auteur</gloss><gloss xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2017-06-04" xml:lang="de">Autor</gloss><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">in a bibliographic reference, contains the name(s) of an author, personal or corporate, of a work; for example in the same form as that provided by a recognized bibliographic name authority.</desc><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält den oder die Namen eines persönlichen oder geschäftlichen Verfassers einer Arbeit im Sinne einer bibliografischen Referenz; beispielsweise in der Form von Daten, die von einer anerkannten bibliographischen Instanz bereit gestellt werden.</desc><classes><memberOf key="model.respLike"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><constraintSpec xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="check-author-has-role" mode="add">
+    			<desc versionDate="2023-12-11" xml:lang="en">Checks if the author element has a <att>role</att> attribute.</desc>
+    			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>author</gi> ein <att>role</att> Attribut aufweist.</desc>
+    			<constraint>
+    				<sch:rule context="tei:author[ancestor::tei:biblStruct and ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    					<sch:assert test="@role">Missing @role. Default is @role="aut"</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec><constraintSpec xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="author-abb">
                 <desc versionDate="2022-05-31" xml:lang="en">constrain the attribute <att>full</att> to occur only on <gi>author</gi> elements within <gi>biblStruct</gi>.</desc>
                 <desc versionDate="2022-05-31" xml:lang="de">erlaube das <att>full</att>-Attribut nur an <gi>author</gi>-Elementen innerhalb von <gi>biblStruct</gi>.</desc>
                 <constraint>
@@ -8787,13 +8795,13 @@ Elements</ref>
                             </sch:rule>
                         </constraint>
                     </constraintSpec><attList><attDef ident="key" mode="replace" usage="rec">
-    				<datatype xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+    				<datatype>
     					<dataRef key="hendi.personsPlus.pointer"/>
     				</datatype>
     			</attDef><attDef ident="role" usage="opt">
-    				<desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-12-07" xml:lang="en">Is used to classify Artists (paintings) and (text) authors.</desc>
-    				<desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-12-07" xml:lang="de">Wird verwendet um Künstler (bei Gemälden) von (Text-)Autoren abzugrenzen.</desc>
-    				<datatype xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+    				<desc versionDate="2023-12-07" xml:lang="en">Is used to classify Artists (paintings) and (text) authors.</desc>
+    				<desc versionDate="2023-12-07" xml:lang="de">Wird verwendet um Künstler (bei Gemälden) von (Text-)Autoren abzugrenzen.</desc>
+    				<datatype>
     					<dataRef key="marcRelator.list"/>
     				</datatype>
     			</attDef><attDef xmlns:teix="http://www.tei-c.org/ns/Examples" ident="sameAs" usage="opt">
@@ -14109,28 +14117,32 @@ a later hand, for quire 16 (f. 113).</signatures>
   <listRef>
     <ptr target="#msmisc"/>
   </listRef>
-</elementSpec><elementSpec module="msdescription" ident="stamp">
-  <gloss xml:lang="en" versionDate="2007-06-12">stamp</gloss>
-  <gloss versionDate="2007-06-12" xml:lang="fr">cachet</gloss>
-  <desc versionDate="2007-02-16" xml:lang="en">contains a word or phrase describing a
-stamp or similar device.</desc>
-  <desc versionDate="2007-12-20" xml:lang="ko">스탬프 또는 유사한 도구를 기술하는 단어 또는 구를 포함한다.</desc>
-  <desc versionDate="2007-05-02" xml:lang="zh-TW">包含一個字詞，描述一個印記或是類似圖案。</desc>
-  <desc versionDate="2008-04-05" xml:lang="ja">印などにある語句を示す．</desc>
-  <desc versionDate="2009-04-17" xml:lang="fr">Contient un mot ou une expression décrivant un cachet ou
-      une marque du même genre.</desc>
-  <desc versionDate="2007-11-06" xml:lang="it">contiene una parola o un sintagma che descrive un timbro o simile</desc>
-  <desc versionDate="2007-05-04" xml:lang="es">contiene una palabra o sintagma que describe un sello o una técnica similar.</desc>
-  <classes>
-    <memberOf key="att.global"/>
-    <memberOf key="model.pPart.msdesc"/>
-    <memberOf key="att.typed"/>
-    <memberOf key="att.datable"/>
-  </classes>
-  <content>
-    <macroRef key="macro.phraseSeq"/>
-  </content>
-  <exemplum xml:lang="mul">
+</elementSpec><elementSpec rend="change" module="msdescription" ident="stamp"><gloss xml:lang="en" versionDate="2007-06-12">stamp</gloss><gloss versionDate="2007-06-12" xml:lang="fr">cachet</gloss><desc versionDate="2007-02-16" xml:lang="en">contains a word or phrase describing a
+stamp or similar device.</desc><desc versionDate="2007-12-20" xml:lang="ko">스탬프 또는 유사한 도구를 기술하는 단어 또는 구를 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含一個字詞，描述一個印記或是類似圖案。</desc><desc versionDate="2008-04-05" xml:lang="ja">印などにある語句を示す．</desc><desc versionDate="2009-04-17" xml:lang="fr">Contient un mot ou une expression décrivant un cachet ou
+      une marque du même genre.</desc><desc versionDate="2007-11-06" xml:lang="it">contiene una parola o un sintagma che descrive un timbro o simile</desc><desc versionDate="2007-05-04" xml:lang="es">contiene una palabra o sintagma que describe un sello o una técnica similar.</desc><classes><memberOf key="att.global"/><memberOf key="model.pPart.msdesc"/><memberOf key="att.typed"/><memberOf key="att.datable"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="type" mode="change" usage="req">
+    				<valList type="closed" mode="add">
+    					<valItem ident="round" mode="add">
+    						<gloss versionDate="2023-12-11" xml:lang="en">stamp round</gloss>
+    						<gloss versionDate="2023-12-11" xml:lang="de">Rundstempel</gloss>
+    					</valItem>
+    					<valItem ident="square" mode="add">
+    						<gloss versionDate="2023-12-11" xml:lang="en">stamp square</gloss>
+    						<gloss versionDate="2023-12-11" xml:lang="de">Stempel (rechteckig)</gloss>
+    					</valItem>
+    					<valItem ident="oneline" mode="add">
+    						<gloss versionDate="2023-12-11" xml:lang="en">stamp oneline</gloss>
+    						<gloss versionDate="2023-12-11" xml:lang="de">Stempel (einzeilig)</gloss>
+    					</valItem>
+    					<valItem ident="rollerDate" mode="add">
+    						<gloss versionDate="2023-12-11" xml:lang="en">stamp (date)</gloss>
+    						<gloss versionDate="2023-12-11" xml:lang="de">Datumsstempel</gloss>
+    					</valItem>
+    					<valItem ident="stamp" mode="add">
+    						<gloss versionDate="2023-12-11" xml:lang="en">postage stamp</gloss>
+    						<gloss versionDate="2023-12-11" xml:lang="de">Briefmarke</gloss>
+    					</valItem>
+    				</valList>
+    			</attDef></attList><exemplum xml:lang="mul">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <rubric>Apologyticu TTVLLIANI AC IGNORATIA IN XPO IHV<lb/>
 SI NON LICET<lb/>
@@ -14139,26 +14151,22 @@ manii imperii <stamp>Bodleian stamp</stamp>
             <lb/>
          </rubric>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <rubric>Apologyticu TTVLLIANI AC IGNORATIA IN XPO IHV<lb/> SI NON LICET<lb/> NOBIS RO<lb/>
           manii imperii <stamp>Bodleian stamp</stamp>
             <lb/>
          </rubric>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <rubric>乾隆御覽之寶<stamp>清乾隆玉璽</stamp>
             <lb/>
          </rubric>
     </egXML>
-  </exemplum>
-  <listRef>
+  </exemplum><listRef>
     <ptr target="#mswat"/>
-  </listRef>
-</elementSpec><elementSpec module="msdescription" xml:id="WATERMARK" ident="watermark">
+  </listRef></elementSpec><elementSpec module="msdescription" xml:id="WATERMARK" ident="watermark">
   <gloss xml:lang="en" versionDate="2007-06-12">watermark</gloss>
   <gloss versionDate="2007-06-12" xml:lang="fr">filigrane</gloss>
   <desc versionDate="2005-01-14" xml:lang="en" xml:id="watermark.desc">contains a word or phrase describing a
@@ -21070,7 +21078,7 @@ associated.</desc>
     </p>
   </remarks><listRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHAD">11.3.1.4. Additions and Deletions</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="transcr" ident="damage"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2007-06-12">damage</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-06-12" xml:lang="fr">dommage</gloss><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains an area of damage to the text witness.</desc><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Schadensbereich im Textzeugen.</desc><classes><memberOf key="model.pPart.transcriptional"/></classes><content><oneOrMore xmlns="http://relaxng.org/ns/structure/1.0"><ref name="model.damagePart"/></oneOrMore></content><attList><attDef ident="agent" usage="req"><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="en">categorizes the cause of the damage, if it can be identified.</desc><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">kategorisiert den Grund der Beschädigung, wenn er identifiziert werden kann.</desc><valList xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" type="closed" mode="change"><valItem xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="smoke">
+  </listRef></elementSpec><elementSpec rend="change" module="transcr" ident="damage"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en" versionDate="2007-06-12">damage</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-06-12" xml:lang="fr">dommage</gloss><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains an area of damage to the text witness.</desc><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält einen Schadensbereich im Textzeugen.</desc><classes><memberOf key="model.pPart.transcriptional"/></classes><content><classRef xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" key="model.damagePart" minOccurs="0" maxOccurs="unbounded"/></content><attList><attDef ident="agent" usage="req"><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="en">categorizes the cause of the damage, if it can be identified.</desc><desc xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2013-11-11" xml:lang="de">kategorisiert den Grund der Beschädigung, wenn er identifiziert werden kann.</desc><valList xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" type="closed" mode="change"><valItem xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="smoke">
                             <gloss versionDate="2013-11-11" xml:lang="en">smoke/fire</gloss>
                             <desc versionDate="2013-11-11" xml:lang="en">Damage to the manuscript by fire or smoke.</desc>
                             <gloss versionDate="2013-11-11" xml:lang="de">Rauch/Feuer</gloss>
