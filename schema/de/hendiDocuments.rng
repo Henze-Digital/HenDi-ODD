@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2023-12-11T11:26:13Z. .
+Schema generated from ODD source 2023-12-12T12:53:39Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -5807,6 +5807,8 @@ Empfohlene Werte sind: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7] OC
                      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Der betreffende Text steht linksbündig.</a:documentation>
                      <value>center</value>
                      <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Der betreffende Text steht zentriert.</a:documentation>
+                     <value>inlineApart</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Die betreffenden Textsegmente steht gesperrt.</a:documentation>
                   </choice>
                   <optional>
                      <choice>
@@ -5824,6 +5826,8 @@ Empfohlene Werte sind: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7] OC
                         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Der betreffende Text steht linksbündig.</a:documentation>
                         <value>center</value>
                         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Der betreffende Text steht zentriert.</a:documentation>
+                        <value>inlineApart</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Die betreffenden Textsegmente steht gesperrt.</a:documentation>
                      </choice>
                   </optional>
                </list>
@@ -7109,24 +7113,39 @@ Beispielwerte sind etwa: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniatu
       <element name="stamp">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(stamp) contains a word or phrase describing a stamp or similar device. []</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiDocuments-stamp-check-stamp-type-constraint-rule-69">
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:stamp">
+               <sch:assert test="@type" role="warn">No type is set. Please use a classification.</sch:assert>
+            </sch:rule>
+         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attribute.subtype"/>
          <ref name="att.datable.attributes"/>
-         <attribute name="type">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
-            <choice>
-               <value>round</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Rundstempel) </a:documentation>
-               <value>square</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Stempel (rechteckig)) </a:documentation>
-               <value>oneline</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Stempel (einzeilig)) </a:documentation>
-               <value>rollerDate</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Datumsstempel) </a:documentation>
-               <value>stamp</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Briefmarke) </a:documentation>
-            </choice>
-         </attribute>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+               <choice>
+                  <value>round</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Rundstempel) </a:documentation>
+                  <value>square</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Stempel (rechteckig)) </a:documentation>
+                  <value>oneline</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Stempel (einzeilig)) </a:documentation>
+                  <value>rollerDate</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Datumsstempel) </a:documentation>
+                  <value>stamp</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Briefmarke) </a:documentation>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -7476,7 +7495,7 @@ Beispielwerte sind etwa: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniatu
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiDocuments-physDesc-empty-physDesc-constraint-assert-56">
+                  id="hendiDocuments-physDesc-empty-physDesc-constraint-assert-57">
             <rule context="tei:physDesc">
                <sch:assert xmlns:mei="http://www.music-encoding.org/ns/mei"
                            xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -8137,7 +8156,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-att.witnessed-att-wit-constraint-rule-69">
+            id="hendiDocuments-att.witnessed-att-wit-constraint-rule-70">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8274,7 +8293,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Zeichen oder Glyphe) Repräsentiert eine Glyphe oder ein ausgefallenes (nicht im Unicode-Standard beschriebenes) Zeichen. [5. Characters, Glyphs, and Writing Modes]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiDocuments-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-70">
+                  id="hendiDocuments-g-enforce-ref-attribute-for-smufl-characters-constraint-rule-71">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8436,7 +8455,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-att.measurement-att-measurement-unitRef-constraint-rule-71">
+            id="hendiDocuments-att.measurement-att-measurement-unitRef-constraint-rule-72">
       <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
@@ -8584,7 +8603,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
             <ref name="desc"/>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiDocuments-relation-reforkeyorname-constraint-assert-59">
+                  id="hendiDocuments-relation-reforkeyorname-constraint-assert-60">
             <rule context="tei:relation">
                <assert xmlns:xi="http://www.w3.org/2001/XInclude"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8764,7 +8783,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-att.hendi.rend-underline-n-constraint-rule-72">
+            id="hendiDocuments-att.hendi.rend-underline-n-constraint-rule-73">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8791,7 +8810,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-att.hendi.restrict-check-restriction-id-pattern-constraint-rule-73">
+            id="hendiDocuments-att.hendi.restrict-check-restriction-id-pattern-constraint-rule-74">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -8941,7 +8960,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-att.hendi.rotation-divRotation-constraint-rule-74">
+            id="hendiDocuments-att.hendi.rotation-divRotation-constraint-rule-75">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9029,7 +9048,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-whitespaceOnlyContent-constraint-rule-75">
+            id="hendiDocuments-whitespaceOnlyContent-constraint-rule-76">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9043,7 +9062,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-elementStartsWithWhitespace-constraint-rule-76">
+            id="hendiDocuments-elementStartsWithWhitespace-constraint-rule-77">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9059,7 +9078,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-hiRendUnderlineStartsWithWhitespace-constraint-rule-77">
+            id="hendiDocuments-hiRendUnderlineStartsWithWhitespace-constraint-rule-78">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9075,7 +9094,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-untrimmedAttributeValues-constraint-rule-78">
+            id="hendiDocuments-untrimmedAttributeValues-constraint-rule-79">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9088,7 +9107,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-hendiTargets-constraint-rule-79">
+            id="hendiDocuments-hendiTargets-constraint-rule-80">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9101,7 +9120,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-emojiCheck-constraint-rule-80">
+            id="hendiDocuments-emojiCheck-constraint-rule-81">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9114,7 +9133,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-sourceMustResolve-constraint-rule-81">
+            id="hendiDocuments-sourceMustResolve-constraint-rule-82">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9214,7 +9233,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-addWithoutPlace-constraint-rule-84">
+            id="hendiDocuments-addWithoutPlace-constraint-rule-85">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9227,7 +9246,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-nameTypeRequirement-constraint-rule-85">
+            id="hendiDocuments-nameTypeRequirement-constraint-rule-86">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9240,7 +9259,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-lbInsideAddress-constraint-rule-86">
+            id="hendiDocuments-lbInsideAddress-constraint-rule-87">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9254,7 +9273,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-renditionWithPosition-constraint-rule-87">
+            id="hendiDocuments-renditionWithPosition-constraint-rule-88">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9263,7 +9282,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
-         <sch:assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
+         <sch:assert test="@rend = ('right','center','left','inlineApart')">If only one value is set, it should should address the horizontal position ('right','center','left','inlineApart')</sch:assert>
       </sch:rule>
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
@@ -9274,7 +9293,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:addrLine[@rend] | tei:dateline[@rend]">
          <sch:assert test="tokenize(@rend, ' ')[1] = ('top','middle','bottom','inline')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
-         <sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
+         <sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left','inlineApart')">the second value should address the horizontal position ('right','center','left','inlineApart')</sch:assert>
       </sch:rule>
    </pattern>
    <sch:pattern xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -9342,7 +9361,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-importName-constraint-rule-107">
+            id="hendiDocuments-importName-constraint-rule-108">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9360,7 +9379,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-quotation-rend-values-constraint-rule-108">
+            id="hendiDocuments-quotation-rend-values-constraint-rule-109">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9393,7 +9412,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-quotation-rend-attributes-constraint-rule-111">
+            id="hendiDocuments-quotation-rend-attributes-constraint-rule-112">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9415,7 +9434,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
            prefix="mei"
            uri="http://www.music-encoding.org/ns/mei"/>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-rendIfBreakNo-constraint-rule-112">
+            id="hendiDocuments-rendIfBreakNo-constraint-rule-113">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9428,7 +9447,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-reportLBfollowsPB-constraint-rule-113">
+            id="hendiDocuments-reportLBfollowsPB-constraint-rule-114">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9441,7 +9460,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-seriesTitleRequirements-constraint-rule-114">
+            id="hendiDocuments-seriesTitleRequirements-constraint-rule-115">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9460,7 +9479,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-correspDescControl-constraint-rule-115">
+            id="hendiDocuments-correspDescControl-constraint-rule-116">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9486,7 +9505,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-textTypeControl-constraint-rule-117">
+            id="hendiDocuments-textTypeControl-constraint-rule-118">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9506,7 +9525,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-styleguide-document-node-content-constraint-rule-118">
+            id="hendiDocuments-styleguide-document-node-content-constraint-rule-119">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -9520,7 +9539,7 @@ Empfohlene Werte sind: 1] paper; 2] parch (parchment); 3] mixed</a:documentation
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiDocuments-seriesTitle-constraint-rule-119">
+            id="hendiDocuments-seriesTitle-constraint-rule-120">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
