@@ -1615,6 +1615,10 @@
                         <desc versionDate="2017-04-12" xml:lang="en">The segment of text appears centered.</desc>
                         <desc versionDate="2017-04-12" xml:lang="de">Der betreffende Text steht zentriert.</desc>
                     </valItem>
+                	<valItem ident="inlineApart">
+                        <desc versionDate="2023-12-12" xml:lang="en">The segments of text appear justified in between.</desc>
+                        <desc versionDate="2023-12-12" xml:lang="de">Die betreffenden Textsegmente steht gesperrt.</desc>
+                    </valItem>
                 </valList>
             </content>
         </dataSpec>
@@ -2003,11 +2007,11 @@
             <desc versionDate="2021-11-16" xml:lang="de">Warnung vor Attributen mit sinnlosen Wert-Kombinationen.</desc>
             <constraint>
                 <sch:rule context="tei:addrLine[@rend and not(contains(@rend,' '))] | tei:dateline[@rend and not(contains(@rend,' '))]">
-                    <sch:assert test="@rend = ('right','center','left')">If only one value is set, it should should address the horizontal position ('right','center','left')</sch:assert>
+                	<sch:assert test="@rend = ('right','center','left','inlineApart')">If only one value is set, it should should address the horizontal position ('right','center','left','inlineApart')</sch:assert>
                 </sch:rule>
                 <sch:rule context="tei:addrLine[@rend] | tei:dateline[@rend]">
                     <sch:assert test="tokenize(@rend, ' ')[1] = ('top','middle','bottom','inline')">the first value should address the vertical position ('top','middle','bottom')</sch:assert>
-                    <sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left')">the second value should address the horizontal position ('right','center','left')</sch:assert>
+                	<sch:assert test="tokenize(@rend, ' ')[2] = ('right','center','left','inlineApart')">the second value should address the horizontal position ('right','center','left','inlineApart')</sch:assert>
                 </sch:rule>
             </constraint>
         </constraintSpec>
@@ -4169,7 +4173,7 @@
                     <gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
                     <desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
                     <datatype minOccurs="1" maxOccurs="2">
-                        <dataRef key="hwhdata.position"/>
+                    	<dataRef key="hwhdata.position"/>
                     </datatype>
                 </attDef>
             </attList>
@@ -4846,6 +4850,17 @@
 	            <memberOf key="att.hendi.placement" mode="add"/>
 	            <memberOf key="att.hendi.rotation" mode="add"/>
 	        </classes>
+        	<attList>
+        		<attDef ident="rend" mode="change" usage="opt">
+	        		<gloss versionDate="2021-11-16" xml:lang="en">rendition</gloss>
+	        		<desc versionDate="2021-11-16" xml:lang="en">specifies the position and alignment in the source.</desc>
+	        		<gloss versionDate="2021-11-16" xml:lang="de">Ausgabe</gloss>
+	        		<desc versionDate="2021-11-16" xml:lang="de">gibt die Position und Ausrichtung in der Quelle an.</desc>
+	        		<datatype minOccurs="1" maxOccurs="2">
+	        			<dataRef key="hwhdata.position"/>
+	        		</datatype>
+	        	</attDef>
+        	</attList>
 	    </elementSpec>
 	    <elementSpec ident="closer" mode="change" module="textstructure">
 	        <desc versionDate="2023-01-27" xml:lang="en">groups together salutations, datelines, and similar phrases appearing as a final group at the end of a division, especially of a letter.</desc>
