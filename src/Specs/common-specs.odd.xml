@@ -2345,10 +2345,10 @@
     		</attList>
     	</elementSpec>
     	<elementSpec ident="biblStruct" mode="change" module="core">
-    		<gloss versionDate="2021-12-16" xml:lang="en">structured bibliographic citation</gloss>
-    		<desc versionDate="2021-12-16" xml:lang="en">contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order.</desc>
-    		<gloss versionDate="2021-12-16" xml:lang="de">strukturierte bibliographische Angaben</gloss>
-    		<desc versionDate="2021-12-16" xml:lang="de">enthält ein strukturiertes bibliographisches Zitat, in dem nur bibliographische Unterelemente erscheinen, die in einer bestimmten Reihenfolge geordnet sind.</desc>
+    		<gloss versionDate="2024-01-20" xml:lang="en">structured bibliographic citation</gloss>
+    		<desc versionDate="2024-01-20" xml:lang="en">contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order.</desc>
+    		<gloss versionDate="2024-01-20" xml:lang="de">strukturierte bibliographische Angaben</gloss>
+    		<desc versionDate="2024-01-20" xml:lang="de">enthält ein strukturiertes bibliographisches Zitat, in dem nur bibliographische Unterelemente erscheinen, die in einer bestimmten Reihenfolge geordnet sind.</desc>
     		<classes mode="change">
     			<memberOf key="att.docStatus" mode="add"/>
     		</classes>
@@ -2369,34 +2369,26 @@
     				</rng:element>
     				<!-- ordentlicher Eintrag -->
     				<rng:group>
+    					<rng:zeroOrMore>
+    						<rng:ref name="idno"/>
+    					</rng:zeroOrMore>
     					<rng:choice>
     						<rng:group>
-    							<rng:zeroOrMore>
-    								<rng:ref name="analytic"/>
-    							</rng:zeroOrMore>
-    							<rng:oneOrMore>
-    								<rng:ref name="monogr"/>
-    								<rng:zeroOrMore>
-    									<rng:ref name="series"/>
-    								</rng:zeroOrMore>
-    							</rng:oneOrMore>
+    							<rng:ref name="analytic"/>
+    							<rng:ref name="monogr"/>
+    						</rng:group>
+    						<rng:group>
+    							<rng:ref name="monogr"/>
+    							<rng:ref name="series"/>
     						</rng:group>
     						<rng:ref name="series"/>
     					</rng:choice>
-    					<rng:interleave>
-    					    <rng:optional>
-    					        <rng:ref name="relatedItem"/>
-    					    </rng:optional>
-    						<rng:optional>
-    							<rng:ref name="keywords"/>
-    						</rng:optional>
-    						<rng:optional>
-    							<rng:ref name="note"/>
-    						</rng:optional>
-    						<rng:zeroOrMore>
-    							<rng:ref name="idno"/>
-    						</rng:zeroOrMore>
-    					</rng:interleave>
+    					<rng:optional>
+    						<rng:ref name="note"/>
+    					</rng:optional>
+    					<rng:optional>
+    						<rng:ref name="keywords"/>
+    					</rng:optional>
     				</rng:group>
     			</rng:choice>
     		</content>
@@ -2417,7 +2409,33 @@
     	            </sch:rule>
     	        </constraint>
     	    </constraintSpec>
-    	    <attList>
+    		<constraintSpec scheme="schematron" ident="biblStructAnalyticMonogr" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@key]/node()">
+    					<sch:report test="not(local-name(.) = 'biblScope')">If monogr has a @key only biblStruct is allowed here.</sch:report>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr">
+    					<sch:assert test="@key">If analytic is present monogr needs a @key.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:analytic)]/tei:monogr">
+    					<sch:report test="@key">@key is only allowed if an analytic element is present.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="biblStructMonogrSeries" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series[@key]">
+    					<sch:report test="node()">No content alowed if series has a @key.</sch:report>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series">
+    					<sch:assert test="@key">If monogr is present series needs a @key.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:monogr)]/tei:series">
+    					<sch:report test="@key">@key is only allowed if an monogr element is present.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<attList>
     			<attDef ident="xml:id" mode="replace" usage="rec">
     				<datatype>
     					<dataRef key="hendi.biblio.pointer"/>
