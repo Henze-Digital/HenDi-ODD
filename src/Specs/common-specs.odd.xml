@@ -2294,7 +2294,7 @@
     			<desc versionDate="2023-12-11" xml:lang="en">Checks if the author element has a <att>role</att> attribute.</desc>
     			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>author</gi> ein <att>role</att> Attribut aufweist.</desc>
     			<constraint>
-    				<sch:rule context="tei:author[ancestor::tei:biblStruct and ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    				<sch:rule context="tei:author[ancestor::tei:biblStruct or ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
     					<sch:assert test="@role">Missing @role. Default is @role="aut"</sch:assert>
     				</sch:rule>
     			</constraint>
@@ -2587,6 +2587,15 @@
     		</content>
     	</elementSpec>
     	<elementSpec ident="editor" mode="change" module="core">
+    		<constraintSpec scheme="schematron" ident="check-editor-has-role" mode="add">
+    			<desc versionDate="2023-12-11" xml:lang="en">Checks if the editor element has a <att>role</att> attribute.</desc>
+    			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>editor</gi> ein <att>role</att> Attribut aufweist.</desc>
+    			<constraint>
+    				<sch:rule context="tei:editor[ancestor::tei:biblStruct or ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    					<sch:assert test="@role">Missing @role. Default is @role="edt"</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
     		<attList>
     			<attDef ident="key" mode="replace" usage="rec">
     				<datatype>
