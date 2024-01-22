@@ -2289,6 +2289,7 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	
     	<elementSpec ident="author" mode="change" module="core">
     		<constraintSpec scheme="schematron" ident="check-author-has-role" mode="add">
     			<desc versionDate="2023-12-11" xml:lang="en">Checks if the author element has a <att>role</att> attribute.</desc>
@@ -2413,27 +2414,27 @@
     	    </constraintSpec>
     		<constraintSpec scheme="schematron" ident="biblStructAnalyticMonogr" mode="add">
     			<constraint>
-    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@key]/node()">
-    					<sch:report test="not(local-name(.) = 'biblScope')">If monogr has a @key only biblStruct is allowed here.</sch:report>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@sameAs]/node()">
+    					<sch:report test="not(local-name(.) = 'biblScope')">If monogr has @sameAs only biblStruct is allowed.</sch:report>
     				</sch:rule>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr">
-    					<sch:assert test="@key">If analytic is present monogr needs a @key.</sch:assert>
+    					<sch:assert test="@sameAs">If analytic is present monogr needs @sameAs.</sch:assert>
     				</sch:rule>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:analytic)]/tei:monogr">
-    					<sch:report test="@key">@key is only allowed if an analytic element is present.</sch:report>
+    					<sch:report test="@sameAs">@sameAs is only allowed if an analytic element is present.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec>
     		<constraintSpec scheme="schematron" ident="biblStructMonogrSeries" mode="add">
     			<constraint>
-    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series[@key]">
-    					<sch:report test="node()">No content alowed if series has a @key.</sch:report>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series[@sameAs]">
+    					<sch:report test="node()">No content alowed if series has @sameAs.</sch:report>
     				</sch:rule>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series">
-    					<sch:assert test="@key">If monogr is present series needs a @key.</sch:assert>
+    					<sch:assert test="@sameAs">If monogr is present series needs @sameAs.</sch:assert>
     				</sch:rule>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:monogr)]/tei:series">
-    					<sch:report test="@key">@key is only allowed if an monogr element is present.</sch:report>
+    					<sch:report test="@sameAs">@sameAs is only allowed if an monogr element is present.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec>
@@ -2759,9 +2760,10 @@
     			<elementRef key="editor" minOccurs="0" maxOccurs="unbounded"/>
     			<elementRef key="imprint" minOccurs="0" maxOccurs="1"/>
     			<elementRef key="biblScope" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
     		</content>
     		<attList>
-    			<attDef ident="key" mode="add">
+    			<attDef ident="sameAs" mode="add">
     				<datatype>
     					<dataRef key="hendi.biblio.pointer"/>
     				</datatype>
@@ -3097,9 +3099,10 @@
     		<content>
     			<elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
     			<elementRef key="editor" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
     		</content>
     		<attList>
-    			<attDef ident="key" mode="add">
+    			<attDef ident="sameAs" mode="add">
     				<datatype>
     					<dataRef key="hendi.biblio.pointer"/>
     				</datatype>
