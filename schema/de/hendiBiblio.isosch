@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2024-01-22T09:03:09Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2024-01-22T16:21:19Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -416,25 +416,25 @@ attributes @target and @cRef may be supplied on <name/>.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiBiblio-biblStruct-biblStructAnalyticMonogr-70">
-      <rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@key]/node()">
-         <report test="not(local-name(.) = 'biblScope')">If monogr has a @key only biblStruct is allowed here.</report>
+      <rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@sameAs]/node()">
+         <report test="not(local-name(.) = 'biblScope')">If monogr has @sameAs only biblStruct is allowed.</report>
       </rule>
       <rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr">
-         <assert test="@key">If analytic is present monogr needs a @key.</assert>
+         <assert test="@sameAs">If analytic is present monogr needs @sameAs.</assert>
       </rule>
       <rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:analytic)]/tei:monogr">
-         <report test="@key">@key is only allowed if an analytic element is present.</report>
+         <report test="@sameAs">@sameAs is only allowed if an analytic element is present.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiBiblio-biblStruct-biblStructMonogrSeries-71">
-      <rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series[@key]">
-         <report test="node()">No content alowed if series has a @key.</report>
+      <rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series[@sameAs]">
+         <report test="node()">No content alowed if series has @sameAs.</report>
       </rule>
       <rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series">
-         <assert test="@key">If monogr is present series needs a @key.</assert>
+         <assert test="@sameAs">If monogr is present series needs @sameAs.</assert>
       </rule>
       <rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:monogr)]/tei:series">
-         <report test="@key">@key is only allowed if an monogr element is present.</report>
+         <report test="@sameAs">@sameAs is only allowed if an monogr element is present.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiBiblio-relatedItem-relatedItem-type-within-notesStmt-72">
@@ -600,7 +600,7 @@ relatedItem element must be empty</report>
          <assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</assert>
       </rule>
    </pattern>
-   
+   <schema queryBinding="xslt2">
       <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:int2hex">
          <param name="number" as="xs:int"/>
          <variable name="chars"
@@ -641,8 +641,8 @@ relatedItem element must be empty</report>
             <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
-   
-   
+   </schema>
+   <schema queryBinding="xslt2">
       <function xmlns="http://www.w3.org/1999/XSL/Transform"
                 name="functx:escape-for-regex"
                 as="xs:string">
@@ -674,7 +674,7 @@ relatedItem element must be empty</report>
             <assert test="$fileDir = concat(substring($fileName,1,5),'xxx')" role="error">The file is stored in the wrong directory. Please check!</assert>
          </rule>
       </pattern>
-   
+   </schema>
    <pattern id="schematron-constraint-hendiBiblio-addWithoutPlace-101">
       <rule context="tei:add[not(parent::tei:subst)]">
          <assert test="@place">Missing @place, because this is no substitution here.</assert>
