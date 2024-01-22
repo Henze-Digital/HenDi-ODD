@@ -1,0 +1,160 @@
+# GitLab CI configuration for the "HenDi-ODD"
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  HENDI_CI_DOCKER_IMAGE: "registry.git.uni-paderborn.de/vife/henze-digital/hendi-ci-docker-image:develop"
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_DEPTH: 20
+
+default:
+  image: $HENDI_CI_DOCKER_IMAGE
+  
+stages:
+  - compile-00
+  - compile-01
+  - compile-02
+  - compile-03
+  - compile-04
+  - compile-05
+  - compile-06
+  - compile-07
+  - compile-08
+  - compile-09
+  - compile-10
+  - compile-11
+  - compile-12
+  - compile-13
+  - compile-14
+  - trigger-update
+
+
+.git_setup:
+  script:
+    - git config user.email "${GITLAB_USER_EMAIL}"
+    - git config user.name "${GITLAB_USER_NAME}"
+    - git config pull.rebase false
+    - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
+    - git pull origin ${CI_COMMIT_REF_NAME} #--allow-unrelated-histories
+
+.git_commit:
+  script:
+    - git add .
+    - git commit -m "${CI_JOB_NAME} auto compile"
+    - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
+
+.default_rules:
+  rules:
+    #- changes:
+    #  - src/Specs/common-specs.odd.xml
+    - when : never
+
+.build-test-target:
+  script:
+    - ant ${CI_JOB_STAGE}
+    - ant check-rng-output -DselectedSchema=${CI_JOB_STAGE}
+  rules:
+    - !reference [.default_rules, rules]
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
+      when: always
+    - changes:
+      - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
+
+.compile-target:
+  script:
+    - !reference [.git_setup, script]
+    - ant ${CI_JOB_NAME}
+    - !reference [.git_commit, script]
+  rules:
+    - !reference [.default_rules, rules]
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
+      when: never
+    #- changes:
+    #  - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
+    - when: never
+
+hendiAll:
+  stage: compile-00
+  extends: .compile-target
+  rules:
+    #- changes:
+    #  - src/Guidelines/de/*.xml
+    #  - src/Specs/common-specs.odd.xml
+    #  - src/Specs/schemaSpec-hendiAll.odd.xml
+    - if: $BUILD_HENDI_ALL == "true"
+      when:  always
+
+#hendiBiblio:test:
+#  stage: hendiBiblio
+#  extends: .build-test-target
+
+#hendiBiblio:compile:
+#  stage: hendiBiblio
+#  needs: [hendiBiblio:test]
+#  extends: .compile-target
+
+hendiBiblio:
+  stage: compile-01
+  extends: .compile-target
+
+hendiDocuments:
+  stage: compile-02
+  extends: .compile-target
+
+hendiLetters:
+  stage: compile-03
+  extends: .compile-target
+
+hendiNews:
+  stage: compile-04
+  extends: .compile-target
+
+hendiOrgs:
+  stage: compile-05
+  extends: .compile-target
+
+hendiPersons:
+  stage: compile-06
+  extends: .compile-target
+
+hendiPlaces:
+  stage: compile-07
+  extends: .compile-target
+
+hendiThematicCommentaries:
+  stage: compile-08
+  extends: .compile-target
+
+hendiVar:
+  stage: compile-09
+  extends: .compile-target
+
+hendiWorksMEI:
+  stage: compile-11
+  extends: .compile-target
+
+hendiWorksTEI:
+  stage: compile-12
+  extends: .compile-target
+
+hendiWritings:
+  stage: compile-13
+  extends: .compile-target
+
+trigger-update-submodules:
+  stage: trigger-update
+  image: curlimages/curl
+  script: 
+    - "curl -X POST --fail -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
+    - "curl -X POST --fail -F token=$TRIGGER_WEBAPP_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/5005/trigger/pipeline"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_REF_NAME =~ "/^feature/"
+      when: never
+    - if: $TRIGGER_UPDATE_SUBMODULES == "true"
+      when: always
+    - when: never
+
