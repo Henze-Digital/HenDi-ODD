@@ -2181,6 +2181,44 @@
                 </sch:rule>
             </constraint>
         </constraintSpec>
+        <constraintSpec scheme="schematron" ident="check-resp-att-against-editors" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks if the named responsibility is equal to the editors of a document.</desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Überprüft ob die genannten Verantwortlichkeiten mit den Herausgebenden übereinstimmen.</desc>
+            <constraint>
+                <!-- https://www.xml.com/articles/2022/10/17/schematron-qlb-xslt/ -->
+                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+                    <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+                    <sch:ns uri="http://www.functx.com" prefix="functx"/>
+                    <xsl:function name="functx:contains-any-of" as="xs:boolean">
+                        <xsl:param name="arg" as="xs:string?"/>
+                        <xsl:param name="searchStrings" as="xs:string*"/>
+                        <xsl:sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
+                    </xsl:function>
+                    <xsl:function name="hendi-xsl:EditorNameAsSiglum">
+                        <xsl:param name="resp" as="node()"/>
+                        <xsl:variable name="editors" select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
+                        <xsl:for-each select="$editors">
+                            <!--<xsl:variable name="initials">
+                                <xsl:for-each select="tokenize(., ' ')">
+                                    <xsl:value-of select="substring(.,1,1)"/>
+                                </xsl:for-each>
+                            </xsl:variable>
+                            <xsl:value-of select="string-join($initials,'')"/>-->
+                            <xsl:choose>
+                                <xsl:when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</xsl:when>
+                                <xsl:when test=". = 'Irmlind Capelle' or . = 'Capelle, Irmlind' or @key = 'A0000051'">IC</xsl:when>
+                                <xsl:when test=". = 'Dennis Ried' or . = 'Ried, Dennis' or @key = 'A0000015'">DR</xsl:when>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </xsl:function>
+                    <sch:pattern id="respCheck">
+                        <sch:rule context="tei:note[@resp][@type='commentary' or @type='themmaticCom' or @type='editorial' or @type='textConst'] | tei:supplied | tei:choice | tei:sic"> 
+                            <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
+                        </sch:rule>
+                    </sch:pattern>
+                </sch:schema>
+            </constraint>
+        </constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-styleguides">
