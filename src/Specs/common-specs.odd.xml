@@ -1447,7 +1447,7 @@
     			<memberOf key="att.hendi.color" mode="add"/>
     		</classes>
     		<attList>
-    			<attDef ident="script" mode="change" usage="req">
+    			<attDef ident="script" mode="change" usage="rec">
     				<valList type="closed" mode="add">
     					<valItem ident="manuscript">
     						<desc versionDate="2021-10-27" xml:lang="en">manuscript.</desc>
@@ -2166,7 +2166,21 @@
     			</sch:rule>
     		</constraint>
     	</constraintSpec>
-    	
+        <constraintSpec scheme="schematron" ident="handShifthandNoteAtts" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks the handling of <att>script</att> and<att>corresp</att></desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Prüft die Verwendung von <att>script</att> und <att>corresp</att> </desc>
+            <constraint>
+                <sch:rule context="tei:handShift[@corresp]">
+                    <sch:report test="@script">@script is not allowed, when @corresp is present.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handShift">
+                    <sch:report test="not(@corresp) and not(@script)">Add missing @script or @corresp.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handNote">
+                    <sch:assert test="@script">@script is not defined.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-styleguides">
