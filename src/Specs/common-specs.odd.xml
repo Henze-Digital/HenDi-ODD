@@ -2689,6 +2689,13 @@
     			<memberOf key="att.global.responsibility" mode="delete"/>
     			<memberOf key="att.global.source" mode="delete"/>
     		</classes>
+    	    <constraintSpec scheme="schematron" ident="foreign-id-note-exists" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:foreign[@xml:id]">
+    	                <sch:assert test="ancestor::tei:TEI//@corresp/substring(.,2) = @xml:id">There must be an note refering to this foreign. If not, please delete @xml:id.</sch:assert>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
     		<attList>
     			<attDef ident="n" mode="delete"/>
     			<attDef ident="xml:base" mode="delete"/>
@@ -2857,7 +2864,7 @@
     		<constraintSpec scheme="schematron" ident="text-notes" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation', 'restriction')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec>
@@ -3338,7 +3345,7 @@
         <elementSpec ident="notesStmt" module="header" mode="change">
             <constraintSpec scheme="schematron" ident="count-notes" mode="replace">
                 <constraint>
-                	<sch:report test="count(tei:note[not(@type='translation')]/@type) ne count(distinct-values(tei:note[not(@type='translation')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
+                    <sch:report test="count(tei:note[not(@type='translation') and not(@type='restriction')]/@type) ne count(distinct-values(tei:note[not(@type='translation') and not(@type='restriction')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
                 </constraint>
             </constraintSpec>
         </elementSpec>
