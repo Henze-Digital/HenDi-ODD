@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-02-13T14:01:50Z. .
+Schema generated from ODD source 2024-02-15T13:22:44Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for the superset schema at Henze-Digital 
@@ -6106,7 +6106,7 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
                            xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                           test="count(tei:note[not(@type='translation')]/@type) ne count(distinct-values(tei:note[not(@type='translation')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
+                           test="count(tei:note[not(@type='translation') and not(@type='restriction')]/@type) ne count(distinct-values(tei:note[not(@type='translation') and not(@type='restriction')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
             </rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -10605,6 +10605,19 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       <element name="foreign">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(fremd) dieses Element zeigt den Beginn einer (neuen) Zeile an. []</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="hendiAll-foreign-foreign-id-note-exists-constraint-rule-87">
+            <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
+                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                      xmlns:s="http://www.ascc.net/xml/schematron"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      context="tei:foreign[@xml:id]">
+               <sch:assert test="ancestor::tei:TEI//@corresp/substring(.,2) = @xml:id">There must be an note refering to this foreign. If not, please delete @xml:id.</sch:assert>
+            </sch:rule>
+         </pattern>
          <ref name="att.global.rendition.attribute.rendition"/>
          <ref name="att.global.rendition.attribute.rend"/>
          <ref name="att.global.linking.attribute.synch"/>
@@ -10728,7 +10741,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-att.measurement-att-measurement-unitRef-constraint-rule-87">
+            id="hendiAll-att.measurement-att-measurement-unitRef-constraint-rule-88">
       <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
@@ -10743,7 +10756,7 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Name, Eigenname) enthält einen Eigennamen in Form eines Nomens oder einer Nominalphrase. []</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-name-name-typeDep-constraint-rule-88">
+                  id="hendiAll-name-name-typeDep-constraint-rule-89">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -10908,7 +10921,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
          <ref name="hendi_term.list"/>
          <ref name="hendi.orgType.list"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-term-controleContentOfLettersTermElements-constraint-rule-89">
+                  id="hendiAll-term-controleContentOfLettersTermElements-constraint-rule-90">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11017,7 +11030,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Anmerkung) enthält eine Anmerkung oder Annotation. [   ]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-translation-notes-corresp-constraint-rule-90">
+                  id="hendiAll-note-translation-notes-corresp-constraint-rule-91">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11031,7 +11044,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-restriction-notes-corresp-constraint-rule-91">
+                  id="hendiAll-note-restriction-notes-corresp-constraint-rule-92">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11045,7 +11058,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-note-commentary-id-pattern-constraint-rule-92">
+                  id="hendiAll-note-note-commentary-id-pattern-constraint-rule-93">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11058,7 +11071,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-note-in-text-constraint-rule-93">
+                  id="hendiAll-note-note-in-text-constraint-rule-94">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11072,7 +11085,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-notesStmt-notes-constraint-rule-94">
+                  id="hendiAll-note-notesStmt-notes-constraint-rule-95">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11085,7 +11098,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-text-notes-constraint-rule-95">
+                  id="hendiAll-note-text-notes-constraint-rule-96">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                       xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                       xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11094,7 +11107,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       context="tei:note[not(parent::tei:notesStmt)]">
-               <sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+               <sch:report test="@type=('editorial', 'summary', 'incipit', 'translation', 'restriction')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
             </sch:rule>
          </pattern>
          <ref name="att.global.responsibility.attributes"/>
@@ -11107,7 +11120,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-corresp-translation-note-ref-constraint-rule-96">
+                  id="hendiAll-note-corresp-translation-note-ref-constraint-rule-97">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -11117,7 +11130,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="hendiAll-note-corresp-restriction-note-ref-constraint-rule-97">
+                  id="hendiAll-note-corresp-restriction-note-ref-constraint-rule-98">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
@@ -11287,7 +11300,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-att.hendi.rend-underline-n-constraint-rule-98">
+            id="hendiAll-att.hendi.rend-underline-n-constraint-rule-99">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11314,7 +11327,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-att.hendi.restrict-check-restriction-id-pattern-constraint-rule-99">
+            id="hendiAll-att.hendi.restrict-check-restriction-id-pattern-constraint-rule-100">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11464,7 +11477,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-att.hendi.rotation-divRotation-constraint-rule-100">
+            id="hendiAll-att.hendi.rotation-divRotation-constraint-rule-101">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11556,7 +11569,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </choice>
    </start>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-whitespaceOnlyContent-constraint-rule-101">
+            id="hendiAll-whitespaceOnlyContent-constraint-rule-102">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11570,7 +11583,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-elementStartsWithWhitespace-constraint-rule-102">
+            id="hendiAll-elementStartsWithWhitespace-constraint-rule-103">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11586,7 +11599,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-hiRendUnderlineStartsWithWhitespace-constraint-rule-103">
+            id="hendiAll-hiRendUnderlineStartsWithWhitespace-constraint-rule-104">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11602,7 +11615,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-untrimmedAttributeValues-constraint-rule-104">
+            id="hendiAll-untrimmedAttributeValues-constraint-rule-105">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11615,7 +11628,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-hendiTargets-constraint-rule-105">
+            id="hendiAll-hendiTargets-constraint-rule-106">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11628,7 +11641,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-emojiCheck-constraint-rule-106">
+            id="hendiAll-emojiCheck-constraint-rule-107">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11641,7 +11654,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-sourceMustResolve-constraint-rule-107">
+            id="hendiAll-sourceMustResolve-constraint-rule-108">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11741,7 +11754,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-addWithoutPlace-constraint-rule-110">
+            id="hendiAll-addWithoutPlace-constraint-rule-111">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11754,7 +11767,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-nameTypeRequirement-constraint-rule-111">
+            id="hendiAll-nameTypeRequirement-constraint-rule-112">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11767,7 +11780,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-lbInsideAddress-constraint-rule-112">
+            id="hendiAll-lbInsideAddress-constraint-rule-113">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11781,7 +11794,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-renditionWithPosition-constraint-rule-113">
+            id="hendiAll-renditionWithPosition-constraint-rule-114">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11869,7 +11882,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </sch:pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-importName-constraint-rule-133">
+            id="hendiAll-importName-constraint-rule-134">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11887,7 +11900,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-quotation-rend-values-constraint-rule-134">
+            id="hendiAll-quotation-rend-values-constraint-rule-135">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11920,7 +11933,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-quotation-rend-attributes-constraint-rule-137">
+            id="hendiAll-quotation-rend-attributes-constraint-rule-138">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11942,7 +11955,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
            prefix="mei"
            uri="http://www.music-encoding.org/ns/mei"/>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-rendIfBreakNo-constraint-rule-138">
+            id="hendiAll-rendIfBreakNo-constraint-rule-139">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11955,7 +11968,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-reportLBfollowsPB-constraint-rule-139">
+            id="hendiAll-reportLBfollowsPB-constraint-rule-140">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11968,7 +11981,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-seriesTitleRequirements-constraint-rule-140">
+            id="hendiAll-seriesTitleRequirements-constraint-rule-141">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -11987,7 +12000,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-correspDescControl-constraint-rule-141">
+            id="hendiAll-correspDescControl-constraint-rule-142">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -12013,7 +12026,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-textTypeControl-constraint-rule-143">
+            id="hendiAll-textTypeControl-constraint-rule-144">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -12033,7 +12046,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-handShifthandNoteAtts-constraint-rule-144">
+            id="hendiAll-handShifthandNoteAtts-constraint-rule-145">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -12100,7 +12113,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:pattern>
    </sch:schema>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-styleguide-document-node-content-constraint-rule-148">
+            id="hendiAll-styleguide-document-node-content-constraint-rule-149">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -12114,7 +12127,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-checkTranslationHasRelation-constraint-rule-149">
+            id="hendiAll-checkTranslationHasRelation-constraint-rule-150">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
@@ -12127,7 +12140,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
       </sch:rule>
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="hendiAll-checkTranslationHasTranslator-constraint-rule-150">
+            id="hendiAll-checkTranslationHasTranslator-constraint-rule-151">
       <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
                 xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
                 xmlns:s="http://www.ascc.net/xml/schematron"
