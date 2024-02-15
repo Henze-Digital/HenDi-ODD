@@ -234,9 +234,13 @@
                         <desc versionDate="2021-12-16" xml:lang="en">article in a conference report. The decisive factor is that the reference to the conference in the title of the monograph is mentioned.</desc>
                         <desc versionDate="2021-12-16" xml:lang="de">Artikel in einem Konferenzbericht. Ausschlaggebend ist, dass der Hinweis auf die Konferenz im Titel der Monographie genannt wird.</desc>
                     </valItem>
-                    <valItem ident="mastersthesis">
-                        <desc versionDate="2021-12-16" xml:lang="en">Bachelor's or Master's Thesis.</desc>
-                        <desc versionDate="2021-12-16" xml:lang="de">Bachelor-, Master- oder Magisterarbeit.</desc>
+                	<valItem ident="journal">
+                		<desc versionDate="2024-01-22" xml:lang="en">journal or newspaper</desc>
+                		<desc versionDate="2024-01-22" xml:lang="de">Zeitschrift oder Zeitung</desc>
+                	</valItem>
+                    <valItem ident="thesis">
+                        <desc versionDate="2024-01-22" xml:lang="en">Bachelor's, Master's or PhD Thesis.</desc>
+                        <desc versionDate="2024-01-22" xml:lang="de">Bachelor-, Master- oder Magisterarbeit.</desc>
                     </valItem>
                     <valItem ident="misc">
                         <desc versionDate="2021-12-16" xml:lang="en">everything else that can not be attached to any category.</desc>
@@ -250,21 +254,17 @@
                 		<desc versionDate="2023-12-05" xml:lang="en">painting</desc>
                 		<desc versionDate="2023-12-05" xml:lang="de">Gemälde</desc>
                 	</valItem>
-                    <valItem ident="phdthesis">
-                        <desc versionDate="2021-12-16" xml:lang="en">unpublished (aka 'typed') dissertation.</desc>
-                        <desc versionDate="2021-12-16" xml:lang="de">ungedruckte (aka "maschinenschriftliche") Dissertation.</desc>
-                    </valItem>
                     <valItem ident="poem">
-                        <desc versionDate="2021-12-16" xml:lang="en">poem.</desc>
-                        <desc versionDate="2021-12-16" xml:lang="de">Gedicht.</desc>
+                        <desc versionDate="2021-12-16" xml:lang="en">poem</desc>
+                        <desc versionDate="2021-12-16" xml:lang="de">Gedicht</desc>
                     </valItem>
                     <valItem ident="libretto">
-                        <desc versionDate="2021-12-16" xml:lang="en">libretto.</desc>
-                        <desc versionDate="2021-12-16" xml:lang="de">Libretto.</desc>
+                        <desc versionDate="2021-12-16" xml:lang="en">libretto</desc>
+                        <desc versionDate="2021-12-16" xml:lang="de">Libretto</desc>
                     </valItem>
                     <valItem ident="review">
-                        <desc versionDate="2021-12-16" xml:lang="en">review.</desc>
-                        <desc versionDate="2021-12-16" xml:lang="de">Rezension.</desc>
+                        <desc versionDate="2021-12-16" xml:lang="en">review</desc>
+                        <desc versionDate="2021-12-16" xml:lang="de">Rezension</desc>
                     </valItem>
                     <valItem ident="score">
                         <desc versionDate="2021-12-16" xml:lang="en">volume of music (eg. a score or a piano reduction)</desc>
@@ -1447,7 +1447,7 @@
     			<memberOf key="att.hendi.color" mode="add"/>
     		</classes>
     		<attList>
-    			<attDef ident="script" mode="change" usage="req">
+    			<attDef ident="script" mode="change" usage="rec">
     				<valList type="closed" mode="add">
     					<valItem ident="manuscript">
     						<desc versionDate="2021-10-27" xml:lang="en">manuscript.</desc>
@@ -1698,12 +1698,8 @@
                         <desc versionDate="2021-11-16" xml:lang="de">Füller</desc>
                     </valItem>
                     <valItem ident="pen.felt">
-                        <desc versionDate="2021-11-16" xml:lang="en">felt pen</desc>
-                        <desc versionDate="2021-11-16" xml:lang="de">Filzstift</desc>
-                    </valItem>
-                    <valItem ident="pen.fine">
-                        <desc versionDate="2022-02-25" xml:lang="en">fineliner</desc>
-                        <desc versionDate="2022-02-25" xml:lang="de">Fineliner</desc>
+                        <desc versionDate="2024-02-06" xml:lang="en">felt pen/fineliner</desc>
+                    	<desc versionDate="2024-02-06" xml:lang="de">Filzstift/Fineliner</desc>
                     </valItem>
                     <valItem ident="pen.ball">
                         <desc versionDate="2021-11-16" xml:lang="en">ball pen</desc>
@@ -1886,8 +1882,8 @@
             <desc versionDate="2019-09-09" xml:lang="en">Report if an id does not match the check digit</desc>
             <desc versionDate="2019-09-09" xml:lang="de">Meldet wenn eine ID nicht zur Prüfziffer passt</desc>
             <constraint>
-                <!-- xmlns:xsl="http://www.w3.org/1999/XSL/Transform" -->
-                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+            	<!-- https://www.xml.com/articles/2022/10/17/schematron-qlb-xslt/ -->
+            	<sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
                     <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
                     <xsl:function name="hendi-xsl:int2hex">
                         <xsl:param name="number" as="xs:int"/>
@@ -2170,7 +2166,59 @@
     			</sch:rule>
     		</constraint>
     	</constraintSpec>
-    	
+        <constraintSpec scheme="schematron" ident="handShifthandNoteAtts" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks the handling of <att>script</att> and<att>corresp</att></desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Prüft die Verwendung von <att>script</att> und <att>corresp</att> </desc>
+            <constraint>
+                <sch:rule context="tei:handShift[@corresp]">
+                    <sch:report test="@script">@script is not allowed, when @corresp is present.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handShift">
+                    <sch:report test="not(@corresp) and not(@script)">Add missing @script or @corresp.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handNote">
+                    <sch:assert test="@script">@script is not defined.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec>
+        <constraintSpec scheme="schematron" ident="check-resp-att-against-editors" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks if the named responsibility is equal to the editors of a document.</desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Überprüft ob die genannten Verantwortlichkeiten mit den Herausgebenden übereinstimmen.</desc>
+            <constraint>
+                <!-- https://www.xml.com/articles/2022/10/17/schematron-qlb-xslt/ -->
+                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+                    <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+                    <sch:ns uri="http://www.functx.com" prefix="functx"/>
+                    <xsl:function name="functx:contains-any-of" as="xs:boolean">
+                        <xsl:param name="arg" as="xs:string?"/>
+                        <xsl:param name="searchStrings" as="xs:string*"/>
+                        <xsl:sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
+                    </xsl:function>
+                    <xsl:function name="hendi-xsl:EditorNameAsSiglum">
+                        <xsl:param name="resp" as="node()"/>
+                        <xsl:variable name="editors" select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
+                        <xsl:for-each select="$editors">
+                            <!--<xsl:variable name="initials">
+                                <xsl:for-each select="tokenize(., ' ')">
+                                    <xsl:value-of select="substring(.,1,1)"/>
+                                </xsl:for-each>
+                            </xsl:variable>
+                            <xsl:value-of select="string-join($initials,'')"/>-->
+                            <xsl:choose>
+                                <xsl:when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</xsl:when>
+                                <xsl:when test=". = 'Irmlind Capelle' or . = 'Capelle, Irmlind' or @key = 'A0000051'">IC</xsl:when>
+                                <xsl:when test=". = 'Dennis Ried' or . = 'Ried, Dennis' or @key = 'A0000015'">DR</xsl:when>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </xsl:function>
+                    <sch:pattern id="respCheck">
+                        <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct)][@type='commentary' or @type='themmaticCom' or @type='editorial' or @type='textConst'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
+                            <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
+                        </sch:rule>
+                    </sch:pattern>
+                </sch:schema>
+            </constraint>
+        </constraintSpec>
     </specGrp>
 
     <specGrp xml:id="hendi-styleguides">
@@ -2289,12 +2337,13 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	
     	<elementSpec ident="author" mode="change" module="core">
     		<constraintSpec scheme="schematron" ident="check-author-has-role" mode="add">
     			<desc versionDate="2023-12-11" xml:lang="en">Checks if the author element has a <att>role</att> attribute.</desc>
     			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>author</gi> ein <att>role</att> Attribut aufweist.</desc>
     			<constraint>
-    				<sch:rule context="tei:author[ancestor::tei:biblStruct and ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    				<sch:rule context="tei:author[ancestor::tei:biblStruct or ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
     					<sch:assert test="@role">Missing @role. Default is @role="aut"</sch:assert>
     				</sch:rule>
     			</constraint>
@@ -2328,11 +2377,27 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="biblScope" mode="change" module="core">
+    		<!-- hack; in the chained ODD the attributes are deleted directly not by deleting the class membership. This causes a duplication if the class isn't deleted here. DR_2024-01-20 -->
+    		<classes mode="change">
+    			<memberOf key="att.citing" mode="delete"/>
+    		</classes>
+    		<attList>
+    			<attDef ident="from" mode="add">
+    				<desc versionDate="2013-01-08" xml:lang="en">specifies the starting point of the range of units indicated by the <att>unit</att> attribute.</desc>
+    				<datatype><dataRef key="teidata.word"/></datatype>
+    			</attDef>
+    			<attDef ident="to" mode="add">
+    				<desc versionDate="2013-01-08" xml:lang="en">specifies the end-point of the range of units indicated by the <att>unit</att> attribute.</desc>
+    				<datatype><dataRef key="teidata.word"/></datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
     	<elementSpec ident="biblStruct" mode="change" module="core">
-    		<gloss versionDate="2021-12-16" xml:lang="en">structured bibliographic citation</gloss>
-    		<desc versionDate="2021-12-16" xml:lang="en">contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order.</desc>
-    		<gloss versionDate="2021-12-16" xml:lang="de">strukturierte bibliographische Angaben</gloss>
-    		<desc versionDate="2021-12-16" xml:lang="de">enthält ein strukturiertes bibliographisches Zitat, in dem nur bibliographische Unterelemente erscheinen, die in einer bestimmten Reihenfolge geordnet sind.</desc>
+    		<gloss versionDate="2024-01-20" xml:lang="en">structured bibliographic citation</gloss>
+    		<desc versionDate="2024-01-20" xml:lang="en">contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order.</desc>
+    		<gloss versionDate="2024-01-20" xml:lang="de">strukturierte bibliographische Angaben</gloss>
+    		<desc versionDate="2024-01-20" xml:lang="de">enthält ein strukturiertes bibliographisches Zitat, in dem nur bibliographische Unterelemente erscheinen, die in einer bestimmten Reihenfolge geordnet sind.</desc>
     		<classes mode="change">
     			<memberOf key="att.docStatus" mode="add"/>
     		</classes>
@@ -2353,34 +2418,31 @@
     				</rng:element>
     				<!-- ordentlicher Eintrag -->
     				<rng:group>
+    					<rng:zeroOrMore>
+    						<rng:ref name="idno"/>
+    					</rng:zeroOrMore>
     					<rng:choice>
     						<rng:group>
-    							<rng:zeroOrMore>
-    								<rng:ref name="analytic"/>
-    							</rng:zeroOrMore>
-    							<rng:oneOrMore>
-    								<rng:ref name="monogr"/>
-    								<rng:zeroOrMore>
-    									<rng:ref name="series"/>
-    								</rng:zeroOrMore>
-    							</rng:oneOrMore>
+    							<rng:ref name="analytic"/>
+    							<rng:ref name="monogr"/>
+    						</rng:group>
+    						<rng:group>
+    							<rng:ref name="monogr"/>
+    							<rng:optional>
+    								<rng:ref name="relatedItem"/>
+    							</rng:optional>
+    							<rng:optional>
+    								<rng:ref name="series"/>
+    							</rng:optional>
     						</rng:group>
     						<rng:ref name="series"/>
     					</rng:choice>
-    					<rng:interleave>
-    					    <rng:optional>
-    					        <rng:ref name="relatedItem"/>
-    					    </rng:optional>
-    						<rng:optional>
-    							<rng:ref name="keywords"/>
-    						</rng:optional>
-    						<rng:optional>
-    							<rng:ref name="note"/>
-    						</rng:optional>
-    						<rng:zeroOrMore>
-    							<rng:ref name="idno"/>
-    						</rng:zeroOrMore>
-    					</rng:interleave>
+    					<rng:zeroOrMore>
+    						<rng:ref name="note"/>
+    					</rng:zeroOrMore>
+    					<rng:optional>
+    						<rng:ref name="keywords"/>
+    					</rng:optional>
     				</rng:group>
     			</rng:choice>
     		</content>
@@ -2401,7 +2463,40 @@
     	            </sch:rule>
     	        </constraint>
     	    </constraintSpec>
-    	    <attList>
+    		<constraintSpec scheme="schematron" ident="biblStructAnalyticMonogr" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@sameAs]/node()">
+    					<sch:report test="not(local-name(.) = 'biblScope')">If monogr has @sameAs only biblStruct is allowed.</sch:report>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr">
+    					<sch:assert test="@sameAs">If analytic is present monogr needs @sameAs.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:analytic)]/tei:monogr">
+    					<sch:report test="@sameAs">@sameAs is only allowed if an analytic element is present.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="biblStructMonogrSeries" mode="add">
+    			<constraint>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series[@sameAs]">
+    					<sch:report test="node()">No content alowed if series has @sameAs.</sch:report>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:monogr]/tei:series">
+    					<sch:assert test="@sameAs">If monogr is present series needs @sameAs.</sch:assert>
+    				</sch:rule>
+    				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and not(tei:monogr)]/tei:series">
+    					<sch:report test="@sameAs">@sameAs is only allowed if an monogr element is present.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
+    	    <constraintSpec scheme="schematron" ident="biblStructRelatedItem" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:biblStruct[not(parent::tei:sourceDesc)]/tei:relatedItem">
+    	                <sch:report test=".">Related Items are only allowed for works.</sch:report>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
+    		<attList>
     			<attDef ident="xml:id" mode="replace" usage="rec">
     				<datatype>
     					<dataRef key="hendi.biblio.pointer"/>
@@ -2553,6 +2648,15 @@
     		</content>
     	</elementSpec>
     	<elementSpec ident="editor" mode="change" module="core">
+    		<constraintSpec scheme="schematron" ident="check-editor-has-role" mode="add">
+    			<desc versionDate="2023-12-11" xml:lang="en">Checks if the editor element has a <att>role</att> attribute.</desc>
+    			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>editor</gi> ein <att>role</att> Attribut aufweist.</desc>
+    			<constraint>
+    				<sch:rule context="tei:editor[ancestor::tei:biblStruct or ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    					<sch:assert test="@role">Missing @role. Default is @role="edt"</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
     		<attList>
     			<attDef ident="key" mode="replace" usage="rec">
     				<datatype>
@@ -2585,6 +2689,13 @@
     			<memberOf key="att.global.responsibility" mode="delete"/>
     			<memberOf key="att.global.source" mode="delete"/>
     		</classes>
+    	    <constraintSpec scheme="schematron" ident="foreign-id-note-exists" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:foreign[@xml:id]">
+    	                <sch:assert test="ancestor::tei:TEI//@corresp/substring(.,2) = @xml:id">There must be an note refering to this foreign. If not, please delete @xml:id.</sch:assert>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
     		<attList>
     			<attDef ident="n" mode="delete"/>
     			<attDef ident="xml:base" mode="delete"/>
@@ -2623,6 +2734,10 @@
                         <valItem ident="punch">
                             <desc versionDate="2021-11-02" xml:lang="en">Loss of text caused by punch</desc>
                             <desc versionDate="2021-11-02" xml:lang="de">Textverlust durch Lochung</desc>
+                        </valItem>
+                    	<valItem ident="illegible">
+                    		<desc versionDate="2023-02-05" xml:lang="en">Loss of text because it is illegible (e.g., caused by correction fluid).</desc>
+                            <desc versionDate="2023-02-05" xml:lang="de">Textverlust, da unleserlich (z. B. durch Korrekturflüssigkeit).</desc>
                         </valItem>
                     </valList>
                 </attDef>
@@ -2706,6 +2821,25 @@
     			</attDef>
     		</attList>
     	</elementSpec>
+    	<elementSpec ident="monogr" module="core" mode="change">
+    		<content>
+    			<elementRef key="idno" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="author" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="editor" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="edition" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="imprint" minOccurs="0" maxOccurs="1"/>
+    			<elementRef key="biblScope" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+    		</content>
+    		<attList>
+    			<attDef ident="sameAs" mode="replace">
+    				<datatype>
+    					<dataRef key="hendi.biblio.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
+    	</elementSpec>
     	<elementSpec ident="note" mode="change" module="core">
     		<classes>
     			<memberOf key="att.anchoring" mode="delete"/>
@@ -2730,7 +2864,7 @@
     		<constraintSpec scheme="schematron" ident="text-notes" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation', 'restriction')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec>
@@ -2878,6 +3012,13 @@
                 <memberOf key="att.hendi.rotation" mode="add"/>
             	<memberOf key="att.hendi.restrict" mode="add"/>
             </classes>
+    	    <constraintSpec scheme="schematron" ident="attHandAtP" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:p[@hand] | tei:div[@hand]">
+    	                <sch:report test="@hand" role="warning">Please check if this is a paragraph an not an addition (&lt;add&gt;)</sch:report>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec>
     	    <attList>
                 <attDef ident="rend" mode="change" usage="opt">
                     <valList type="closed" mode="change">
@@ -2901,6 +3042,14 @@
     	    			<dataRef key="hendi.restict.pointer"/>
     	    		</datatype>
     	    	</attDef>
+    	        <attDef ident="type" mode="add" usage="opt">
+    	            <valList type="closed" mode="change">
+    	                <valItem ident="strip" mode="add">
+    	                    <desc versionDate="2024-02-12" xml:lang="en">marks that the paragarph is written on a strip of paper.</desc>
+    	                    <desc versionDate="2024-02-12" xml:lang="de">markiert einen Paragraph, der auf einen Papierstreifen geschrieben ist.</desc>
+    	                </valItem>
+    	            </valList>
+    	        </attDef>
     	    </attList>
         </elementSpec>
     	<elementSpec ident="pb" module="core" mode="change">
@@ -3030,6 +3179,20 @@
     		<content>
     			<dataRef key="hwh_resp.list"/>
     		</content>
+    	</elementSpec>
+    	<elementSpec ident="series" mode="change" module="core">
+    		<content>
+    			<elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="editor" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+    		</content>
+    		<attList>
+    			<attDef ident="sameAs" mode="replace">
+    				<datatype>
+    					<dataRef key="hendi.biblio.pointer"/>
+    				</datatype>
+    			</attDef>
+    		</attList>
     	</elementSpec>
     	<elementSpec ident="title" mode="change" module="core">
     		<constraintSpec scheme="schematron" ident="report-type-outside-text" mode="add">
@@ -3182,7 +3345,7 @@
         <elementSpec ident="notesStmt" module="header" mode="change">
             <constraintSpec scheme="schematron" ident="count-notes" mode="replace">
                 <constraint>
-                	<sch:report test="count(tei:note[not(@type='translation')]/@type) ne count(distinct-values(tei:note[not(@type='translation')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
+                    <sch:report test="count(tei:note[not(@type='translation') and not(@type='restriction')]/@type) ne count(distinct-values(tei:note[not(@type='translation') and not(@type='restriction')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
                 </constraint>
             </constraintSpec>
         </elementSpec>
@@ -4726,6 +4889,14 @@
 			                <desc versionDate="2023-01-27" xml:lang="en">marks spacing between elements</desc>
 			                <desc versionDate="2023-01-27" xml:lang="de">markiert, dass zwischen den Elementen Abstand herrscht</desc>
 			            </valItem>
+			            <valItem ident="box" mode="add">
+			                <desc versionDate="2024-02-12" xml:lang="en">div should be rendered as a border box</desc>
+			                <desc versionDate="2024-02-12" xml:lang="de">div soll als box angezeigt werden</desc>
+			            </valItem>
+			            <valItem ident="nobox" mode="add">
+			                <desc versionDate="2024-02-12" xml:lang="en">div should not be rendered as a border box</desc>
+			                <desc versionDate="2024-02-12" xml:lang="de">div soll nicht als box angezeigt werden</desc>
+			            </valItem>
 			        </valList>
 			    </attDef>
 				<attDef ident="xml:id" usage="opt" mode="change">
@@ -4858,6 +5029,7 @@
 	        <classes mode="change">
 	            <memberOf key="att.hendi.placement" mode="add"/>
 	            <memberOf key="att.hendi.rotation" mode="add"/>
+	            <memberOf key="att.written" mode="delete"/>
 	        </classes>
         	<attList>
         		<attDef ident="rend" mode="change" usage="opt">
@@ -4876,6 +5048,12 @@
 	        <classes mode="change">
 	            <memberOf key="att.hendi.placement" mode="add"/>
 	            <memberOf key="att.hendi.rotation" mode="add"/>
+	            <memberOf key="att.written" mode="delete"/>
+	        </classes>
+	    </elementSpec>
+	    <elementSpec ident="signed" mode="change" module="textstructure">
+	        <classes mode="change">
+	            <memberOf key="att.written" mode="delete"/>
 	        </classes>
 	    </elementSpec>
     	<constraintSpec scheme="schematron" ident="checkTranslationHasRelation" mode="add">

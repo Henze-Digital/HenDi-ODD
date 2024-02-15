@@ -602,17 +602,20 @@
 						</monogr>
 					</biblStruct>
 				</egXML>
-				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden.
+				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden. Hier wird zusätzlich die Seitenzahl angegeben
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<analytic>
 							<title/>
 							<author/>
 						</analytic>
-						<monogr sameAs="#{monogrId}"/>
+						<monogr sameAs="#{monogrId}">
+							<biblScope type="pp" from="1" to="5">1-5</biblScope>
+						</monogr>
 					</biblStruct>
 				</egXML>
 			</p>
+			<p>Periodika werden mit <gi>monogr</gi> dargestellt.</p>
 		</div>
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
@@ -833,7 +836,6 @@
 			<p>Schreibversehen (wie z. B. versehentliche Wortwiederholungen) werden in der Regel so übernommen und durch das Element <gi>sic</gi> markiert, um eine spätere irrtümliche Korrektur durch einen Editor zu verhindern. Dort, wo solche Schreibversehen zu Leseschwierigkeiten führen, kann in einem <gi>choice</gi>-Element neben der originalen Schreibung (<gi>sic</gi> oder <gi>orig</gi>) eine vom Editor angebotene Korrektur angeboten werden (mit <tag>corr resp="XY"</tag>.</p>
 		</div>
 		<div xml:id="eG-foreign">
-			<!-- korrekt? -->
 			<head>Fremdsprachliche Textteile</head>
 			<p>In den Korrespondenzen von Henze und seinen Korrespondenzpartner*innen werden unterschiedliche Sprachen verwendet und immer wieder Wörter, Satzteile oder ganze Passagen in anderen Sprachen eingefügt. Die Grundsprache eines Briefes wird in den Metadaten angegeben, hiervon abweichende Sprachen werden mit <gi>foreign</gi> gekennzeichnet. Wenn es sich bei den verwendeten Sprachen um andere als deutsch und englisch handelt, so wird eine Übersetzungshilfe beigegeben.</p>
 			<p>Das den fremdsprachlichen Anteil kennzeichnende Element <gi>foreign</gi> erhält hierzu eine <att>xml:id</att> nach dem Muster <val>foreign.\d+</val>. Die einzelnen Vorkommen werden dokumentweise durchgezählt.
@@ -846,6 +848,7 @@
 				<foreign xml:lang="es" xml:id="foreign.1">un abrazo un poco melancólico</foreign>
 			</egXML>
 			</p>
+			<p>Bei Dokumenten, die in Übersetzung vorliegen (z. B. Barnet/Henze, auf Spansich verfasste Dokumente) sind diejenigen Passagen, die im Original bereits in der Zielsprache (meist Englisch) verfasst waren, mit <tag>foreign xml:lang="en" source="original"</tag> markiert.</p>
 		</div>
 		<div xml:id="eG-quodMarks">
 			<head>Anführungszeichen</head>
@@ -932,6 +935,7 @@
 		<div xml:id="eG-additions">
 			<head>Autoreigene Ergänzungen</head>
 			<p>Einfügungen, die der Autor (Schreiber) nachträglich oder im Schreibvorgang vorgenommen hat, werden (sofern es sich nicht um Korrekturen durch Eingriffe in die ursprüngliche Substanz) handelt, mit dem Element <gi>add</gi> (addition) vermerkt. Dabei sollte der Ort der Einfügung mit Hilfe des Attributs <att>place</att> bezeichnet werden. Als Attributwerte kommen dabei in Frage: „inline“, „margin“, „above“ (the line), „below“ (the line) oder „mixed“. Stammen solche Einfügungen von anderer Hand, kann dies im Attribut <att>hand</att> ausgewiesen werden. Hinweis: Einfügungen und Zusätze des Herausgebers werden nie mit <gi>add</gi>, sondern mit <gi>corr</gi> oder <gi>subst</gi> vorgenommen! </p>
+			<p>Besonderheit „Randanmerkungen“: Es kommt vor, dass Hinzufügungen z. B. aus Platzgründen nicht im Fließtext sondern am Rand ausgeführt sind. In der Edition wurden diese Randanmerkungen in den Text integriert und hervorgehoben. In der zugehörigen Anmerkung ist vermerkt an welchem Rand sich die Hinzufügung im Original befindet.</p>
 		</div>
 		
 		<div xml:id="eG-corrections">
@@ -3628,7 +3632,7 @@ resource, either within the current document or elsewhere.</desc>
     		</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="text-notes" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation', 'restriction')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec><attList><attDef ident="corresp" usage="opt">
@@ -3939,8 +3943,8 @@ psychological significance.
             <desc versionDate="2019-09-09" xml:lang="en">Report if an id does not match the check digit</desc>
             <desc versionDate="2019-09-09" xml:lang="de">Meldet wenn eine ID nicht zur Prüfziffer passt</desc>
             <constraint>
-                
-                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+            	
+            	<sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
                     <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
                     <xsl:function name="hendi-xsl:int2hex">
                         <xsl:param name="number" as="xs:int"/>
@@ -4193,7 +4197,53 @@ psychological significance.
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
     			</sch:rule>
     		</constraint>
-    	</constraintSpec><dataSpec rend="add" ident="hwhdata.medium.color" mode="add" module="tei">
+    	</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="handShifthandNoteAtts" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks the handling of <att>script</att> and<att>corresp</att></desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Prüft die Verwendung von <att>script</att> und <att>corresp</att> </desc>
+            <constraint>
+                <sch:rule context="tei:handShift[@corresp]">
+                    <sch:report test="@script">@script is not allowed, when @corresp is present.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handShift">
+                    <sch:report test="not(@corresp) and not(@script)">Add missing @script or @corresp.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handNote">
+                    <sch:assert test="@script">@script is not defined.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="check-resp-att-against-editors" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks if the named responsibility is equal to the editors of a document.</desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Überprüft ob die genannten Verantwortlichkeiten mit den Herausgebenden übereinstimmen.</desc>
+            <constraint>
+                
+                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+                    <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+                    <sch:ns uri="http://www.functx.com" prefix="functx"/>
+                    <xsl:function name="functx:contains-any-of" as="xs:boolean">
+                        <xsl:param name="arg" as="xs:string?"/>
+                        <xsl:param name="searchStrings" as="xs:string*"/>
+                        <xsl:sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
+                    </xsl:function>
+                    <xsl:function name="hendi-xsl:EditorNameAsSiglum">
+                        <xsl:param name="resp" as="node()"/>
+                        <xsl:variable name="editors" select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
+                        <xsl:for-each select="$editors">
+                            
+                            <xsl:choose>
+                                <xsl:when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</xsl:when>
+                                <xsl:when test=". = 'Irmlind Capelle' or . = 'Capelle, Irmlind' or @key = 'A0000051'">IC</xsl:when>
+                                <xsl:when test=". = 'Dennis Ried' or . = 'Ried, Dennis' or @key = 'A0000015'">DR</xsl:when>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </xsl:function>
+                    <sch:pattern id="respCheck">
+                        <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct)][@type='commentary' or @type='themmaticCom' or @type='editorial' or @type='textConst'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
+                            <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
+                        </sch:rule>
+                    </sch:pattern>
+                </sch:schema>
+            </constraint>
+        </constraintSpec><dataSpec rend="add" ident="hwhdata.medium.color" mode="add" module="tei">
         	<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="en">A closed list of values for <att>color</att> to be used in the context of <att>medium</att> on <gi>handShift</gi> or <gi>handNote</gi>.</desc>
         	<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2021-11-16" xml:lang="de">Eine geschlossene Liste mit Werten für <att>color</att>, dass im Zusammenhang mit <att>medium</att> in <gi>handShift</gi> oder <gi>handNote</gi> genutzt werden kann.</desc>
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">

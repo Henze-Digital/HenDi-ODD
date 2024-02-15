@@ -602,17 +602,20 @@
 						</monogr>
 					</biblStruct>
 				</egXML>
-				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden.
+				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden. Hier wird zusätzlich die Seitenzahl angegeben
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<analytic>
 							<title/>
 							<author/>
 						</analytic>
-						<monogr sameAs="#{monogrId}"/>
+						<monogr sameAs="#{monogrId}">
+							<biblScope type="pp" from="1" to="5">1-5</biblScope>
+						</monogr>
 					</biblStruct>
 				</egXML>
 			</p>
+			<p>Periodika werden mit <gi>monogr</gi> dargestellt.</p>
 		</div>
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
@@ -833,7 +836,6 @@
 			<p>Schreibversehen (wie z. B. versehentliche Wortwiederholungen) werden in der Regel so übernommen und durch das Element <gi>sic</gi> markiert, um eine spätere irrtümliche Korrektur durch einen Editor zu verhindern. Dort, wo solche Schreibversehen zu Leseschwierigkeiten führen, kann in einem <gi>choice</gi>-Element neben der originalen Schreibung (<gi>sic</gi> oder <gi>orig</gi>) eine vom Editor angebotene Korrektur angeboten werden (mit <tag>corr resp="XY"</tag>.</p>
 		</div>
 		<div xml:id="eG-foreign">
-			<!-- korrekt? -->
 			<head>Fremdsprachliche Textteile</head>
 			<p>In den Korrespondenzen von Henze und seinen Korrespondenzpartner*innen werden unterschiedliche Sprachen verwendet und immer wieder Wörter, Satzteile oder ganze Passagen in anderen Sprachen eingefügt. Die Grundsprache eines Briefes wird in den Metadaten angegeben, hiervon abweichende Sprachen werden mit <gi>foreign</gi> gekennzeichnet. Wenn es sich bei den verwendeten Sprachen um andere als deutsch und englisch handelt, so wird eine Übersetzungshilfe beigegeben.</p>
 			<p>Das den fremdsprachlichen Anteil kennzeichnende Element <gi>foreign</gi> erhält hierzu eine <att>xml:id</att> nach dem Muster <val>foreign.\d+</val>. Die einzelnen Vorkommen werden dokumentweise durchgezählt.
@@ -846,6 +848,7 @@
 				<foreign xml:lang="es" xml:id="foreign.1">un abrazo un poco melancólico</foreign>
 			</egXML>
 			</p>
+			<p>Bei Dokumenten, die in Übersetzung vorliegen (z. B. Barnet/Henze, auf Spansich verfasste Dokumente) sind diejenigen Passagen, die im Original bereits in der Zielsprache (meist Englisch) verfasst waren, mit <tag>foreign xml:lang="en" source="original"</tag> markiert.</p>
 		</div>
 		<div xml:id="eG-quodMarks">
 			<head>Anführungszeichen</head>
@@ -932,6 +935,7 @@
 		<div xml:id="eG-additions">
 			<head>Autoreigene Ergänzungen</head>
 			<p>Einfügungen, die der Autor (Schreiber) nachträglich oder im Schreibvorgang vorgenommen hat, werden (sofern es sich nicht um Korrekturen durch Eingriffe in die ursprüngliche Substanz) handelt, mit dem Element <gi>add</gi> (addition) vermerkt. Dabei sollte der Ort der Einfügung mit Hilfe des Attributs <att>place</att> bezeichnet werden. Als Attributwerte kommen dabei in Frage: „inline“, „margin“, „above“ (the line), „below“ (the line) oder „mixed“. Stammen solche Einfügungen von anderer Hand, kann dies im Attribut <att>hand</att> ausgewiesen werden. Hinweis: Einfügungen und Zusätze des Herausgebers werden nie mit <gi>add</gi>, sondern mit <gi>corr</gi> oder <gi>subst</gi> vorgenommen! </p>
+			<p>Besonderheit „Randanmerkungen“: Es kommt vor, dass Hinzufügungen z. B. aus Platzgründen nicht im Fließtext sondern am Rand ausgeführt sind. In der Edition wurden diese Randanmerkungen in den Text integriert und hervorgehoben. In der zugehörigen Anmerkung ist vermerkt an welchem Rand sich die Hinzufügung im Original befindet.</p>
 		</div>
 		
 		<div xml:id="eG-corrections">
@@ -2734,107 +2738,7 @@ sub-classification for the element additional to that provided by its
         n’est autorisé à l'intérieur d'un URI. Si un espace est requis dans un URI, il
         faut le représenter avec une séquence d'échappement, comme par exemple 
         <code>TEI%20Consortium</code>.</p></remarks>
-    </attDef></attList></classSpec><classSpec rend="add" module="tei" type="atts" ident="att.citing">
-  <desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2014-01-10" xml:lang="en">provides attributes for specifying the specific part of a bibliographic item being cited.</desc>
-  <desc xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="ja" versionDate="2019-01-04">引用された書誌の特定箇所を指示するための属性を提供する．</desc>
-  <classes xmlns:teix="http://www.tei-c.org/ns/Examples"/>
-  <attList xmlns:teix="http://www.tei-c.org/ns/Examples">
-    <attDef ident="unit" usage="opt">
-      <desc versionDate="2017-06-24" xml:lang="fr">identifie le type d'information
-      que transmet l'élément, par exemple <val>colonnes</val>, <val>pages</val>, <val>volume</val>, <val>inscription</val>, etc.</desc>
-      <desc versionDate="2012-12-17" xml:lang="en">identifies the unit of information conveyed by the element, e.g. <val>columns</val>, <val>pages</val>, <val>volume</val>, <val>entry</val>.</desc>
-      <desc xml:lang="ja" versionDate="2019-01-04">当該要素が伝える情報の単位を特定する．たとえば，カラム (<val>columns</val>)，頁 (<val>pages</val>)，巻 (<val>volume</val>)，エントリ (<val>entry</val>) 等。</desc>
-      <datatype><dataRef key="teidata.enumerated"/></datatype>
-      <valList type="semi">
-	<valItem ident="volume">
-	  <gloss xml:lang="en" versionDate="2007-05-04">volume</gloss>
-	  <gloss versionDate="2007-12-20" xml:lang="ko">권</gloss>
-	  <gloss versionDate="2021-01-18" xml:lang="es">volumen</gloss>
-	  <desc versionDate="2013-06-17" xml:lang="en">the element contains a volume number.</desc>
-	  <desc versionDate="2007-12-20" xml:lang="ko">권수를 포함한다.</desc>
-	  <desc versionDate="2007-05-02" xml:lang="zh-TW">該元素標記的內容為冊號。</desc>
-	  <desc versionDate="2008-04-06" xml:lang="es">el elemento contiene el número de volumen.</desc>
-	  <desc versionDate="2019-01-04" xml:lang="ja">巻番号を含む．</desc>
-	  <desc versionDate="2008-03-30" xml:lang="fr">l'élément contient un numéro de volume.</desc>
-	  <desc versionDate="2007-01-21" xml:lang="it">l'elemento contiene il numero del volume.</desc>
-	</valItem>
-	<valItem ident="issue">
-	  <desc versionDate="2012-12-17" xml:lang="en">the element contains an issue number, or volume and
-	  issue numbers.</desc>
-	  <desc versionDate="2007-12-20" xml:lang="ko">호, 또는 권과 호를 포함한다.</desc>
-	  <desc versionDate="2007-05-02" xml:lang="zh-TW">該元素標記的內容為一期刊號或冊號與期刊號。</desc>
-	  <desc versionDate="2008-04-06" xml:lang="es">el elemento contiene el número de la edición, o los números del volumen y de la edición.</desc>
-	  <desc xml:lang="ja" versionDate="2019-01-04">号番号かまたは巻と号の番号を含む．</desc>
-	  <desc versionDate="2008-03-30" xml:lang="fr">l'élément contient un numéro de
-	  livraison ou bien un numéro de volume et de livraison.</desc>
-	  <desc versionDate="2007-01-21" xml:lang="it">l'elemento contiene l'indicazione del numero della pubblicazione</desc>
-	</valItem>
-	<valItem ident="page">
-	  <gloss xml:lang="en" versionDate="2007-05-04">page</gloss>
-	  <gloss versionDate="2007-12-20" xml:lang="ko">페이지</gloss>
-	  <gloss versionDate="2007-11-06" xml:lang="it">pagine</gloss>
-	  <gloss versionDate="2021-01-18" xml:lang="es">página</gloss>
-	  <desc versionDate="2013-06-17" xml:lang="en">the element contains a page number or page range.</desc>
-	  <desc versionDate="2007-12-20" xml:lang="ko">페이지 번호 또는 페이지 범위를 포함한다.</desc>
-	  <desc versionDate="2007-05-02" xml:lang="zh-TW">該元素標記的內容為一頁數或頁數範圍。</desc>
-	  <desc versionDate="2021-01-18" xml:lang="es">el elemento contiene un número de página o un intervalo de páginas.</desc>
-	  <desc xml:lang="ja" versionDate="2019-01-04">ページ番号またはページ範囲を含む．</desc>
-	  <desc versionDate="2008-03-30" xml:lang="fr"> l'élément contient un nombre de pages
-	  ou l'étendue de sélection des pages.</desc>
-	  <desc versionDate="2007-01-21" xml:lang="it">l'elemento contiene l'indicazione di pagina o pagine</desc>
-	</valItem>
-	<valItem ident="line">
-	  <desc versionDate="2013-06-17" xml:lang="en">the element contains a line number or line range.</desc>
-	  <desc xml:lang="ja" versionDate="2019-01-04">行番号か行範囲を含む。</desc>
-	</valItem>
-	<valItem ident="chapter">
-	  <gloss xml:lang="en" versionDate="2007-11-06">chapter</gloss>
-	  <gloss versionDate="2007-12-20" xml:lang="ko">장</gloss>
-	  <gloss versionDate="2008-04-06" xml:lang="es">capítulo</gloss>
-	  <gloss versionDate="2009-01-06" xml:lang="fr">chapitre</gloss>
-	  <gloss versionDate="2007-11-06" xml:lang="it">capitolo</gloss>
-	  <desc versionDate="2013-06-17" xml:lang="en">the element contains a chapter indication (number
-	  and/or title)</desc>
-	  <desc versionDate="2007-12-20" xml:lang="ko">장 표시(숫자와/또는 제목)를 포함한다.</desc>
-	  <desc versionDate="2008-04-06" xml:lang="es">el elemento contiene la indicación del capítulo (número y/o el título)</desc>
-	  <desc xml:lang="ja" versionDate="2019-01-04">章の識別子(番号やタイトル)を含む．</desc>
-	  <desc versionDate="2008-03-30" xml:lang="fr">l'élément contient une indication de
-	  chapitre (le numéro et/ou le titre)</desc>
-	  <desc versionDate="2007-11-06" xml:lang="it">l'elemento contiene un'indicazione di capitolo (numero e/o titolo</desc>
-	</valItem>
-	<valItem ident="part">
-	  <desc versionDate="2012-12-17" xml:lang="en">the element identifies a part of a book or collection.</desc>
-	  <desc versionDate="2007-12-20" xml:lang="ko">책 또는 모음집의 부분을 식별한다.</desc>
-	  <desc versionDate="2007-05-02" xml:lang="zh-TW">該元素標明的內容為單書或集合作品的一部份。</desc>
-	  <desc versionDate="2008-04-06" xml:lang="es">el elemento identifica una parte de un libro o de una colección.</desc>
-	  <desc xml:lang="ja" versionDate="2019-01-04">書籍や叢書の部分を特定する．</desc>
-	  <desc versionDate="2008-03-30" xml:lang="fr">l'élément identifie une partie d'un
-	  livre ou une anthologie.</desc>
-	  <desc versionDate="2007-01-21" xml:lang="it">l'elemento identifica una parte di un libro o di una raccolta</desc>
-	</valItem>
-	<valItem ident="column">
-		<desc versionDate="2013-06-17" xml:lang="en">the element identifies a column.</desc>
-	  <desc xml:lang="ja" versionDate="2019-01-04">一つのカラムを特定する．</desc>
-	</valItem>
-        <valItem ident="entry">
-        	<desc versionDate="2017-10-29" xml:lang="en">the element identifies an entry number or label in a list of entries.</desc>
-          <desc xml:lang="ja" versionDate="2019-01-04">エントリのリスト中の番号やラベルを特定する．</desc>
-        </valItem>
-      </valList>
-    </attDef>
-    <attDef ident="from">
-      <desc versionDate="2013-01-08" xml:lang="en">specifies the starting point of the range of units indicated by the <att>unit</att> attribute.</desc>
-      <desc xml:lang="ja" versionDate="2019-01-04"><att>unit</att>属性で指定された時間単位の幅における開始点を表す．</desc>
-      <datatype><dataRef key="teidata.word"/></datatype>
-    </attDef>
-    <attDef ident="to">
-      <desc versionDate="2013-01-08" xml:lang="en">specifies the end-point of the range of units indicated by the <att>unit</att> attribute.</desc>
-      <desc xml:lang="ja" versionDate="2019-01-04"><att>unit</att>属性で指定された時間単位の幅における終点を表す．</desc>
-      <datatype><dataRef key="teidata.word"/></datatype>
-    </attDef>
-  </attList>
-  
-</classSpec><classSpec rend="add" predeclare="true" module="tei" xml:id="AGENT" type="model" ident="model.nameLike.agent">
+    </attDef></attList></classSpec><classSpec rend="add" predeclare="true" module="tei" xml:id="AGENT" type="model" ident="model.nameLike.agent">
   <desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2005-10-10" xml:lang="en">groups elements which contain names of individuals
 or corporate bodies.</desc>
   <desc xmlns:teix="http://www.tei-c.org/ns/Examples" versionDate="2007-12-20" xml:lang="ko">개인 또는 기업체의 이름을 포함하는 요소를 모아 놓는다.</desc>
@@ -4454,7 +4358,13 @@ one initial.</desc>
     </attDef>
   </attList>
   
-</classSpec><elementSpec rend="change" module="core" ident="p"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">paragraph</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Absatz</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">marks paragraphs in prose.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert einen Absatz in Prosa-Form.</desc><classes><memberOf key="att.hendi.placement"/><memberOf key="att.hendi.rotation"/><memberOf key="att.hendi.restrict"/><memberOf key="model.pLike"/><memberOf key="att.fragmentable"/><memberOf key="att.written"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.paraContent"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="extent-within-physDesc" scheme="schematron" mode="add">
+</classSpec><elementSpec rend="change" module="core" ident="p"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">paragraph</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Absatz</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">marks paragraphs in prose.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">markiert einen Absatz in Prosa-Form.</desc><classes><memberOf key="att.hendi.placement"/><memberOf key="att.hendi.rotation"/><memberOf key="att.hendi.restrict"/><memberOf key="model.pLike"/><memberOf key="att.fragmentable"/><memberOf key="att.written"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.paraContent"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="attHandAtP" mode="add">
+    	        <constraint>
+    	            <sch:rule context="tei:p[@hand] | tei:div[@hand]">
+    	                <sch:report test="@hand" role="warning">Please check if this is a paragraph an not an addition (&lt;add&gt;)</sch:report>
+    	            </sch:rule>
+    	        </constraint>
+    	    </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="extent-within-physDesc" scheme="schematron" mode="add">
                 <constraint>
                     <report xmlns="http://purl.oclc.org/dsdl/schematron" test="@n='extent' and not(parent::tei:physDesc)">
                         The value 'extent' must only be used within the tei:physDesc.
@@ -4490,7 +4400,14 @@ one initial.</desc>
         Abstract model violation: Lines may not contain higher-level structural elements such as div, p, or ab, unless p is a child of figure or note, or is a descendant of floatingText.
       </sch:report>
     </constraint>
-  </constraintSpec><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="xml:id" usage="opt" mode="change">
+  </constraintSpec><attList><attDef ident="type" usage="opt">
+    	            <valList type="closed" mode="change">
+    	                <valItem ident="strip" mode="add">
+    	                    <desc versionDate="2024-02-12" xml:lang="en">marks that the paragarph is written on a strip of paper.</desc>
+    	                    <desc versionDate="2024-02-12" xml:lang="de">markiert einen Paragraph, der auf einen Papierstreifen geschrieben ist.</desc>
+    	                </valItem>
+    	            </valList>
+    	        </attDef><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="xml:id" usage="opt" mode="change">
     	    		<datatype>
     	    			<dataRef key="hendi.restict.pointer"/>
     	    		</datatype>
@@ -6827,7 +6744,7 @@ entre les Romains.</label>
     		</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="text-notes" mode="replace">
     			<constraint>
     				<sch:rule context="tei:note[not(parent::tei:notesStmt)]">
-    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
+    					<sch:report test="@type=('editorial', 'summary', 'incipit', 'translation', 'restriction')">The note types 'editorial', 'summary', 'thematicCom' or 'translation' are not allowed within the text section but only in the notesStmt.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="thematicCom-target">
@@ -7177,7 +7094,7 @@ Elements</ref>
     			<desc versionDate="2023-12-11" xml:lang="en">Checks if the author element has a <att>role</att> attribute.</desc>
     			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>author</gi> ein <att>role</att> Attribut aufweist.</desc>
     			<constraint>
-    				<sch:rule context="tei:author[ancestor::tei:biblStruct and ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    				<sch:rule context="tei:author[ancestor::tei:biblStruct or ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
     					<sch:assert test="@role">Missing @role. Default is @role="aut"</sch:assert>
     				</sch:rule>
     			</constraint>
@@ -7298,16 +7215,24 @@ places, in particular where  multiple names are given.</p>
   </remarks><listRef xmlns:teix="http://www.tei-c.org/ns/Examples">
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COBICOR">3.12.2.2. Titles, Authors, and Editors</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD21">2.2.1. The Title Statement</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="core" ident="editor"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a secondary statement of responsibility for a bibliographic item, for example the name of an individual, institution or organization, (or of several such) acting as editor, compiler, translator, etc.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält eine sekundäre Aussage über die Verantwortung für einen bibliographischen Artikel, beispielsweise den Namen eines Einzelnen, einer Institution oder Organisation (oder mehrerer solcher), die als Editoren, Übersetzer usw. agieren.</desc><classes><memberOf key="att.datable"/><memberOf key="model.respLike"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><attList><attDef ident="key" mode="replace" usage="rec">
-    				<datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+  </listRef></elementSpec><elementSpec rend="change" module="core" ident="editor"><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">contains a secondary statement of responsibility for a bibliographic item, for example the name of an individual, institution or organization, (or of several such) acting as editor, compiler, translator, etc.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">enthält eine sekundäre Aussage über die Verantwortung für einen bibliographischen Artikel, beispielsweise den Namen eines Einzelnen, einer Institution oder Organisation (oder mehrerer solcher), die als Editoren, Übersetzer usw. agieren.</desc><classes><memberOf key="att.datable"/><memberOf key="model.respLike"/></classes><content><macroRef xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.phraseSeq"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="check-editor-has-role" mode="add">
+    			<desc versionDate="2023-12-11" xml:lang="en">Checks if the editor element has a <att>role</att> attribute.</desc>
+    			<desc versionDate="2023-12-11" xml:lang="de">Überprüft, ob das Element <gi>editor</gi> ein <att>role</att> Attribut aufweist.</desc>
+    			<constraint>
+    				<sch:rule context="tei:editor[ancestor::tei:biblStruct or ancestor::tei:TEI[starts-with(@xml:id, 'A02')]]">
+    					<sch:assert test="@role">Missing @role. Default is @role="edt"</sch:assert>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec><attList><attDef ident="key" mode="replace" usage="rec">
+    				<datatype>
     					<dataRef key="hendi.persons.pointer"/>
     				</datatype>
     			</attDef><attDef ident="role" usage="rec">
-    				<datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+    				<datatype>
     					<dataRef key="marcRelator.list"/>
     				</datatype>
     			</attDef><attDef ident="label" usage="rec">
-    				<datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
+    				<datatype>
     					<dataRef key="teidata.language"/>
     				</datatype>
     			</attDef></attList><exemplum xmlns:teix="http://www.tei-c.org/ns/Examples" xml:lang="en">
@@ -7648,7 +7573,13 @@ epistemology, methodology and history of
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COBICOR">3.12.2.2. Titles, Authors, and Editors</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD21">2.2.1. The Title Statement</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD26">2.2.5. The Series Statement</ref>
-  </listRef></elementSpec><elementSpec rend="change" module="core" ident="biblScope"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">scope of bibliographic reference</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Umfang der bibliographischen Referenz</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">defines the scope of a bibliographic reference, for example as a list of page numbers, or a named subdivision of a larger work.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">definiert den Umfang einer bibliographischen Referenz, beispielsweise als eine Liste von Seitenzahlen oder einer benannten Unterteilung eines größeren Werkes.</desc><classes xmlns:teix="http://www.tei-c.org/ns/Examples"><memberOf key="att.citing"/><memberOf key="model.imprintPart"/></classes><content xmlns:teix="http://www.tei-c.org/ns/Examples"><ref xmlns="http://relaxng.org/ns/structure/1.0" name="pages.pattern"/></content><attList><attDef ident="unit" mode="replace" usage="req">
+  </listRef></elementSpec><elementSpec rend="change" module="core" ident="biblScope"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">scope of bibliographic reference</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">Umfang der bibliographischen Referenz</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="en">defines the scope of a bibliographic reference, for example as a list of page numbers, or a named subdivision of a larger work.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:teix="http://www.tei-c.org/ns/Examples" rend="replace" versionDate="2013-11-11" xml:lang="de">definiert den Umfang einer bibliographischen Referenz, beispielsweise als eine Liste von Seitenzahlen oder einer benannten Unterteilung eines größeren Werkes.</desc><classes><memberOf key="model.imprintPart"/></classes><content><ref xmlns="http://relaxng.org/ns/structure/1.0" name="pages.pattern"/></content><attList><attDef ident="from">
+    				<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-01-08" xml:lang="en">specifies the starting point of the range of units indicated by the <att>unit</att> attribute.</desc>
+    				<datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron"><dataRef key="teidata.word"/></datatype>
+    			</attDef><attDef ident="to">
+    				<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2013-01-08" xml:lang="en">specifies the end-point of the range of units indicated by the <att>unit</att> attribute.</desc>
+    				<datatype xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron"><dataRef key="teidata.word"/></datatype>
+    			</attDef><attDef ident="unit" mode="replace" usage="req">
                     <desc versionDate="2017-01-13" xml:lang="en">identifies the unit of information conveyed by the element, e.g. columns, pages, volume.</desc>
                     <desc versionDate="2017-01-13" xml:lang="de">bezeichnet die Einheit für das Element, z.B. Spalten, Seiten oder Band.</desc>
                     <valList type="closed">
@@ -9590,8 +9521,8 @@ raiders and saved the town from capture.</desc>
             <desc versionDate="2019-09-09" xml:lang="en">Report if an id does not match the check digit</desc>
             <desc versionDate="2019-09-09" xml:lang="de">Meldet wenn eine ID nicht zur Prüfziffer passt</desc>
             <constraint>
-                
-                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+            	
+            	<sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
                     <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
                     <xsl:function name="hendi-xsl:int2hex">
                         <xsl:param name="number" as="xs:int"/>
@@ -9844,7 +9775,53 @@ raiders and saved the town from capture.</desc>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <sch:value-of select="$textTypeDocuments"/>.</sch:report>
     			</sch:rule>
     		</constraint>
-    	</constraintSpec><macroSpec rend="add" ident="staffSignatures.list" mode="add" module="hendi.core.module">
+    	</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="handShifthandNoteAtts" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks the handling of <att>script</att> and<att>corresp</att></desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Prüft die Verwendung von <att>script</att> und <att>corresp</att> </desc>
+            <constraint>
+                <sch:rule context="tei:handShift[@corresp]">
+                    <sch:report test="@script">@script is not allowed, when @corresp is present.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handShift">
+                    <sch:report test="not(@corresp) and not(@script)">Add missing @script or @corresp.</sch:report>
+                </sch:rule>
+                <sch:rule context="tei:handNote">
+                    <sch:assert test="@script">@script is not defined.</sch:assert>
+                </sch:rule>
+            </constraint>
+        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="check-resp-att-against-editors" mode="add">
+            <desc versionDate="2024-02-08" xml:lang="en">Checks if the named responsibility is equal to the editors of a document.</desc>
+            <desc versionDate="2024-02-08" xml:lang="de">Überprüft ob die genannten Verantwortlichkeiten mit den Herausgebenden übereinstimmen.</desc>
+            <constraint>
+                
+                <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+                    <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
+                    <sch:ns uri="http://www.functx.com" prefix="functx"/>
+                    <xsl:function name="functx:contains-any-of" as="xs:boolean">
+                        <xsl:param name="arg" as="xs:string?"/>
+                        <xsl:param name="searchStrings" as="xs:string*"/>
+                        <xsl:sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
+                    </xsl:function>
+                    <xsl:function name="hendi-xsl:EditorNameAsSiglum">
+                        <xsl:param name="resp" as="node()"/>
+                        <xsl:variable name="editors" select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
+                        <xsl:for-each select="$editors">
+                            
+                            <xsl:choose>
+                                <xsl:when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</xsl:when>
+                                <xsl:when test=". = 'Irmlind Capelle' or . = 'Capelle, Irmlind' or @key = 'A0000051'">IC</xsl:when>
+                                <xsl:when test=". = 'Dennis Ried' or . = 'Ried, Dennis' or @key = 'A0000015'">DR</xsl:when>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </xsl:function>
+                    <sch:pattern id="respCheck">
+                        <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct)][@type='commentary' or @type='themmaticCom' or @type='editorial' or @type='textConst'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
+                            <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
+                        </sch:rule>
+                    </sch:pattern>
+                </sch:schema>
+            </constraint>
+        </constraintSpec><macroSpec rend="add" ident="staffSignatures.list" mode="add" module="hendi.core.module">
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <choice xmlns="http://relaxng.org/ns/structure/1.0"><value>AT</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Antje Tumat</a:documentation><value>CC</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Christian Camino</a:documentation><value>DR</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Dennis Ried</a:documentation><value>EM</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Elena Minetti</a:documentation><value>IC</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Irmlind Capelle</a:documentation><value>JV</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Joachim Veit</a:documentation><value>PH</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Philipp Heitmann</a:documentation><value>PS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Peter Stadler</a:documentation><value>SS</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Sophie Stremel</a:documentation><value>YA</value><a:documentation xmlns="http://www.tei-c.org/ns/1.0">Yolanda Acker</a:documentation></choice>
             </content>
