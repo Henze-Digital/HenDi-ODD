@@ -21038,6 +21038,7 @@ should be supplied for the <att>scheme</att> attribute.</p>
             <constraint>
             	
             	<sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding="xslt2">
+            		<sch:ns uri="http://www.tei-c.org/ns/1.0" prefix="tei"/>
                     <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
                     <xsl:function name="hendi-xsl:int2hex">
                         <xsl:param name="number" as="xs:int"/>
@@ -21330,7 +21331,7 @@ should be supplied for the <att>scheme</att> attribute.</p>
                         </xsl:for-each>
                     </xsl:function>
                     <sch:pattern id="respCheck">
-                        <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct)][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
+                        <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct) and not(starts-with(ancestor::tei:TEI/@xml:id,'A09'))][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
                             <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
                         </sch:rule>
                     </sch:pattern>
@@ -21372,6 +21373,10 @@ should be supplied for the <att>scheme</att> attribute.</p>
                         <valItem ident="capital">
                             <desc versionDate="2021-10-27" xml:lang="en">capitel letters.</desc>
                             <desc versionDate="2021-10-27" xml:lang="de">Großbuchstaben.</desc>
+                        </valItem>
+                        <valItem ident="highlighter">
+                            <desc versionDate="2024-03-11" xml:lang="en">highlighter.</desc>
+                            <desc versionDate="2024-03-11" xml:lang="de">Textmarker.</desc>
                         </valItem>
                         <valItem ident="italic">
                             <desc versionDate="2021-10-27" xml:lang="en">italic typeface.</desc>
