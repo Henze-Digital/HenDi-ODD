@@ -103,10 +103,17 @@
 			<param name="outputFileSchematron" value="${basedir}/schema/${lang}/hendiAll.isosch"/>
 			<param name="selectedSchema" value="hendiAll"/>
 		</antcall>
-		<!--<antcall target="process-guidelines-html">
-			<param name="inputFile" value="${basedir}/src/Guidelines/guidelines-de.xml"/>
-			<param name="selectedSchema" value="hendiAll"/>
-		</antcall>-->
+		
+		<echo>Creating CITATION.cff</echo>
+		<copy file="CITATION.cff.tmpl" tofile="CITATION.cff" filtering="true" overwrite="true">
+			<filterset>
+				<filter token="project.app" value="${project.app}"/>
+				<filter token="project.version" value="${project.version}"/>
+				<filter token="release.doi" value="${release.doi}"/>
+				<filter token="release.date" value="${release.date}"/>
+				<filter token="release.year" value="${release.year}"/>
+			</filterset>
+		</copy>
 	</target>
 	
 	<target name="hendiBiblio" depends="init">
