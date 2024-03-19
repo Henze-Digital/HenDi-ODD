@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2024-03-07T14:17:20Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2024-03-19T16:13:17Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
+   <ns uri="http://www.tei-c.org/ns/1.0" prefix="tei"/>
    <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
    <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
    <ns uri="http://www.functx.com" prefix="functx"/>
@@ -14,7 +15,6 @@
    <!-- ********************* -->
    <!-- namespaces, implicit: -->
    <!-- ********************* -->
-   <ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
    <!-- ************ -->
    <!-- constraints: -->
    <!-- ************ -->
@@ -207,7 +207,7 @@
          <assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</assert>
       </rule>
    </pattern>
-   
+   <schema queryBinding="xslt2">
       <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:int2hex">
          <param name="number" as="xs:int"/>
          <variable name="chars"
@@ -248,8 +248,8 @@
             <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
-   
-   
+   </schema>
+   <schema queryBinding="xslt2">
       <function xmlns="http://www.w3.org/1999/XSL/Transform"
                 name="functx:escape-for-regex"
                 as="xs:string">
@@ -281,7 +281,7 @@
             <assert test="$fileDir = concat(substring($fileName,1,5),'xxx')" role="error">The file is stored in the wrong directory. Please check!</assert>
          </rule>
       </pattern>
-   
+   </schema>
    <pattern id="schematron-constraint-hendiPlaces-addWithoutPlace-33">
       <rule context="tei:add[not(parent::tei:subst)]">
          <assert test="@place">Missing @place, because this is no substitution here.</assert>
@@ -444,7 +444,7 @@
          <assert test="@script">@script is not defined.</assert>
       </rule>
    </pattern>
-   
+   <schema queryBinding="xslt2">
       <function xmlns="http://www.w3.org/1999/XSL/Transform"
                 name="functx:contains-any-of"
                 as="xs:boolean">
@@ -466,11 +466,11 @@
          </for-each>
       </function>
       <pattern id="respCheck">
-         <rule context="tei:note[@resp][not(ancestor::tei:biblStruct)][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]">
+         <rule context="tei:note[@resp][not(ancestor::tei:biblStruct) and not(starts-with(ancestor::tei:TEI/@xml:id,'A09'))][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]">
             <assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</assert>
          </rule>
       </pattern>
-   
+   </schema>
    <pattern id="schematron-constraint-hendiPlaces-styleguide-document-node-content-49">
       <rule context="document-node()">
          <report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</report>

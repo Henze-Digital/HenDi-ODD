@@ -5,14 +5,11 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-03-07T14:17:04Z. .
+Schema generated from ODD source 2024-03-19T16:13:03Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding orgs at Henze-Digital 
 --><!--This work is licensed under a  Creative Commons Attribution 4.0 International License (CC BY 4.0) .-->
-   <sch:ns xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-           prefix="tei"
-           uri="http://www.tei-c.org/ns/1.0"/>
    <define name="macro.paraContent">
       <zeroOrMore>
          <choice>
@@ -83,6 +80,8 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Archiv) </a:documentation>
          <value>association</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Gesellschaft/Verband) </a:documentation>
+         <value>ballet</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Ballett) </a:documentation>
          <value>broadcaster</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Sendeanstalt) </a:documentation>
          <value>choir</value>
@@ -4795,6 +4794,8 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">fette Schriftstärke.</a:documentation>
             <value>capital</value>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Großbuchstaben.</a:documentation>
+            <value>highlighter</value>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Textmarker.</a:documentation>
             <value>italic</value>
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">kursive Schriftlage.</a:documentation>
             <value>latintype</value>
@@ -5146,6 +5147,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
                xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                queryBinding="xslt2">
+      <sch:ns uri="http://www.tei-c.org/ns/1.0" prefix="tei"/>
       <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
       <xsl:function name="hendi-xsl:int2hex">
          <xsl:param name="number" as="xs:int"/>
@@ -5600,7 +5602,7 @@ Empfohlene Werte sind: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:do
          </xsl:for-each>
       </xsl:function>
       <sch:pattern id="respCheck">
-         <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct)][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]">
+         <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct) and not(starts-with(ancestor::tei:TEI/@xml:id,'A09'))][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]">
             <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
          </sch:rule>
       </sch:pattern>
