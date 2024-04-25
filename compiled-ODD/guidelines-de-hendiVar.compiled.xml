@@ -547,27 +547,34 @@
 		<div xml:id="DT-biblio">
 			<head>Literatur/Schriften</head>
 			<p>In dieser Kategorie werden Bibliographika erfasst, die als Sekundär-, Sachliteratur oder Schriften bezeichnet werden können. Texten mit literarischer Qualität sind als Werke erfasst.</p>
-			<p>Die Datensätze zu den Bibliographika bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
+			<p>Die Datensätze zu den Bibliographika bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.</p>
+			<p>Bei den selbstständigen Publikationen werden alle relevanten Daten erfasst,
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<biblStruct type="article" xml:id="A1100BF8" status="proposed" source="HenDi">
-					<analytic>
-						<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
-						<author key="A0003CFE">Marsico, Federica</author>
-					</analytic>
-					<monogr>
-						<title level="m">Hans Werner Henze, Elegy for Young Lovers, Elegia per giovani amanti</title>
-						<imprint>
-							<pubPlace>Casale sul Sile</pubPlace>
-							<date when="2014">2014</date>
-							<publisher>Edizioni del Teatro La Fenice di Venezia</publisher>
-							<note type="additional">pp.11–30</note>
-						</imprint>
-					</monogr>
-					<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
-				</biblStruct>
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+					</biblStruct>
 				</egXML>
-			</p>
-			<p>Um Redundanzen zu vermeiden, werden Teile dieser Struktur ausgelagert. So können Reihen einmalig angelegt werden
+				während bei unselbstständigen Publikationen nur diejenigen Daten erfasst werden, die im übergeordneten Datensatz nicht enthalten sind. Hierzu zählen u. a. Seitenzahlen. Das Attribut <att>sameAs</att> im Element <gi>monogr</gi> verweist auf die selbstständige Publikation, in welcher der erfasste Artikel publiziert wurde.</p>
+				<p><egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct type="article" xml:id="A1100BF8" status="approved" source="HenDi">
+						<analytic>
+							<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
+							<author key="A0003CFE" role="aut">Marsico, Federica</author>
+						</analytic>
+						<monogr sameAs="A11001F3">
+							<biblScope unit="pp" from="11" to="30">11-30</biblScope>
+						</monogr>
+						<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
+					</biblStruct>
+				</egXML></p>
+			<p>(Schriften-)Reihen erhalten ebenfalls einen Datensatz, sodass diese direkt refernziert werden können.</p>
+			<p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<series>
@@ -576,7 +583,8 @@
 						</series>
 					</biblStruct>
 				</egXML>
-				und mehrere selbstständige Publikationen dieser einen Reihe zugeordnet werden.
+			</p>
+			<p>Um selbstständige Publikationen einer Reihe zuzuordnen, wird analog zu <gi>monogr</gi> das Attribut <att>sameAs</att> werdet.
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<monogr>
@@ -590,32 +598,7 @@
 					</biblStruct>
 				</egXML>
 			</p>
-			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<biblStruct>
-						<monogr>
-							<title/>
-							<imprint>
-								<pubPlace/>
-								<date/>
-							</imprint>
-						</monogr>
-					</biblStruct>
-				</egXML>
-				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden. Hier wird zusätzlich die Seitenzahl angegeben
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<biblStruct>
-						<analytic>
-							<title/>
-							<author/>
-						</analytic>
-						<monogr sameAs="#{monogrId}">
-							<biblScope type="pp" from="1" to="5">1-5</biblScope>
-						</monogr>
-					</biblStruct>
-				</egXML>
-			</p>
-			<p>Periodika werden mit <gi>monogr</gi> dargestellt.</p>
+			<p>Periodika werden mit dem Element <gi>monogr</gi> erfasst. Hier ist zu beachten, dass ausschließlich allgemeine Informationen zum Periodikum erfasst werden, wie Titel, Herausgebende, Erscheinungszeitraum. Informationen wie Jahrgang, Ausgabe bzw. Ausgabennummer oder Band werden im Datensatz der Artikel erfasst. Der Katalogdatensatz zu den Periodika ist hier lediglich als Ankerpunkt vorgesehen.</p>
 		</div>
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
@@ -1093,7 +1076,6 @@
 		<p>
 			<specList>
 				<specDesc key="persName"/>
-				<specDesc key="workName"/>
 				<specDesc key="placeName"/>
 				<specDesc key="rs"/>
 				<specDesc key="date"/>
@@ -8545,10 +8527,18 @@ epistemology, methodology and history of
     	                <sch:report test="@source">@source is permitted if the root element already uses @source.</sch:report>
     	            </sch:rule>
     	        </constraint>
-    	    </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="biblStructAnalyticMonogr" mode="add">
+    	    </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="biblStructMonogr-Journals" mode="add">
+    			<constraint>
+    			    <sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and @type='journal']/tei:monogr/node()">
+    			        <sch:report test="local-name(.) = 'author' ">Element author is not allowed for journals. Use editor instead</sch:report>
+    			        <sch:report test="local-name(.) = 'edition' ">Element edition is not allowed for journals.</sch:report>
+    			        <sch:report test="local-name(.) = 'biblScope' ">Element biblScope is not allowed for journals. This information belongs to the articles.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="biblStructAnalyticMonogr" mode="add">
     			<constraint>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@sameAs]/node()">
-    					<sch:report test="not(local-name(.) = 'biblScope')">If monogr has @sameAs only biblStruct is allowed.</sch:report>
+    				    <sch:report test="not(local-name(.) = 'biblScope') and not(local-name(.) = 'imprint')">If monogr has @sameAs only biblStruct and imprint are allowed.</sch:report>
     				</sch:rule>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr">
     					<sch:assert test="@sameAs">If analytic is present monogr needs @sameAs.</sch:assert>
