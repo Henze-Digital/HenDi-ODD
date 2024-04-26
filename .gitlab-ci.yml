@@ -27,6 +27,7 @@ stages:
   - compile-13
   - compile-14
   - trigger-update
+  - datapackage
 
 
 .git_setup:
@@ -158,3 +159,14 @@ trigger-update-submodules:
       when: always
     - when: never
 
+build:stable-zenodo:
+  stage: datapackage
+  image: $HENDI_CI_DOCKER_IMAGE
+  script:
+    - ant zippingForPublishing -Dpublishing=true
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: always
+    - when: never
+  after_script:
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./hendi-pkg-odd/HenDi-ODD-*.xar "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hendi-odd/stable-zenodo/HenDi-ODD-latest.xar"'
