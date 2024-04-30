@@ -2472,10 +2472,19 @@
     	            </sch:rule>
     	        </constraint>
     	    </constraintSpec>
+    		<constraintSpec scheme="schematron" ident="biblStructMonogr-Journals" mode="add">
+    			<constraint>
+    			    <sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and @type='journal']/tei:monogr/node()">
+    			        <sch:report test="local-name(.) = 'author' ">Element author is not allowed for journals. Use editor instead</sch:report>
+    			        <sch:report test="local-name(.) = 'edition' ">Element edition is not allowed for journals.</sch:report>
+    			        <sch:report test="local-name(.) = 'biblScope' ">Element biblScope is not allowed for journals. This information belongs to the articles.</sch:report>
+    				</sch:rule>
+    			</constraint>
+    		</constraintSpec>
     		<constraintSpec scheme="schematron" ident="biblStructAnalyticMonogr" mode="add">
     			<constraint>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr[@sameAs]/node()">
-    					<sch:report test="not(local-name(.) = 'biblScope')">If monogr has @sameAs only biblStruct is allowed.</sch:report>
+    				    <sch:report test="not(local-name(.) = 'biblScope') and not(local-name(.) = 'imprint')">If monogr has @sameAs only biblStruct and imprint are allowed.</sch:report>
     				</sch:rule>
     				<sch:rule context="tei:biblStruct[not(ancestor::tei:TEI) and tei:analytic]/tei:monogr">
     					<sch:assert test="@sameAs">If analytic is present monogr needs @sameAs.</sch:assert>
@@ -3193,6 +3202,7 @@
     		<content>
     			<elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
     			<elementRef key="editor" minOccurs="0" maxOccurs="unbounded"/>
+    			<elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
     			<elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
     		</content>
     		<attList>

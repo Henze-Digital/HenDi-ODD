@@ -475,36 +475,45 @@
 		<div xml:id="DT-biblio">
 			<head>Literatur/Schriften</head>
 			<p>In dieser Kategorie werden Bibliographika erfasst, die als Sekundär-, Sachliteratur oder Schriften bezeichnet werden können. Texten mit literarischer Qualität sind als Werke erfasst.</p>
-			<p>Die Datensätze zu den Bibliographika bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zum Autor (<gi>author</gi>) und Titel <gi>title</gi> hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.
+			<p>Die Datensätze zu den Bibliographika bestehen aus einem <gi>biblStruct</gi>-Element, mit dessen Hilfe Informationen zu den Autor*innen (<gi>author</gi>) und zum Titel (<gi>title</gi>) hinterlegt werden können. Mittels <gi>analytic</gi> werden unselbstständige Publikationen erfasst. Das Element <gi>monogr</gi> verzeichnet eigenständige Publikationen oder dokumentiert Angaben zum Veröffentlichungsort durch die Elemente <gi>imprint</gi>, <gi>biblScope</gi>, <gi>date</gi>, <gi>pubPlace</gi> etc.</p>
+			<p>Bei den selbstständigen Publikationen besteht die Möglichkeit zur umfassenden Datenerfassung,
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<biblStruct type="article" xml:id="A1100BF8" status="proposed" source="HenDi">
-					<analytic>
-						<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
-						<author key="A0003CFE">Marsico, Federica</author>
-					</analytic>
-					<monogr>
-						<title level="m">Hans Werner Henze, Elegy for Young Lovers, Elegia per giovani amanti</title>
-						<imprint>
-							<pubPlace>Casale sul Sile</pubPlace>
-							<date when="2014">2014</date>
-							<publisher>Edizioni del Teatro La Fenice di Venezia</publisher>
-							<note type="additional">pp.11–30</note>
-						</imprint>
-					</monogr>
-					<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
-				</biblStruct>
+					<biblStruct>
+						<monogr>
+							<title/>
+							<imprint>
+								<pubPlace/>
+								<date/>
+							</imprint>
+						</monogr>
+					</biblStruct>
 				</egXML>
-			</p>
-			<p>Um Redundanzen zu vermeiden, werden Teile dieser Struktur ausgelagert. So können Reihen einmalig angelegt werden
+				während bei unselbstständigen Publikationen nur diejenigen Daten erfasst werden, die im übergeordneten Datensatz nicht enthalten sind. Hierzu zählen u. a. Seitenzahlen. Das Attribut <att>sameAs</att> im Element <gi>monogr</gi> verweist auf die selbstständige Publikation, in welcher der erfasste Artikel publiziert wurde.</p>
+				<p><egXML xmlns="http://www.tei-c.org/ns/Examples">
+					<biblStruct type="article" xml:id="A1100BF8" status="approved" source="HenDi">
+						<analytic>
+							<title level="a">Il poeta e la sua elegia del desiderio inappagato</title>
+							<author key="A0003CFE" role="aut">Marsico, Federica</author>
+						</analytic>
+						<monogr sameAs="A11001F3">
+							<biblScope unit="pp" from="11" to="30">11-30</biblScope>
+						</monogr>
+						<note resp="EM" type="commentary">La Fenice prima dell'opera</note>
+					</biblStruct>
+				</egXML></p>
+			<p>(Schriften-)Reihen erhalten ebenfalls einen Datensatz, sodass diese direkt referenziert werden können.</p>
+			<p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<series>
 							<title/>
 							<editor/>
+							<date/>
 						</series>
 					</biblStruct>
 				</egXML>
-				und mehrere selbstständige Publikationen dieser einen Reihe zugeordnet werden.
+			</p>
+			<p>Um selbstständige Publikationen einer Reihe zuzuordnen, wird analog das Attribut <att>sameAs</att> werdet.
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<biblStruct>
 						<monogr>
@@ -514,36 +523,11 @@
 								<date/>
 							</imprint>
 						</monogr>
-						<series sameAs="#{seriesId}"/>
+						<series sameAs="{SeriesId}"/>
 					</biblStruct>
 				</egXML>
 			</p>
-			<p>Bei den selbstständigen Publikationen wird analog verfahren. Diese können einzeln erfasst werden
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<biblStruct>
-						<monogr>
-							<title/>
-							<imprint>
-								<pubPlace/>
-								<date/>
-							</imprint>
-						</monogr>
-					</biblStruct>
-				</egXML>
-				während die erfassten unselbstständigen Publikationen dann diesen zugeordnet werden. Hier wird zusätzlich die Seitenzahl angegeben
-				<egXML xmlns="http://www.tei-c.org/ns/Examples">
-					<biblStruct>
-						<analytic>
-							<title/>
-							<author/>
-						</analytic>
-						<monogr sameAs="#{monogrId}">
-							<biblScope type="pp" from="1" to="5">1-5</biblScope>
-						</monogr>
-					</biblStruct>
-				</egXML>
-			</p>
-			<p>Periodika werden mit <gi>monogr</gi> dargestellt.</p>
+			<p>Periodika werden mit dem Element <gi>monogr</gi> erfasst. Hier ist zu beachten, dass ausschließlich allgemeine Informationen zum Periodikum erfasst werden, wie Titel, Herausgebende, Erscheinungszeitraum. Der Katalogdatensatz zu den Periodika ist hier lediglich als Ankerpunkt vorgesehen. Informationen wie Jahrgang, Ausgabe bzw. Ausgabennummer oder Band gehören zur Ebene der Artikeln werden im entsprechenden Datensatz erfasst.</p>
 		</div>
 		<div xml:id="DT-events">
 			<head>Erfassung von Ereignissen</head>
