@@ -6757,14 +6757,11 @@
     		<desc versionDate="2022-05-18" xml:lang="en">Checks for illegal combination of values in <att>rend</att></desc>
     		<desc versionDate="2022-05-18" xml:lang="de">Überprüft auf illegale Wert-Kombinationen in <att>rend</att></desc>
     		<constraint>
-    		    <sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend">
-    		        <sch:report test="contains(.,'none')">The value 'none' is not allowed at <sch:value-of select="node-name()"/>.</sch:report>
-    		    </sch:rule>
-    		    <sch:rule context="*:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
-    		        <sch:report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</sch:report>
-    		    </sch:rule>
     			<sch:rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
-    				<sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <sch:value-of select="node-name()"/>.</sch:report>
+    			    <sch:report test="matches(.,'(up|down)\s')">Check @<sch:value-of select="node-name()"/>. The first part of the pair must be 'single' or 'double'!</sch:report>
+    				<sch:report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Check @<sch:value-of select="node-name()"/>. 'single' and 'double' or 'up' and 'down' are not allowed at the same time.</sch:report>
+    		        <sch:report test="contains(.,'none') and (parent::*:q[@rend]/@rend | parent::*:quote[@rend]/@rend)">The value 'none' is not allowed at <sch:value-of select="node-name()"/>.</sch:report>
+    		        <sch:report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</sch:report>
     			</sch:rule>
     		</constraint>
     	</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="quotation-rend-attributes" mode="add">
