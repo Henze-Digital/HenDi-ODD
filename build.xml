@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="HenDi-ODD" default="all">
+<project basedir="." name="HenDi-ODD" default="hendiAll">
 	
 	<!-- import default properties from file -->
 	<property file="local.build.properties"/>
@@ -270,6 +270,17 @@
 				in="${compiledODD.dir}/${inputFile.basename}-${selectedSchema}.compiled.xml" out="${outputFileSchematron}" classpathref="hendi.odd.classpath">
 				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 			</xslt>
+			
+			<echo>Clean extracted Schematron rules</echo>
+			<xslt force="yes" in="${outputFileSchematron}" out="${basedir}/schema-temp/${selectedSchema}.isosch" style="${basedir}/resources/clean-secLevel-schema-elem.xsl" classpath="hendi.odd.classpath"  extension=".isosch">
+				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+			</xslt>
+			<copy todir="${basedir}/schema/de" force="yes">
+				<fileset dir="${basedir}/schema-temp">
+					<include name="**/${selectedSchema}.isosch"/>
+				</fileset>
+			</copy>
+			<delete dir="schema-temp/"/>
 		</sequential>
 	</target>
 	
@@ -291,6 +302,7 @@
 			<param name="selectedSchema" expression="${selectedSchema}"/>
 		</xslt>
 	</target>
+	
 	
 	<target name="zippingForPublishing" if="${publishing}">
 		<echo>Creating the xar Package (zipping) for publishing.</echo>
