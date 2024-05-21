@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2024-04-30T04:36:45Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2024-05-16T12:10:49Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -612,14 +612,11 @@
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiPersons-quotation-rend-values-83">
-      <rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend">
-         <report test="contains(.,'none')">The value 'none' is not allowed at <value-of select="node-name()"/>.</report>
-      </rule>
-      <rule context="*:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
-         <report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</report>
-      </rule>
       <rule context="*:q[@rend]/@rend | *:quote[@rend]/@rend | *:q[@rendLeft]/@rendLeft | *:quote[@rendLeft]/@rendLeft | *:q[@rendRight]/@rendRight | *:quote[@rendRight]/@rendRight">
-         <report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Please check the values at the attriute <value-of select="node-name()"/>.</report>
+         <report test="matches(.,'(up|down)\s')">Check @<value-of select="node-name()"/>. The first part of the pair must be 'single' or 'double'!</report>
+         <report test="(contains(.,'single') and contains(.,'double')) or (contains(., 'up') and contains(.,'down'))">Check @<value-of select="node-name()"/>. 'single' and 'double' or 'up' and 'down' are not allowed at the same time.</report>
+         <report test="contains(.,'none') and (parent::*:q[@rend]/@rend | parent::*:quote[@rend]/@rend)">The value 'none' is not allowed at <value-of select="node-name()"/>.</report>
+         <report test="contains(.,'none') and not(. = 'none')">If the value 'none' is used, no other specification are allowed.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiPersons-quotation-rend-attributes-84">
