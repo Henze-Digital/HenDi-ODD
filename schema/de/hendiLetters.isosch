@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2024-05-16T12:10:25Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2024-05-21T15:57:07Z by 'extract-isosch.xsl'. -->
    <!-- ********************* -->
    <!-- namespaces, declared: -->
    <!-- ********************* -->
@@ -515,16 +514,11 @@ relatedItem element must be empty</report>
    <pattern id="schematron-constraint-hendiLetters-row-number-of-cells-84">
       <rule context="tei:row[preceding-sibling::tei:row]">
          <let name="thisNode" value="."/>
-         <let name="thisRowCellCount"
-              value="count(tei:cell[not(@cols)]) + sum(tei:cell/@cols)"/>
-         <let name="precedingCellsWithRowspan"
-              value="preceding-sibling::tei:row/tei:cell[@rows][some $i in (1 to xs:integer(@rows - 1)) satisfies parent::tei:row/following-sibling::tei:row[$i] is $thisNode]"/>
-         <let name="precedingCellsWithRowspanPlus1"
-              value="preceding-sibling::tei:row/tei:cell[@rows][some $i in (1 to xs:integer(@rows)) satisfies parent::tei:row/following-sibling::tei:row[$i] is $thisNode]"/>
-         <let name="precedingCellsWithRowspanCount"
-              value="count($precedingCellsWithRowspan[not(@cols)]) + sum($precedingCellsWithRowspan/@cols)"/>
-         <let name="precedingRowCellCount"
-              value="                             count(preceding-sibling::tei:row[1]/tei:cell[not(@cols)])                              + sum(preceding-sibling::tei:row[1]/tei:cell/@cols)                              + count(($precedingCellsWithRowspanPlus1 except preceding-sibling::tei:row[1]/tei:cell)[not(@cols)])                             + sum(($precedingCellsWithRowspanPlus1 except preceding-sibling::tei:row[1]/tei:cell)/@cols)"/>
+         <let name="thisRowCellCount" value="count(tei:cell[not(@cols)]) + sum(tei:cell/@cols)"/>
+         <let name="precedingCellsWithRowspan" value="preceding-sibling::tei:row/tei:cell[@rows][some $i in (1 to xs:integer(@rows - 1)) satisfies parent::tei:row/following-sibling::tei:row[$i] is $thisNode]"/>
+         <let name="precedingCellsWithRowspanPlus1" value="preceding-sibling::tei:row/tei:cell[@rows][some $i in (1 to xs:integer(@rows)) satisfies parent::tei:row/following-sibling::tei:row[$i] is $thisNode]"/>
+         <let name="precedingCellsWithRowspanCount" value="count($precedingCellsWithRowspan[not(@cols)]) + sum($precedingCellsWithRowspan/@cols)"/>
+         <let name="precedingRowCellCount" value="                             count(preceding-sibling::tei:row[1]/tei:cell[not(@cols)])                              + sum(preceding-sibling::tei:row[1]/tei:cell/@cols)                              + count(($precedingCellsWithRowspanPlus1 except preceding-sibling::tei:row[1]/tei:cell)[not(@cols)])                             + sum(($precedingCellsWithRowspanPlus1 except preceding-sibling::tei:row[1]/tei:cell)/@cols)"/>
          <assert test="$thisRowCellCount + $precedingCellsWithRowspanCount = $precedingRowCellCount">The total ammount of cells should be equal for every row in a table. This row ammounts to <value-of select="$thisRowCellCount + $precedingCellsWithRowspanCount"/> cells (possibly affected by some preceding rowspans, i.e. cell/@rows) instead of <value-of select="$precedingRowCellCount"/> for the preceding row.</assert>
       </rule>
    </pattern>
@@ -654,10 +648,8 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-persName-persNameTypes-108">
       <rule context="tei:persName[@type='alt' and @subtype='married']">
-         <report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) &gt; 1 and not(@n)"
-                 role="error">If there are more than one name of marriage, please add @n to differ.</report>
-         <report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) = 1 and @n"
-                 role="warning">If there is only one name of marriage, it is obsolete to use @n.</report>
+         <report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) &gt; 1 and not(@n)" role="error">If there are more than one name of marriage, please add @n to differ.</report>
+         <report test="count(parent::tei:person/tei:persName[@type='alt' and @subtype='married']) = 1 and @n" role="warning">If there is only one name of marriage, it is obsolete to use @n.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-att.witnessed-att-wit-109">
@@ -693,8 +685,7 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-div-divColSumControl-117">
       <rule context="tei:div[@type='row' and tei:div[contains(@type,'col-')]]">
-         <let name="sumOfCols"
-              value="sum(tei:div[contains(@type,'col-')]/number(substring-after(@type,'col-')))"/>
+         <let name="sumOfCols" value="sum(tei:div[contains(@type,'col-')]/number(substring-after(@type,'col-')))"/>
          <report test="$sumOfCols &gt; 12">The sum of all cols must not be greater than 12. It's <value-of select="$sumOfCols"/>.</report>
       </rule>
    </pattern>
@@ -760,10 +751,8 @@ The element <name/> may appear once only
    <pattern id="schematron-constraint-hendiLetters-term-controleContentOfLettersTermElements-129">
       <rule context="tei:textClass/tei:keywords/tei:term">
          <report test="parent::node()/tei:term = 'typoscript'" role="warn">Please use 'typescript' instead of 'typoscript'.</report>
-         <assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')"
-                 role="warn">The value of the first term should be 'manuscript' or 'typescript'</assert>
-         <report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
-                 role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</report>
+         <assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typescript'</assert>
+         <report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')" role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-relation-reforkeyorname-130">
@@ -789,18 +778,14 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-elementStartsWithWhitespace-134">
       <rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
-         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
-                 role="error">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
-         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
-                 role="error">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="error">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="error">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-hiRendUnderlineStartsWithWhitespace-135">
       <rule context="tei:hi[@rend='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript']">
-         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
-                 role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</report>
-         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
-                 role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</report>
+         <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-untrimmedAttributeValues-136">
@@ -824,18 +809,16 @@ The element <name/> may appear once only
          <assert test="id(substring($source,2))">Unable to locate the reference provided by the @source attribute.</assert>
       </rule>
    </pattern>
-   <schema queryBinding="xslt2">
+   
       <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:int2hex">
          <param name="number" as="xs:int"/>
-         <variable name="chars"
-                   select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
+         <variable name="chars" select="('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')"/>
          <variable name="div" select="$number div 16"/>
          <variable name="count" select="floor($div)"/>
          <variable name="remainder" select="($div - $count) * 16"/>
          <value-of select="concat(if($count gt 15) then hendi-xsl:int2hex(xs:integer($count))                             else if($number gt 15) then $chars[$count +1]                             else (),                             $chars[$remainder +1])"/>
       </function>
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="hendi-xsl:compute-check-digit">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:compute-check-digit">
          <param name="id" as="xs:string"/>
          <variable name="weights" select="(2, 4, 6, 8, 9, 5, 3)"/>
          <variable name="str2codepts" select="string-to-codepoints($id)"/>
@@ -846,17 +829,14 @@ The element <name/> may appear once only
          <variable name="str2codepts-5" select="$str2codepts[5] * $weights[5]"/>
          <variable name="str2codepts-6" select="$str2codepts[6] * $weights[6]"/>
          <variable name="str2codepts-7" select="$str2codepts[7] * $weights[7]"/>
-         <variable name="sum"
-                   select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
+         <variable name="sum" select="sum(($str2codepts-1, $str2codepts-2, $str2codepts-3, $str2codepts-4, $str2codepts-5, $str2codepts-6, $str2codepts-7))"/>
          <value-of select="hendi-xsl:int2hex(xs:int($sum mod 16))"/>
       </function>
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="hendi-xsl:checkIdByCheckDigit">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:checkIdByCheckDigit">
          <param name="str" as="xs:string"/>
          <variable name="idStr" select="substring($str, 1, 7)"/>
          <variable name="idCheckDigit" select="substring($str, 8, 1)"/>
-         <variable name="computedCheckDigit"
-                   select="hendi-xsl:compute-check-digit($idStr)"/>
+         <variable name="computedCheckDigit" select="hendi-xsl:compute-check-digit($idStr)"/>
          <variable name="check" select="$computedCheckDigit = $idCheckDigit"/>
          <value-of select="$check"/>
       </function>
@@ -865,24 +845,18 @@ The element <name/> may appear once only
             <assert test="hendi-xsl:checkIdByCheckDigit(.) = true()" role="fatal">Something went wrong with the ID: <value-of select="."/>. Computed check digit is <value-of select="hendi-xsl:compute-check-digit(.)"/>.</assert>
          </rule>
       </pattern>
-   </schema>
-   <schema queryBinding="xslt2">
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="functx:escape-for-regex"
-                as="xs:string">
+   
+   
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="functx:escape-for-regex" as="xs:string">
          <param name="arg" as="xs:string?"/>
          <sequence select="replace($arg, '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')"/>
       </function>
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="functx:substring-before-last"
-                as="xs:string">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="functx:substring-before-last" as="xs:string">
          <param name="arg" as="xs:string?"/>
          <param name="delim" as="xs:string"/>
          <sequence select="if (matches($arg, functx:escape-for-regex($delim))) then replace($arg, concat('^(.*)', functx:escape-for-regex($delim),'.*'), '$1') else ''"/>
       </function>
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="functx:substring-after-last"
-                as="xs:string">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="functx:substring-after-last" as="xs:string">
          <param name="arg" as="xs:string?"/>
          <param name="delim" as="xs:string"/>
          <sequence select="replace ($arg,concat('^.*', functx:escape-for-regex($delim)),'')"/>
@@ -890,15 +864,13 @@ The element <name/> may appear once only
       <pattern id="checkFilesNameAndDir">
          <rule context="root()">
             <let name="docUri" value="document-uri(.)"/>
-            <let name="fileName"
-                 value="functx:substring-after-last(substring-before($docUri, '.xml'), '/')"/>
-            <let name="fileDir"
-                 value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
+            <let name="fileName" value="functx:substring-after-last(substring-before($docUri, '.xml'), '/')"/>
+            <let name="fileDir" value="functx:substring-after-last(functx:substring-before-last($docUri, '/'), '/')"/>
             <assert test="./node()/@xml:id = $fileName" role="error">The id of this record does not match the files name. Please check!</assert>
             <assert test="$fileDir = concat(substring($fileName,1,5),'xxx')" role="error">The file is stored in the wrong directory. Please check!</assert>
          </rule>
       </pattern>
-   </schema>
+   
    <pattern id="schematron-constraint-hendiLetters-addWithoutPlace-142">
       <rule context="tei:add[not(parent::tei:subst)]">
          <assert test="@place">Missing @place, because this is no substitution here.</assert>
@@ -982,12 +954,9 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-importName-147">
       <rule context="tei:persName | tei:orgName | tei:placeName">
-         <report test="(@type='import') and parent::node()/@status[.='proposed']"
-                 role="info">This element should be deleted after checking this record.</report>
-         <report test="(@type='import') and parent::node()/@status[.='candidate']"
-                 role="warning">This element should be deleted after checking this record.</report>
-         <report test="(@type='import') and parent::node()/@status[.='approved']"
-                 role="error">This element has to be deleted before publishing!</report>
+         <report test="(@type='import') and parent::node()/@status[.='proposed']" role="info">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='candidate']" role="warning">This element should be deleted after checking this record.</report>
+         <report test="(@type='import') and parent::node()/@status[.='approved']" role="error">This element has to be deleted before publishing!</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-quotation-rend-values-148">
@@ -1017,8 +986,7 @@ The element <name/> may appear once only
       <rule context="tei:fileDesc/tei:titleStmt/tei:title[@level='s']">
          <let name="seriesTitleA04" value="'Henze-Digital, Briefedition'"/>
          <let name="seriesTitleA05" value="'Aktuelle Nachrichten von Henze-Digital'"/>
-         <let name="seriesTitleA02"
-              value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
+         <let name="seriesTitleA02" value="'Henze-Digital, literarische Werke, Digitale Edition'"/>
          <report test="ancestor::tei:TEI[starts-with(@xml:id,'A04')] and not(. = $seriesTitleA04)">The correct series title for postals is "<value-of select="$seriesTitleA04"/>".</report>
          <report test="ancestor::tei:TEI[starts-with(@xml:id,'A05')] and not(. = $seriesTitleA05)">The scorrect eries title for News is "<value-of select="$seriesTitleA05"/>".</report>
          <report test="ancestor::tei:TEI[starts-with(@xml:id,'A02')] and not(. = $seriesTitleA02)">The series title must be "<value-of select="$seriesTitleA02"/>".</report>
@@ -1026,10 +994,8 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-correspDescControl-154">
       <rule context="tei:profileDesc">
-         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)"
-                 role="fatal">&lt;profileDesc&gt; is required for postals.</report>
-         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc"
-                 role="fatal">&lt;profileDesc&gt; is only allowed for postals.</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(tei:correspDesc)" role="fatal">&lt;profileDesc&gt; is required for postals.</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and tei:correspDesc" role="fatal">&lt;profileDesc&gt; is only allowed for postals.</report>
       </rule>
       <rule context="tei:correspDesc">
          <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A14')]" role="fatal">&lt;correspDesc&gt; is only allowed for postals.</report>
@@ -1037,14 +1003,10 @@ The element <name/> may appear once only
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-textTypeControl-155">
       <rule context="tei:text/@type">
-         <let name="textTypePostals"
-              value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
-         <let name="textTypeDocuments"
-              value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
-         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)"
-                 role="error">For postals the value of @type must be one of <value-of select="$textTypePostals"/>.</report>
-         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)"
-                 role="error">For documents the value of @type must be one of <value-of select="$textTypeDocuments"/>.</report>
+         <let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
+         <let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <value-of select="$textTypePostals"/>.</report>
+         <report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <value-of select="$textTypeDocuments"/>.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-hendiLetters-handShifthandNoteAtts-156">
@@ -1058,19 +1020,15 @@ The element <name/> may appear once only
          <assert test="@script">@script is not defined.</assert>
       </rule>
    </pattern>
-   <schema queryBinding="xslt2">
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="functx:contains-any-of"
-                as="xs:boolean">
+   
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="functx:contains-any-of" as="xs:boolean">
          <param name="arg" as="xs:string?"/>
          <param name="searchStrings" as="xs:string*"/>
          <sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
       </function>
-      <function xmlns="http://www.w3.org/1999/XSL/Transform"
-                name="hendi-xsl:EditorNameAsSiglum">
+      <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:EditorNameAsSiglum">
          <param name="resp" as="node()"/>
-         <variable name="editors"
-                   select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
+         <variable name="editors" select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
          <for-each select="$editors">
             <choose>
                <when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</when>
@@ -1084,7 +1042,7 @@ The element <name/> may appear once only
             <assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</assert>
          </rule>
       </pattern>
-   </schema>
+   
    <pattern id="schematron-constraint-hendiLetters-att.hendi.rend-underline-n-158">
       <rule context="*:hi[@n] | *:rend[@n]">
          <report test="@rend ne 'underline'">The @n-attribute is only supported in combination with @rend='underline'</report>
