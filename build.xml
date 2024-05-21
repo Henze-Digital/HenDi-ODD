@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="HenDi-ODD" default="hendiAll">
+<project basedir="." name="HenDi-ODD" default="all">
 	
 	<!-- import default properties from file -->
 	<property file="local.build.properties"/>
@@ -272,12 +272,12 @@
 			</xslt>
 			
 			<echo>Clean extracted Schematron rules</echo>
-			<xslt force="yes" in="${outputFileSchematron}" out="${basedir}/schema-temp/${selectedSchema}.isosch" style="${basedir}/resources/clean-secLevel-schema-elem.xsl" classpath="hendi.odd.classpath"  extension=".isosch">
+			<xslt force="yes" in="${outputFileSchematron}" out="${basedir}/schema-temp/${selectedSchema}.isosch" style="${basedir}/resources/clean-secLevel-schema-elem.xsl" classpath="hendi.odd.classpath">
 				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 			</xslt>
-			<copy todir="${basedir}/schema/de" force="yes">
+			<copy todir="${basedir}/schema/de" overwrite="yes">
 				<fileset dir="${basedir}/schema-temp">
-					<include name="**/${selectedSchema}.isosch"/>
+					<include name="*.isosch"/>
 				</fileset>
 			</copy>
 			<delete dir="schema-temp/"/>
