@@ -5702,7 +5702,21 @@
 	                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
 	                </sch:rule>
 	            </constraint>
+        	</constraintSpec>
+        	<constraintSpec scheme="schematron" ident="mei-work-componentList-content">
+        		<constraint>
+        			<sch:rule context="mei:work[parent::mei:componentList and ancestor::mei:workList/mei:work[@class='music']]/mei:*">
+        				<sch:report test="not(local-name(.) = 'title') and not(local-name(.) = 'relationList')">If another work is linked only title is allowed here.</sch:report>
+        			</sch:rule>
+        		</constraint>
 	        </constraintSpec>
+	    	<constraintSpec scheme="schematron" ident="mei-work-componentList-relList">
+	    		<constraint>
+	    			<sch:rule context="mei:work[parent::mei:componentList and ancestor::mei:workList/mei:work[@class='music']]">
+	    				<sch:assert test="mei:relationList">Use relation to link other works.</sch:assert>
+	    			</sch:rule>
+	    		</constraint>
+	    	</constraintSpec>
 	        <attList>
 	            <attDef ident="status" usage="rec" mode="add">
 	                <datatype>
