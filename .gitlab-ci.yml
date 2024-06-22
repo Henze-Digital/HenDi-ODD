@@ -48,8 +48,12 @@ stages:
       - src/Specs/common-specs.odd.xml
       - src/Guidelines/de/*.xml
     - if: $RECOMPILE_ALL == "true"
-      when:  always
-    - when : never
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
+      when: never
+    - when: never
 
 .compile-target:
   script:
@@ -58,10 +62,6 @@ stages:
     - !reference [.git_commit, script]
   rules:
     - !reference [.default_rules, rules]
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
-      when: never
     - changes:
       - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
     - when: never
@@ -121,10 +121,7 @@ trigger-update-submodules:
     branch: develop
     strategy: depend
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    - if: $CI_COMMIT_REF_NAME =~ "/^feature/"
-      when: never
+    - !reference [.default_rules, rules]
     - if: $TRIGGER_UPDATE_SUBMODULES == "true"
       when: always
     - when: never
