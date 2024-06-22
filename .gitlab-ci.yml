@@ -24,8 +24,6 @@ stages:
   - compile-10
   - compile-11
   - compile-12
-  - compile-13
-  - compile-14
   - trigger-update
   - datapackage
 
@@ -41,25 +39,14 @@ stages:
 .git_commit:
   script:
     - git add .
-    - git commit -m "${CI_JOB_NAME} auto compile"
+    - git commit -m "CI: recompile schema ${CI_JOB_NAME}"
     - git push origin HEAD:${CI_COMMIT_REF_NAME} -o ci.skip
 
 .default_rules:
   rules:
-    #- changes:
-    #  - src/Specs/common-specs.odd.xml
-    - when : never
-
-.build-test-target:
-  script:
-    - ant ${CI_JOB_STAGE}
-    - ant check-rng-output -DselectedSchema=${CI_JOB_STAGE}
-  rules:
-    - !reference [.default_rules, rules]
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
-      when: always
     - changes:
-      - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
+      - src/Specs/common-specs.odd.xml
+    - when : never
 
 .compile-target:
   script:
@@ -72,29 +59,18 @@ stages:
       when: never
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^feature/
       when: never
-    #- changes:
-    #  - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
+    - changes:
+      - src/Specs/schemaSpec-${CI_JOB_STAGE}.odd.xml
     - when: never
 
 hendiAll:
   stage: compile-00
   extends: .compile-target
   rules:
-    #- changes:
-    #  - src/Guidelines/de/*.xml
-    #  - src/Specs/common-specs.odd.xml
-    #  - src/Specs/schemaSpec-hendiAll.odd.xml
+    - changes:
+      - src/Guidelines/de/*.xml
     - if: $BUILD_HENDI_ALL == "true"
       when:  always
-
-#hendiBiblio:test:
-#  stage: hendiBiblio
-#  extends: .build-test-target
-
-#hendiBiblio:compile:
-#  stage: hendiBiblio
-#  needs: [hendiBiblio:test]
-#  extends: .compile-target
 
 hendiBiblio:
   stage: compile-01
@@ -140,16 +116,12 @@ hendiWorksTEI:
   stage: compile-12
   extends: .compile-target
 
-hendiWritings:
-  stage: compile-13
-  extends: .compile-target
-
 trigger-update-submodules:
-  stage: trigger-update
-  image: curlimages/curl
-  script: 
-    - "curl -X POST --fail -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
-    - "curl -X POST --fail -F token=$TRIGGER_WEBAPP_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/5005/trigger/pipeline"
+  stage: update
+  trigger:
+    project: vife/henze-digital/hwh-webapp/
+    branch: develop
+    strategy: depend
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
