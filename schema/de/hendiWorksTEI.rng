@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-05-16T12:11:20Z. .
+Schema generated from ODD source 2024-06-04T12:33:43Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
   
@@ -2762,16 +2762,6 @@ Empfohlene Werte sind: 1] deprecationInfo (deprecation information)</a:documenta
                <sch:assert test="parent::tei:orgName and ancestor::tei:org">The value 'dep' is only allowed within the doctype 'orgs'.</sch:assert>
             </sch:rule>
          </pattern>
-         <sch:pattern xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      is-a="node-typeNkey">
-            <sch:param name="node" value="tei:name"/>
-         </sch:pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.personal.attribute.full"/>
          <ref name="att.personal.attribute.sort"/>
@@ -2871,16 +2861,6 @@ Empfohlene Werte sind: 1] deprecationInfo (deprecation information)</a:documenta
       <element name="rs">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(referenzierende Zeichenkette) bezeichnet ein oder mehrere Objekt(e) vom Typ Person, Werk, Tagebucheintrag, usw. [13.2.1. Personal Names 3.6.1. Referring Strings]</a:documentation>
          <ref name="macro.phraseSeq"/>
-         <sch:pattern xmlns:mei="http://www.music-encoding.org/ns/mei"
-                      xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-                      xmlns:s="http://www.ascc.net/xml/schematron"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      is-a="node-typeNkey">
-            <sch:param name="node" value="tei:rs"/>
-         </sch:pattern>
          <ref name="att.typed.attribute.subtype"/>
          <attribute name="type">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">charakterisiert das Element in einem gewissen Sinne, wobei irgendeine zweckmäßige Systematik oder Typologie angewendet wird.</a:documentation>
@@ -7899,8 +7879,9 @@ Empfohlene Werte sind: 1] label; 2] data</a:documentation>
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                id="node-typeNkey"
+                id="check-typeNkey"
                 abstract="true">
+      <sch:let name="node" value="tei:rs|tei:name"/>
       <sch:rule context="$node[@type='person'][@key]|$node[@type='character'][@key]|$node[@type='actingRole'][@key]|$node[@type='myth'][@key]">
          <sch:assert test="matches(@key, '^A00[0-9A-F]{5}$')">A type value of 'person' must have only one key, starting with 'A00'</sch:assert>
       </sch:rule>

@@ -956,6 +956,10 @@
     					<gloss versionDate="2023-11-28" xml:lang="en">Library</gloss>
     					<gloss versionDate="2023-11-28" xml:lang="de">Bibliothek</gloss>
     				</valItem>
+    				<valItem ident="literary">
+    					<gloss versionDate="2023-11-28" xml:lang="en">Literary</gloss>
+    					<gloss versionDate="2023-11-28" xml:lang="de">Literarisch</gloss>
+    				</valItem>
     				<valItem ident="military">
     					<gloss versionDate="2023-11-28" xml:lang="en">Military</gloss>
     					<gloss versionDate="2023-11-28" xml:lang="de">Militärisch</gloss>
@@ -2022,7 +2026,9 @@
         </constraintSpec>
         <constraintSpec scheme="schematron" ident="typeNkey">
             <constraint>
-                <sch:pattern id="node-typeNkey" abstract="true">
+                <sch:pattern id="check-typeNkey" abstract="true">
+<!--                	<sch:let name="node" value="node()[local-name(.)='$node-to-check']"/>-->
+                	<sch:let name="node" value="tei:rs|tei:name"/>
                     <sch:rule context="$node[@type='person'][@key]|$node[@type='character'][@key]|$node[@type='actingRole'][@key]|$node[@type='myth'][@key]">
                         <sch:assert test="matches(@key, '^A00[0-9A-F]{5}$')">A type value of 'person' must have only one key, starting with 'A00'</sch:assert>
                     </sch:rule>
@@ -2080,6 +2086,7 @@
                 </sch:pattern>
             </constraint>
         </constraintSpec>
+    	
         <constraintSpec scheme="schematron" ident="importName">
         <constraint>
             <sch:rule context="tei:persName | tei:orgName | tei:placeName">
@@ -3128,15 +3135,7 @@
     		</attList>
     	</elementSpec>
     	<elementSpec ident="rs" mode="change" module="core">
-    		<constraintSpec scheme="schematron" ident="rs-typeNkey" mode="replace">
-    			<desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
-    			<desc versionDate="2021-11-16" xml:lang="de">Warnung vor falscher Kombination von <att>type</att> und <att>key</att> Werten.</desc>
-    			<constraint>
-    				<sch:pattern is-a="node-typeNkey">
-    					<sch:param name="node" value="tei:rs"/>
-    				</sch:pattern>
-    			</constraint>
-    		</constraintSpec>
+    		<constraintSpec scheme="schematron" ident="rs-typeNkey" mode="delete"/>
     		<attList>
     			<attRef class="att.global.responsibility" name="cert"/>
     			<attDef ident="key" mode="replace" usage="opt">
@@ -3361,7 +3360,9 @@
         <elementSpec ident="notesStmt" module="header" mode="change">
             <constraintSpec scheme="schematron" ident="count-notes" mode="replace">
                 <constraint>
-                    <sch:report test="count(tei:note[not(@type='translation') and not(@type='restriction')]/@type) ne count(distinct-values(tei:note[not(@type='translation') and not(@type='restriction')]/concat(@type, @xml:lang, @target)))">Only one summary, incipit, and editorial are allowed within notesStmt.</sch:report>
+                	<sch:report test="count(tei:note[@type='editorial']) gt 1">Only one editorial is allowed within notesStmt.</sch:report>
+                	<sch:report test="count(tei:note[@type='incipit']) gt 1">Only one incipit is allowed within notesStmt.</sch:report>
+                	<sch:report test="count(tei:note[@type='summary']) gt 1">Only one summary is allowed within notesStmt.</sch:report>
                 </constraint>
             </constraintSpec>
         </elementSpec>
@@ -3534,15 +3535,6 @@
     		</content>
     	</elementSpec>
     	<elementSpec ident="name" mode="change" module="core">
-            <constraintSpec scheme="schematron" ident="name-typeNkey" mode="replace">
-                <desc versionDate="2021-11-16" xml:lang="en">warnings for wrong combination of <att>type</att> and <att>key</att> values.</desc>
-                <desc versionDate="2021-11-16" xml:lang="de">Warnung vor falscher Kombination von <att>type</att> und <att>key</att> Werten.</desc>
-                <constraint>
-                    <sch:pattern is-a="node-typeNkey">
-                        <sch:param name="node" value="tei:name"/>
-                    </sch:pattern>
-                </constraint>
-            </constraintSpec>
             <constraintSpec scheme="schematron" ident="name-typeDep" mode="add">
                 <desc versionDate="2022-07-26" xml:lang="en">warnings if <att>type</att>=<val>dep</val> is used outside an <gi>orgName</gi>.</desc>
                 <desc versionDate="2022-07-26" xml:lang="de">Warnung falls <att>type</att>=<val>dep</val> außerhalb von <gi>orgName</gi> verwendet wird.</desc>
@@ -5716,7 +5708,21 @@
 	                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
 	                </sch:rule>
 	            </constraint>
+        	</constraintSpec>
+        	<constraintSpec scheme="schematron" ident="mei-work-componentList-content">
+        		<constraint>
+        			<sch:rule context="mei:work[parent::mei:componentList and ancestor::mei:workList/mei:work[@class='music']]/mei:*">
+        				<sch:report test="not(local-name(.) = 'title') and not(local-name(.) = 'relationList')">If another work is linked only title is allowed here.</sch:report>
+        			</sch:rule>
+        		</constraint>
 	        </constraintSpec>
+	    	<constraintSpec scheme="schematron" ident="mei-work-componentList-relList">
+	    		<constraint>
+	    			<sch:rule context="mei:work[parent::mei:componentList and ancestor::mei:workList/mei:work[@class='music']]">
+	    				<sch:assert test="mei:relationList">Use relation to link other works.</sch:assert>
+	    			</sch:rule>
+	    		</constraint>
+	    	</constraintSpec>
 	        <attList>
 	            <attDef ident="status" usage="rec" mode="add">
 	                <datatype>

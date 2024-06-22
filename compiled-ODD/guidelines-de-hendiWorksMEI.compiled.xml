@@ -208,6 +208,7 @@
 					</div>
 				</egXML>
 				<p>Nach demselben Prinzip ist mit vorgedruckten Kopf- und Fußzeilen zu verfahren<!--, oder auch mit sich wiederholenden Elementen wie bspw. maschinenschriftlichen Paginierungen (<tag>fw</tag>HWH – 1 –<tag>/fw</tag>)-->. Auf die Verwendung von gedrucktem Briefpapier wird in der Quellenbeschreibung (<gi>physDesc</gi>) verwiesen.</p>
+				<p>Ist ein Blatt quer beschrieben, so wird dies in der Layoutbeschreibung (<gi>layout</gi>) vermerkt. In diesem Fall werden vorgedruckte Kopftitel (die am Rand gedreht erscheinen) zu Beginn einer neuen Seite wiedergegeben, um den Textfluss beim Lesen nicht zu unterbrechen (Vgl. Brief von H. W. Henze an M. Barnet, 11. Februar 1974, ID: A042BF46).</p>
 			</div>
 			<div xml:id="DT-postals-postcards">
 				<head>Karten/Postkarten</head>
@@ -3646,7 +3647,19 @@
 	                    <sch:report test="@source">@source is only for use at the root element.</sch:report>
 	                </sch:rule>
 	            </constraint>
-	        </constraintSpec><attList><attDef ident="status" usage="rec">
+        	</constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="mei-work-componentList-content">
+        		<constraint>
+        			<sch:rule context="mei:work[parent::mei:componentList and ancestor::mei:workList/mei:work[@class='music']]/mei:*">
+        				<sch:report test="not(local-name(.) = 'title') and not(local-name(.) = 'relationList')">If another work is linked only title is allowed here.</sch:report>
+        			</sch:rule>
+        		</constraint>
+	        </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="mei-work-componentList-relList">
+	    		<constraint>
+	    			<sch:rule context="mei:work[parent::mei:componentList and ancestor::mei:workList/mei:work[@class='music']]">
+	    				<sch:assert test="mei:relationList">Use relation to link other works.</sch:assert>
+	    			</sch:rule>
+	    		</constraint>
+	    	</constraintSpec><attList><attDef ident="status" usage="rec">
 	                <datatype>
 	                    <dataRef key="hwh_docStatus.list"/>
 	                </datatype>
@@ -6688,7 +6701,9 @@
             </constraint>
         </constraintSpec><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="typeNkey">
             <constraint>
-                <sch:pattern id="node-typeNkey" abstract="true">
+                <sch:pattern id="check-typeNkey" abstract="true">
+
+                	<sch:let name="node" value="tei:rs|tei:name"/>
                     <sch:rule context="$node[@type='person'][@key]|$node[@type='character'][@key]|$node[@type='actingRole'][@key]|$node[@type='myth'][@key]">
                         <sch:assert test="matches(@key, '^A00[0-9A-F]{5}$')">A type value of 'person' must have only one key, starting with 'A00'</sch:assert>
                     </sch:rule>
