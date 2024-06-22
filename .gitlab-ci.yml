@@ -33,7 +33,7 @@ stages:
     - git config user.email "${GITLAB_USER_EMAIL}"
     - git config user.name "${GITLAB_USER_NAME}"
     - git config pull.rebase false
-    - git remote set-url origin https://${HENDI_ODD_CI_TOKEN_NAME}:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
+    - git remote set-url origin https://HENDI_ODD_CI_TOKEN_NAME:${HENDI_ODD_CI_TOKEN}@git.uni-paderborn.de/vife/henze-digital/HenDi-ODD.git
     - git pull origin ${CI_COMMIT_REF_NAME} #--allow-unrelated-histories
 
 .git_commit:
@@ -46,6 +46,9 @@ stages:
   rules:
     - changes:
       - src/Specs/common-specs.odd.xml
+      - src/Guidelines/de/*.xml
+    - if: $RECOMPILE_ALL == "true"
+      when:  always
     - when : never
 
 .compile-target:
@@ -66,11 +69,6 @@ stages:
 hendiAll:
   stage: compile-00
   extends: .compile-target
-  rules:
-    - changes:
-      - src/Guidelines/de/*.xml
-    - if: $BUILD_HENDI_ALL == "true"
-      when:  always
 
 hendiBiblio:
   stage: compile-01
