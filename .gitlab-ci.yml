@@ -116,10 +116,10 @@ hendiWorksTEI:
 
 trigger-update-submodules:
   stage: update
-  trigger:
-    project: vife/henze-digital/hwh-webapp/
-    branch: develop
-    strategy: depend
+  image: curlimages/curl
+  script: 
+    #- "curl -X POST --fail -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
+    - "curl -X POST --fail -F token=$TRIGGER_WEBAPP_UPDATE_SUBMODULE -F ref=develop -F variables[TRIGGER_UPDATE_SUBMODULE]=true https://git.uni-paderborn.de/api/v4/projects/5005/trigger/pipeline"
   rules:
     - !reference [.default_rules, rules]
     - if: $TRIGGER_UPDATE_SUBMODULES == "true"
