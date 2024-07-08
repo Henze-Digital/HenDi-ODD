@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-07-02T09:23:37Z. .
+Schema generated from ODD source 2024-07-08T16:19:47Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -1242,7 +1242,10 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
       <notAllowed/>
    </define>
    <define name="model.biblLike">
-      <notAllowed/>
+      <choice>
+         <ref name="listBibl"/>
+         <ref name="bibl"/>
+      </choice>
    </define>
    <define name="model.labelLike">
       <notAllowed/>
@@ -3923,6 +3926,9 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </interleave>
             </group>
          </choice>
+         <zeroOrMore>
+            <ref name="listBibl"/>
+         </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiPersons-person-enforceWhitespace-constraint-rule-49">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -4290,6 +4296,70 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Titel einer Zeitung</a:documentation>
                   <value>dep</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Abteilung (einer Organisation)</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="listBibl">
+      <element name="listBibl">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Liste bibliografischer Angaben) enthält eine Liste von bibliografischen Angaben jeglicher Art. [  ]</a:documentation>
+         <group>
+      
+      
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.milestoneLike"/>
+        
+        
+               </choice>
+            </zeroOrMore>
+            <oneOrMore>
+               <group>
+                  <oneOrMore>
+                     <ref name="model.biblLike"/>
+                  </oneOrMore>
+                  <zeroOrMore>
+                     <choice>
+                        <ref name="model.milestoneLike"/>
+          
+          
+                     </choice>
+                  </zeroOrMore>
+               </group>
+            </oneOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="bibl">
+      <element name="bibl">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bibliografische Angabe) enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit ausgezeichnet sein können. [  ]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.gLike"/>
+               <ref name="model.highlighted"/>
+               <ref name="model.pPart.data"/>
+               <ref name="model.pPart.edit"/>
+               <ref name="model.segLike"/>
+               <ref name="model.ptrLike"/>
+               <ref name="model.global"/>
+            </choice>
+         </zeroOrMore>
+         <optional>
+            <attribute name="key">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <data type="string">
+                     <param name="pattern">A11[0-9A-F]{5}</param>
+                  </data>
+                  <data type="string">
+                     <param name="pattern">A02[0-9A-F]{5}</param>
+                  </data>
                </choice>
             </attribute>
          </optional>
