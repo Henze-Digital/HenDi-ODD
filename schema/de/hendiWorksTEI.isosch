@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2024-07-16T16:04:27Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2024-07-26T07:02:47Z by 'extract-isosch.xsl'. -->
 
    <!-- ********************* -->
    <!-- namespaces, declared: -->
@@ -13,8 +13,6 @@
    <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
    <ns uri="http://www.functx.com" prefix="functx"/>
    <ns prefix="mei" uri="http://www.music-encoding.org/ns/mei"/>
-   <ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
-   <ns uri="http://www.functx.com" prefix="functx"/>
 
    <!-- ********************* -->
    <!-- namespaces, implicit: -->
@@ -1005,34 +1003,7 @@ relatedItem element must be empty</report>
                     <assert test="@script">@script is not defined.</assert>
                 </rule>
             </pattern>
-                
-                
-                    
-                    
-                    <function xmlns="http://www.w3.org/1999/XSL/Transform" name="functx:contains-any-of" as="xs:boolean">
-                        <param name="arg" as="xs:string?"/>
-                        <param name="searchStrings" as="xs:string*"/>
-                        <sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
-                    </function>
-                    <function xmlns="http://www.w3.org/1999/XSL/Transform" name="hendi-xsl:EditorNameAsSiglum">
-                        <param name="resp" as="node()"/>
-                        <variable name="editors" select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
-                        <for-each select="$editors">
-                            
-                            <choose>
-                                <when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</when>
-                                <when test=". = 'Irmlind Capelle' or . = 'Capelle, Irmlind' or @key = 'A0000051'">IC</when>
-                                <when test=". = 'Dennis Ried' or . = 'Ried, Dennis' or @key = 'A0000015'">DR</when>
-                            </choose>
-                        </for-each>
-                    </function>
-                    <pattern id="respCheck">
-                        <rule context="tei:note[@resp][not(ancestor::tei:biblStruct) and not(starts-with(ancestor::tei:TEI/@xml:id,'A09'))][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
-                            <assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</assert>
-                        </rule>
-                    </pattern>
-                
-            <pattern id="schematron-constraint-hendiWorksTEI-styleguide-document-node-content-147">
+   <pattern id="schematron-constraint-hendiWorksTEI-styleguide-document-node-content-146">
                 <rule context="document-node()">
                     <report test="count(processing-instruction()) ne 2">Henze-Digital styleguide error: there should exactly be two processing instructions before the root element</report>
                     <report test="comment()">Henze-Digital styleguide error: there should be no comments outside the root element</report>
