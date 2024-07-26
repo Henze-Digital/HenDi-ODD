@@ -26,6 +26,7 @@ stages:
   - compile-12
   - update
   - datapackage
+  - clean
 
 
 .git_setup:
@@ -118,8 +119,8 @@ trigger-update-submodules:
   stage: update
   image: curlimages/curl
   script: 
-    - "curl -X POST --fail -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
-    - "curl -X POST --fail -F token=$TRIGGER_WEBAPP_UPDATE_SUBMODULE -F ref=develop https://git.uni-paderborn.de/api/v4/projects/5005/trigger/pipeline"
+    - "curl -X POST -F token=$TRIGGER_DATA_UPDATE_SUBMODULE -F ref=develop https://git.uni-paderborn.de/api/v4/projects/2328/trigger/pipeline"
+    - "curl -X POST -F token=$TRIGGER_WEBAPP_UPDATE_SUBMODULE -F ref=develop https://git.uni-paderborn.de/api/v4/projects/5005/trigger/pipeline"
   rules:
     - !reference [.default_rules, rules]
     - if: $TRIGGER_UPDATE_SUBMODULES == "true"
@@ -137,3 +138,12 @@ build:stable-zenodo:
     - when: never
   after_script:
     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./hendi-pkg-odd/HenDi-ODD-*.zip "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hendi-odd/stable-zenodo/HenDi-ODD-latest.zip"'
+
+clean:pipelines:
+  stage: clean
+  image: ubuntu:latest
+  before_script:
+    - apt update -y
+    - apt install -y curl jq
+  script:
+    - sh delete-pipelines.sh

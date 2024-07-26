@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-06-22T09:44:33Z. .
+Schema generated from ODD source 2024-07-16T16:01:57Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding persons at Henze-Digital 
@@ -1242,7 +1242,10 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
       <notAllowed/>
    </define>
    <define name="model.biblLike">
-      <notAllowed/>
+      <choice>
+         <ref name="listBibl"/>
+         <ref name="bibl"/>
+      </choice>
    </define>
    <define name="model.labelLike">
       <notAllowed/>
@@ -1719,15 +1722,6 @@ Empfohlene Werte sind: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf; 6
          <ref name="att.hendi.restrict.attributes"/>
          <ref name="att.fragmentable.attributes"/>
          <ref name="att.written.attributes"/>
-         <optional>
-            <attribute name="type">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <choice>
-                  <value>strip</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">markiert einen Paragraph, der auf einen Papierstreifen geschrieben ist.</a:documentation>
-               </choice>
-            </attribute>
-         </optional>
          <ref name="att.global.attribute.xmlid"/>
          <optional>
             <attribute name="n">
@@ -3133,6 +3127,8 @@ Empfohlene Werte sind: 1] spoken (spoken); 2] thought (thought); 3] written (wri
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Conductor) A performer contributing to a musical resource by leading a performing group (orchestra, chorus, opera, etc.) in a musical or dramatic presentation, etc.</a:documentation>
                   <value>cst</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Costume designer) A person, family, or organization that designs the costumes for a moving image production or for a musical or dramatic presentation or entertainment.</a:documentation>
+                  <value>dnc</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Dancer) A performer who dances in a musical, dramatic, etc., presentation.</a:documentation>
                   <value>drt</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Director) A person responsible for the general management and supervision of a filmed performance, a radio or television program, etc.</a:documentation>
                   <value>dte</value>
@@ -3932,6 +3928,9 @@ Beispielwerte sind etwa: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentati
                </interleave>
             </group>
          </choice>
+         <zeroOrMore>
+            <ref name="listBibl"/>
+         </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="hendiPersons-person-enforceWhitespace-constraint-rule-49">
             <sch:rule xmlns:mei="http://www.music-encoding.org/ns/mei"
@@ -4299,6 +4298,70 @@ Beispielwerte sind etwa: 1] explicit; 2] implicit</a:documentation>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Titel einer Zeitung</a:documentation>
                   <value>dep</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Abteilung (einer Organisation)</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="listBibl">
+      <element name="listBibl">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Liste bibliografischer Angaben) enthält eine Liste von bibliografischen Angaben jeglicher Art. [  ]</a:documentation>
+         <group>
+      
+      
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.milestoneLike"/>
+        
+        
+               </choice>
+            </zeroOrMore>
+            <oneOrMore>
+               <group>
+                  <oneOrMore>
+                     <ref name="model.biblLike"/>
+                  </oneOrMore>
+                  <zeroOrMore>
+                     <choice>
+                        <ref name="model.milestoneLike"/>
+          
+          
+                     </choice>
+                  </zeroOrMore>
+               </group>
+            </oneOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="bibl">
+      <element name="bibl">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(bibliografische Angabe) enthält eine lose strukturierte bibliografische Angabe, in der einzelne Komponenten explizit ausgezeichnet sein können. [  ]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.gLike"/>
+               <ref name="model.highlighted"/>
+               <ref name="model.pPart.data"/>
+               <ref name="model.pPart.edit"/>
+               <ref name="model.segLike"/>
+               <ref name="model.ptrLike"/>
+               <ref name="model.global"/>
+            </choice>
+         </zeroOrMore>
+         <optional>
+            <attribute name="key">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <data type="string">
+                     <param name="pattern">A11[0-9A-F]{5}</param>
+                  </data>
+                  <data type="string">
+                     <param name="pattern">A02[0-9A-F]{5}</param>
+                  </data>
                </choice>
             </attribute>
          </optional>

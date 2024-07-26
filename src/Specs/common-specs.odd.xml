@@ -476,6 +476,10 @@
                         <gloss versionDate="2022-01-25" xml:lang="en">Costume designer</gloss>
                         <desc versionDate="2022-01-25" xml:lang="en">A person, family, or organization that designs the costumes for a moving image production or for a musical or dramatic presentation or entertainment.</desc>
                     </valItem>
+                	<valItem ident="dnc">
+                		<gloss versionDate="2022-01-25" xml:lang="en">Dancer</gloss>
+                		<desc versionDate="2022-01-25" xml:lang="en">A performer who dances in a musical, dramatic, etc., presentation.</desc>
+                	</valItem>
                     <valItem ident="drt">
                         <gloss versionDate="2022-01-25" xml:lang="en">Director</gloss>
                         <desc versionDate="2022-01-25" xml:lang="en">A person responsible for the general management and supervision of a filmed performance, a radio or television program, etc.</desc>
@@ -2702,8 +2706,8 @@
     		</attList>
     	</elementSpec>
     	<elementSpec ident="foreign" module="core" mode="change">
-    		<desc versionDate="2021-10-18" xml:lang="en">This element indicates a linebeginning.</desc>
-    		<desc versionDate="2021-10-18" xml:lang="de">dieses Element zeigt den Beginn einer (neuen) Zeile an.</desc>
+    		<desc versionDate="2024-07-15" xml:lang="en">This element marks passages in a text written in a foreign language.</desc>
+    		<desc versionDate="2024-07-15" xml:lang="de">Dieses Element markiert fremdsprachige passagen in Texten.</desc>
     		<classes>
     			<memberOf key="model.emphLike"/>
     			<memberOf key="att.global"/>
@@ -2741,6 +2745,11 @@
     				</datatype>
     			</attDef>
     		</attList>
+    		<exemplum versionDate="2024-07-15" xml:lang="de">
+    			<egXML xmlns="http://www.tei-c.org/ns/Examples">
+    				<foreign xml:lang="es">¡abrazos y abrazos!</foreign>
+    			</egXML>
+    		</exemplum>
     	</elementSpec>
     	<elementSpec ident="gap" mode="change" module="core">
             <!--<gloss versionDate="2013-11-11" xml:lang="en">gap</gloss>
@@ -3072,14 +3081,14 @@
     	    			<dataRef key="hendi.restict.pointer"/>
     	    		</datatype>
     	    	</attDef>
-    	        <attDef ident="type" mode="add" usage="opt">
+    	        <!--<attDef ident="type" mode="add" usage="opt">
     	            <valList type="closed" mode="change">
     	                <valItem ident="strip" mode="add">
     	                    <desc versionDate="2024-02-12" xml:lang="en">marks that the paragarph is written on a strip of paper.</desc>
     	                    <desc versionDate="2024-02-12" xml:lang="de">markiert einen Paragraph, der auf einen Papierstreifen geschrieben ist.</desc>
     	                </valItem>
     	            </valList>
-    	        </attDef>
+    	        </attDef>-->
     	    </attList>
         </elementSpec>
     	<elementSpec ident="pb" module="core" mode="change">
@@ -3542,6 +3551,20 @@
     			<elementRef key="event" minOccurs="1" maxOccurs="unbounded"/>
     		</content>
     	</elementSpec>
+    	<elementSpec ident="listPlace" mode="change" module="namesdates">
+    		<desc versionDate="2024-07-02" xml:lang="en">contains a list of places (Relations).</desc>
+    		<desc versionDate="2024-07-02" xml:lang="de">enthält eine Liste von Orten (Bezüge).</desc>
+    		<content>
+    			<alternate minOccurs="0"
+    				maxOccurs="unbounded">
+    				<elementRef key="relation" minOccurs="1"
+    					maxOccurs="1"/>
+    				<elementRef key="listRelation"
+    					minOccurs="1" maxOccurs="1"/>
+    			</alternate>
+    		</content>
+    	</elementSpec>
+    	
     	<elementSpec ident="name" mode="change" module="core">
             <constraintSpec scheme="schematron" ident="name-typeDep" mode="add">
                 <desc versionDate="2022-07-26" xml:lang="en">warnings if <att>type</att>=<val>dep</val> is used outside an <gi>orgName</gi>.</desc>
@@ -3973,6 +3996,9 @@
                     <rng:ref name="model.personPart"/>
                     </rng:group>-->
     			</rng:choice>
+    			<rng:zeroOrMore>
+    				<rng:ref name="listBibl"/>
+    			</rng:zeroOrMore>
     		</content>
     		<constraintSpec scheme="schematron" ident="enforceWhitespace">
     			<constraint>
@@ -4045,6 +4071,24 @@
     					<rng:zeroOrMore>
     						<rng:ref name="note"/>
     					</rng:zeroOrMore>
+    					<rng:zeroOrMore>
+    						<rng:ref name="district"/>
+    					</rng:zeroOrMore>
+    					<rng:zeroOrMore>
+    						<rng:ref name="settlement"/>
+    					</rng:zeroOrMore>
+    					<rng:zeroOrMore>
+    						<rng:ref name="country"/>
+    					</rng:zeroOrMore>
+    					<rng:zeroOrMore>
+    						<rng:ref name="region"/>
+    					</rng:zeroOrMore>
+    					<rng:zeroOrMore>
+    						<rng:ref name="bloc"/>
+    					</rng:zeroOrMore>
+    					<rng:zeroOrMore>
+    						<rng:ref name="listPlace"/>
+    					</rng:zeroOrMore>
     				</rng:group>
     			</rng:choice>
     		</content>
@@ -4112,7 +4156,7 @@
         </elementSpec>
         <elementSpec ident="settlement" mode="change" module="namesdates">
     		<attList>
-    			<attDef ident="type" mode="add" usage="opt">
+    			<attDef ident="type" mode="replace" usage="opt">
     				<datatype>
     					<dataRef key="teidata.text"/>
     				</datatype>
@@ -4190,6 +4234,10 @@
     						<desc versionDate="2023-11-22" xml:lang="en">The described object is part of a correspondence.</desc>
     						<desc versionDate="2023-11-22" xml:lang="de">Das beschriebene Objekt ist teil einer Korrespondenz.</desc>
     					</valItem>
+    					<valItem ident="association">
+    						<desc versionDate="2024-07-02" xml:lang="en">The described object is assosiated to the current object.</desc>
+    						<desc versionDate="2024-07-02" xml:lang="de">Das beschriebene Objekt steht in Beziehung zum aktuellen Objekt.</desc>
+    					</valItem>
     				</valList>
     			</attDef>
     			<attDef ident="key" usage="req" mode="change"/>
@@ -4208,21 +4256,66 @@
     			<memberOf key="att.segLike" mode="delete"/>
     			<memberOf key="att.hendi.restict" mode="add"/>
     		</classes>
-    		<!--<constraintSpec scheme="schematron" ident="activeOrPassivePerformance">
-    			<constraint>
-    				<sch:report 
-    					test="./@subtype = ('active', 'passive') and not(./@type = 'performance')"
-    					>if @subtype contains 'active' or 'passive' @type has to be 'performance'</sch:report>
-    			</constraint>
-    		</constraintSpec>-->
-    		<!--<constraintSpec scheme="schematron" ident="AddresseeOrSenderCorrespondence">
-    			<constraint>
-    				<sch:report 
-    					test="./@subtype = ('sender', 'addressee') and not(./@type = 'correspondence')"
-    					>if @subtype contains 'sender' or 'addressee' @type has to be 'correspondence'</sch:report>
-    			</constraint>
-    		</constraintSpec>-->
     		<attList>
+    			<attDef ident="type" mode="replace" usage="opt">
+    				<desc versionDate="2013-11-11" xml:lang="en">allows content categorization of the text passage.</desc>
+    				<desc versionDate="2013-11-11" xml:lang="de">erlaubt die inhaltliche Kategorisierung der Textstelle.</desc>
+    				<valList type="closed">
+    					<valItem ident="accounting">
+    						<desc versionDate="2019-02-15" xml:lang="en">marks financial accounting records, mostly as separate sections at the end of the month in the diaries.</desc>
+    						<desc versionDate="2019-02-15" xml:lang="de">markiert die Aufzeichnung von Ein- oder Ausgaben, im Tagebuch meist am Monatsende in einem entsprechenden Abschnitt zusammengefasst.</desc>
+    					</valItem>
+    					<valItem ident="chamberMusic">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks people playing together in a small (non-public) framework.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert das gemeinsame Musizieren von Personen im kleinen (nicht-öffentlichen) Rahmen.</desc>
+    					</valItem>
+    					<valItem ident="performance">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks a performance.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert eine Aufführung.</desc>
+    					</valItem>
+    					<valItem ident="correspondence">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks sending or receiving of a letter (postcard, telegram, etc.).</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert den Versand oder Empfang eines Briefs (Postkarte, Telegramm, o.ä.).</desc>
+    					</valItem>
+    					<valItem ident="meeting">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks a meeting of several persons (e.g. dinner).</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert ein Treffen (z.B. gemeinsames Essen) von Personen.</desc>
+    					</valItem>
+    					<valItem ident="production">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks a productive activity such as writing reviews or composing works.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert eine produktive Tätigkeit wie das Schreiben von Rezensionen oder das Komponieren von Werken.</desc>
+    					</valItem>
+    					<valItem ident="rehearsal">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks a visit of a rehearsal.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert den Besuch einer Probe.</desc>
+    					</valItem>
+    					<valItem ident="business">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks a business, e.g. offer or sale of works.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert ein Geschäft, z.B. Anbieten oder Verkauf von Werken.</desc>
+    					</valItem>
+    					<valItem ident="teaching">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks granting of teaching.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">beschreibt das Erteilen von Unterricht.</desc>
+    					</valItem>
+    					<valItem ident="travel">
+    						<desc versionDate="2013-11-11" xml:lang="en">marks travel activities, e.g. 'departed at 8 clock', 'lunch in Wurzen', 'Stayed Overnight in Oschaz'.</desc>
+    						<desc versionDate="2013-11-11" xml:lang="de">markiert Reiseaktivitäten, z.B. "um 8 Uhr abgefahren", "Mittag in Wurzen", "Uebernachtet in Oschaz".</desc>
+    					</valItem>
+    					<valItem ident="wordOfTheDay">
+    						<desc versionDate="2014-04-25" xml:lang="en">marks a proverb by Weber which can be used on the WeGA main page.</desc>
+    						<desc versionDate="2014-04-25" xml:lang="de">markiert ein "goldenes Wort" Webers, dass auf der Startseite angezeigt werden kann.</desc>
+    					</valItem>
+    					<valItem ident="strip">
+    						<desc versionDate="2024-06-28" xml:lang="en">marks a segment printed/written/stamped on a strip of paper</desc>
+    						<desc versionDate="2024-06-28" xml:lang="de">markiert ein Segment, dass auf einen Papierstreifen gedruckt/getippt/gestempelt ist.</desc>
+    					</valItem>
+    				</valList>
+    				<exemplum versionDate="2013-11-11" xml:lang="de">
+    					<egXML xmlns="http://www.tei-c.org/ns/Examples">
+    						<seg type="teaching">2t Lect. Egloffs.</seg>
+    					</egXML>
+    				</exemplum>
+    			</attDef>
     			<attDef ident="xml:id" usage="opt" mode="change">
     				<datatype>
     					<dataRef key="hendi.restict.pointer"/>
