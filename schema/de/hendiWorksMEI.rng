@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.music-encoding.org/ns/mei"><!--
-Schema generated from ODD source 2024-07-16T16:03:56Z. .
+Schema generated from ODD source 2024-07-26T07:02:19Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for encoding works at Henze-Digital 
@@ -6781,40 +6781,5 @@ Empfohlene Werte sind: 1] gloss; 2] index; 3] instructions; 4] litany; 5] syllog
                 context="tei:handNote">
                     <sch:assert test="@script">@script is not defined.</sch:assert>
                 </sch:rule>
-   </pattern>    
-   <sch:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-               xmlns:s="http://www.ascc.net/xml/schematron"
-               xmlns:mei="http://www.music-encoding.org/ns/mei"
-               xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-               xmlns="http://www.tei-c.org/ns/1.0"
-               xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
-               xmlns:rng="http://relaxng.org/ns/structure/1.0"
-               queryBinding="xslt2">
-                    <sch:ns uri="https://henze-digital.de/ns/xslt-functions" prefix="hendi-xsl"/>
-                    <sch:ns uri="http://www.functx.com" prefix="functx"/>
-                    <xsl:function name="functx:contains-any-of" as="xs:boolean">
-                        <xsl:param name="arg" as="xs:string?"/>
-                        <xsl:param name="searchStrings" as="xs:string*"/>
-                        <xsl:sequence select="some $searchString in $searchStrings satisfies contains($arg,$searchString)"/>
-                    </xsl:function>
-                    <xsl:function name="hendi-xsl:EditorNameAsSiglum">
-                        <xsl:param name="resp" as="node()"/>
-                        <xsl:variable name="editors"
-                       select="$resp/ancestor::tei:TEI//tei:fileDesc/tei:titleStmt/tei:editor"/>
-                        <xsl:for-each select="$editors">
-                            
-                            <xsl:choose>
-                                <xsl:when test=". = 'Elena Minetti' or . = 'Minetti, Elena' or @key = 'A000008A'">EM</xsl:when>
-                                <xsl:when test=". = 'Irmlind Capelle' or . = 'Capelle, Irmlind' or @key = 'A0000051'">IC</xsl:when>
-                                <xsl:when test=". = 'Dennis Ried' or . = 'Ried, Dennis' or @key = 'A0000015'">DR</xsl:when>
-                            </xsl:choose>
-                        </xsl:for-each>
-                    </xsl:function>
-                    <sch:pattern id="respCheck">
-                        <sch:rule context="tei:note[@resp][not(ancestor::tei:biblStruct) and not(starts-with(ancestor::tei:TEI/@xml:id,'A09'))][@type='commentary' or @type='themmaticCom' or @type='editorial'] | tei:supplied[@resp] | tei:choice[@resp] | tei:sic[@resp]"> 
-                            <sch:assert test="functx:contains-any-of(@resp, hendi-xsl:EditorNameAsSiglum(@resp))">The named responsibility is not an editor of this document!</sch:assert>
-                        </sch:rule>
-                    </sch:pattern>
-                </sch:schema>
+   </pattern>  
 </grammar>
