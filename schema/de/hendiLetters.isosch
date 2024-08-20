@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <title>ISO Schematron rules</title>
-   <!-- This file generated 2024-08-06T08:41:44Z by 'extract-isosch.xsl'. -->
+   <!-- This file generated 2024-08-20T16:27:26Z by 'extract-isosch.xsl'. -->
 
    <!-- ********************* -->
    <!-- namespaces, declared: -->
@@ -759,12 +759,12 @@ The element <name/> may appear once only
       </rule>
     </pattern>
    <pattern id="schematron-constraint-hendiLetters-term-controleContentOfLettersTermElements-127">
-					<rule context="tei:textClass/tei:keywords/tei:term">
-						   <report test="parent::node()/tei:term = 'typoscript'" role="warn">Please use 'typescript' instead of 'typoscript'.</report>
-						   <assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typescript'</assert>
-						   <report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')" role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</report>
-					</rule>
-				</pattern>
+		    		<rule context="tei:textClass/tei:keywords/tei:term">
+		    			<report test="parent::node()/tei:term = 'typoscript'" role="warn">Please use 'typescript' instead of 'typoscript'.</report>
+		    			<assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript','printed')" role="warn">The value of the first term should be 'manuscript', 'typescript' or 'printed'</assert>
+		    			<report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript','printed')" role="warn">The values 'manuscript', 'typescript' or 'printed' should only occur in the first term.</report>
+		    		</rule>
+		    	</pattern>
    <pattern id="schematron-constraint-hendiLetters-relation-reforkeyorname-128">
       <rule context="tei:relation">
          <assert test="@ref or @key or @name">One of the attributes  'name', 'ref' or 'key' must be supplied</assert>
@@ -787,13 +787,13 @@ The element <name/> may appear once only
                 </rule>
             </pattern>
    <pattern id="schematron-constraint-hendiLetters-elementStartsWithWhitespace-132">
-                <rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
+            	<rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript' and ancestor::tei:TEI//tei:handNote[1]/@script = 'printed')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
                     <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="error">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
                     <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="error">Caution: whitespace at the beginning of &lt;<name/>&gt;</report>
                 </rule>
             </pattern>
    <pattern id="schematron-constraint-hendiLetters-hiRendUnderlineStartsWithWhitespace-133">
-                <rule context="tei:hi[@rend='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript']">
+            	<rule context="tei:hi[@rend='underline'][ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript' or ancestor::tei:TEI//tei:handNote[1]/@script = 'printed']">
                     <report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</report>
                     <report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</report>
                 </rule>
@@ -1025,7 +1025,7 @@ The element <name/> may appear once only
     		</pattern>
    <pattern id="schematron-constraint-hendiLetters-textTypeControl-153">
     			<rule context="tei:text/@type">
-    				<let name="textTypePostals" value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
+    				<let name="textTypePostals" value="('card','card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
     				<let name="textTypeDocuments" value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
     				<report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)" role="error">For postals the value of @type must be one of <value-of select="$textTypePostals"/>.</report>
     				<report test="ancestor::tei:TEI[starts-with(@xml:id, 'A10')] and not(. = $textTypeDocuments)" role="error">For documents the value of @type must be one of <value-of select="$textTypeDocuments"/>.</report>
