@@ -419,6 +419,7 @@
                 <rng:choice>
                     <rng:value>manuscript</rng:value>
                     <rng:value>typescript</rng:value>
+                    <rng:value>printed</rng:value>
                     <rng:value>card-picture</rng:value>
                     <rng:value>card-art</rng:value>
                     <rng:value>card-view</rng:value>
@@ -1482,12 +1483,16 @@
     			<attDef ident="script" mode="change" usage="rec">
     				<valList type="closed" mode="add">
     					<valItem ident="manuscript">
-    						<desc versionDate="2021-10-27" xml:lang="en">manuscript.</desc>
-    						<desc versionDate="2021-10-27" xml:lang="de">Manuskript.</desc>
+    						<desc versionDate="2021-10-27" xml:lang="en">manuscript</desc>
+    						<desc versionDate="2021-10-27" xml:lang="de">Manuskript</desc>
     					</valItem>
     					<valItem ident="typescript">
-    						<desc versionDate="2022-07-18" xml:lang="en">typescript.</desc>
-    						<desc versionDate="2022-07-18" xml:lang="de">Typoskript.</desc>
+    						<desc versionDate="2022-07-18" xml:lang="en">typescript</desc>
+    						<desc versionDate="2022-07-18" xml:lang="de">Typoskript</desc>
+    					</valItem>
+    					<valItem ident="printed">
+    						<desc versionDate="2024-08-20" xml:lang="en">printed</desc>
+    						<desc versionDate="2024-08-20" xml:lang="de">Gedruckt</desc>
     					</valItem>
     				</valList>
     			</attDef>
@@ -1855,7 +1860,7 @@
             <desc versionDate="2023-01-17" xml:lang="en">warnings for whitespace at the beginning of an element if.</desc>
             <desc versionDate="2023-01-17" xml:lang="de">Warnung vor Leerzeichen am Beginn eines Elements.</desc>
             <constraint>
-                <sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
+            	<sch:rule context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript' and ancestor::tei:TEI//tei:handNote[1]/@script = 'printed')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="error">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="error">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
                 </sch:rule>
@@ -1865,7 +1870,7 @@
             <desc versionDate="2023-01-27" xml:lang="en">warnings for whitespace at the beginning of &lt;hi rend="underline">&gt;.</desc>
             <desc versionDate="2023-01-27" xml:lang="de">Warnung vor Leerzeichen am Beginn von &lt;hi rend="underline">&gt;.</desc>
             <constraint>
-                <sch:rule context="tei:hi[@rend='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript']">
+            	<sch:rule context="tei:hi[@rend='underline'][ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript' or ancestor::tei:TEI//tei:handNote[1]/@script = 'printed']">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</sch:report>
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))" role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</sch:report>
                 </sch:rule>
@@ -4834,9 +4839,9 @@
     				<sch:rule context="tei:textClass/tei:keywords/tei:term">
     					<sch:report test="parent::node()/tei:term = 'typoscript'"
     						role="warn">Please use 'typescript' instead of 'typoscript'.</sch:report>
-    					<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typescript'</sch:assert>
-    					<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
-    						role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
+    					<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript','printed')" role="warn">The value of the first term should be 'manuscript', 'typescript' or 'printed'</sch:assert>
+    					<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript','printed')"
+    						role="warn">The values 'manuscript', 'typescript' or 'printed' should only occur in the first term.</sch:report>
     				</sch:rule>
     			</constraint>
     		</constraintSpec>
@@ -5134,15 +5139,15 @@
 		    <constraintSpec scheme="schematron" ident="controleContentOfLettersTermElements">
 				<desc xml:lang="de">Kontrolliert das Vokabular, welches als Inhalte für term Elemente in textClass verwendet wird.</desc>
 				<desc xml:lang="en">Controls the vocabulary used as content for term elements in textClass.</desc>
-				<constraint>
-					<sch:rule context="tei:textClass/tei:keywords/tei:term">
-						<sch:report test="parent::node()/tei:term = 'typoscript'"
-							role="warn">Please use 'typescript' instead of 'typoscript'.</sch:report>
-						<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript')" role="warn">The value of the first term should be 'manuscript' or 'typescript'</sch:assert>
-						<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript')"
-							role="warn">The values 'manuscript' and 'typescript' should only occur in the first term.</sch:report>
-					</sch:rule>
-				</constraint>
+		    	<constraint>
+		    		<sch:rule context="tei:textClass/tei:keywords/tei:term">
+		    			<sch:report test="parent::node()/tei:term = 'typoscript'"
+		    				role="warn">Please use 'typescript' instead of 'typoscript'.</sch:report>
+		    			<sch:assert test="parent::node()/tei:term[position() = 1] = ('manuscript','typescript','printed')" role="warn">The value of the first term should be 'manuscript', 'typescript' or 'printed'</sch:assert>
+		    			<sch:report test="parent::node()/tei:term[position() != 1] = ('manuscript','Manuskript','typescript','Typoskript','printed')"
+		    				role="warn">The values 'manuscript', 'typescript' or 'printed' should only occur in the first term.</sch:report>
+		    		</sch:rule>
+		    	</constraint>
 			</constraintSpec>
 		</elementSpec>
 		<elementSpec ident="text" mode="change" module="textstructure">
