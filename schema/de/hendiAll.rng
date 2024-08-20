@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-08-06T08:38:03Z. .
+Schema generated from ODD source 2024-08-20T16:25:48Z. .
 TEI Edition: 
 TEI Edition Location: https://www.tei-c.org/Vault/P5//
  This is the customization for the superset schema at Henze-Digital 
@@ -91,6 +91,8 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5//
    </define>
    <define name="postal.type.list">
       <choice>
+         <value>card</value>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Karte</a:documentation>
          <value>card.business</value>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Visitenkarte</a:documentation>
          <value>card.letter</value>
@@ -1044,9 +1046,11 @@ Empfohlene Werte sind: 1] internal; 2] external; 3] conjecture</a:documentation>
                <oneOrMore>
                   <choice>
                      <value>manuscript</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Manuskript.</a:documentation>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Manuskript</a:documentation>
                      <value>typescript</value>
-                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Typoskript.</a:documentation>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Typoskript</a:documentation>
+                     <value>printed</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Gedruckt</a:documentation>
                   </choice>
                </oneOrMore>
             </list>
@@ -6910,7 +6914,13 @@ Beispielwerte sind etwa: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniatu
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes the function or use of the material in relation to the object as a whole.</a:documentation>
                <choice>
                   <value>copy.carbon</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Durchschlag) Definiert das MEdium als Durchschlagspapier</a:documentation>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Durchschlag) Definiert das Medium als Durchschlagspapier</a:documentation>
+                  <value>copy.photo</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Fotokopie) Definiert das Medium als Fotokopie</a:documentation>
+                  <value>copy</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Abschrift) Definiert das Medium als Abschrift</a:documentation>
+                  <value>fax</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Fax) Definiert das Medium als Fax</a:documentation>
                </choice>
             </attribute>
          </optional>
@@ -11651,7 +11661,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
+                context="tei:surname[not(./child::element())] | tei:forename | tei:persName[not(@type)][not(./child::element())] | tei:author | tei:occupation | tei:settlement[not(tei:address)][not(./child::element())] | tei:country | tei:region | tei:rs[not(./child::element())] | tei:workName | tei:characterName | tei:hi[@rend[not(.='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript' and ancestor::tei:TEI//tei:handNote[1]/@script = 'printed')]] | tei:placeName[not(parent::tei:address or parent::tei:birth or parent::tei:death)][not(./child::element())]">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
                      role="error">Caution: whitespace at the beginning of &lt;<sch:name/>&gt;</sch:report>
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
@@ -11667,7 +11677,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
                 xmlns="http://www.tei-c.org/ns/1.0"
                 xmlns:hendi="http://henze-digital.zenmem.de/ns/1.0"
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                context="tei:hi[@rend='underline' and ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript']">
+                context="tei:hi[@rend='underline'][ancestor::tei:TEI//tei:handNote[1]/@script = 'typescript' or ancestor::tei:TEI//tei:handNote[1]/@script = 'printed']">
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and not(node()[2])"
                      role="warning">Caution: the whitespace will be rendered. Be sure that this is your intention!</sch:report>
                     <sch:report test="matches(.,'^\s') and (node()[1] = text()[1]) and node()[2] and not(matches(text()[1],'^\s+$'))"
@@ -12084,7 +12094,7 @@ Beispielwerte sind etwa: 1] header; 2] footer; 3] pageNum (page number); 4] line
                 xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 context="tei:text/@type">
     				<sch:let name="textTypePostals"
-                  value="('card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
+                  value="('card','card.business','card.letter','card.postal','contract','document','envelope','fax','formCommitment','letter','note.telephone','note.conversation','statement','statement.fee','telegram','unknown')"/>
     				<sch:let name="textTypeDocuments"
                   value="('personal_document','financial_document','varia_document','notification_document','konzertzettel_document','work-related_document','legal_document','theater_document')"/>
     				<sch:report test="ancestor::tei:TEI[starts-with(@xml:id, 'A04')] and not(. = $textTypePostals)"
