@@ -257,14 +257,16 @@
 				<p>Es folgt dann der Brieftext der Rückseite. Da dieses Medium in der Regel nur die eine Seite umfasst, zeigt ein <gi>pb</gi> in diesem Fall den Beginn der Rückseite an <tag>pb n="verso"</tag>. Im übrigen folgt die Codierung des Textes den Regeln für Briefe.</p>
 			</div>
 			<div xml:id="DT-postals-telegram">
-				<head>Telegramme<note resp="DR" type="commentary" xml:id="footnote_doctypes_04">Die Erfassung von Telegrammen in TEI befindet sich noch im Entwickliungsstadium.</note></head>
-				<p>Die Erfassung von Telegrammen in TEI soll zusätzlich zum Inhalt auch die Formular-Struktur des Mediums abbilden, um diesem Medium im Ganzen gerecht zu werden. Hierzu wird ein eigenes Datenmodell erarbeitet, welches sich derzeit noch in der Entwicklung befindet. Daher wird bisher primär der Inhalt erfasst und aufbereitet.</p>
-				<p>Der Modellansatz für die Erschließung der Formular-Struktur ist am Bootstrap-Framework orientiert, das Bereiche mit <gi>div</gi>s organisiert. Zur Nutzung dieser Technik wurde die TEI-Definition von <gi>div</gi> für Henze-Digital erweitert: <quote>(text division) contains a subdivision of the front, body, or back of a text or is used to represent the structure of the text for special documents (e.g., postcards, telegrams)</quote>.</p>
+				<head>Telegramme</head>
+				<p>Die Erfassung von Telegrammen in TEI<note resp="DR" type="commentary" xml:id="footnote_doctypes_04">Die Erfassung von Telegrammen in TEI befindet sich noch im Entwickliungsstadium.</note> soll zusätzlich zum Inhalt auch die Formular-Struktur des Mediums abbilden, um diesem Medium im Ganzen gerecht zu werden. Hierzu wird ein eigenes Datenmodell erarbeitet, welches sich derzeit noch in der Entwicklung befindet. Daher wird bisher primär der Inhalt erfasst und aufbereitet.</p>
+				<div>
+					<head>Erfassung der Telegrammstruktur</head>
+					<p>Der Modellansatz für die Erschließung der Formular-Struktur ist am Bootstrap-Framework orientiert, das Bereiche mit <gi>div</gi>s organisiert. Zur Nutzung dieser Technik wurde die TEI-Definition von <gi>div</gi> für Henze-Digital erweitert: <quote>(text division) contains a subdivision of the front, body, or back of a text or is used to represent the structure of the text for special documents (e.g., postcards, telegrams)</quote>.</p>
 				<p>Analog zum Bootstrap-Framework wird jeweils ein <gi>div</gi> als Wrapper für eine Zeile verwendet. Die Kind-Elemente – in diesem Fall ist <gi>div</gi> obligatorisch – stellen dann Bereiche in einer Zeile (Spalten) dar.</p>
 				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 					<div type="row">
-						<div/>
-						<div/>
+						<div type="col"/>
+						<div type="col"/>
 					</div>
 				</egXML>
 				<p>Werden in den <gi>div</gi>-Elementen innerhalb von <tag>div type="row"</tag> keine weiteren Spezifikationen angegeben, so bedeuted dies eine gleichmäßige Verteilung bzw. gleichmäßige horizontale Ausdehnung der Bereiche. Ungleichgroße Bereiche können durch die Werte <val>col-1</val> bis <val>col-11</val> spezifiziert werden, wobei die Summe 12 (analog zu Bootstrap) nicht überschreiten darf.</p>
@@ -286,7 +288,11 @@
 					</div>
 				</egXML>
 				<p>Der Wrapper <tag>div type="row"</tag> kann in jedem Bereich verwendet werden, außer in sich selbst. Auf diese Weise lassen sich auch komplexe Formularstrukturen erfassen und mit Hilfe des Bootstrap-Framework darstellen.</p>
-				<p>Vorgedruckte Formular-Texte werden mit <gi>fw</gi> ausgezeichnet. Für die Codierung von Positionsangaben ist ein Modell zu erarbeiten.</p>
+				<p>Vorgedruckte Formular-Texte werden mit <gi>fw</gi> ausgezeichnet. Für die Codierung von Positionsangaben ist ein Modell zu erarbeiten.</p></div>
+				<div>
+					<head>Telegramme mit mehreren Quellen</head>
+					<p>Ist ein Telegramm sowohl als Urschrift bzw. Absendeexemplar als auch als Empfängerexemplar bzw. Empfängerausdruck überliefert, so sind beide Quellen als getrennte Textzeugen (<gi>witness</gi>) zu erfassen. Die Erfassung der Textzeugen erfolgt chronolisch. Für die Edition ist zu beachten, dass die Leitquelle stets der späteste Textzeuge (Ankunftsexemplar) ist. Das ankommende Telegramm enthält den transportierten Text, den der Empfangende las und darauf reagierte. Dies ist deshalb von Bedeutung, da Telegramme zum Teil mündlich überliefert wurden und sich dadurch Irrtümer in der Übertragung ergeben können (v.a. wenn die Mitarbeitenden in den Telegraphenanstalten die Sprache der Übermittlung nur auf einfachem Niveau beherrschten.). Ggf. ist ein Apparatus (<gi>app</gi>) zu verwenden, der die Lesarten widergibt.</p>
+				</div>
 			</div>			
 			<div xml:id="DT-postals-envelopes">
 				<head>Umschläge</head>
@@ -963,7 +969,7 @@
 				<damage agent="punch"><supplied resp="EM">bec</supplied></damage>ause
 			</egXML>
 		</div>
-		<!--<div xml:id="eG-app">
+		<div xml:id="eG-app">
 			<head>Lesarten</head>
 			<p>Für Apparateinträge stehen folgende Elemente zur Verfügung:
 				<specList>
@@ -972,7 +978,16 @@
 					<specDesc key="rdg"/>
 				</specList>
 			</p>
-		</div>-->
+			<p>Während <gi>app</gi> als Container fungiert, bildet <gi>rdg</gi> eine Lesart und <gi>lem</gi> eine bevorzugte Lesart ab.</p>
+			<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A04200B0">
+				<seg type="strip">–Prego informarmi al <app><lem wit="#wit.1">piu</lem><rdg wit="#wit.2">più</rdg></app> presto se puoi <app>
+					<lem wit="#wit.1">dirigere</lem>
+					<rdg wit="#wit.2">dirigente</rdg>
+				</app> concerto <settlement key="A1303988">Zurigo</settlement>
+					<date when="1975-10-17">17</date>
+				</seg>
+			</egXML>
+		</div>
 	</div>
 	<div xml:id="sec-encoding-editorialInterventions" xml:lang="de">
 		<head>Eingriffe der Herausgebenden</head>
@@ -1061,7 +1076,8 @@
 <!--				<specDesc key="facsimile"/>-->
 			</specList>
 		</p>
-		<p>Liegen mehrere Textzeugen vor (bspw. Kopien, Drucke als Erstveröffentlichung, Durchschläge, Urschriften bei Telegrammen), so wiedern diese mit <gi>witness</gi> erfasst.</p>
+		<p>Liegen mehrere Textzeugen vor (bspw. Kopien, Drucke als Erstveröffentlichung, Durchschläge, Urschriften bei Telegrammen), so werden diese als <gi>witness</gi> einzeln erfasst.</p>
+		<p>Zusätzliche Materialien (z.B. angeklebte/geklammerte Zettel oder beiliegende abgefallene Zettel) können innerhalb von <gi>accMat</gi> beschrieben werden.</p>
 	</div>
 	<div xml:id="sec-encoding-hands" xml:lang="de">
 		<head>Schreiber*innen (Hände)</head>
@@ -4940,7 +4956,7 @@ one initial.</desc>
     </constraint>
   </constraintSpec><attList><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="xml:id" usage="opt" mode="change">
     	    		<datatype>
-    	    			<dataRef key="hendi.restict.pointer"/>
+    	    			<dataRef key="hendi.restrict.pointer"/>
     	    		</datatype>
     	    	</attDef><attRef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" class="att.global" name="xml:id"/><attDef ident="n" usage="opt">
                     <gloss versionDate="2013-11-11" xml:lang="en">number</gloss>
@@ -7546,7 +7562,7 @@ entre les Romains.</label>
     					</valItem>
     					<valItem ident="restriction">
     						<gloss versionDate="2022-09-16" xml:lang="en">restriction</gloss>
-    						<desc versionDate="2022-09-16" xml:lang="en">A passage that is resticted by law</desc>
+    						<desc versionDate="2022-09-16" xml:lang="en">A passage that is restricted by law</desc>
     						<gloss versionDate="2022-09-16" xml:lang="de">Gesperrt</gloss>
     						<desc versionDate="2022-09-16" xml:lang="de">Rechtlich gesperrter Abschnitt</desc>
     					</valItem>
@@ -13452,7 +13468,7 @@ concerning a single identifiable episode during the history of a manuscript, man
       <desc versionDate="2007-05-04" xml:lang="es">señala el elementos que se corresponde exactamente con el elemento corriente.</desc>
       <desc versionDate="2007-01-21" xml:lang="it">punta a un elemento che corrisponde esattamente all'elemento corrente</desc>
       <datatype><dataRef key="teidata.pointer"/></datatype>
-    </attDef></attList></classSpec><elementSpec rend="change" module="linking" ident="seg"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">arbitrary segment</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">beliebiges Segment</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">represents any segmentation of text below the ‘chunk’ level.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">steht für eine beliebige Segmentierung des Textes unterhalb des ‘chunk’ Levels.</desc><classes><memberOf key="model.segLike"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="att.notated"/></classes><content><macroRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.paraContent"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="activeOrPassivePerformance">
+    </attDef></attList></classSpec><elementSpec rend="change" module="linking" ident="seg"><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">arbitrary segment</gloss><gloss xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">beliebiges Segment</gloss><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="en">represents any segmentation of text below the ‘chunk’ level.</desc><desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" rend="replace" versionDate="2013-11-11" xml:lang="de">steht für eine beliebige Segmentierung des Textes unterhalb des ‘chunk’ Levels.</desc><classes><memberOf key="att.hendi.restrict"/><memberOf key="model.segLike"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="att.notated"/></classes><content><macroRef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" key="macro.paraContent"/></content><constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" scheme="schematron" ident="activeOrPassivePerformance">
                 <constraint>
                     <sch:report test="./@subtype = ('active', 'passive') and not(./@type = 'performance')">if @subtype contains 'active' or 'passive' @type has to be 'performance'</sch:report>
                 </constraint>
@@ -13520,7 +13536,7 @@ concerning a single identifiable episode during the history of a manuscript, man
     				</exemplum>
     			</attDef><attDef xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" ident="xml:id" usage="opt" mode="change">
     				<datatype>
-    					<dataRef key="hendi.restict.pointer"/>
+    					<dataRef key="hendi.restrict.pointer"/>
     				</datatype>
     			</attDef><attDef xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:teix="http://www.tei-c.org/ns/Examples" ident="rend" usage="opt">
                     <gloss versionDate="2013-11-11" xml:lang="en">rendition</gloss>
@@ -14207,7 +14223,7 @@ raiders and saved the town from capture.</desc>
                 </attDef>
             </attList>
         </classSpec><classSpec rend="add" type="atts" ident="att.hendi.restrict" mode="add" module="hendi.core.module">
-    		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-05-23" xml:lang="en">provides attributes for restiction.</desc>
+    		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-05-23" xml:lang="en">provides attributes for restriction.</desc>
     		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" versionDate="2023-05-23" xml:lang="de">Stellt Attribute zur Einschränklung bereit.</desc>
     		<constraintSpec xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" scheme="schematron" ident="check-restriction-id-pattern" mode="add">
     			<desc versionDate="2023-06-07" xml:lang="en">Checks for illegal pattern of IDs if an element is marked as restricted</desc>
@@ -14220,7 +14236,7 @@ raiders and saved the town from capture.</desc>
     		</constraintSpec>
     		<attList xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
     			<attDef ident="restrict" mode="add" usage="opt" ns="http://henze-digital.zenmem.de/ns/1.0">
-    				<gloss versionDate="2023-05-23" xml:lang="en">restiction</gloss>
+    				<gloss versionDate="2023-05-23" xml:lang="en">restriction</gloss>
     				<desc versionDate="2023-05-23" xml:lang="en">indicates that the content of the element is restricted in some way.</desc>
     				<gloss versionDate="2023-05-23" xml:lang="de">Einschränkung</gloss>
     				<desc versionDate="2023-05-23" xml:lang="de">gibt an, dass der Inhalt des  Elements gesperrt ist.</desc>
@@ -15230,7 +15246,7 @@ raiders and saved the town from capture.</desc>
             <content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
                 <dataRef name="string" restriction="wit\.[0-9]{1,3}"/>
             </content>
-        </dataSpec><dataSpec rend="add" ident="hendi.restict.pointer" mode="add" module="hendi.core.module">
+        </dataSpec><dataSpec rend="add" ident="hendi.restrict.pointer" mode="add" module="hendi.core.module">
     		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="de" versionDate="2017-08-29">definiert das Muster für &lt;restriction&gt;-IDs innerhalb einer Datei.</desc>
     		<desc xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron" xml:lang="en" versionDate="2017-08-29">defines the possible attribute values for &lt;restriction&gt; IDs within a file</desc>
     		<content xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:s="http://www.ascc.net/xml/schematron">
