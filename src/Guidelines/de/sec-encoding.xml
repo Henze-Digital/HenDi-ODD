@@ -76,7 +76,9 @@
 		<div xml:id="eG-abbr">
 			<head>Abkürzungen <gi>abbr</gi></head>
 			<p>Abkürzungen, die unverständlich bleiben und nicht z. B. mit Hilfe des Dudens aufgelöst werden können, werden entweder mit <gi>supplied</gi> ergänzt oder in ihrer originalen Form und zusätzlich als wahlweise aufzurufende Vollform wiedergegeben: 
-			</p><p><egXML xmlns="http://www.tei-c.org/ns/Examples">
+			</p><p>
+				<!-- Woher stammt das? -->
+				<egXML xmlns="http://www.tei-c.org/ns/Examples">
 				<choice>
 					<abbr>bzgl.</abbr>
 					<expan>bezüglich</expan>
@@ -107,11 +109,11 @@
 			</p>
 			<p>Im Header:
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C964">
-				<note type="translation" xml:lang="de" corresp="#foreign.1">eine etwas melancholische Umarmung</note>
+					<note type="translation" xml:lang="de" corresp="#foreign.1">eine etwas melancholische Umarmung</note>
 					</egXML></p>
 			<p>Im Body:
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C964">
-				<foreign xml:lang="es" xml:id="foreign.1">un abrazo un poco melancólico</foreign>
+					<foreign xml:lang="es" xml:id="foreign.1">un abrazo un poco melancólico</foreign>
 			</egXML>
 			</p>
 			<p>Dieses Vorgehen kann auch verwendet werden, um eine Übersetzungshilfe für einen Abschnitt (<gi>seg</gi>) oder einen ganzen Absatz (<gi>p</gi>) zu geben, bspw. in Telegrammen deren Grundsprache nicht eine der Editionssprachen ist. In diesen Fällen wird <gi>p</gi> bzw. <gi>seg</gi> durch eine ID (<att>xml:id</att>) nach dem Muster <val>sec.\d+</val> adressierbar gemacht. Die Anmerkung mit der Übersetzung ist nach obigem Vorbild analog anzulegen:</p>
@@ -123,7 +125,20 @@
 				</p>
 			<p>Im Body:
 				<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A04200B0">
-					<p xml:id="sec.1">–Prego informarmi al piu presto se puoi <choice resp="EM"><sic>dirigente</sic><corr>dirigere</corr></choice> concerto <settlement>zurigo</settlement> <date when="1975-10-17">17<lb/>ottobre 1975</date> saluti – <persName key="A00094F9">Paul Sacher</persName></p>
+					<p xml:id="sec.1">
+						<hi rend="capital">
+							<seg type="strip">–Prego informarmi al <app><lem wit="#wit.1">piu</lem><rdg wit="#wit.2">più</rdg></app> presto se puoi <app>
+								<lem wit="#wit.1">dirigere</lem>
+								<rdg wit="#wit.2">dirigente</rdg>
+							</app> concerto <settlement key="A1303988">Zurigo</settlement>
+								<date when="1975-10-17">17</date>
+							</seg>
+							<lb/>
+							<seg type="strip">
+								<date when="1975-10-17">ottobre 1975</date> saluti – <persName key="A00094F9">Paul Sacher</persName>
+							</seg>
+						</hi>
+					</p>
 				</egXML>
 			</p>
 			<p>Bei Dokumenten, die gänzlich in Übersetzung vorliegen (z. B. Barnet/Henze, auf Spanisch verfasste Dokumente, vgl. auch <ptr target="#DT-translations"/>) sind diejenigen Passagen, die im Original bereits in der Zielsprache (meist Englisch) verfasst waren, mit <tag>foreign xml:lang="en" source="original"</tag> markiert.</p>
@@ -263,6 +278,10 @@
 				</app> concerto <settlement key="A1303988">Zurigo</settlement>
 					<date when="1975-10-17">17</date>
 				</seg>
+				<lb/>
+				<seg type="strip">
+					<date when="1975-10-17">ottobre 1975</date> saluti – <persName key="A00094F9">Paul Sacher</persName>
+				</seg>
 			</egXML>
 		</div>
 	</div>
@@ -345,14 +364,38 @@
 		<p>Liegen mehrere Textzeugen vor (bspw. Kopien, Durchschläge, Urschriften bei Telegrammen, Drucke als einzige Textzeugen), so werden diese in der Quellenbeshdreibung als <gi>witness</gi> einzeln erfasst.</p>
 		<p>Zusätzliche Materialien (z.B. angeklebte/geklammerte Zettel oder beiliegende abgefallene Zettel) können innerhalb von <gi>accMat</gi> beschrieben werden.</p>
 		<p>Die Quellenbeschreibung wird im Element <gi>physDesc</gi> abgelegt.</p>
+		<p>Die Quellenbeschreibung erfolgt durch die Verwendung der entsprechenden Elemente. Semantischen Elemente (<gi>dimensions</gi>, <gi>height</gi>) werden anstatt der generischen Variante (<gi>dim</gi>) verwendet.</p>
+		<egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040C872">
+			<physDesc>
+				<objectDesc form="letter">
+					<supportDesc>
+						<support>
+							<material function="copy.carbon">Durchschlagpapier</material>
+						</support>
+						<extent>
+							<measure unit="folio">1</measure>
+							<measure unit="pages" type="written">1</measure>
+							<dimensions>
+								<height unit="mm" quantity="206"/>
+								<width unit="mm" quantity="210"/>
+							</dimensions>
+						</extent>
+						<condition>gelocht</condition>
+					</supportDesc>
+					<layoutDesc>
+						<layout>Datumsangabe rechts oben, dann links das Adressfeld</layout>
+					</layoutDesc>
+				</objectDesc>
+			</physDesc>
+		</egXML>
 		<p>Erstveröffentlichungen und ggf. weitere Veröffentlichungen werden in <gi>additional</gi> in einer <gi>biblList</gi> angegeben.</p>
 		<p><egXML xmlns="http://www.tei-c.org/ns/Examples" source="A1000709">
-		<additional>
-			<listBibl>
-				<bibl key="A110107A">Nr. 137, 17. Februar 1968</bibl>
+			<additional>
+				<listBibl>
+					<bibl key="A110107A">Nr. 137, 17. Februar 1968</bibl>
 					<bibl key="A1100413">S. 223f.</bibl>
-			</listBibl>
-		</additional>
+				</listBibl>
+			</additional>
 		</egXML>
 		</p>
 	</div>
@@ -413,8 +456,8 @@
 			<egXML xmlns="http://www.tei-c.org/ns/Examples">
 				<dateline><date when="1958-01-03"><supplied>3. Januar 1958</supplied></date></dateline>
 			</egXML>
-			<p>Die Verantwortlichkeit für die Ergänzung kann mit <att>resp</att> angegeben werden. Bei vollständiger Erschließung des Datums sollte eine Begründung in einer Anmerkung (<gi>note</gi>) festgehalten werden. <egXML xmlns="http://www.tei-c.org/ns/Examples">
-				<dateline><supplied resp="IC"><date notBefore="1972-06-10" notAfter="1972-06-20">Mitte Juni 1972</date></supplied></dateline><note resp="IC">Enzensberger bezieht sich auf den Brief Henzes vom 2. Juni 1972</note>
+			<p>Die Verantwortlichkeit für die Ergänzung kann mit <att>resp</att> angegeben werden. Bei vollständiger Erschließung des Datums sollte eine Begründung in einer Anmerkung (<gi>note</gi>) festgehalten werden. <egXML xmlns="http://www.tei-c.org/ns/Examples" source="A040CB61">
+				<dateline><supplied resp="IC"><date notBefore="1972-06-10" notAfter="1972-06-20">Mitte Juni 1972</date></supplied></dateline><note resp="IC" type="commentary">Die Datierung ergibt sich aus dem direkten Bezug Enzensberger auf die <rs type="postals" key="A042BE54 A042BE67">Briefe Henzes vom 5. Juni und 6. Juni 1972</rs>.</note>
 			</egXML></p>
 			<p>In den Metadaten unter <gi>correspAction</gi> wird das erschlossene Datum <q>normal</q> eingetragen, allerdings erhält das Element <gi>date</gi> dann ein Attribut <att>type</att> mit dem Wert <val>editor</val>. Datumsangaben, die mit dem Wert <val>postal</val> klassifiziert sind, gehen auf postalische Angaben wie Stempel oder Postvermerke zurück. Bei allen <gi>date</gi>-Angaben ohne spezifikation ist davon auszugehen, dass diese von der Quelle herrühren (<val>source</val>). Da dies der Normalfall ist, wird er nur dann ausdrücklich codiert, wenn mehrere Datumsangaben vorliegen.</p>
 		</div>
