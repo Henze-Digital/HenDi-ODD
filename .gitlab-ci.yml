@@ -56,6 +56,8 @@ stages:
       when: never
     - if: $CI_COMMIT_BRANCH =~ /^main/
       when: never
+    - if: $BUILD_ZENODO_ZIP == "true"
+      when: never
     - when: never
 
 .compile-target:
@@ -136,6 +138,8 @@ build:stable-zenodo:
     - ant zippingForPublishing -Dpublishing=true
   rules:
     - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: always
+    - if: $BUILD_ZENODO_ZIP == "true"
       when: always
     - when: never
   after_script:
